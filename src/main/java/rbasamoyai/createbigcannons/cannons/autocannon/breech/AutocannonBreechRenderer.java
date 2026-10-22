@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -43,7 +45,7 @@ public class AutocannonBreechRenderer extends SmartBlockEntityRenderer<AbstractA
 				CachedBuffers.partialFacing(CBCBlockPartials.autocannonSeatFor(breech.getSeatColor()), state, facing)
 					.rotateCentered(Axis.YP.rotationDegrees(facing.getAxis().isVertical() ? 180 : 0))
 					.light(light)
-					.renderInto(ms, buffer.getBuffer(RenderType.cutoutMipped()));
+					.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
 			}
 		} else {
 			Vector3f normal = facing.step();
@@ -52,7 +54,7 @@ public class AutocannonBreechRenderer extends SmartBlockEntityRenderer<AbstractA
 				.translate(normal)
 				.rotateCentered(Axis.YP.rotationDegrees(facing.getAxis().isVertical() ? 180 : 0))
 				.light(light)
-				.renderInto(ms, buffer.getBuffer(RenderType.cutoutMipped()));
+				.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
 		}
 
 		ItemStack container = breech.getMagazine();
@@ -76,7 +78,7 @@ public class AutocannonBreechRenderer extends SmartBlockEntityRenderer<AbstractA
 				.translate(normal)
 				.rotateCentered(q1)
 				.light(light)
-				.renderInto(ms, buffer.getBuffer(RenderType.cutoutMipped()));
+				.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
 		}
 
 		ms.popPose();

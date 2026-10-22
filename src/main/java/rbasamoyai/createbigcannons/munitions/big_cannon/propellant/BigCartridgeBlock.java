@@ -317,7 +317,7 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 			}
 		}
 		player.awardStat(Stats.ITEM_USED.get(item));
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	// Adapted from TntBlock#onProjectileHit

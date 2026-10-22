@@ -40,7 +40,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.CBCCompatTransformers;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.cannon_control.ControlPitchContraption;
@@ -580,7 +581,7 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 
     @Nullable
     @Override
-    public IItemHandler getItemStorage() {
+    public Storage<ItemVariant> getItemStorage() {
         return this.presentBlockEntities.get(this.startPos) instanceof AutocannonBreechBlockEntity breech ? breech.createItemHandler() : null;
     }
 

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.screw_breech;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -50,7 +52,7 @@ public class ScrewBreechBlockEntityRenderer extends KineticBlockEntityRenderer<S
 			.translate(height.x(), height.y(), height.z())
 			.rotateCentered(q)
 			.light(light)
-			.renderInto(ms, buffer.getBuffer(RenderType.solid()));
+			.renderInto(ms, buffer.getBuffer(RenderTypes.solid()));
 
 		ms.popPose();
 	}

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 
@@ -28,7 +30,7 @@ public class FinishedCannonCastBlockEntityRenderer extends SafeBlockEntityRender
 		castRender
 			.translate(1, 0, 1)
 			.light(light)
-			.renderInto(ms, buffer.getBuffer(RenderType.solid()));
+			.renderInto(ms, buffer.getBuffer(RenderTypes.solid()));
 
 		ms.popPose();
 	}

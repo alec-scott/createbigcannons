@@ -72,7 +72,7 @@ public class IncompleteBigCannonBlockEntity extends BigCannonEndBlockEntity impl
 			}
 			this.level.playSound(null, this.worldPosition, SoundEvents.NETHERITE_BLOCK_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 }

@@ -6,7 +6,7 @@ import com.zurrtum.create.content.processing.basin.BasinRecipe;
 import com.zurrtum.create.content.processing.recipe.HeatCondition;
 
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import rbasamoyai.createbigcannons.compat.jei.animated.BasinFoundryLidElement;
 
 public class MeltingCategory extends BasinCategory {
@@ -19,7 +19,7 @@ public class MeltingCategory extends BasinCategory {
 	}
 
 	@Override
-	public void draw(BasinRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(BasinRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
 		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 
 		HeatCondition heatCondition = recipe.getRequiredHeat();

@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import rbasamoyai.createbigcannons.crafting.casting.CannonCastShape;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 
@@ -24,7 +24,7 @@ public class CannonCastGuiElement implements IDrawable {
 	}
 
 	@Override
-	public void draw(GuiGraphics graphics, int xOffset, int yOffset) {
+	public void draw(GuiGraphicsExtractor graphics, int xOffset, int yOffset) {
 		PoseStack poseStack = graphics.pose();
 		poseStack.pushPose();
 		poseStack.translate(xOffset, yOffset, 200);

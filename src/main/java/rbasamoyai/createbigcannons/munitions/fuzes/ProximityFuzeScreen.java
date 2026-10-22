@@ -5,7 +5,7 @@ import com.zurrtum.create.client.foundation.gui.widget.ScrollInput;
 import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,11 +35,11 @@ public class ProximityFuzeScreen extends AbstractFuzeScreen<ProximityFuzeContain
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		CBCGuiTextures.PROXIMITY_FUZE_BG.render(graphics, this.leftPos, this.topPos);
-		graphics.drawCenteredString(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4, this.topPos + 3, 0xffffff);
+		graphics.centeredText(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4, this.topPos + 3, 0xffffff);
 		int top = 32;
 		double s = 100.0d / (double) (top - 1);
 		int offsX = this.setValue.getState();

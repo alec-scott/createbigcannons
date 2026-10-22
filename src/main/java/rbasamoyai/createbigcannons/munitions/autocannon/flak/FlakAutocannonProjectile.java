@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.flak;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -88,13 +90,13 @@ public class FlakAutocannonProjectile extends AbstractAutocannonProjectile {
 	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		if (this.fuze != null)
-            tag.put("Fuze", this.fuze.saveOptional(this.level().registryAccess()));
+            CBCValueIO.put(tag, "Fuze", this.fuze.saveOptional(this.level().registryAccess()));
 	}
 
 	@Override
 	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		this.fuze = ItemStack.parseOptional(this.level().registryAccess(), tag.getCompound("Fuze"));
+		this.fuze = ItemStack.parseOptional(this.level().registryAccess(), CBCValueIO.getCompound(tag, "Fuze"));
 	}
 
 	protected final boolean canDetonate(Predicate<FuzeItem> cons) {

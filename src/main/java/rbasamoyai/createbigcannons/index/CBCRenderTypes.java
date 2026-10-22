@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.index;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import java.io.IOException;
 import java.util.Locale;
 import java.util.function.BiConsumer;
@@ -21,7 +23,7 @@ import rbasamoyai.createbigcannons.CreateBigCannons;
 
 public enum CBCRenderTypes {
 	CANNON_SMOKE_PARTICLE(CBCRenderingParts.CANNON_SMOKE_PARTICLE_INPUT, VertexFormat.Mode.QUADS, CBCRenderingParts.CANNON_SMOKE_PARTICLE_STATE),
-	SPLINTER_PARTICLE(type -> RenderType.create(type.id.toString(), CBCRenderingParts.SPLINTER_PARTICLE_INPUT, VertexFormat.Mode.QUADS,
+	SPLINTER_PARTICLE(type -> RenderTypes.create(type.id.toString(), CBCRenderingParts.SPLINTER_PARTICLE_INPUT, VertexFormat.Mode.QUADS,
 		512, false, false, CBCRenderingParts.SPLINTER_PARTICLE_STATE.apply(type)));
 
 	private final Identifier id = CreateBigCannons.resource(this.name().toLowerCase(Locale.ROOT));
@@ -33,7 +35,7 @@ public enum CBCRenderTypes {
 	}
 
 	CBCRenderTypes(VertexFormat format, VertexFormat.Mode mode, Function<CBCRenderTypes, RenderType.CompositeState> state) {
-		this(type -> RenderType.create(type.id.toString(), format, mode, 256, false, false, state.apply(type)));
+		this(type -> RenderTypes.create(type.id.toString(), format, mode, 256, false, false, state.apply(type)));
 	}
 
 	public Identifier id() { return this.id; }

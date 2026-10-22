@@ -90,7 +90,7 @@ public class WormItem extends Item implements HandloadingTool {
 			level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 1, 1);
 			player.causeFoodExhaustion(CBCConfigs.server().cannons.loadingToolHungerConsumption.getF());
 			player.getCooldowns().addCooldown(this, CBCConfigs.server().cannons.loadingToolCooldown.get());
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		return super.useOn(context);
 	}

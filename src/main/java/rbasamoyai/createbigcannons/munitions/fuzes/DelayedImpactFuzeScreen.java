@@ -5,7 +5,7 @@ import com.zurrtum.create.client.foundation.gui.widget.ScrollInput;
 import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -38,11 +38,11 @@ public class DelayedImpactFuzeScreen extends AbstractFuzeScreen<DelayedImpactFuz
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		CBCGuiTextures.TIMED_FUZE_BG.render(graphics, this.leftPos, this.topPos);
-		graphics.drawCenteredString(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4, this.topPos + 3, 0xffffff);
+		graphics.centeredText(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4, this.topPos + 3, 0xffffff);
 		CBCGuiTextures.TIMED_FUZE_SELECTOR.render(graphics, this.leftPos + 34 + this.setValue.getState(), this.topPos + 21);
 
 		GuiGameElement.of(this.menu.getStackToRender())

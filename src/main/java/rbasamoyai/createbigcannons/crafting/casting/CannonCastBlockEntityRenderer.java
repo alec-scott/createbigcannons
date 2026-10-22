@@ -16,7 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.fluids.FluidStack;
+import com.zurrtum.create.infrastructure.fluids.FluidStack;
 
 public class CannonCastBlockEntityRenderer extends AbstractCannonCastBlockEntityRenderer {
 

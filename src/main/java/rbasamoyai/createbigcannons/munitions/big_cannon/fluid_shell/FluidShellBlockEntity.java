@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -28,7 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.fluids.FluidStack;
+import com.zurrtum.create.infrastructure.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
@@ -54,19 +56,19 @@ public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
 	@Override
 	public void saveAdditional(ValueOutput tag) {
 		super.saveAdditional(tag);
-		tag.put("FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
+		CBCValueIO.put(tag, "FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
 	}
 
 	@Override
 	public void loadAdditional(ValueInput tag) {
 		super.loadAdditional(tag);
-		this.tank.readFromNBT(registries, tag.getCompound("FluidContent"));
+		this.tank.readFromNBT(registries, CBCValueIO.getCompound(tag, "FluidContent"));
 	}
 
     @Override
     public void writeSafe(ValueOutput tag) {
         super.writeSafe(tag);
-        tag.put("FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
+        CBCValueIO.put(tag, "FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
     }
 
     @Override

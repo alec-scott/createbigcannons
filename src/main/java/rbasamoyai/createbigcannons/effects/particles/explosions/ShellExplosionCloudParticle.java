@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.client.ParticleStatus;
+import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.particle.Particle;

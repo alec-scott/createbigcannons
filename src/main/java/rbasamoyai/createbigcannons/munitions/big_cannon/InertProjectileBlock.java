@@ -67,7 +67,7 @@ public abstract class InertProjectileBlock extends ProjectileBlock<AbstractBigCa
             projectileBlock.notifyUpdate();
         }
         level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.NEUTRAL, 1.0f, 1.0f);
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
 	}
 
     @Override
@@ -89,7 +89,7 @@ public abstract class InertProjectileBlock extends ProjectileBlock<AbstractBigCa
             projectileBlock.notifyUpdate();
         }
         level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.NEUTRAL, 1.0f, 1.0f);
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
 	@Override public Class<BigCannonProjectileBlockEntity> getBlockEntityClass() { return BigCannonProjectileBlockEntity.class; }

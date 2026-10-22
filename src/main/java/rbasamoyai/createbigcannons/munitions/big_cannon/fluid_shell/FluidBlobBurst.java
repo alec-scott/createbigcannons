@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -50,14 +52,14 @@ public class FluidBlobBurst extends CBCProjectileBurst {
 	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putByte("Size", this.getBlobSize());
-		tag.put("Fluid", this.getFluidStack().writeTag(new CompoundTag(), this.level().registryAccess()));
+		CBCValueIO.put(tag, "Fluid", this.getFluidStack().writeTag(new CompoundTag(), this.level().registryAccess()));
 	}
 
 	@Override
 	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
 		this.setBlobSize(tag.getByteOr("Size", (byte) 0));
-		this.setFluidStack(EndFluidStack.readTag(tag.getCompound("Fluid"), this.level().registryAccess()));
+		this.setFluidStack(EndFluidStack.readTag(CBCValueIO.getCompound(tag, "Fluid"), this.level().registryAccess()));
 	}
 
 	protected void setBlobSize(byte size) {

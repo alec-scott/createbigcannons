@@ -163,7 +163,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
                     level.playSound(null, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                     if (!player.isCreative()) stack.shrink(1);
                 }
-                return InteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.SUCCESS;
             }
             ItemStack container = breech.getMagazine();
             boolean changed = false;
@@ -191,7 +191,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
             }
             if (changed) {
                 breech.notifyUpdate();
-                return InteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.SUCCESS;
             }
         }
         return InteractionResult.TRY_WITH_EMPTY_HAND; // todo: check behavior
@@ -214,7 +214,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
                     breech.setSeatColor(null);
                     level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0f, 1.0f);
                 }
-                return InteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.SUCCESS;
             }
         }
         return super.useWithoutItem(state, level, pos, player, hitResult);

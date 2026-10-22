@@ -17,7 +17,7 @@ import com.zurrtum.create.client.foundation.gui.widget.ScrollInput;
 import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -61,7 +61,7 @@ public class AutocannonAmmoContainerScreen extends AbstractSimiContainerScreen<A
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+	protected void renderBg(GuiGraphicsExtractor graphics, float partialTick, int mouseX, int mouseY) {
 		int invX = this.getLeftOfCentered(PLAYER_INVENTORY.getWidth());
 		int invY = this.topPos + AUTOCANNON_AMMO_CONTAINER_BG.height + 4;
 		this.renderPlayerInventory(graphics, invX, invY);
@@ -71,9 +71,9 @@ public class AutocannonAmmoContainerScreen extends AbstractSimiContainerScreen<A
 		CBCGuiTextures bg = isCreative ? CREATIVE_AUTOCANNON_AMMO_CONTAINER_BG : AUTOCANNON_AMMO_CONTAINER_BG;
 		bg.render(graphics, this.leftPos, this.topPos);
 		if (isCreative) {
-			graphics.drawString(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4 - (this.font.width(this.title) / 2), this.topPos + 3, 0x54214f, false);
+			graphics.text(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4 - (this.font.width(this.title) / 2), this.topPos + 3, 0x54214f, false);
 		} else {
-			graphics.drawCenteredString(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4, this.topPos + 3, 0xffffff);
+			graphics.centeredText(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4, this.topPos + 3, 0xffffff);
 		}
 		CBCGuiTextures sel = isCreative ? CREATIVE_AUTOCANNON_AMMO_CONTAINER_SELECTOR : AUTOCANNON_AMMO_CONTAINER_SELECTOR;
 		sel.render(graphics, this.leftPos + 86 + offsX, this.topPos + 23);
@@ -89,7 +89,7 @@ public class AutocannonAmmoContainerScreen extends AbstractSimiContainerScreen<A
 	}
 
 	@Override
-	protected void renderTooltip(GuiGraphics graphics, int x, int y) {
+	protected void renderTooltip(GuiGraphicsExtractor graphics, int x, int y) {
 		super.renderTooltip(graphics, x, y);
 		if (this.hoveredSlot != null && this.hoveredSlot.index == 1 && !this.hoveredSlot.hasItem()) {
 			graphics.renderTooltip(this.font, CreateLang.builder(CreateBigCannons.MOD_ID).translate("gui.autocannon_ammo_container.tracer_slot").component(), x, y);

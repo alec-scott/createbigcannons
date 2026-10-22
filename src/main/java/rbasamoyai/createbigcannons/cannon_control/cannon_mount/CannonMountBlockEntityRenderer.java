@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer.getAngleForBe;
 import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer.kineticRotationTransform;
 import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer.shaft;
@@ -39,7 +41,7 @@ public class CannonMountBlockEntityRenderer extends SafeBlockEntityRenderer<Cann
 		Direction vertical = state.getValue(BlockStateProperties.VERTICAL_DIRECTION);
 		boolean upsideDown = vertical == Direction.UP;
 
-		VertexConsumer solidBuf = buffer.getBuffer(RenderType.solid());
+		VertexConsumer solidBuf = buffer.getBuffer(RenderTypes.solid());
 
 		ms.pushPose();
 

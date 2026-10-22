@@ -10,7 +10,7 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import rbasamoyai.createbigcannons.compat.common_jei.IncompleteCannonBlockRecipe;
@@ -24,7 +24,7 @@ public class IncompleteCannonBlockCategory extends CBCBlockRecipeCategory<Incomp
 	final String[] romans = { "I", "II", "III", "IV", "V", "VI", "-" };
 
 	@Override
-	public void draw(IncompleteCannonBlockRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(IncompleteCannonBlockRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
 		Minecraft mc = Minecraft.getInstance();
 		AllGuiTextures.JEI_LONG_ARROW.render(graphics, 54, 44);
 
@@ -35,7 +35,7 @@ public class IncompleteCannonBlockCategory extends CBCBlockRecipeCategory<Incomp
 			int j = i - 1;
 			int posX = base + 24 * j;
 			Component num = Component.literal(this.romans[Math.min(j, 6)]);
-			graphics.drawString(mc.font, num, mc.font.width(num) / -2 + posX, 2, 0x888888, false);
+			graphics.text(mc.font, num, mc.font.width(num) / -2 + posX, 2, 0x888888, false);
 		}
 	}
 

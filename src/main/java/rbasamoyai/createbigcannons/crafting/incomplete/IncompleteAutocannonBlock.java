@@ -142,7 +142,7 @@ public class IncompleteAutocannonBlock extends AbstractIncompleteAutocannonBlock
 				}
 			});
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 }

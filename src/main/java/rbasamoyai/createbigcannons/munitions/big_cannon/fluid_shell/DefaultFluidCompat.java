@@ -27,7 +27,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.fluids.FluidStack;
+import com.zurrtum.create.infrastructure.fluids.FluidStack;
 import rbasamoyai.createbigcannons.effects.particles.explosions.FluidCloudParticleData;
 import rbasamoyai.createbigcannons.index.CBCEntityTypes;
 import rbasamoyai.createbigcannons.index.CBCSoundEvents;

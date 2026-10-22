@@ -1,7 +1,6 @@
 package rbasamoyai.createbigcannons.datagen;
 
 
-import net.createmod.catnip.lang.Lang;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -29,7 +28,7 @@ public enum CBCCommonMetal {
     public final TagKey<Item> plates;
 
     CBCCommonMetal(boolean natural) {
-        this.name = Lang.asId(name());
+        this.name = name().toLowerCase(java.util.Locale.ROOT);
 
         this.isNatural = natural;
 

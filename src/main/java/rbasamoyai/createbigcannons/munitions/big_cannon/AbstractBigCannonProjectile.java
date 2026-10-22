@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -118,13 +120,13 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 	@Override
     public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
-        tag.put("Tracer", this.getTracer().saveOptional(this.level().registryAccess()));
+        CBCValueIO.put(tag, "Tracer", this.getTracer().saveOptional(this.level().registryAccess()));
 	}
 
 	@Override
     public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		this.setTracer(ItemStack.parseOptional(this.level().registryAccess(), tag.getCompound("Tracer")));
+		this.setTracer(ItemStack.parseOptional(this.level().registryAccess(), CBCValueIO.getCompound(tag, "Tracer")));
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -150,18 +152,18 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 		this.fireRate = tag.getIntOr("FiringRate", 0);
 		this.firingCooldown = tag.getIntOr("Cooldown", 0);
 		this.animateTicks = tag.getIntOr("AnimateTicks", 0);
-		this.outputBuffer = tag.contains("Output") ? ItemStack.parseOptional(registry, tag.getCompound("Output")) : ItemStack.EMPTY;
+		this.outputBuffer = CBCValueIO.contains(tag, "Output") ? tag.read("Output", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
 		this.seat = DyeColor.byName(tag.getStringOr("Seat", ""), null);
 
 		this.inputBuffer.clear();
-		ListTag inputTag = tag.getList("Input", Tag.TAG_COMPOUND);
+		ListTag inputTag = CBCValueIO.getList(tag, "Input");
 		for (int i = 0; i < inputTag.size(); ++i) {
 			this.inputBuffer.add(ItemStack.parseOptional(registry, inputTag.getCompound(i)));
 		}
-		this.magazine = tag.contains("Magazine") ? ItemStack.parseOptional(registry, tag.getCompound("Magazine")) : ItemStack.EMPTY;
+		this.magazine = CBCValueIO.contains(tag, "Magazine") ? tag.read("Magazine", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
 
 		if (!clientPacket) return;
-		this.updateInstance = tag.contains("UpdateInstance");
+		this.updateInstance = CBCValueIO.contains(tag, "UpdateInstance");
 	}
 
 	@Override
@@ -170,15 +172,15 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 		tag.putInt("FiringRate", this.fireRate);
 		tag.putInt("Cooldown", this.firingCooldown);
 		tag.putInt("AnimateTicks", this.animateTicks);
-		if (this.outputBuffer != null) tag.put("Output", this.outputBuffer.saveOptional(registry));
+		if (this.outputBuffer != null) tag.store("Output", ItemStack.OPTIONAL_CODEC, this.outputBuffer);
 		if (this.seat != null) tag.putString("Seat", this.seat.getSerializedName());
 
 		if (!this.inputBuffer.isEmpty()) {
-			tag.put("Input", this.inputBuffer.stream()
+			CBCValueIO.put(tag, "Input", this.inputBuffer.stream()
 					.map(s -> s.saveOptional(registry))
 					.collect(Collectors.toCollection(ListTag::new)));
 		}
-		if (this.magazine != null && !this.magazine.isEmpty()) tag.put("Magazine", this.magazine.save(registry));
+		if (this.magazine != null && !this.magazine.isEmpty()) CBCValueIO.put(tag, "Magazine", this.magazine.save(registry));
 
 		if (!clientPacket) return;
 		if (this.updateInstance) tag.putBoolean("UpdateInstance", true);

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.autocannon;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -7,7 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -26,9 +28,9 @@ public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile
 	private static final Identifier SHRAPNEL_LOCATION = CreateBigCannons.resource("textures/entity/shrapnel.png");
 	private static final Identifier COLOR_LOCATION = CreateBigCannons.resource("textures/entity/color.png");
 	private static final Identifier COLOR_SPECULAR_LOCATION = CreateBigCannons.resource("textures/entity/color_s.png");
-	private static final RenderType SHRAPNEL = RenderType.entityCutoutNoCull(SHRAPNEL_LOCATION);
-	private static final RenderType COLOR = RenderType.entityTranslucentCull(COLOR_LOCATION);
-	private static final RenderType COLOR_SPECULAR = RenderType.eyes(COLOR_SPECULAR_LOCATION);
+	private static final RenderType SHRAPNEL = RenderTypes.entityCutoutNoCull(SHRAPNEL_LOCATION);
+	private static final RenderType COLOR = RenderTypes.entityTranslucentCull(COLOR_LOCATION);
+	private static final RenderType COLOR_SPECULAR = RenderTypes.eyes(COLOR_SPECULAR_LOCATION);
 
     public AutocannonProjectileRenderer(EntityRendererProvider.Context context) { super(context); }
 
@@ -194,7 +196,7 @@ public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile
 			.setColor(r, g, b, 255)
 			.setUv(0, 0)
 			.setOverlay(OverlayTexture.NO_OVERLAY)
-			.setLight(LightTexture.FULL_BRIGHT)
+			.setLight(LightCoordsUtil.FULL_BRIGHT)
 			.setNormal(0, 1, 0);
     }
 

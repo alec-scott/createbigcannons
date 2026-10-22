@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -92,14 +94,14 @@ public class PrimedPropellant extends Entity {
 	@Override
 	protected void addAdditionalSaveData(ValueOutput tag) {
 		tag.putShort("Fuse", (short) this.getFuse());
-		tag.put("Appearance", NbtUtils.writeBlockState(this.getAppearance()));
+		CBCValueIO.put(tag, "Appearance", NbtUtils.writeBlockState(this.getAppearance()));
 		tag.putFloat("ExplosionPower", this.explosionPower);
 	}
 
 	@Override
 	protected void readAdditionalSaveData(ValueInput tag) {
 		this.setFuse(tag.getShortOr("Fuse", (short) 0));
-		this.setAppearance(NbtUtils.readBlockState(this.level().holderLookup(CBCRegistryUtils.getBlockRegistryKey()), tag.getCompound("Appearance")));
+		this.setAppearance(NbtUtils.readBlockState(this.level().holderLookup(CBCRegistryUtils.getBlockRegistryKey()), CBCValueIO.getCompound(tag, "Appearance")));
 		this.explosionPower = tag.getFloatOr("ExplosionPower", 0f);
 	}
 

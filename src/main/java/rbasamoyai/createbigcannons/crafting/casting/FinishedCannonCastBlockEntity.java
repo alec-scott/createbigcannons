@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -94,21 +96,21 @@ public class FinishedCannonCastBlockEntity extends SmartBlockEntity {
 	protected void write(ValueOutput tag, boolean clientPacket) {
 		super.write(tag, clientPacket);
 		if (this.isCentralBlock()) {
-			tag.put("RootBlock", NbtUtils.writeBlockPos(this.getRootBlock()));
+			tag.store("RootBlock", BlockPos.CODEC, this.getRootBlock());
 			tag.putInt("Height", this.height);
 			tag.putString("RenderedShape", CBCRegistries.cannonCastShapes().getKey(this.renderedShape).toString());
 		} else {
-			tag.put("CentralBlock", NbtUtils.writeBlockPos(this.centralBlock));
+			tag.store("CentralBlock", BlockPos.CODEC, this.centralBlock);
 		}
 	}
 
 	@Override
 	protected void read(ValueInput tag, boolean clientPacket) {
 		super.read(tag, clientPacket);
-		this.centralBlock = tag.contains("CentralBlock") ? NbtUtils.readBlockPos(tag, "CentralBlock").get() : null;
-		this.rootBlock = tag.contains("RootBlock") ? NbtUtils.readBlockPos(tag, "RootBlock").get() : this.worldPosition;
+		this.centralBlock = CBCValueIO.contains(tag, "CentralBlock") ? tag.read("CentralBlock", BlockPos.CODEC).get() : null;
+		this.rootBlock = CBCValueIO.contains(tag, "RootBlock") ? tag.read("RootBlock", BlockPos.CODEC).get() : this.worldPosition;
 		this.height = tag.getIntOr("Height", 0);
-		this.renderedShape = tag.contains("RenderedShape")
+		this.renderedShape = CBCValueIO.contains(tag, "RenderedShape")
 			? CBCRegistries.cannonCastShapes().get(CBCUtils.location(tag.getStringOr("RenderedShape", "")))
 			: CannonCastShape.VERY_SMALL;
 	}

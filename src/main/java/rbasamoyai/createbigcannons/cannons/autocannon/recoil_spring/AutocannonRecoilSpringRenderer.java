@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.recoil_spring;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import java.util.Map;
 
 import org.joml.Vector3f;
@@ -56,7 +58,7 @@ public class AutocannonRecoilSpringRenderer extends SmartBlockEntityRenderer<Aut
 		}
 		ejectorBuf.scale(fx, fy, fz)
 			.light(light)
-			.renderInto(ms, buffer.getBuffer(RenderType.cutoutMipped()));
+			.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
 
 		BlockRenderDispatcher brd = Minecraft.getInstance().getBlockRenderer();
 		Vector3f normal = facing.step();

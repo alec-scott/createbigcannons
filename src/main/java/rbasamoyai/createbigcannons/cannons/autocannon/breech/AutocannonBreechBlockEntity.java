@@ -8,19 +8,20 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.multiloader.EnvExecute;
 
 public class AutocannonBreechBlockEntity extends AbstractAutocannonBreechBlockEntity {
 
-	private IItemHandler inventory;
+	private Storage<ItemVariant> inventory;
 
 
 	public AutocannonBreechBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 
-	public IItemHandler createItemHandler() {
+	public Storage<ItemVariant> createItemHandler() {
 		return this.inventory == null ? this.inventory = new AutocannonBreechInterface(this) : this.inventory;
 	}
 

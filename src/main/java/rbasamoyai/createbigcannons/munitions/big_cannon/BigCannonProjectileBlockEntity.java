@@ -40,18 +40,18 @@ public class BigCannonProjectileBlockEntity extends SyncedBlockEntity implements
     @Override
     protected void saveAdditional(ValueOutput tag) {
         super.saveAdditional(tag);
-        tag.put("Tracer", this.getTracer().saveOptional(registries));
+        tag.store("Tracer", ItemStack.OPTIONAL_CODEC, this.getTracer());
     }
 
     @Override
     protected void loadAdditional(ValueInput tag) {
         super.loadAdditional(tag);
-        this.setTracer(ItemStack.parseOptional(registries, tag.getCompound("Tracer")));
+        this.setTracer(tag.read("Tracer", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY));
     }
 
     @Override
     public void writeSafe(ValueOutput tag) {
-        tag.put("Tracer", this.getTracer().saveOptional(registries));
+        tag.store("Tracer", ItemStack.OPTIONAL_CODEC, this.getTracer());
     }
 
     protected void writeSafeComponents(PatchedDataComponentMap safeComponents) {

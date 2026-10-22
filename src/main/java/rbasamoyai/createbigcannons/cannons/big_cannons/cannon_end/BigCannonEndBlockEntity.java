@@ -87,7 +87,7 @@ public class BigCannonEndBlockEntity extends SmartBlockEntity implements IBigCan
 			}
 			this.level.playSound(null, this.worldPosition, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 1.0f, 1.0f);
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 }

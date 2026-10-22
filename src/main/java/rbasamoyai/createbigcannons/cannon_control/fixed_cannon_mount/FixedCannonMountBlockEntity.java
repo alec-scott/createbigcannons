@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -45,7 +47,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.cannon_control.ControlPitchContraption;
 import rbasamoyai.createbigcannons.cannon_control.cannon_mount.ExtendsCannonMount;
@@ -292,7 +295,7 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 		this.cannonYaw = tag.getFloatOr("CannonYaw", 0f);
 		this.cannonPitch = tag.getFloatOr("CannonPitch", 0f);
 		this.lastException = AssemblyException.read(tag, registry);
-        this.reassemble = tag.contains("TryReassembling");
+        this.reassemble = CBCValueIO.contains(tag, "TryReassembling");
 
 		if (!clientPacket) return;
 
@@ -318,7 +321,7 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 
     @Nullable
     @Override
-    public IItemHandler getItemHandler(Direction side) {
+    public Storage<ItemVariant> getItemHandler(Direction side) {
         return this.mountedContraption == null ? null : this.mountedContraption.getCapability(Capabilities.ItemHandler.ENTITY);
     }
 

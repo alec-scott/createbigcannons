@@ -54,7 +54,7 @@ public class CannonCarriageBlock extends Block implements IWrenchable, IBE<Canno
 		if (!level.isClientSide() && level.getBlockEntity(context.getClickedPos()) instanceof CannonCarriageBlockEntity carriage) {
 			carriage.tryAssemble();
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
     @Override
@@ -71,7 +71,7 @@ public class CannonCarriageBlock extends Block implements IWrenchable, IBE<Canno
                     }
                 }
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
@@ -82,7 +82,7 @@ public class CannonCarriageBlock extends Block implements IWrenchable, IBE<Canno
             if (!level.isClientSide() && !player.isCreative()) stack.shrink(1);
             level.setBlock(pos, state.setValue(SADDLED, true), 11);
             level.playSound(player, pos, SoundEvents.HORSE_SADDLE, SoundSource.NEUTRAL, 0.5F, 1.0F);
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
 		return InteractionResult.TRY_WITH_EMPTY_HAND;
 	}

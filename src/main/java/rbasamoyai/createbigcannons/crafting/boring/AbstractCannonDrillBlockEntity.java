@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.boring;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -87,18 +89,18 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 	@Override
 	protected void read(ValueInput compound, boolean clientPacket) {
         super.read(compound, clientPacket);
-		this.boringPos = NbtUtils.readBlockPos(compound, "BoringPos").orElse(null);
+		this.boringPos = compound.read("BoringPos", BlockPos.CODEC).orElse(null);
 
 		if (!clientPacket) return;
 		this.boreSpeed = compound.getFloatOr("BoreSpeed", 0f);
 		this.addedStressImpact = compound.getFloatOr("AddedStress", 0f);
-		this.failureReason = compound.contains("FailureReason") ? FailureReason.fromId(compound.getStringOr("FailureReason", "")) : FailureReason.NONE;
+		this.failureReason = CBCValueIO.contains(compound, "FailureReason") ? FailureReason.fromId(compound.getStringOr("FailureReason", "")) : FailureReason.NONE;
 	}
 
 	@Override
 	protected void write(ValueOutput compound, boolean clientPacket) {
 		super.write(compound, clientPacket);
-		if (this.boringPos != null) compound.put("BoringPos", NbtUtils.writeBlockPos(this.boringPos));
+		if (this.boringPos != null) compound.store("BoringPos", BlockPos.CODEC, this.boringPos);
 
 		if (!clientPacket) return;
 		if (this.addedStressImpact > 0.0f) compound.putFloat("AddedStress", this.addedStressImpact);

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.recoil_spring;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -76,7 +78,7 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
             renderedList.add(block);
         }
 
-        tag.put("RenderedBlocks", renderedList);
+        CBCValueIO.put(tag, "RenderedBlocks", renderedList);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
         this.animateTicks = tag.getIntOr("AnimateTicks", 0);
 
         this.toAnimate.clear();
-        ListTag renderedList = tag.getList("RenderedBlocks", Tag.TAG_COMPOUND);
+        ListTag renderedList = CBCValueIO.getList(tag, "RenderedBlocks");
         for (int i = 0; i < renderedList.size(); ++i) {
             CompoundTag block = renderedList.getCompound(i);
             this.toAnimate.put(NbtUtils.readBlockPos(block, "Pos").get(),

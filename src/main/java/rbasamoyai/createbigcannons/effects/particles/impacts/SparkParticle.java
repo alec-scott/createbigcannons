@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Matrix3f;
 import org.joml.Vector3f;
 
@@ -26,7 +28,7 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 public class SparkParticle extends Particle {
 
 	private static final Identifier COLOR_LOCATION = CreateBigCannons.resource("textures/entity/color.png");
-	private static final RenderType COLOR = RenderType.entityTranslucentCull(COLOR_LOCATION);
+	private static final RenderType COLOR = RenderTypes.entityTranslucentCull(COLOR_LOCATION);
 
 	SparkParticle(ClientLevel level, double x, double y, double z, double dx, double dy, double dz, float r, float g, float b) {
 		super(level, x, y, z);

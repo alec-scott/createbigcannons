@@ -82,7 +82,7 @@ public class IncompleteAutocannonBlockEntity extends AutocannonBlockEntity imple
 				}
 			}
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 }

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.carriage;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -300,7 +302,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 						}
 					}
 				}
-				return InteractionResult.sidedSuccess(level.isClientSide());
+				return InteractionResult.SUCCESS;
 			}
 			return InteractionResult.PASS;
 		}
@@ -326,7 +328,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 					.setValue(CannonCarriageBlock.SADDLED, this.isCannonRider()), 11);
 			}
 
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		if (stack.is(Items.SADDLE) && !this.isCannonRider()) {
 			if (!level.isClientSide()) {
@@ -334,7 +336,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 				if (!player.isCreative()) stack.shrink(1);
 			}
 			level.playSound(player, this, SoundEvents.HORSE_SADDLE, SoundSource.NEUTRAL, 0.5F, 1.0F);
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		return super.interact(player, hand);
 	}
@@ -507,7 +509,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 		this.setHurtDir(tag.getIntOr("HurtDir", 0));
 		this.setCannonRider(tag.getBooleanOr("CannonRider", false));
 
-		ListTag wheelStateTag = tag.getList("WheelState", Tag.TAG_FLOAT);
+		ListTag wheelStateTag = CBCValueIO.getList(tag, "WheelState");
 		this.setWheelState(new Vector4f(wheelStateTag.getFloat(0), wheelStateTag.getFloat(1), wheelStateTag.getFloat(2), wheelStateTag.getFloat(3)));
 	}
 
@@ -524,7 +526,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 		wheelStateTag.add(FloatTag.valueOf(Mth.wrapDegrees(wheelState.y())));
 		wheelStateTag.add(FloatTag.valueOf(Mth.wrapDegrees(wheelState.z())));
 		wheelStateTag.add(FloatTag.valueOf(Mth.wrapDegrees(wheelState.w())));
-		tag.put("WheelState", wheelStateTag);
+		CBCValueIO.put(tag, "WheelState", wheelStateTag);
 	}
 
 	@Override

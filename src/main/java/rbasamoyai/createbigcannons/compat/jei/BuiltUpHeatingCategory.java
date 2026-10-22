@@ -17,7 +17,7 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluids;
 import rbasamoyai.createbigcannons.crafting.BlockRecipeIngredient;
@@ -35,7 +35,7 @@ public class BuiltUpHeatingCategory extends CBCBlockRecipeCategory<BuiltUpHeatin
 	}
 
 	@Override
-	public void draw(BuiltUpHeatingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(BuiltUpHeatingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
 		int scale = 24;
 		PoseStack stack = graphics.pose();
 		AllGuiTextures.JEI_SHADOW.render(graphics, 23, 55);

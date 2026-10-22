@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.sliding_breech;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -60,7 +62,7 @@ public class SlidingBreechBlockEntityRenderer extends KineticBlockEntityRenderer
 			.translate(normal.x(), normal.y(), normal.z())
 			.rotateCentered(qrot)
 			.light(light)
-			.renderInto(ms, buffer.getBuffer(RenderType.solid()));
+			.renderInto(ms, buffer.getBuffer(RenderTypes.solid()));
 
 		ms.popPose();
 	}

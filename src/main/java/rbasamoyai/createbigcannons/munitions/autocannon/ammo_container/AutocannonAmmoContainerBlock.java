@@ -127,7 +127,7 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 					buf.writeBlockPos(pos);
 				});
 			}
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		return super.useWithoutItem(state, level, pos, player, hit);
 	}

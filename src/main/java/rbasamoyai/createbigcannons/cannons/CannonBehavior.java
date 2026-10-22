@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -104,14 +106,14 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 			.map(Direction::getSerializedName)
 			.map(StringTag::valueOf)
 			.forEach(connectionTag::add);
-		nbt.put("Connections", connectionTag);
+		CBCValueIO.put(nbt, "Connections", connectionTag);
 
 		ListTag weldsTag = new ListTag();
 		this.weldedTowards.stream()
 			.map(Direction::getSerializedName)
 			.map(StringTag::valueOf)
 			.forEach(weldsTag::add);
-		nbt.put("Welds", weldsTag);
+		CBCValueIO.put(nbt, "Welds", weldsTag);
 
 		super.write(nbt, clientPacket);
 	}
@@ -119,14 +121,14 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 	@Override
 	public void read(ValueInput nbt, boolean clientPacket) {
         this.protectedFromSurroundingRemovals = true;
-		this.currentFacing = nbt.contains("Facing") ? Direction.byName(nbt.getStringOr("Facing", "")) : null;
+		this.currentFacing = CBCValueIO.contains(nbt, "Facing") ? Direction.byName(nbt.getStringOr("Facing", "")) : null;
 
 		boolean updateFlag = false;
 		Set<Direction> oldConnected = EnumSet.noneOf(Direction.class);
 		oldConnected.addAll(this.connectedTowards);
 
 		this.connectedTowards.clear();
-		ListTag connectionTag = nbt.getList("Connections", Tag.TAG_STRING);
+		ListTag connectionTag = CBCValueIO.getList(nbt, "Connections");
 		connectionTag.stream()
 			.map(Tag::getAsString)
 			.map(Direction::byName)
@@ -137,7 +139,7 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 		oldConnected.addAll(this.weldedTowards);
 
 		this.weldedTowards.clear();
-		ListTag weldsTag = nbt.getList("Welds", Tag.TAG_STRING);
+		ListTag weldsTag = CBCValueIO.getList(nbt, "Welds");
 		weldsTag.stream()
 			.map(Tag::getAsString)
 			.map(Direction::byName)

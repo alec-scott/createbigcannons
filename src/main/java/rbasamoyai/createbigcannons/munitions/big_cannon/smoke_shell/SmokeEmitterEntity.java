@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -48,13 +50,13 @@ public class SmokeEmitterEntity extends Entity {
 	protected void addAdditionalSaveData(ValueOutput tag) {
 		tag.putInt("Duration", this.duration);
 		tag.putInt("Age", this.age);
-		tag.put("Size", this.newDoubleList(this.getSizeX(), this.getSizeY(), this.getSizeZ()));
+		CBCValueIO.put(tag, "Size", this.newDoubleList(this.getSizeX(), this.getSizeY(), this.getSizeZ()));
 	}
 
 	@Override
 	protected void readAdditionalSaveData(ValueInput tag) {
 		this.duration = tag.getIntOr("Duration", 0);
-		ListTag sizeDims = tag.getList("Size", Tag.TAG_DOUBLE);
+		ListTag sizeDims = CBCValueIO.getList(tag, "Size");
 		this.setSizeX((float) sizeDims.getDouble(0));
 		this.setSizeY((float) sizeDims.getDouble(1));
 		this.setSizeZ((float) sizeDims.getDouble(2));

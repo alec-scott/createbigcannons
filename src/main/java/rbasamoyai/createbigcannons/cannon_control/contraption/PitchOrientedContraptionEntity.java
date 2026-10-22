@@ -27,7 +27,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.cannon_control.ControlPitchContraption;
 import rbasamoyai.createbigcannons.cannons.InteractableCannonBlock;
 import rbasamoyai.createbigcannons.index.CBCEntityTypes;
@@ -272,7 +273,7 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 
     @Nullable
     @Override
-    public IItemHandler getItemHandler() {
+    public Storage<ItemVariant> getItemHandler() {
         return this.contraption instanceof GetItemStorage storage ? storage.getItemStorage() : null;
     }
 

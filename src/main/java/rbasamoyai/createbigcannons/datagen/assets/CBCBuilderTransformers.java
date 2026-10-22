@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zurrtum.create.AllBlocks;
-import com.simibubi.create.AllTags.AllBlockTags;
-import com.simibubi.create.api.schematic.requirement.SchematicRequirementRegistries;
+import com.zurrtum.create.AllBlockTags;
+import com.zurrtum.create.api.schematic.requirement.SchematicRequirementRegistries;
 import com.zurrtum.create.content.kinetics.base.DirectionalAxisKineticBlock;
 import com.zurrtum.create.content.schematics.requirement.ItemRequirement;
 import rbasamoyai.createbigcannons.port.create.foundation.data.BlockStateGen;
@@ -18,7 +18,7 @@ import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullBiConsum
 import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullFunction;
 import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullUnaryOperator;
 
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -115,7 +115,6 @@ public class CBCBuilderTransformers {
 		Identifier sideLoc = CreateBigCannons.resource("block/" + side);
 		Identifier endLoc = CreateBigCannons.resource("block/" + end);
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), model)
 				.texture("side", sideLoc)
 				.texture("end", endLoc)
@@ -126,7 +125,6 @@ public class CBCBuilderTransformers {
 		Identifier baseLoc = CreateBigCannons.resource("block/" + sizePath + "_cannon_tube");
 		Identifier tubeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_tube");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
 				.texture("tube", tubeLoc)));
 	}
@@ -138,7 +136,6 @@ public class CBCBuilderTransformers {
 		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_bottom");
 		Identifier knobLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_knob");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
 				.texture("side", sideLoc)
 				.texture("top", topLoc)
@@ -155,7 +152,6 @@ public class CBCBuilderTransformers {
 		Identifier knobLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_knob");
 		Identifier spikeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_drop_mortar_end_spike");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
 				.texture("spike", spikeLoc)
 				.texture("side", sideLoc)
@@ -176,7 +172,6 @@ public class CBCBuilderTransformers {
 		Identifier breechblockSideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_side");
 		Identifier breechblockBottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_bottom");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(SlidingBreechBlockGen.create(pathAndMaterial)::generate)
 			.item(BigCannonBlockItem::new)
 			.model((c, p) -> p.getBuilder(c.getName()).parent(p.getExistingFile(itemBaseLoc))
@@ -193,13 +188,11 @@ public class CBCBuilderTransformers {
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> slidingBreechUnbored(String pathAndMaterial) {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(SlidingBreechBlockGen.create(pathAndMaterial)::generate);
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> slidingBreechIncomplete(String pathAndMaterial) {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(IncompleteSlidingBreechBlockGen.create(pathAndMaterial)::generate);
 	}
 
@@ -211,7 +204,6 @@ public class CBCBuilderTransformers {
 		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_side");
 		Identifier lockLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_lock");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
 				.texture("side", sideLoc)
 				.texture("top", topLoc)
@@ -233,7 +225,6 @@ public class CBCBuilderTransformers {
 		Identifier bottomLoc = CreateBigCannons.resource("block/" + typePathAndMaterial + "_screw_breech_bottom");
 		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_side");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
 				.texture("side", sideLoc)
 				.texture("top", topLoc)
@@ -249,7 +240,6 @@ public class CBCBuilderTransformers {
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> screwBreechIncomplete(String pathAndMaterial) {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(IncompleteScrewBreechBlockGen.create(pathAndMaterial)::generate);
 	}
 
@@ -263,7 +253,6 @@ public class CBCBuilderTransformers {
 	public static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> autocannonBarrel(String pathAndMaterial) {
 		Identifier texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p, s -> {
 				String name = c.getName() + "_" + (s.getValue(AutocannonBarrelBlock.ASSEMBLED) ? "assembled" : s.getValue(AutocannonBarrelBlock.BARREL_END).getSerializedName());
 				if (s.getValue(AutocannonBarrelBlock.ASSEMBLED))
@@ -285,7 +274,6 @@ public class CBCBuilderTransformers {
 		Identifier baseLoc = CreateBigCannons.resource("block/autocannon/breech");
 		Identifier handleLoc = CreateBigCannons.resource("block/autocannon/breech_handle");
 		NonNullUnaryOperator<BlockBuilder<T, P>> result = b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p,
 				s -> {
 					boolean handle = s.hasProperty(AutocannonBreechBlock.HANDLE) && s.getValue(AutocannonBreechBlock.HANDLE);
@@ -308,7 +296,6 @@ public class CBCBuilderTransformers {
 	public static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> autocannonRecoilSpring(String pathAndMaterial, boolean complete) {
 		Identifier texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
 		NonNullUnaryOperator<BlockBuilder<T, P>> result = b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p,
 				$ -> p.models().withExistingParent(c.getName(), CreateBigCannons.resource("block/autocannon/recoil_spring")).texture("material", texLoc)));
 		if (complete) {
@@ -343,7 +330,6 @@ public class CBCBuilderTransformers {
 
 	private static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> unboredAutocannonBlock(Identifier tex, Identifier tex1, Identifier model) {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p,
 				$ -> p.models().withExistingParent(c.getName(), model)
 					.texture("material", tex)
@@ -361,19 +347,16 @@ public class CBCBuilderTransformers {
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> ramHead() {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(BlockStateGen.directionalBlockProvider(false));
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> wormHead() {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(BlockStateGen.directionalBlockProvider(false));
 	}
 
 	public static <T extends DirectionalAxisKineticBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonLoader() {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(CannonLoaderGen.create()::generate)
 			.item()
 			.model((c, p) -> {})
@@ -382,7 +365,6 @@ public class CBCBuilderTransformers {
 
 	public static <T extends DirectionalAxisKineticBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonDrill() {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(CannonDrillGen.create()::generate)
 			.item()
 			.model((c, p) -> {})
@@ -391,14 +373,12 @@ public class CBCBuilderTransformers {
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonDrillBit() {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.loot((t, p) -> t.dropOther(p, AllBlocks.PISTON_EXTENSION_POLE))
 			.blockstate(BlockStateGen.directionalBlockProvider(false));
 	}
 
 	public static <T extends DirectionalAxisKineticBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonBuilder() {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(CannonBuilderGen.create()::generate)
 			.item()
 			.model((c, p) -> {})
@@ -409,7 +389,6 @@ public class CBCBuilderTransformers {
 		Identifier notAttachedLoc = CreateBigCannons.resource("block/cannon_builder/cannon_builder_head");
 		Identifier attachedLoc = CreateBigCannons.resource("block/cannon_builder/cannon_builder_head_attached");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.loot((t, p) -> t.dropOther(p, AllBlocks.PISTON_EXTENSION_POLE))
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p, s ->
 				p.models().getExistingFile(s.getValue(CannonBuilderHeadBlock.ATTACHED) ? attachedLoc : notAttachedLoc)));
@@ -429,7 +408,6 @@ public class CBCBuilderTransformers {
 		Identifier topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_top");
 		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_bottom");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::solid)
 			.blockstate((c, p) -> {
 				BlockModelBuilder builder = p.models().withExistingParent(c.getName(), baseLoc)
 					.texture("side", sideLoc)
@@ -466,7 +444,6 @@ public class CBCBuilderTransformers {
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> powderCharge() {
 		Identifier baseLoc = CreateBigCannons.resource("block/powder_charge");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::solid)
 			.blockstate((c, p) -> BlockStateGen.axisBlock(c, p, $ -> p.models().getExistingFile(baseLoc)))
 			.loot((t, c) -> {
 				t.add(c, LootTable.lootTable()
@@ -486,7 +463,6 @@ public class CBCBuilderTransformers {
 		Identifier filledLoc = CreateBigCannons.resource("block/big_cartridge_filled");
 		Identifier emptyLoc = CreateBigCannons.resource("block/big_cartridge_empty");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::solid)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p, s -> {
 				return p.models().getExistingFile(s.getValue(BigCartridgeBlock.FILLED) ? filledLoc : emptyLoc);
 			}))
@@ -520,7 +496,7 @@ public class CBCBuilderTransformers {
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> autocannonAmmoContainer(boolean isCreative) {
 		String root = isCreative ? "creative": "regular";
-		return b -> b.addLayer(() -> RenderType::cutoutMipped)
+		return b -> b
 			.blockstate((c, p) -> p.getVariantBuilder(c.get())
 				.forAllStatesExcept(state -> {
 					AutocannonAmmoContainerBlock.State containerState = state.getValue(AutocannonAmmoContainerBlock.CONTAINER_STATE);
@@ -561,7 +537,6 @@ public class CBCBuilderTransformers {
 		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount");
 		Identifier flipLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount_flipped");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.horizontalBlock(c.get(), state -> {
 				Identifier loc = state.getValue(CannonMountBlock.VERTICAL_DIRECTION) == Direction.DOWN ? baseLoc : flipLoc;
 				return p.models().getExistingFile(loc);
@@ -575,7 +550,6 @@ public class CBCBuilderTransformers {
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> yawController() {
 		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/yaw_controller");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.simpleBlock(c.get(), p.models().getExistingFile(baseLoc)))
 			.tag(AllBlockTags.SAFE_NBT.tag)
 			.item()
@@ -586,7 +560,6 @@ public class CBCBuilderTransformers {
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonMountExtension() {
 		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount_extension");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().getExistingFile(baseLoc)))
 			.tag(AllBlockTags.SAFE_NBT.tag)
 			.item()
@@ -597,7 +570,6 @@ public class CBCBuilderTransformers {
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> fixedCannonMount() {
 		String key = "block/cannon_mount/fixed_cannon_mount_";
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), state -> {
 				Direction rotation = state.getValue(FixedCannonMountBlock.ROTATION);
 				Identifier loc = CreateBigCannons.resource(key + rotation.getName());
@@ -613,7 +585,6 @@ public class CBCBuilderTransformers {
 		Identifier blockLoc = CreateBigCannons.resource("block/cannon_carriage/block");
 		Identifier saddleLoc = CreateBigCannons.resource("block/cannon_carriage/block_saddle");
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.horizontalBlock(c.get(), s -> p.models().getExistingFile(s.getValue(CannonCarriageBlock.SADDLED) ? saddleLoc : blockLoc)))
 			.tag(AllBlockTags.SAFE_NBT.tag)
 			.loot((t, u) -> t.add(u, LootTable.lootTable()
@@ -655,7 +626,6 @@ public class CBCBuilderTransformers {
 			.properties(p -> p.sound(SoundType.WOOD))
 			.properties(p -> p.noOcclusion())
 			.tag(BlockTags.MINEABLE_WITH_AXE)
-			.addLayer(() -> RenderType::solid)
 			.blockstate((c, p) -> p.getMultipartBuilder(c.get())
 				.part()
 				.modelFile(p.models().getExistingFile(baseLoc))
@@ -735,7 +705,6 @@ public class CBCBuilderTransformers {
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> dropMortarShell() {
 		return b -> b.properties(p -> p.noOcclusion())
-			.addLayer(() -> RenderType::cutout)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().getExistingFile(CreateBigCannons.resource("block/drop_mortar_shell"))));
 	}
 

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -79,7 +81,7 @@ public abstract class CannonMountInterfaceBlockEntity extends KineticBlockEntity
     @Override
     protected void read(ValueInput tag, boolean clientPacket) {
         super.read(tag, clientPacket);
-        this.sequencedAngleLimit = tag.contains("SequencedAngleLimit") ? tag.getDoubleOr("SequencedAngleLimit", 0d) : -1;
+        this.sequencedAngleLimit = CBCValueIO.contains(tag, "SequencedAngleLimit") ? tag.getDoubleOr("SequencedAngleLimit", 0d) : -1;
     }
 
 	public static class PitchInterface extends CannonMountInterfaceBlockEntity {

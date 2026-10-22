@@ -12,7 +12,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 
 public class YawControllerBlockEntity extends KineticBlockEntity implements ExtendsCannonMount, CBCHasIItemHandlerBlockEntity {
@@ -44,7 +45,7 @@ public class YawControllerBlockEntity extends KineticBlockEntity implements Exte
 
     @Nullable
     @Override
-    public IItemHandler getItemHandler(Direction side) {
+    public Storage<ItemVariant> getItemHandler(Direction side) {
         CannonMountBlockEntity cannonMount = this.getCannonMount();
         return cannonMount == null ? null : cannonMount.getItemHandler(side);
     }

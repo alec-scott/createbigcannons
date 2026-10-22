@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,7 +20,7 @@ import rbasamoyai.ritchiesprojectilelib.projectile_burst.ProjectileBurstRenderer
 public class ShrapnelBurstRenderer<T extends ShrapnelBurst> extends ProjectileBurstRenderer<T> {
 
 	private static final Identifier TEXTURE_LOCATION = CreateBigCannons.resource("textures/entity/shrapnel.png");
-	private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(TEXTURE_LOCATION);
+	private static final RenderType RENDER_TYPE = RenderTypes.entityCutoutNoCull(TEXTURE_LOCATION);
 
 	public ShrapnelBurstRenderer(EntityRendererProvider.Context context) {
 		super(context);

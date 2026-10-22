@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -38,7 +40,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.index.CBCDataComponents;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
@@ -47,7 +50,7 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements IAutocannonAmmoContainerContainer,
     MenuProvider, Nameable, CBCHasIItemHandlerBlockEntity, PartialSafeNBT {
 
-    private IItemHandler inventory;
+    private Storage<ItemVariant> inventory;
     private ItemStack ammoStack = ItemStack.EMPTY;
     private ItemStack tracerStack = ItemStack.EMPTY;
     private int tracerSpacing = 1;
@@ -83,8 +86,8 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
     @Override
     protected void saveAdditional(ValueOutput tag) {
         super.saveAdditional(tag);
-        tag.put("Ammo", this.ammoStack.saveOptional(registries));
-        tag.put("Tracers", this.tracerStack.saveOptional(registries));
+        tag.store("Ammo", ItemStack.OPTIONAL_CODEC, this.ammoStack);
+        tag.store("Tracers", ItemStack.OPTIONAL_CODEC, this.tracerStack);
         tag.putInt("TracerSpacing", this.tracerSpacing);
         if (this.name != null)
             tag.putString("CustomName", Component.Serializer.toJson(this.name, registries));
@@ -93,10 +96,10 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
     @Override
     protected void loadAdditional(ValueInput tag) {
         super.loadAdditional(tag);
-        this.ammoStack = ItemStack.parseOptional(registries, tag.getCompound("Ammo"));
-        this.tracerStack = ItemStack.parseOptional(registries, tag.getCompound("Tracers"));
+        this.ammoStack = tag.read("Ammo", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
+        this.tracerStack = tag.read("Tracers", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
         this.tracerSpacing = Mth.clamp(tag.getIntOr("TracerSpacing", 0), 1, 6);
-        if (tag.contains("CustomName", Tag.TAG_STRING))
+        if (CBCValueIO.contains(tag, "CustomName"))
             this.name = parseCustomNameSafe(tag.getStringOr("CustomName", ""), registries);
     }
 
@@ -257,7 +260,7 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
 	}
 
     @Override
-    public IItemHandler getItemHandler(Direction side) {
+    public Storage<ItemVariant> getItemHandler(Direction side) {
         if (this.isCreativeContainer())
             return null; // Cannot automate creative autocannon ammo container
         return this.inventory == null ? this.inventory = new AutocannonAmmoContainerInterface(this) : this.inventory;

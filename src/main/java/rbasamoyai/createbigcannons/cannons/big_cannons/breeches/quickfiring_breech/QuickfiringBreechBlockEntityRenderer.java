@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.quickfiring_breech;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -53,7 +55,7 @@ public class QuickfiringBreechBlockEntityRenderer extends SafeBlockEntityRendere
 			qrot = Axis.of(blockRotation.step()).rotationDegrees(0);
 		}
 
-		VertexConsumer vcons = buffer.getBuffer(RenderType.solid());
+		VertexConsumer vcons = buffer.getBuffer(RenderTypes.solid());
 
 		ms.pushPose();
 

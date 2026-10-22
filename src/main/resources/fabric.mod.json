@@ -20,9 +20,6 @@
     ],
     "client": [
       "rbasamoyai.createbigcannons.fabric.CBCClientFabric"
-    ],
-    "jei_mod_plugin": [
-      "rbasamoyai.createbigcannons.compat.jei.CBCJEI"
     ]
   },
   "accessWidener": "${mod_id}.accesswidener",

@@ -79,7 +79,7 @@ public class CannonCastMouldBlock extends Block {
                 }
                 level.playSound(player, pos, SoundEvents.SAND_BREAK, SoundSource.PLAYERS, 1.0f, 1.0f);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
@@ -91,7 +91,7 @@ public class CannonCastMouldBlock extends Block {
 			if (!level.isClientSide() && !player.isCreative()) {
 				stack.shrink(1);
 			}
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.TRY_WITH_EMPTY_HAND; // todo: maybe SKIP_DEFAULT_BLOCK_INTERACTION
 	}

@@ -42,6 +42,37 @@ Local clone `../RitchiesProjectileLib`, branch `26.1-fabric` (no fork yet: fork 
   same class names is fragile on Fabric (first one loaded wins), and CBC shouldn't depend on Aeronautics.
 - **Datagen stubbed** (as in Aeronautics): the committed `src/generated/resources` are used as-is.
 
+- **Create Fly API gaps are filled in CBC's `port/` package for now** (Registrate, Create's sound-entry builder,
+  `ICustomParticleData`, datagen helper stubs). Simulated (Aeronautics) carries its own copies of several of these in
+  Create Fly's package; consolidating them into our Create Fly fork is the right long-term home, but it changes the
+  Aeronautics build, so it waits until Aeronautics has been tested. Candidates for the fork: Registrate + `CreateRegistrate`,
+  `AllSoundEvents.SoundEntryBuilder`, `ICustomParticleData`, a `DeployerRecipeSearchEvent` hook, public
+  `AllTransfer.registerItemSide/registerFluidSide`.
+- **JEI compat excluded for now**: it's built on Create's JEI helpers, which Create Fly organises differently. Port it once
+  the mod runs. Copycats+, FramedBlocks and Curios compat excluded too (no 26.1 Fabric builds).
+
+## Port mechanics (how things map)
+
+| NeoForge 1.21.1 | Fabric 26.1.2 here |
+|---|---|
+| `@Mod` constructor + mod event bus | `fabric/CreateBigCannonsFabric` (runs registration in order; former common-setup work at the end) |
+| `CBCClientNeoForge` | `fabric/CBCClientFabric`; missing events become mixins (mouse click/scroll, FOV) |
+| `ViewportEvent.ComputeCameraAngles` | RPL's `CameraAngleHooks` (shared with RPL's screen shake) |
+| `DeferredRegister` (tabs, particles, recipes) | direct `Registry.register` (`ModGroup.registerTabs()`, `IndexPlatform`) |
+| `NewRegistryEvent` | `FabricRegistryBuilder` in `CBCRegistries` |
+| `PayloadRegistrar` / `PacketDistributor` | Fabric payload networking (`network/CBCPacket`, `fabric/CBCNetworkFabric[Client]`) |
+| `IItemHandler` capability | Fabric `Storage<ItemVariant>` via `ItemStorage.SIDED` (snapshot-based views from the 1.20.1 Fabric module) |
+| NeoForge `FluidStack`/`FluidTank` | Create Fly `FluidStack` / `foundation.fluid.FluidTank`, exposed with `FluidInventoryStorage.of(...)` |
+| Fluid amounts (mB) | **Fabric droplets**, 81 per mB: `IndexPlatform.getFluidConversionFactor()` = 81 |
+| `RegisterGuiLayersEvent` | Fabric `HudElementRegistry` (`HudElement` uses `GuiGraphicsExtractor`) |
+| `RegisterParticleProvidersEvent` | Fabric `ParticleProviderRegistry` (`port/.../ICustomParticleData`) |
+| Create's `SoundEntryBuilder` | `port/create/AllSoundEvents` (Create Fly replaced it with a builder-less record) |
+| `BlockEntity` NBT save/load | `ValueOutput`/`ValueInput`; nested tags via `utils/CBCValueIO` (`ExtraCodecs.NBT`, same on-disk shape) |
+| Registrate `.addLayer(...)` | removed: 26.1 picks the render layer from texture transparency |
+
+**Dedicated-server rule:** Create Fly ships a separate server jar **without** its `com.zurrtum.create.client.*` packages.
+Common code must not touch those classes on paths a server runs (e.g. `CBCCommonMetal` no longer uses Catnip's `Lang`).
+
 ## Plan
 
 1. ✅ RPL builds on Fabric 26.1.2.
@@ -58,3 +89,9 @@ Local clone `../RitchiesProjectileLib`, branch `26.1-fabric` (no fork yet: fork 
 ### 2026-10-22
 - Cloned the fork; added `upstream`. Assessed the three-way port (above).
 - Ported RPL to Fabric 26.1.2 (builds).
+- RPL: added `CameraAngleHooks` so CBC can share the camera-roll mixin.
+- CBC: build migrated; Create -> Create Fly imports mapped (208 by path, 8 moved, 32 gaps); relocated Registrate;
+  Fabric entry points, platform layer, networking, registries, sounds, creative tab, item transfer (breech, ammo
+  container, mounts); ValueInput/ValueOutput save data; many 26.1 renames. Compile errors 3133 -> ~1600.
+- Next: fluid tanks (cast, drill, fluid shell), particles (26.1 particle API), renderers (submit model + shaders ->
+  RenderPipeline), recipes, explosions (26.1 ServerExplosion), item models (1.21.4 item definitions), Sable compat.

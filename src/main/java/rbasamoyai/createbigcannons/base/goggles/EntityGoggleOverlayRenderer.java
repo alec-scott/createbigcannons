@@ -14,7 +14,7 @@ import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
 import com.zurrtum.create.catnip.theme.Color;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.Mth;
@@ -29,7 +29,7 @@ public class EntityGoggleOverlayRenderer {
 
 	public static int hoverTicks = 0;
 
-	public static void renderOverlay(GuiGraphics graphics, DeltaTracker tracker) {
+	public static void renderOverlay(GuiGraphicsExtractor graphics, DeltaTracker tracker) {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.options.hideGui || mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
 

@@ -68,7 +68,7 @@ public class QuickfiringMechanismItem extends Item {
 			}
 			SoundType type = newState.getSoundType();
 			level.playSound(player, pos, type.getPlaceSound(), SoundSource.BLOCKS, type.getVolume(), type.getPitch());
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		return super.useOn(context);
 	}

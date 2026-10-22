@@ -102,7 +102,7 @@ public class IncompleteSlidingBreechBlock extends SolidBigCannonBlock<Incomplete
 				}
 			});
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

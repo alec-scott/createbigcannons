@@ -144,7 +144,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
             }
         }
         level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.NEUTRAL, 1.0f, 1.0f);
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
 	}
 
     @Override
@@ -178,7 +178,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
             }
         }
         level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.NEUTRAL, 1.0f, 1.0f);
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
 	public abstract boolean isBaseFuze();

@@ -8,7 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.neoforged.neoforge.fluids.FluidStack;
+import com.zurrtum.create.infrastructure.fluids.FluidStack;
 import rbasamoyai.createbigcannons.base.CBCRegistries;
 import rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.EndFluidStack;
 

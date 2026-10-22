@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -156,7 +158,7 @@ public class GasCloudEntity extends SmokeEmitterEntity {
         RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
         if (!this.potionContents.equals(PotionContents.EMPTY)) {
             Tag potionTag = PotionContents.CODEC.encodeStart(registryOps, this.potionContents).getOrThrow();
-            tag.put("potion_contents", potionTag);
+            CBCValueIO.put(tag, "potion_contents", potionTag);
         }
 	}
 
@@ -166,11 +168,11 @@ public class GasCloudEntity extends SmokeEmitterEntity {
 		super.readAdditionalSaveData(tag);
 		this.waitTime = tag.getIntOr("WaitTime", 0);
 		this.reapplicationDelay = tag.getIntOr("ReapplicationDelay", 0);
-		if (tag.contains("Color", Tag.TAG_ANY_NUMERIC))
+		if (CBCValueIO.contains(tag, "Color"))
 			this.setFixedColor(tag.getIntOr("Color", 0));
 
         RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-		if (tag.contains("potion_contents", Tag.TAG_COMPOUND))
+		if (CBCValueIO.contains(tag, "potion_contents"))
             PotionContents.CODEC
                 .parse(registryOps, tag.get("potion_contents"))
                 .resultOrPartial(string -> CreateBigCannons.LOGGER.warn("Failed to parse area effect cloud potions: '{}'", string))

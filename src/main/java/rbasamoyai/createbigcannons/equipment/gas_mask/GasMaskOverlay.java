@@ -7,7 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
@@ -15,7 +15,7 @@ public class GasMaskOverlay {
 
 	public static final Identifier GAS_MASK_OVERLAY = CreateBigCannons.resource("textures/misc/gas_mask_overlay.png");
 
-	public static void renderOverlay(GuiGraphics graphics, DeltaTracker tracker) {
+	public static void renderOverlay(GuiGraphicsExtractor graphics, DeltaTracker tracker) {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.player == null || minecraft.options.getCameraType() != CameraType.FIRST_PERSON
 			|| !GasMaskItem.canShowGasMaskOverlay(minecraft.player))

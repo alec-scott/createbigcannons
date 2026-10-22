@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.boring;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -20,7 +22,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.fluids.FluidStack;
+import com.zurrtum.create.infrastructure.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
@@ -58,13 +60,13 @@ public class CannonDrillBlockEntity extends AbstractCannonDrillBlockEntity {
 	@Override
 	protected void read(ValueInput compound, boolean clientPacket) {
 		super.read(compound, clientPacket);
-		this.lubricant.readFromNBT(registries, compound.getCompound("FluidContent"));
+		this.lubricant.readFromNBT(registries, CBCValueIO.getCompound(compound, "FluidContent"));
 	}
 
 	@Override
 	protected void write(ValueOutput compound, boolean clientPacket) {
 		super.write(compound, clientPacket);
-		compound.put("FluidContent", this.lubricant.writeToNBT(registries, new CompoundTag()));
+		CBCValueIO.put(compound, "FluidContent", this.lubricant.writeToNBT(registries, new CompoundTag()));
 	}
 
 	@Override

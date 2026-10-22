@@ -7,10 +7,13 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.server.packs.PackType;
 import rbasamoyai.createbigcannons.CBCCommonEvents;
+import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
+import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 
 /**
  * Fabric event glue for {@link CBCCommonEvents}.
@@ -37,6 +40,17 @@ public class CBCCommonFabricEvents {
 		CBCCommonEvents.onAddReloadListeners((listener, id) -> ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(id, listener), null);
 
 		FlammableBlockRegistry.getDefaultInstance().add(CBCBlocks.POWDER_CHARGE.get(), 100, 30);
+
+		registerStorages();
+	}
+
+	/** PORT-NOTE(fabric): replaces the NeoForge {@code RegisterCapabilitiesEvent} handler (item part). */
+	private static void registerStorages() {
+		ItemStorage.SIDED.registerForBlockEntities((be, side) -> ((CBCHasIItemHandlerBlockEntity) be).getItemHandler(side),
+			CBCBlockEntities.AUTOCANNON_AMMO_CONTAINER.get(),
+			CBCBlockEntities.CANNON_MOUNT.get(),
+			CBCBlockEntities.CANNON_MOUNT_EXTENSION.get(),
+			CBCBlockEntities.FIXED_CANNON_MOUNT.get());
 	}
 
 }

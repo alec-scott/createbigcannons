@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.fuzes;
 
+import net.minecraft.world.InteractionResult;
+
 import java.util.List;
 
 import com.zurrtum.create.client.foundation.item.TooltipHelper;
@@ -11,7 +13,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -38,7 +39,7 @@ public class DelayedInertiaFuzeItem extends FuzeItem implements MenuProvider {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		if (player instanceof ServerPlayer && player.mayBuild()) {
 			ItemStack stack = player.getItemInHand(hand);
 			if (!stack.has(CBCDataComponents.FUZE_TIMER)) {

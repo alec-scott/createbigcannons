@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -39,7 +41,8 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.base.multiple_kinetic_interface.HasMultipleKineticInterfaces;
 import rbasamoyai.createbigcannons.cannon_control.ControlPitchContraption;
@@ -412,11 +415,11 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 
 		CompoundTag pitchTag = new CompoundTag();
 		this.pitchInterface.saveAdditional(pitchTag, registry);
-		tag.put("PitchInterface", pitchTag);
+		CBCValueIO.put(tag, "PitchInterface", pitchTag);
 
 		CompoundTag yawTag = new CompoundTag();
 		this.yawInterface.saveAdditional(yawTag, registry);
-		tag.put("YawInterface", yawTag);
+		CBCValueIO.put(tag, "YawInterface", yawTag);
 
         if (this.reassemble)
             tag.putBoolean("TryReassembling", true);
@@ -432,14 +435,14 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 		this.lastException = AssemblyException.read(tag, registry);
 
 		if (clientPacket) {
-			this.pitchInterface.readClient(tag.getCompound("PitchInterface"), registry);
-			this.yawInterface.readClient(tag.getCompound("YawInterface"), registry);
+			this.pitchInterface.readClient(CBCValueIO.getCompound(tag, "PitchInterface"), registry);
+			this.yawInterface.readClient(CBCValueIO.getCompound(tag, "YawInterface"), registry);
 		} else {
-			this.pitchInterface.loadWithComponents(tag.getCompound("PitchInterface"), registry);
-			this.yawInterface.loadWithComponents(tag.getCompound("YawInterface"), registry);
+			this.pitchInterface.loadWithComponents(CBCValueIO.getCompound(tag, "PitchInterface"), registry);
+			this.yawInterface.loadWithComponents(CBCValueIO.getCompound(tag, "YawInterface"), registry);
 		}
 
-        this.reassemble = tag.contains("TryReassembling");
+        this.reassemble = CBCValueIO.contains(tag, "TryReassembling");
 
 		if (!clientPacket) return;
 
@@ -588,7 +591,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 
     @Nullable
     @Override
-    public IItemHandler getItemHandler(Direction side) { // TODO c6 playtest
+    public Storage<ItemVariant> getItemHandler(Direction side) { // TODO c6 playtest
         return this.mountedContraption != null ? this.mountedContraption.getCapability(Capabilities.ItemHandler.ENTITY) : null;
     }
 

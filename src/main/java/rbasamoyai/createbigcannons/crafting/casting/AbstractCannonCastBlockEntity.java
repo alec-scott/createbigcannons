@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -123,7 +125,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 		if (this.canRenderCastModel() && this.castShape != null) {
 			tag.putString("Size", shapeRegistry.getKey(this.castShape).toString());
 		}
-		if (this.lastKnownPos != null) tag.put("LastKnownPos", NbtUtils.writeBlockPos(this.lastKnownPos));
+		if (this.lastKnownPos != null) tag.store("LastKnownPos", BlockPos.CODEC, this.lastKnownPos);
 
 		if (this.isController()) {
 			if (!this.structure.isEmpty()) {
@@ -131,7 +133,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 				for (CannonCastShape sz : this.structure) {
 					structureTag.add(StringTag.valueOf(shapeRegistry.getKey(sz).toString()));
 				}
-				tag.put("Structure", structureTag);
+				CBCValueIO.put(tag, "Structure", structureTag);
 			}
 			tag.putInt("Height", this.height);
 			tag.putInt("CastingTime", this.castingTime);
@@ -151,17 +153,17 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 						previewList.add(new CompoundTag());
 					}
 				}
-				tag.put("Preview", previewList);
+				CBCValueIO.put(tag, "Preview", previewList);
 			}
             if (this.invalidCastingError != null) {
                 InvalidCastingError.CODEC.codec()
                     .encode(this.invalidCastingError, registries.createSerializationContext(NbtOps.INSTANCE), new CompoundTag())
                     .resultOrPartial(err -> CreateBigCannons.LOGGER.warn("Failed to save cannon casting error: {}", err))
-                    .ifPresent(errtag -> tag.put("CastingError", errtag));
+                    .ifPresent(errtag -> CBCValueIO.put(tag, "CastingError", errtag));
             }
 			tag.putInt("CastingDelay", this.castDelay);
 		} else {
-			tag.put("Controller", NbtUtils.writeBlockPos(this.controllerPos));
+			tag.store("Controller", BlockPos.CODEC, this.controllerPos);
 		}
 
 		super.write(tag, clientPacket);
@@ -186,12 +188,12 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 		BlockPos controllerBefore = this.controllerPos;
 		int prevHeight = this.getControllerBE() == null ? 0 : this.getControllerBE().height;
 
-		this.castShape = tag.contains("Size") ? shapeRegistry.get(CBCUtils.location(tag.getStringOr("Size", ""))) : null;
-		if (tag.contains("LastKnownPos")) this.lastKnownPos = NbtUtils.readBlockPos(tag, "LastKnownPos").orElse(null);
+		this.castShape = CBCValueIO.contains(tag, "Size") ? shapeRegistry.get(CBCUtils.location(tag.getStringOr("Size", ""))) : null;
+		if (CBCValueIO.contains(tag, "LastKnownPos")) this.lastKnownPos = tag.read("LastKnownPos", BlockPos.CODEC).orElse(null);
 
 		this.structure.clear();
-		if (tag.contains("Structure")) {
-			ListTag list = tag.getList("Structure", Tag.TAG_STRING);
+		if (CBCValueIO.contains(tag, "Structure")) {
+			ListTag list = CBCValueIO.getList(tag, "Structure");
 			for (int i = 0; i < list.size(); ++i) {
 				CannonCastShape shape = shapeRegistry.get(CBCUtils.location(list.getString(i)));
 				this.structure.add(shape == null ? CannonCastShape.VERY_SMALL : shape);
@@ -200,16 +202,16 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 			this.updateFluids(tag, registry);
 			this.castingTime = Math.max(tag.getIntOr("CastingTime", 0), 0);
 			this.startCastingTime = Math.max(tag.getIntOr("StartCastingTime", 0), 1);
-			this.updateRecipes = this.firstLoadUpdate || tag.contains("UpdateRecipes");
+			this.updateRecipes = this.firstLoadUpdate || CBCValueIO.contains(tag, "UpdateRecipes");
 
 			this.resultPreview.clear();
-			ListTag preview = tag.getList("Preview", Tag.TAG_COMPOUND);
+			ListTag preview = CBCValueIO.getList(tag, "Preview");
 			for (int i = 0; i < preview.size(); ++i) {
 				this.resultPreview.add(NbtUtils.readBlockState(this.blockHolderGetter(), preview.getCompound(i)));
 			}
-            if (tag.contains("CastingError", Tag.TAG_COMPOUND)) {
+            if (CBCValueIO.contains(tag, "CastingError")) {
                 InvalidCastingError.CODEC.codec()
-                    .parse(registry.createSerializationContext(NbtOps.INSTANCE), tag.getCompound("CastingError"))
+                    .parse(registry.createSerializationContext(NbtOps.INSTANCE), CBCValueIO.getCompound(tag, "CastingError"))
                     .resultOrPartial(err -> CreateBigCannons.LOGGER.warn("Failed to read cannon casting error: {}", err))
                     .ifPresent(casterr -> this.invalidCastingError = casterr);
             } else {
@@ -218,14 +220,14 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 			this.castDelay = tag.getIntOr("CastingDelay", 0);
 
 			this.controllerPos = null;
-		} else if (tag.contains("Controller")) {
-			this.controllerPos = NbtUtils.readBlockPos(tag, "Controller").orElse(null);
+		} else if (CBCValueIO.contains(tag, "Controller")) {
+			this.controllerPos = tag.read("Controller", BlockPos.CODEC).orElse(null);
 		}
 
-		if (tag.contains("ForceFluidLevel") || this.fluidLevel == null) {
+		if (CBCValueIO.contains(tag, "ForceFluidLevel") || this.fluidLevel == null) {
 			this.fluidLevel = LerpedFloat.linear().startWithValue(this.getFillState());
 		}
-		if (tag.contains("ForceCastLevel") || this.castLevel == null) {
+		if (CBCValueIO.contains(tag, "ForceCastLevel") || this.castLevel == null) {
 			this.castLevel = LerpedFloat.linear().startWithValue(this.getCastingState());
 		}
 
@@ -239,18 +241,18 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 		}
 		if (this.isController()) {
 			float fillState = this.getFillState();
-			if (tag.contains("ForceFluidLevel") || this.fluidLevel == null) {
+			if (CBCValueIO.contains(tag, "ForceFluidLevel") || this.fluidLevel == null) {
 				this.fluidLevel = LerpedFloat.linear().startWithValue(fillState);
 			}
 			this.fluidLevel.chase(fillState, 0.5f, Chaser.EXP);
 
 			float castState = this.getCastingState();
-			if (tag.contains("ForceCastLevel") || this.castLevel == null) {
+			if (CBCValueIO.contains(tag, "ForceCastLevel") || this.castLevel == null) {
 				this.castLevel = LerpedFloat.linear().startWithValue(castState);
 			}
 			this.castLevel.chase(castState, 0.5f, Chaser.EXP);
 		}
-		if (tag.contains("LazySync")) {
+		if (CBCValueIO.contains(tag, "LazySync")) {
 			this.fluidLevel.chase(this.fluidLevel.getChaseTarget(), 0.125f, Chaser.EXP);
 			this.castLevel.chase(this.castLevel.getChaseTarget(), 0.125f, Chaser.EXP);
 		}
@@ -412,7 +414,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 			AbstractCannonCastBlockEntity controller = this.getControllerBE();
 			if (controller != null) controller.castingTime = 0;
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	public void initializeCastMultiblock(CannonCastShape size) {

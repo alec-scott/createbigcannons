@@ -41,7 +41,7 @@ public class ItemCannonBehavior extends CannonBehavior {
 
 	@Override
 	public void write(ValueOutput nbt, boolean spawnPacket) {
-		nbt.put("ContainedStack", this.containedStack.saveOptional(registries));
+		nbt.store("ContainedStack", ItemStack.OPTIONAL_CODEC, this.containedStack);
 		super.write(nbt, spawnPacket);
 	}
 
@@ -52,7 +52,7 @@ public class ItemCannonBehavior extends CannonBehavior {
 
 	@Override
 	public void read(ValueInput nbt, boolean clientPacket) {
-		this.containedStack = ItemStack.parseOptional(registries, nbt.getCompound("ContainedStack"));
+		this.containedStack = nbt.read("ContainedStack", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
 		super.read(nbt, clientPacket);
 	}
 

@@ -36,19 +36,19 @@ public class FuzedBlockEntity extends BigCannonProjectileBlockEntity {
     @Override
     public void saveAdditional(ValueOutput tag) {
         super.saveAdditional(tag);
-        tag.put("Fuze", this.getFuze().saveOptional(registries));
+        tag.store("Fuze", ItemStack.OPTIONAL_CODEC, this.getFuze());
     }
 
     @Override
     public void loadAdditional(ValueInput tag) {
         super.loadAdditional(tag);
-        this.setFuze(ItemStack.parseOptional(registries, tag.getCompound("Fuze")));
+        this.setFuze(tag.read("Fuze", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY));
     }
 
     @Override
     public void writeSafe(ValueOutput tag) {
         super.writeSafe(tag);
-        tag.put("Fuze", this.getFuze().saveOptional(registries));
+        tag.store("Fuze", ItemStack.OPTIONAL_CODEC, this.getFuze());
     }
 
     @Override

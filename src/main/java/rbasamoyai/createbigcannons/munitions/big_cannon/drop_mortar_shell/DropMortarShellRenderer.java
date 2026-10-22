@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.drop_mortar_shell;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import net.minecraft.core.BlockPos;
 
 import org.joml.Matrix3f;
@@ -9,7 +11,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -48,14 +50,14 @@ public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProje
 		}
 
 		CachedBuffers.partial(CBCBlockPartials.DROP_MORTAR_SHELL_FLYING, CBCBlocks.DROP_MORTAR_SHELL.getDefaultState().setValue(BlockStateProperties.FACING, Direction.NORTH))
-			.light(isTracer ? LightTexture.FULL_BRIGHT : packedLight)
-			.renderInto(poseStack, buffers.getBuffer(RenderType.cutout()));
+			.light(isTracer ? LightCoordsUtil.FULL_BRIGHT : packedLight)
+			.renderInto(poseStack, buffers.getBuffer(RenderTypes.cutout()));
 		poseStack.popPose();
 
 		if (isTracer) {
 			int frame = (int) ((entity.getId() + entity.level().getGameTime()) % 4L);
 			Identifier textureLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d.png", frame));
-			RenderType renderType = RenderType.entityCutoutNoCull(textureLoc);
+			RenderType renderType = RenderTypes.entityCutoutNoCull(textureLoc);
 
 			poseStack.pushPose();
 			poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
@@ -66,10 +68,10 @@ public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProje
 			Matrix3f normal = lastPose.normal();
 			VertexConsumer builder = buffers.getBuffer(renderType);
 
-			vertex(builder, pose, LightTexture.FULL_BRIGHT, -0.5f, -0.5f, 0, 1);
-			vertex(builder, pose, LightTexture.FULL_BRIGHT, -0.5f, 0.5f, 0, 0);
-			vertex(builder, pose, LightTexture.FULL_BRIGHT, 0.5f, 0.5f, 1, 0);
-			vertex(builder, pose, LightTexture.FULL_BRIGHT, 0.5f, -0.5f, 1, 1);
+			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, -0.5f, -0.5f, 0, 1);
+			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, -0.5f, 0.5f, 0, 0);
+			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, 0.5f, 0.5f, 1, 0);
+			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, 0.5f, -0.5f, 1, 1);
 
 			poseStack.popPose();
 		}

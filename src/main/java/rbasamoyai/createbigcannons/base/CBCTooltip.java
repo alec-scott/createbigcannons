@@ -73,7 +73,7 @@ public class CBCTooltip {
 
 	public static <T extends Block & BigCannonBlock> void appendCannonBlockText(ItemStack stack, TooltipContext ctx,
 																				List<Component> tooltip, TooltipFlag flag, T block) {
-		boolean desc = Screen.hasShiftDown();
+		boolean desc = Minecraft.getInstance().hasShiftDown();
 		addHoldShift(desc, tooltip);
 		if (!desc) {
 			return;
@@ -137,7 +137,7 @@ public class CBCTooltip {
 
 	public static <T extends Block & AutocannonBlock> void appendTextAutocannon(ItemStack stack, TooltipContext ctx,
 																				List<Component> tooltip, TooltipFlag flag, T block) {
-		boolean desc = Screen.hasShiftDown();
+		boolean desc = Minecraft.getInstance().hasShiftDown();
 		addHoldShift(desc, tooltip);
 		if (!desc) {
 			return;
@@ -173,7 +173,7 @@ public class CBCTooltip {
 
 	public static void appendMortarStoneText(ItemStack stack, TooltipContext ctx, List<Component> tooltip,
 											 TooltipFlag flag) {
-		if (!Screen.hasShiftDown()) {
+		if (!Minecraft.getInstance().hasShiftDown()) {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
@@ -186,7 +186,7 @@ public class CBCTooltip {
 
 	public static void appendRamRodText(ItemStack stack, TooltipContext ctx, List<Component> tooltip,
 										TooltipFlag flag) {
-		if (!Screen.hasShiftDown()) {
+		if (!Minecraft.getInstance().hasShiftDown()) {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
@@ -207,7 +207,7 @@ public class CBCTooltip {
 
 	public static void appendWormText(ItemStack stack, TooltipContext ctx, List<Component> tooltip,
 									  TooltipFlag flag) {
-		if (!Screen.hasShiftDown()) {
+		if (!Minecraft.getInstance().hasShiftDown()) {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
@@ -223,7 +223,7 @@ public class CBCTooltip {
 	}
 
 	public static void appendImpactFuzeText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag, float detChance, int fuzeDurability) {
-		if (!Screen.hasShiftDown()) return;
+		if (!Minecraft.getInstance().hasShiftDown()) return;
 		FontHelper.Palette palette = getPalette();
 		String chanceKey = stack.getDescriptionId() + ".tooltip.chance";
 		tooltip.add(Component.literal(I18n.get(chanceKey)).withStyle(ChatFormatting.GRAY));
@@ -235,7 +235,7 @@ public class CBCTooltip {
 
 	public static void appendCannonCarriageText(ItemStack stack, TooltipContext ctx, List<Component> tooltip,
 												TooltipFlag flag, BlockItem block) {
-		if (!Screen.hasShiftDown()) {
+		if (!Minecraft.getInstance().hasShiftDown()) {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
@@ -258,7 +258,7 @@ public class CBCTooltip {
 	public static void appendMuzzleVelocityText(ItemStack stack, TooltipContext ctx, List<Component> tooltip,
 												TooltipFlag flag,
 												BigCannonPropellantBlock propellant) {
-		if (!Screen.hasShiftDown()) {
+		if (!Minecraft.getInstance().hasShiftDown()) {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
@@ -273,7 +273,7 @@ public class CBCTooltip {
 	public static void appendPropellantStressText(ItemStack stack, TooltipContext ctx, List<Component> tooltip,
 												  TooltipFlag flag,
 												  BigCannonPropellantBlock propellant) {
-		if (!Screen.hasShiftDown()) {
+		if (!Minecraft.getInstance().hasShiftDown()) {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
@@ -287,7 +287,7 @@ public class CBCTooltip {
 
 	public static void appendBigCartridgePropellantPowerText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag,
                                                              BigCartridgeBlock propellant) {
-		if (!Screen.hasShiftDown()) return;
+		if (!Minecraft.getInstance().hasShiftDown()) return;
 		FontHelper.Palette palette = getPalette();
 		String key = "block." + CreateBigCannons.MOD_ID + ".propellant.tooltip.power";
 		tooltip.add(Component.literal(I18n.get(key)).withStyle(ChatFormatting.GRAY));

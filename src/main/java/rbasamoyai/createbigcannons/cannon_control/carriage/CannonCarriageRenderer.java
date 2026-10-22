@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.carriage;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import org.joml.Vector4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -27,7 +29,7 @@ public class CannonCarriageRenderer extends EntityRenderer<CannonCarriageEntity>
 
 	@Override
 	public void render(CannonCarriageEntity carriage, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffers, int light) {
-		VertexConsumer vcons = buffers.getBuffer(RenderType.cutoutMipped());
+		VertexConsumer vcons = buffers.getBuffer(RenderTypes.cutoutMipped());
 
 		boolean cannonRider = carriage.isCannonRider();
 		BlockState state = CBCBlocks.CANNON_CARRIAGE.getDefaultState().setValue(CannonCarriageBlock.SADDLED, cannonRider);

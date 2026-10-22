@@ -17,10 +17,10 @@ import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.FluidStack;
+import com.zurrtum.create.infrastructure.fluids.FluidStack;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.compat.jei.animated.CannonCastGuiElement;
 import rbasamoyai.createbigcannons.crafting.casting.CannonCastingRecipe;
@@ -36,7 +36,7 @@ public class CannonCastingCategory extends CBCBlockRecipeCategory<CannonCastingR
     }
 
     @Override
-    public void draw(CannonCastingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+    public void draw(CannonCastingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
         CBCGuiTextures.CANNON_CAST_SHADOW.render(graphics, 40, 45);
         this.cannonCast.withShape(recipe.shape()).draw(graphics, this.getBackground().getWidth() / 2 - 15, 55);
         CBCGuiTextures.CASTING_ARROW.render(graphics, 21, 47);
@@ -51,7 +51,7 @@ public class CannonCastingCategory extends CBCBlockRecipeCategory<CannonCastingR
         }
         Minecraft mc = Minecraft.getInstance();
         Component text = Component.translatable("recipe." + CreateBigCannons.MOD_ID + ".casting_time", String.format("%.2f", castingTime / 20.0f));
-        graphics.drawString(mc.font, text, (177 - mc.font.width(text)) / 2, 90, 4210752, false);
+        graphics.text(mc.font, text, (177 - mc.font.width(text)) / 2, 90, 4210752, false);
     }
 
     @SuppressWarnings("removal") // see below

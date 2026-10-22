@@ -75,7 +75,7 @@ public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannon
 		if (!level.isClientSide()) {
 			this.withBlockEntityDo(level, result.getBlockPos(), FinishedCannonCastBlockEntity::removeCast);
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

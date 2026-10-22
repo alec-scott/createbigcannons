@@ -16,7 +16,7 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,7 @@ public class DrillBoringCategory extends CBCBlockRecipeCategory<DrillBoringBlock
 	}
 
 	@Override
-	public void draw(DrillBoringBlockRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(DrillBoringBlockRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
 		int scale = 23;
 		AllGuiTextures.JEI_SHADOW.render(graphics, 35, 28);
 		AllGuiTextures.JEI_SHADOW.render(graphics, 97, 36);

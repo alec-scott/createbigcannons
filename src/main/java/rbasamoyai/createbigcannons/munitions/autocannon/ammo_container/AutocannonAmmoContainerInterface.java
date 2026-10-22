@@ -1,90 +1,134 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import java.util.Iterator;
+
 import org.jetbrains.annotations.NotNull;
 
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.StorageViewArrayIterator;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonAmmoType;
 
-public record AutocannonAmmoContainerInterface(AutocannonAmmoContainerBlockEntity be) implements IItemHandler {
+/**
+ * Item storage for an autocannon ammo container: main ammunition first, then tracers.
+ *
+ * <p>PORT-NOTE(fabric): Fabric transfer API instead of NeoForge's {@code IItemHandler}; ported from the 1.20.1 branch's
+ * {@code fabric/munitions/autocannon/AutocannonAmmoContainerInterface}.</p>
+ */
+public class AutocannonAmmoContainerInterface extends SnapshotParticipant<AutocannonAmmoContainerInterface.ContainerSnapshot> implements Storage<ItemVariant> {
 
-	private static final int AMMO_SLOT = 0;
-	private static final int TRACER_SLOT = 1;
+	private final AutocannonAmmoContainerBlockEntity be;
+	private final AutocannonAmmoContainerSlotView[] views;
 
-	@Override public int getSlots() { return 2; }
-
-	@NotNull
-	@Override
-	public ItemStack getStackInSlot(int slot) {
-		return switch (slot) {
-			case AMMO_SLOT -> this.be.getMainAmmoStack();
-			case TRACER_SLOT -> this.be.getTracerStack();
-			default -> ItemStack.EMPTY;
-		};
+	public AutocannonAmmoContainerInterface(AutocannonAmmoContainerBlockEntity be) {
+		this.be = be;
+		this.views = new AutocannonAmmoContainerSlotView[2];
+		this.views[0] = new AutocannonAmmoContainerSlotView(this, false);
+		this.views[1] = new AutocannonAmmoContainerSlotView(this, true);
 	}
 
-	@NotNull
 	@Override
-	public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-		if (slot != AMMO_SLOT && slot != TRACER_SLOT) return stack;
+	public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+		if (maxAmount < 1 || this.be.isCreativeContainer()) return 0;
+		ItemStack stack = resource.toStack();
 		AutocannonAmmoType ammoType = this.be.getAmmoType();
-		if (!ammoType.isValidMunition(stack)) return stack;
+		if (!ammoType.isValidMunition(stack)) return 0;
+		long total = 0;
 
-		boolean ammoSlot = slot == AMMO_SLOT;
-		ItemStack currentStack = ammoSlot ? this.be.getMainAmmoStack() : this.be.getTracerStack();
-		if (!currentStack.isEmpty() && !ItemStack.isSameItemSameComponents(stack, currentStack)) return stack;
-
-		int currentCapacity;
-		if (ammoType == AutocannonAmmoType.NONE) {
-			currentCapacity = AutocannonAmmoType.of(stack).getCapacity();
-		} else {
-			currentCapacity = ammoSlot ? this.be.getMainAmmoCapacity() : this.be.getTracerAmmoCapacity();
-			currentCapacity -= currentStack.getCount();
-		}
-		int canAdd = Math.min(currentCapacity, stack.getCount());
-		if (canAdd < 1) return stack;
-		if (!simulate) {
-			if (currentStack.isEmpty()) {
-				ItemStack copy = stack.copy();
-				copy.setCount(canAdd);
-				this.be.setItem(slot, copy);
-			} else {
-				currentStack.grow(canAdd);
+		ItemStack mainAmmoStack = this.be.getMainAmmoStack();
+		if (mainAmmoStack.isEmpty() || resource.matches(mainAmmoStack)) {
+			int capacity = ammoType == AutocannonAmmoType.NONE ? AutocannonAmmoType.of(stack).getCapacity()
+				: this.be.getMainAmmoCapacity() - mainAmmoStack.getCount();
+			int add = (int) Math.min(maxAmount, Math.max(capacity, 0));
+			if (add > 0) {
+				this.updateSnapshots(transaction);
+				this.be.setMainAmmoDirect(resource.toStack(mainAmmoStack.getCount() + add));
+				maxAmount -= add;
+				total += add;
 			}
-			this.be.setChanged();
 		}
-		ItemStack ret = stack.copy();
-		ret.shrink(canAdd);
-		return ret;
+
+		ItemStack tracerStack = this.be.getTracerStack();
+		if (maxAmount > 0 && (tracerStack.isEmpty() || resource.matches(tracerStack))) {
+			int capacity = this.be.getTracerAmmoCapacity() - tracerStack.getCount();
+			int add = (int) Math.min(maxAmount, Math.max(capacity, 0));
+			if (add > 0) {
+				this.updateSnapshots(transaction);
+				this.be.setTracersDirect(resource.toStack(tracerStack.getCount() + add));
+				total += add;
+			}
+		}
+		return total;
+	}
+
+	@Override
+	public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+		if (maxAmount < 1) return 0;
+		boolean isCreative = this.be.isCreativeContainer();
+		long total = 0;
+
+		ItemStack mainStack = this.be.getMainAmmoStack();
+		if (resource.matches(mainStack)) {
+			if (isCreative) return maxAmount;
+			long take = Math.min(mainStack.getCount(), maxAmount);
+			if (take > 0) {
+				this.updateSnapshots(transaction);
+				this.be.setMainAmmoDirect(mainStack.copyWithCount(mainStack.getCount() - (int) take));
+				total += take;
+			}
+		}
+
+		ItemStack tracerStack = this.be.getTracerStack();
+		if (total < maxAmount && resource.matches(tracerStack)) {
+			if (isCreative) return maxAmount;
+			long take = Math.min(tracerStack.getCount(), maxAmount - total);
+			if (take > 0) {
+				this.updateSnapshots(transaction);
+				this.be.setTracersDirect(tracerStack.copyWithCount(tracerStack.getCount() - (int) take));
+				total += take;
+			}
+		}
+		return total;
 	}
 
 	@NotNull
+	public ItemStack getStack(boolean isTracers) {
+		return isTracers ? this.be.getTracerStack() : this.be.getMainAmmoStack();
+	}
+
+	public int getCapacityForSlot(boolean isTracer) {
+		return isTracer ? this.be.getTracerAmmoCapacity() : this.be.getMainAmmoCapacity();
+	}
+
 	@Override
-	public ItemStack extractItem(int slot, int amount, boolean simulate) {
-		if (slot != AMMO_SLOT && slot != TRACER_SLOT) return ItemStack.EMPTY;
+	public Iterator<StorageView<ItemVariant>> iterator() {
+		return new StorageViewArrayIterator<>(this.views);
+	}
 
-		boolean ammoSlot = slot == AMMO_SLOT;
-		ItemStack currentStack = ammoSlot ? this.be.getMainAmmoStack() : this.be.getTracerStack();
-		if (currentStack.isEmpty()) return ItemStack.EMPTY;
+	@Override protected ContainerSnapshot createSnapshot() { return new ContainerSnapshot(this); }
+	@Override protected void readSnapshot(ContainerSnapshot snapshot) { snapshot.apply(this); }
 
-		int maxRemove = Math.min(currentStack.getCount(), amount);
-		if (maxRemove < 1) return ItemStack.EMPTY;
-		ItemStack ret = currentStack.copy();
-		ret.setCount(maxRemove);
-		if (!simulate) {
-			currentStack.shrink(maxRemove);
-			if (currentStack.isEmpty()) this.be.setItem(slot, ItemStack.EMPTY);
-			this.be.setChanged();
+	@Override
+	protected void onFinalCommit() {
+		this.be.notifyUpdate();
+	}
+
+	public static class ContainerSnapshot {
+		private final ItemStack ammo;
+		private final ItemStack tracers;
+
+		public ContainerSnapshot(AutocannonAmmoContainerInterface inventory) {
+			this.ammo = inventory.be.getMainAmmoStack().copy();
+			this.tracers = inventory.be.getTracerStack().copy();
 		}
-		return ret;
-	}
 
-	@Override
-	public int getSlotLimit(int slot) {
-		if (slot != AMMO_SLOT && slot != TRACER_SLOT) return 0;
-		return slot == AMMO_SLOT ? this.be.getMainAmmoCapacity() : this.be.getTracerAmmoCapacity();
+		public void apply(AutocannonAmmoContainerInterface inventory) {
+			inventory.be.setMainAmmoDirect(this.ammo);
+			inventory.be.setTracersDirect(this.tracers);
+		}
 	}
-
-	@Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return this.be.getAmmoType().isValidMunition(stack); }
 
 }

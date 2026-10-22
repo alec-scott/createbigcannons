@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -507,16 +509,16 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		tag.putFloat("ProjectileMass", this.getProjectileMass());
 		tag.putBoolean("InGround", this.isInGround());
 		if (this.inGroundPos != null)
-			tag.put("InGroundPos", this.newDoubleList(this.inGroundPos.x, this.inGroundPos.y, this.inGroundPos.z));
+			CBCValueIO.put(tag, "InGroundPos", this.newDoubleList(this.inGroundPos.x, this.inGroundPos.y, this.inGroundPos.z));
         if (this.impactPos != null)
-            tag.put("ImpactPos", NbtUtils.writeBlockPos(this.impactPos));
+            tag.store("ImpactPos", BlockPos.CODEC, this.impactPos);
 		tag.putFloat("Damage", this.damage);
 		if (this.nextVelocity != null)
-			tag.put("NextMotion", this.newDoubleList(this.nextVelocity.x, this.nextVelocity.y, this.nextVelocity.z));
+			CBCValueIO.put(tag, "NextMotion", this.newDoubleList(this.nextVelocity.x, this.nextVelocity.y, this.nextVelocity.z));
         Vec3 orientation = this.getOrientation();
 		if (orientation != null)
-            tag.put("Orientation", this.newDoubleList(orientation.x, orientation.y, orientation.z));
-		tag.put("LastPenetration", NbtUtils.writeBlockState(this.lastPenetratedBlock));
+            CBCValueIO.put(tag, "Orientation", this.newDoubleList(orientation.x, orientation.y, orientation.z));
+		CBCValueIO.put(tag, "LastPenetration", NbtUtils.writeBlockState(this.lastPenetratedBlock));
 		tag.putInt("InGroundTime", this.inGroundTime);
 		if (this.removeNextTick)
 			tag.putBoolean("RemoveNextTick", true);
@@ -528,32 +530,32 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		this.setProjectileMass(tag.getFloatOr("ProjectileMass", 0f));
 		this.setInGround(tag.getBooleanOr("InGround", false));
 		this.damage = tag.getFloatOr("Damage", 0f);
-		ListTag motionTag = tag.getList("Motion", Tag.TAG_DOUBLE);
+		ListTag motionTag = CBCValueIO.getList(tag, "Motion");
 		this.setDeltaMovement(motionTag.getDouble(0), motionTag.getDouble(1), motionTag.getDouble(2));
-		if (tag.contains("NextMotion", Tag.TAG_LIST)) {
-			ListTag nextMotion = tag.getList("NextMotion", Tag.TAG_DOUBLE);
+		if (CBCValueIO.contains(tag, "NextMotion")) {
+			ListTag nextMotion = CBCValueIO.getList(tag, "NextMotion");
 			this.nextVelocity = nextMotion.size() == 3 ? new Vec3(nextMotion.getDouble(0), nextMotion.getDouble(1), nextMotion.getDouble(2)) : null;
 		} else {
 			this.nextVelocity = null;
 		}
-		if (tag.contains("Orientation", Tag.TAG_LIST)) {
-			ListTag orientationTag = tag.getList("Orientation", Tag.TAG_DOUBLE);
+		if (CBCValueIO.contains(tag, "Orientation")) {
+			ListTag orientationTag = CBCValueIO.getList(tag, "Orientation");
 			this.setOrientation(orientationTag.size() == 3 ? new Vec3(orientationTag.getDouble(0), orientationTag.getDouble(1), orientationTag.getDouble(2)) : this.getDeltaMovement());
 		} else {
 			this.setOrientation(this.getDeltaMovement());
 		}
-		if (tag.contains("InGroundPos", Tag.TAG_LIST)) {
-			ListTag posTag = tag.getList("InGroundPos", Tag.TAG_DOUBLE);
+		if (CBCValueIO.contains(tag, "InGroundPos")) {
+			ListTag posTag = CBCValueIO.getList(tag, "InGroundPos");
 			this.inGroundPos = posTag.size() == 3 ? new Vec3(posTag.getDouble(0), posTag.getDouble(1), posTag.getDouble(2)) : null;
 		} else {
 			this.inGroundPos = null;
 		}
-        this.impactPos = NbtUtils.readBlockPos(tag, "ImpactPos").orElse(null);
-		this.lastPenetratedBlock = tag.contains("LastPenetration", Tag.TAG_COMPOUND)
-			? NbtUtils.readBlockState(this.level().holderLookup(CBCRegistryUtils.getBlockRegistryKey()), tag.getCompound("LastPenetration"))
+        this.impactPos = tag.read("ImpactPos", BlockPos.CODEC).orElse(null);
+		this.lastPenetratedBlock = CBCValueIO.contains(tag, "LastPenetration")
+			? NbtUtils.readBlockState(this.level().holderLookup(CBCRegistryUtils.getBlockRegistryKey()), CBCValueIO.getCompound(tag, "LastPenetration"))
 			: Blocks.AIR.defaultBlockState();
 		this.inGroundTime = tag.getIntOr("InGroundTime", 0);
-		this.removeNextTick = tag.contains("RemoveNextTick");
+		this.removeNextTick = CBCValueIO.contains(tag, "RemoveNextTick");
 	}
 
 	public void baseWriteSpawnData(RegistryFriendlyByteBuf buf) {

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -162,7 +164,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 	@Override
 	public InteractionResult onWandUsed(UseOnContext context) {
 		if (!this.getLevel().isClientSide()) this.tryFinishHeating();
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	private boolean matchingRecipeCache(BlockRecipe recipe) {
@@ -372,7 +374,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 			entryTag.putString("Block", CBCRegistryUtils.getBlockLocation(e.getValue()).toString());
 			layerTag.add(entryTag);
 		}
-		tag.put("Layers", layerTag);
+		CBCValueIO.put(tag, "Layers", layerTag);
 		CompoundTag layerConnectionTag = new CompoundTag();
 		for (Direction dir : Iterate.directions) {
 			if (!this.layersConnectedTowards.containsKey(dir)) continue;
@@ -383,7 +385,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 					.map(StringTag::valueOf)
 					.collect(Collectors.toCollection(ListTag::new)));
 		}
-		tag.put("LayerConnections", layerConnectionTag);
+		CBCValueIO.put(tag, "LayerConnections", layerConnectionTag);
 		if (this.currentFacing != null) {
 			tag.putString("Facing", this.currentFacing.getSerializedName());
 		}
@@ -393,10 +395,10 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
     @Override
 	protected void read(ValueInput tag, boolean clientPacket) {
 		super.read(tag, clientPacket);
-		boolean justBored = tag.contains("JustBored");
+		boolean justBored = CBCValueIO.contains(tag, "JustBored");
 
 		this.layersConnectedTowards.clear();
-		CompoundTag layerConnectionTag = tag.getCompound("LayerConnections");
+		CompoundTag layerConnectionTag = CBCValueIO.getCompound(tag, "LayerConnections");
 		Registry<CannonCastShape> cannonCastShapeRegistry = CBCRegistries.cannonCastShapes();
 		for (Direction dir : Iterate.directions) {
 			if (!layerConnectionTag.contains(dir.getSerializedName())) continue;
@@ -412,16 +414,16 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 			return;
 		}
 
-		this.baseMaterial = tag.contains("Material") ? BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("Material", ""))) : null;
+		this.baseMaterial = CBCValueIO.contains(tag, "Material") ? BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("Material", ""))) : null;
 		if (this.baseMaterial == null) this.baseMaterial = CBCBigCannonMaterials.STEEL;
 		this.layeredBlocks.clear();
-		ListTag layers = tag.getList("Layers", Tag.TAG_COMPOUND);
+		ListTag layers = CBCValueIO.getList(tag, "Layers");
 		for (int i = 0; i < layers.size(); ++i) {
 			CompoundTag entry = layers.getCompound(i);
 			this.layeredBlocks.put(cannonCastShapeRegistry.get(CBCUtils.location(entry.getString("Shape"))),
 				CBCRegistryUtils.getBlock(CBCUtils.location(entry.getString("Block"))));
 		}
-		this.currentFacing = tag.contains("Facing") ? Direction.byName(tag.getStringOr("Facing", "")) : null;
+		this.currentFacing = CBCValueIO.contains(tag, "Facing") ? Direction.byName(tag.getStringOr("Facing", "")) : null;
 		this.completionProgress = tag.getIntOr("Progress", 0);
 	}
 

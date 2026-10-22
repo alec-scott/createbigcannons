@@ -102,7 +102,7 @@ public class IncompleteScrewBreechBlock extends SolidBigCannonBlock<IncompleteBi
 				}
 			});
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

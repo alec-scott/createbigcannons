@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -68,9 +70,9 @@ public class BigCannonBehavior extends CannonBehavior {
 			StructureBlockInfo blockInfo = this.containedBlockInfo.get();
 			if (!blockInfo.state().isAir()) {
 				nbt.putLong("Pos", blockInfo.pos().asLong());
-				nbt.put("State", NbtUtils.writeBlockState(blockInfo.state()));
+				CBCValueIO.put(nbt, "State", NbtUtils.writeBlockState(blockInfo.state()));
 				if (blockInfo.nbt() != null) {
-					nbt.put("Data", blockInfo.nbt());
+					CBCValueIO.put(nbt, "Data", blockInfo.nbt());
 				}
 			}
 		}
@@ -85,8 +87,8 @@ public class BigCannonBehavior extends CannonBehavior {
 	public void read(ValueInput nbt, boolean clientPacket) {
 		super.read(nbt, clientPacket);
 		BlockPos pos = BlockPos.of(nbt.getLongOr("Pos", 0L));
-		BlockState state = NbtUtils.readBlockState(this.blockEntity.blockHolderGetter(), nbt.getCompound("State"));
-		CompoundTag tag = nbt.contains("Data") ? nbt.getCompound("Data") : null;
+		BlockState state = NbtUtils.readBlockState(this.blockEntity.blockHolderGetter(), CBCValueIO.getCompound(nbt, "State"));
+		CompoundTag tag = CBCValueIO.contains(nbt, "Data") ? CBCValueIO.getCompound(nbt, "Data") : null;
 		this.containedBlockInfo = Optional.of(new StructureBlockInfo(pos, state, tag));
 	}
 

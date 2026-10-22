@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 
@@ -32,7 +34,7 @@ public class FuzedBlockEntityRenderer extends SafeBlockEntityRenderer<FuzedBlock
             SuperByteBuffer fuzeRender = CachedBuffers.partialFacing(CBCBlockPartials.FUZE, blockEntity.getBlockState(), facing);
 			fuzeRender
                 .light(packedLight)
-                .renderInto(posestack, buffers.getBuffer(RenderType.cutout()));
+                .renderInto(posestack, buffers.getBuffer(RenderTypes.cutout()));
 		}
 	}
 

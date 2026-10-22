@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -46,7 +45,7 @@ public class AutocannonAmmoContainerItem extends BlockItem implements MenuProvid
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		if (player.mayBuild()) {
 			ItemStack stack = player.getItemInHand(hand);
 			if (player instanceof ServerPlayer splayer) {
@@ -60,7 +59,7 @@ public class AutocannonAmmoContainerItem extends BlockItem implements MenuProvid
                     ItemStack.STREAM_CODEC.encode(buf, new ItemStack(this));
 				});
 			}
-			return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		return super.use(level, player, hand);
 	}

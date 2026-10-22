@@ -34,6 +34,9 @@ sourceSets {
             exclude 'rbasamoyai/createbigcannons/compat/copycats/**'
             exclude 'rbasamoyai/createbigcannons/compat/framedblocks/**'
             exclude 'rbasamoyai/createbigcannons/compat/curios/**'
+            // JEI compat is built on Create's JEI helpers, which Create Fly organises differently; ported later.
+            exclude 'rbasamoyai/createbigcannons/compat/jei/**'
+            exclude 'rbasamoyai/createbigcannons/compat/common_jei/**'
         }
     }
 }

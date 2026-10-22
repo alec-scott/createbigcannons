@@ -1059,7 +1059,6 @@ public class CBCBlocks {
 
 	public static final BlockEntry<TrafficConeBlock> TRAFFIC_CONE = REGISTRATE
 		.block("traffic_cone", TrafficConeBlock::new)
-		.addLayer(() -> RenderType::solid)
 		.properties(p -> p.mapColor(MapColor.COLOR_ORANGE))
 		.properties(p -> p.instabreak())
 		.properties(p -> p.sound(SoundType.WOOD))
@@ -1303,7 +1302,7 @@ public class CBCBlocks {
 	}
 
 	private static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> shell(MapColor color) {
-		return b -> b.addLayer(() -> RenderType::solid)
+		return b -> b
 			.properties(p -> p.mapColor(color))
 			.properties(p -> p.strength(2.0f, 3.0f))
 			.properties(p -> p.sound(SoundType.STONE));
