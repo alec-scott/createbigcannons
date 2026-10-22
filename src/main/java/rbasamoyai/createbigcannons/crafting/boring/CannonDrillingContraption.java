@@ -17,7 +17,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -34,7 +34,7 @@ public class CannonDrillingContraption extends PoleContraption {
 		super(orientation, retract);
 	}
 
-	private static final DirectionProperty FACING = BlockStateProperties.FACING;
+	private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
 	@Override
 	protected boolean collectExtensions(Level level, BlockPos pos, Direction direction) throws AssemblyException {
@@ -67,7 +67,7 @@ public class CannonDrillingContraption extends PoleContraption {
 		if (extensionsInFront == 0) {
 			poles.add(new StructureBlockInfo(pos, CBCBlocks.CANNON_DRILL_BIT.getDefaultState().setValue(FACING, direction), null));
 		} else {
-			poles.add(new StructureBlockInfo(pos, AllBlocks.PISTON_EXTENSION_POLE.getDefaultState().setValue(FACING, direction), null));
+			poles.add(new StructureBlockInfo(pos, AllBlocks.PISTON_EXTENSION_POLE.defaultBlockState().setValue(FACING, direction), null));
 		}
 
 		BlockPos end = pos;
@@ -128,7 +128,7 @@ public class CannonDrillingContraption extends PoleContraption {
 		if (pos.equals(levelPos)) {
 			if (!(blockEntity instanceof AbstractCannonDrillBlockEntity) || blockEntity.isRemoved())
 				return true;
-			if (!AllBlocks.PISTON_EXTENSION_POLE.has(state)) {
+			if (!state.is(AllBlocks.PISTON_EXTENSION_POLE)) {
 				level.setBlock(levelPos, drillState.setValue(CannonDrillBlock.STATE, MechanicalPistonBlock.PistonState.RETRACTED), 3 | 16);
 			}
 			return true;

@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -43,16 +47,16 @@ public class FluidBlobBurst extends CBCProjectileBurst {
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putByte("Size", this.getBlobSize());
 		tag.put("Fluid", this.getFluidStack().writeTag(new CompoundTag(), this.level().registryAccess()));
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		this.setBlobSize(tag.getByte("Size"));
+		this.setBlobSize(tag.getByteOr("Size", (byte) 0));
 		this.setFluidStack(EndFluidStack.readTag(tag.getCompound("Fluid"), this.level().registryAccess()));
 	}
 

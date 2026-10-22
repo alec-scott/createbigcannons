@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -41,15 +45,15 @@ public class SmokeEmitterEntity extends Entity {
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag tag) {
+	protected void addAdditionalSaveData(ValueOutput tag) {
 		tag.putInt("Duration", this.duration);
 		tag.putInt("Age", this.age);
 		tag.put("Size", this.newDoubleList(this.getSizeX(), this.getSizeY(), this.getSizeZ()));
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag tag) {
-		this.duration = tag.getInt("Duration");
+	protected void readAdditionalSaveData(ValueInput tag) {
+		this.duration = tag.getIntOr("Duration", 0);
 		ListTag sizeDims = tag.getList("Size", Tag.TAG_DOUBLE);
 		this.setSizeX((float) sizeDims.getDouble(0));
 		this.setSizeY((float) sizeDims.getDouble(1));
@@ -160,8 +164,8 @@ public class SmokeEmitterEntity extends Entity {
 			}
 			if (this.level() instanceof ServerLevel slevel && !this.isRemoved()) {
 				if (this.canChunkLoad()) {
-                    ChunkPos cpos = new ChunkPos(CBCCompatTransformers.transformBlockPos(slevel, this.blockPosition()));
-					RitchiesProjectileLib.queueForceLoad(slevel, cpos.x, cpos.z);
+                    ChunkPos cpos = ChunkPos.containing(CBCCompatTransformers.transformBlockPos(slevel, this.blockPosition()));
+					RitchiesProjectileLib.queueForceLoad(slevel, cpos.x(), cpos.z());
 				}
 			}
 		}

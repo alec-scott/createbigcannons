@@ -19,7 +19,7 @@ public class CopycatBlockArmorProperties extends AbstractMimickingBlockArmorProp
 
 	@Override
 	protected boolean isEmptyState(Level level, BlockState copiedState, BlockState state, BlockPos pos) {
-		return super.isEmptyState(level, copiedState, state, pos) || AllBlocks.COPYCAT_BASE.has(copiedState);
+		return super.isEmptyState(level, copiedState, state, pos) || copiedState.is(AllBlocks.COPYCAT_BASE);
 	}
 
 }

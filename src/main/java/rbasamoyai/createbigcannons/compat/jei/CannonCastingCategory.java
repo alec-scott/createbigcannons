@@ -85,7 +85,7 @@ public class CannonCastingCategory extends CBCBlockRecipeCategory<CannonCastingR
 
         FluidStack fluidStack = displayed.get();
 
-        if (fluidStack.getFluid().isSame(AllFluids.POTION.get())) {
+        if (fluidStack.getFluid().isSame(AllFluids.POTION)) {
             ArrayList<Component> potionTooltip = new ArrayList<>();
             PotionFluidHandler.addPotionTooltip(fluidStack, potionTooltip::add, 1);
             // append after item name

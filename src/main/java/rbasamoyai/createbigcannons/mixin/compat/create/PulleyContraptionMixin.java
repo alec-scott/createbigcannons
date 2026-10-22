@@ -60,7 +60,7 @@ public abstract class PulleyContraptionMixin extends TranslatingContraption impl
 	@Override
 	public boolean createbigcannons$blockBreaksDisassembly(Level level, BlockPos pos, BlockState newState) {
 		BlockPos pos1 = this.anchor.above(((PulleyContraption) (Object) this).getInitialOffset() + 1);
-		if (pos.equals(pos1) && AllBlocks.ROPE_PULLEY.has(level.getBlockState(pos1)))
+		if (pos.equals(pos1) && level.getBlockState(pos1).is(AllBlocks.ROPE_PULLEY))
 			return false;
 		return HasFragileContraption.defaultBlockBreaksAssembly(level, pos, newState, this);
 	}

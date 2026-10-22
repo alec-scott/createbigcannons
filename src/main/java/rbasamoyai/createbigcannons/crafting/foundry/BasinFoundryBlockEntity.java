@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.foundry;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,17 +37,17 @@ public class BasinFoundryBlockEntity extends BasinOperatingBlockEntity {
 	}
 
 	@Override
-    protected void write(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-		super.write(compound, registries, clientPacket);
+    protected void write(ValueOutput compound, boolean clientPacket) {
+		super.write(compound, clientPacket);
 		compound.putInt("MeltingTime", this.meltingTime);
 		compound.putBoolean("Running", this.running);
 	}
 
 	@Override
-	protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-		super.read(compound, registries, clientPacket);
-		this.meltingTime = compound.getInt("MeltingTime");
-		this.running = compound.getBoolean("Running");
+	protected void read(ValueInput compound, boolean clientPacket) {
+		super.read(compound, clientPacket);
+		this.meltingTime = compound.getIntOr("MeltingTime", 0);
+		this.running = compound.getBooleanOr("Running", false);
 	}
 
 	@Override
@@ -90,12 +94,12 @@ public class BasinFoundryBlockEntity extends BasinOperatingBlockEntity {
 
 	private void renderParticles() {
 		// Code sheepishly stolen from MechanicalMixerTileEntity#spillParticle with modifications
-		float angle = this.getLevel().random.nextFloat() * 360.0f;
+		float angle = this.getLevel().getRandom().nextFloat() * 360.0f;
 		Vec3 offset = new Vec3(0, 0, 0.25f);
 		offset = VecHelper.rotate(offset, angle, Axis.Y);
 		Vec3 target = VecHelper.rotate(offset, -25, Axis.Y).add(0, .5f, 0);
 		Vec3 center = offset.add(Vec3.atBottomCenterOf(this.worldPosition));
-		target = VecHelper.offsetRandomly(target.subtract(offset), this.getLevel().random, 1 / 128f);
+		target = VecHelper.offsetRandomly(target.subtract(offset), this.getLevel().getRandom(), 1 / 128f);
 		this.getLevel().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.LAVA.defaultBlockState()), center.x, center.y + 0.3, center.z, target.x, target.y, target.z);
 	}
 

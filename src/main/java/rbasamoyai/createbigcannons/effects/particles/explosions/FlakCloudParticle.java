@@ -23,8 +23,8 @@ public class FlakCloudParticle extends NoRenderParticle {
 		super(level, x, y, z, dx, dy, dz);
 		if (CBCConfigs.client().showExtraFlakTrails.get()) {
 			int count = switch (CBCClientCommon.getParticleStatus()) {
-				case ALL -> 12 + level.random.nextInt(5);
-				case DECREASED -> 4 + level.random.nextInt(3);
+				case ALL -> 12 + level.getRandom().nextInt(5);
+				case DECREASED -> 4 + level.getRandom().nextInt(3);
 				case MINIMAL -> 0;
 			};
 			for (int i = 0; i < count; ++i) {

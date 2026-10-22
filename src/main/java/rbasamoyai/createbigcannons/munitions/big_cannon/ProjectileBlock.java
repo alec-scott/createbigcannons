@@ -192,7 +192,7 @@ public abstract class ProjectileBlock<ENTITY extends AbstractBigCannonProjectile
 		AbstractBigCannonProjectile projectile = this.spawnFromExplosion(level, pos, state, explosion);
 		projectile.setPos(entityPos);
 		// Taken from PrimedTnt#<init>
-		double d = level.random.nextDouble() * (float) (Math.PI * 2);
+		double d = level.getRandom().nextDouble() * (float) (Math.PI * 2);
 		projectile.setDeltaMovement(-Math.sin(d) * 0.02, 0.2F, -Math.cos(d) * 0.02);
 		level.addFreshEntity(projectile);
 	}

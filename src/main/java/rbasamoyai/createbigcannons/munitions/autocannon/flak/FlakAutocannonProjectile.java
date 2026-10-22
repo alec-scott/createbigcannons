@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.flak;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
@@ -81,14 +85,14 @@ public class FlakAutocannonProjectile extends AbstractAutocannonProjectile {
 	public void setFuze(ItemStack fuze) { this.fuze = fuze; }
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		if (this.fuze != null)
             tag.put("Fuze", this.fuze.saveOptional(this.level().registryAccess()));
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
 		this.fuze = ItemStack.parseOptional(this.level().registryAccess(), tag.getCompound("Fuze"));
 	}

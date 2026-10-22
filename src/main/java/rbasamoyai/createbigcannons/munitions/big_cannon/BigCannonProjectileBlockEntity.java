@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 
 import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
@@ -34,19 +38,19 @@ public class BigCannonProjectileBlockEntity extends SyncedBlockEntity implements
 	}
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
         tag.put("Tracer", this.getTracer().saveOptional(registries));
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
         this.setTracer(ItemStack.parseOptional(registries, tag.getCompound("Tracer")));
     }
 
     @Override
-    public void writeSafe(CompoundTag tag, HolderLookup.Provider registries) {
+    public void writeSafe(ValueOutput tag) {
         tag.put("Tracer", this.getTracer().saveOptional(registries));
     }
 

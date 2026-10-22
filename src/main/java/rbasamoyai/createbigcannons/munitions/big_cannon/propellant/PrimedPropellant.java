@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -34,9 +38,9 @@ public class PrimedPropellant extends Entity {
 	public static PrimedPropellant create(Level level, double x, double y, double z, BlockState blockState) {
 		PrimedPropellant propellant = new PrimedPropellant(CBCEntityTypes.PRIMED_PROPELLANT.get(), level);
 		propellant.setPos(x, y, z);
-		double d = level.random.nextDouble() * (float) (Math.PI * 2);
+		double d = level.getRandom().nextDouble() * (float) (Math.PI * 2);
 		propellant.setDeltaMovement(-Math.sin(d) * 0.02, 0.2F, -Math.cos(d) * 0.02);
-		propellant.setFuse(level.random.nextInt(10) + 5);
+		propellant.setFuse(level.getRandom().nextInt(10) + 5);
 		propellant.setAppearance(blockState);
 		propellant.xo = x;
 		propellant.yo = y;
@@ -86,17 +90,17 @@ public class PrimedPropellant extends Entity {
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag tag) {
+	protected void addAdditionalSaveData(ValueOutput tag) {
 		tag.putShort("Fuse", (short) this.getFuse());
 		tag.put("Appearance", NbtUtils.writeBlockState(this.getAppearance()));
 		tag.putFloat("ExplosionPower", this.explosionPower);
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag tag) {
-		this.setFuse(tag.getShort("Fuse"));
+	protected void readAdditionalSaveData(ValueInput tag) {
+		this.setFuse(tag.getShortOr("Fuse", (short) 0));
 		this.setAppearance(NbtUtils.readBlockState(this.level().holderLookup(CBCRegistryUtils.getBlockRegistryKey()), tag.getCompound("Appearance")));
-		this.explosionPower = tag.getFloat("ExplosionPower");
+		this.explosionPower = tag.getFloatOr("ExplosionPower", 0f);
 	}
 
 	public void setFuse(int life) { this.entityData.set(DATA_FUSE_ID, life); }

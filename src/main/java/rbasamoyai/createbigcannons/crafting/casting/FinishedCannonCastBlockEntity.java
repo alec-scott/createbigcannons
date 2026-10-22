@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
@@ -87,8 +91,8 @@ public class FinishedCannonCastBlockEntity extends SmartBlockEntity {
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-		super.write(tag, registries, clientPacket);
+	protected void write(ValueOutput tag, boolean clientPacket) {
+		super.write(tag, clientPacket);
 		if (this.isCentralBlock()) {
 			tag.put("RootBlock", NbtUtils.writeBlockPos(this.getRootBlock()));
 			tag.putInt("Height", this.height);
@@ -99,13 +103,13 @@ public class FinishedCannonCastBlockEntity extends SmartBlockEntity {
 	}
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-		super.read(tag, registries, clientPacket);
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
 		this.centralBlock = tag.contains("CentralBlock") ? NbtUtils.readBlockPos(tag, "CentralBlock").get() : null;
 		this.rootBlock = tag.contains("RootBlock") ? NbtUtils.readBlockPos(tag, "RootBlock").get() : this.worldPosition;
-		this.height = tag.getInt("Height");
+		this.height = tag.getIntOr("Height", 0);
 		this.renderedShape = tag.contains("RenderedShape")
-			? CBCRegistries.cannonCastShapes().get(CBCUtils.location(tag.getString("RenderedShape")))
+			? CBCRegistries.cannonCastShapes().get(CBCUtils.location(tag.getStringOr("RenderedShape", "")))
 			: CannonCastShape.VERY_SMALL;
 	}
 

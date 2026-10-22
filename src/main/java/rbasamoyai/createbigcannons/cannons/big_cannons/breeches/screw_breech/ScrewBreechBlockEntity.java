@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.screw_breech;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
@@ -101,15 +105,15 @@ public class ScrewBreechBlockEntity extends KineticBlockEntity implements IBigCa
     }
 
 	@Override
-	protected void write(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-		super.write(compound, registries, clientPacket);
+	protected void write(ValueOutput compound, boolean clientPacket) {
+		super.write(compound, clientPacket);
 		compound.putFloat("Progress", this.openProgress);
 	}
 
 	@Override
-	protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-		super.read(compound, registries, clientPacket);
-		this.openProgress = compound.getFloat("Progress");
+	protected void read(ValueInput compound, boolean clientPacket) {
+		super.read(compound, clientPacket);
+		this.openProgress = compound.getFloatOr("Progress", 0f);
 	}
 
 }

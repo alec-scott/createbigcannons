@@ -295,7 +295,7 @@ public class CBCClientCommon {
 	public static void playCustomSound(BlockHitEffect.HitSound sound, Level level, double x, double y, double z, double dx,
 									   double dy, double dz, ProjectileHitEffect projectileEffect) {
 		float basePitch = Mth.clamp(projectileEffect.getPitch(sound.basePitch()), 0, 2);
-		float pitch = Mth.clamp(basePitch + level.random.nextFloat() * sound.pitchVariation(), 0, 2);
+		float pitch = Mth.clamp(basePitch + level.getRandom().nextFloat() * sound.pitchVariation(), 0, 2);
 		Minecraft minecraft = Minecraft.getInstance();
 		minecraft.getSoundManager().play(new SimpleSoundInstance(sound.location(), sound.source(), projectileEffect.volume(),
 			pitch, level.getRandom(), false, 0, SoundInstance.Attenuation.LINEAR, x, y, z, false));
@@ -311,7 +311,7 @@ public class CBCClientCommon {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.player == null || !playerTest.test(minecraft.player))
 			return;
-		minecraft.getSoundManager().play(new ShellFlyingSoundInstance(sound, minecraft.player.level().random, minecraft.player, projectile, radius));
+		minecraft.getSoundManager().play(new ShellFlyingSoundInstance(sound, minecraft.player.level().getRandom(), minecraft.player, projectile, radius));
 		projectile.setLocalSoundCooldown(-1);
 	}
 

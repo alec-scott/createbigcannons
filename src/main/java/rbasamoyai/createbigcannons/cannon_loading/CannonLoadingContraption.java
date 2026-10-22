@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -46,7 +46,7 @@ public class CannonLoadingContraption extends PoleContraption implements CanLoad
 
 	protected LoadingHead loadingHead = LoadingHead.NOTHING;
 
-	private static final DirectionProperty FACING = BlockStateProperties.FACING;
+	private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 	private static final BooleanProperty MOVING = CannonLoaderBlock.MOVING;
 
 	private boolean brokenDisassembly = false;
@@ -116,7 +116,7 @@ public class CannonLoadingContraption extends PoleContraption implements CanLoad
 			}
 		}
 
-		poles.add(new StructureBlockInfo(pos, AllBlocks.PISTON_EXTENSION_POLE.getDefaultState().setValue(FACING, direction), null));
+		poles.add(new StructureBlockInfo(pos, AllBlocks.PISTON_EXTENSION_POLE.defaultBlockState().setValue(FACING, direction), null));
 
 		BlockPos end = pos;
 		int extensionsInBack = 0;

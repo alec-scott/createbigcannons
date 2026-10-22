@@ -11,8 +11,8 @@ import rbasamoyai.createbigcannons.block_armor_properties.mimicking_blocks.Copyc
 public class DefaultCreateCompat {
 
 	public static void init() {
-		registerCopycatSerializer(AllBlocks.COPYCAT_PANEL.get());
-		registerCopycatSerializer(AllBlocks.COPYCAT_STEP.get());
+		registerCopycatSerializer(AllBlocks.COPYCAT_PANEL);
+		registerCopycatSerializer(AllBlocks.COPYCAT_STEP);
 	}
 
 	private static void registerCopycatSerializer(Block block) {

@@ -74,7 +74,7 @@ public class BlastWaveEffectParticle extends NoRenderParticle {
 			double volumeDist = this.volume * 16;
 			if (dist < volumeDist) {
 				SoundInstance sound = new SimpleSoundInstance(this.soundEvent, this.soundSource, this.volume, this.pitch,
-					RandomSource.create(this.level.random.nextLong()), this.x, this.y, this.z);
+					RandomSource.create(this.level.getRandom().nextLong()), this.x, this.y, this.z);
 				if (CBCConfigs.client().blastSoundAirAbsorption.get())
 					sound = new AirAbsorptionWrapper(sound, this.airAbsorption);
 				minecraft.getSoundManager().play(sound);

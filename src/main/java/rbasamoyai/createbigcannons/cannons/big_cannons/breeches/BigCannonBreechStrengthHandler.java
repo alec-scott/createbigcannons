@@ -59,7 +59,7 @@ public class BigCannonBreechStrengthHandler {
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundBigCannonBreechStrengthPacket pkt) {
 		buf.writeVarInt(pkt.strengths.size());
 		for (Map.Entry<Block, Integer> entry : pkt.strengths.entrySet()) {
-			buf.writeResourceLocation(CBCRegistryUtils.getBlockLocation(entry.getKey()))
+			buf.writeIdentifier(CBCRegistryUtils.getBlockLocation(entry.getKey()))
 				.writeVarInt(entry.getValue());
 		}
 	}
@@ -68,7 +68,7 @@ public class BigCannonBreechStrengthHandler {
 		int sz = buf.readVarInt();
         Map<Block, Integer> strengths = new Reference2IntOpenHashMap<>();
 		for (int i = 0; i < sz; ++i)
-			strengths.put(CBCRegistryUtils.getBlock(buf.readResourceLocation()), buf.readVarInt());
+			strengths.put(CBCRegistryUtils.getBlock(buf.readIdentifier()), buf.readVarInt());
         return new ClientboundBigCannonBreechStrengthPacket(strengths);
 	}
 

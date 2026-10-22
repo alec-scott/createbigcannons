@@ -87,7 +87,7 @@ public class CBCCommonEvents {
 		}
 
 		state = ContraptionRemix.getInnerCannonState(level, state, pos, null);
-		if (AllBlocks.PISTON_EXTENSION_POLE.has(state)) {
+		if (state.is(AllBlocks.PISTON_EXTENSION_POLE)) {
 			BlockPos drillPos = destroyPoleContraption(CBCBlocks.CANNON_DRILL_BIT.get(), CBCBlocks.CANNON_DRILL.get(),
 				CannonDrillBlock.maxAllowedDrillLength(), state, level, pos, player);
 			if (drillPos != null) {
@@ -129,7 +129,7 @@ public class CBCCommonEvents {
 				BlockPos pos1 = pos.relative(positive, offs);
 				BlockState state1 = level.getBlockState(pos1);
 
-				if (AllBlocks.PISTON_EXTENSION_POLE.has(state1) && axis == state1.getValue(BlockStateProperties.FACING)
+				if (state1.is(AllBlocks.PISTON_EXTENSION_POLE) && axis == state1.getValue(BlockStateProperties.FACING)
 					.getAxis()) {
 					continue;
 				}
@@ -167,7 +167,7 @@ public class CBCCommonEvents {
 				BlockPos pos1 = pos.relative(positive, offs);
 				BlockState currentState = ContraptionRemix.getInnerCannonState(level, level.getBlockState(pos1), pos1, positive);
 
-				if (AllBlocks.PISTON_EXTENSION_POLE.has(currentState) && axis == currentState.getValue(BlockStateProperties.FACING).getAxis()) {
+				if (currentState.is(AllBlocks.PISTON_EXTENSION_POLE) && axis == currentState.getValue(BlockStateProperties.FACING).getAxis()) {
 					continue;
 				}
 				if (CannonLoaderBlock.isLoaderHead(currentState) && axis == currentState.getValue(BlockStateProperties.FACING).getAxis()) {

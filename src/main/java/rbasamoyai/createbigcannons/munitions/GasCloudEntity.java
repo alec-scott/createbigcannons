@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -141,7 +145,7 @@ public class GasCloudEntity extends SmokeEmitterEntity {
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag tag) {
+	protected void addAdditionalSaveData(ValueOutput tag) {
 		// Adapted from AreaEffectCloud
 		super.addAdditionalSaveData(tag);
 		tag.putInt("WaitTime", this.waitTime);
@@ -157,13 +161,13 @@ public class GasCloudEntity extends SmokeEmitterEntity {
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag tag) {
+	protected void readAdditionalSaveData(ValueInput tag) {
 		// Adapted from AreaEffectCloud
 		super.readAdditionalSaveData(tag);
-		this.waitTime = tag.getInt("WaitTime");
-		this.reapplicationDelay = tag.getInt("ReapplicationDelay");
+		this.waitTime = tag.getIntOr("WaitTime", 0);
+		this.reapplicationDelay = tag.getIntOr("ReapplicationDelay", 0);
 		if (tag.contains("Color", Tag.TAG_ANY_NUMERIC))
-			this.setFixedColor(tag.getInt("Color"));
+			this.setFixedColor(tag.getIntOr("Color", 0));
 
         RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
 		if (tag.contains("potion_contents", Tag.TAG_COMPOUND))

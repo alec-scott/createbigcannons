@@ -49,7 +49,7 @@ public class BlockRecipesManager {
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundBlockRecipesPacket pkt) {
 		buf.writeVarInt(pkt.blockRecipes.size());
 		for (Map.Entry<Identifier, BlockRecipe> entry : pkt.blockRecipes.entrySet()) {
-			buf.writeResourceLocation(entry.getKey());
+			buf.writeIdentifier(entry.getKey());
             BlockRecipe.STREAM_CODEC.encode(buf, entry.getValue()); // TODO c6 playtest
 		}
 	}
@@ -58,7 +58,7 @@ public class BlockRecipesManager {
 		int sz = buf.readVarInt();
         Map<Identifier, BlockRecipe> blockRecipes = new Object2ObjectOpenHashMap<>();
 		for (int i = 0; i < sz; ++i) {
-			Identifier id = buf.readResourceLocation();
+			Identifier id = buf.readIdentifier();
             BlockRecipe recipe = BlockRecipe.STREAM_CODEC.decode(buf);
 			blockRecipes.put(id, recipe);
 		}

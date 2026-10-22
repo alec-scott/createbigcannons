@@ -142,12 +142,12 @@ public class BlockArmorPropertiesHandler {
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundSyncBlockArmorPropertiesPacket packet) {
 		buf.writeVarInt(packet.tagProperties.size());
 		for (Map.Entry<Block, SimpleBlockArmorProperties> entry : packet.tagProperties.entrySet()) {
-			buf.writeResourceLocation(CBCRegistryUtils.getBlockLocation(entry.getKey()));
+			buf.writeIdentifier(CBCRegistryUtils.getBlockLocation(entry.getKey()));
 			entry.getValue().toNetwork(buf);
 		}
 		buf.writeVarInt(packet.blockProperties.size());
 		for (Map.Entry<Block, BlockArmorPropertiesProvider> entry : packet.blockProperties.entrySet()) {
-			buf.writeResourceLocation(CBCRegistryUtils.getBlockLocation(entry.getKey()));
+			buf.writeIdentifier(CBCRegistryUtils.getBlockLocation(entry.getKey()));
 			toNetworkCasted(entry.getKey(), entry.getValue(), buf);
 		}
 	}
@@ -169,14 +169,14 @@ public class BlockArmorPropertiesHandler {
 		Map<Block, SimpleBlockArmorProperties> tagMap = new Reference2ObjectOpenHashMap<>();
 		int tagSz = buf.readVarInt();
 		for (int i = 0; i < tagSz; ++i) {
-			Block block = CBCRegistryUtils.getBlock(buf.readResourceLocation());
+			Block block = CBCRegistryUtils.getBlock(buf.readIdentifier());
 			SimpleBlockArmorProperties properties = SimpleBlockArmorProperties.fromNetwork(buf);
 			tagMap.put(block, properties);
 		}
 		Map<Block, BlockArmorPropertiesProvider> blockMap = new Reference2ObjectOpenHashMap<>();
 		int blockSz = buf.readVarInt();
 		for (int i = 0; i < blockSz; ++i) {
-			Block block = CBCRegistryUtils.getBlock(buf.readResourceLocation());
+			Block block = CBCRegistryUtils.getBlock(buf.readIdentifier());
 			BlockArmorPropertiesSerializer<?> ser = CUSTOM_SERIALIZERS.get(block);
 			blockMap.put(block, ser == null ? VariantBlockArmorProperties.fromNetwork(buf) : ser.fromNetwork(buf));
 		}

@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
@@ -64,7 +68,7 @@ public abstract class FuzedBigCannonProjectile extends AbstractBigCannonProjecti
 	@NotNull protected abstract BigCannonFuzePropertiesComponent getFuzeProperties();
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		tag.put("Fuze", this.fuze.saveOptional(this.level().registryAccess()));
 		if (this.explosionCountdown >= 0)
@@ -72,10 +76,10 @@ public abstract class FuzedBigCannonProjectile extends AbstractBigCannonProjecti
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
 		this.fuze = ItemStack.parseOptional(this.level().registryAccess(), tag.getCompound("Fuze"));
-		this.explosionCountdown = tag.contains("ExplosionCountdown", Tag.TAG_INT) ? tag.getInt("ExplosionCountdown") : -1;
+		this.explosionCountdown = tag.contains("ExplosionCountdown", Tag.TAG_INT) ? tag.getIntOr("ExplosionCountdown", 0) : -1;
 	}
 
 	protected final boolean canDetonate(Predicate<FuzeItem> cons) {

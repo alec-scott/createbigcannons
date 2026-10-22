@@ -16,7 +16,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -152,7 +151,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof AbstractAutocannonBreechBlockEntity breech) {
             if (breech.getSeatColor() == null
                 && state.getValue(HANDLE)
@@ -164,7 +163,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
                     level.playSound(null, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                     if (!player.isCreative()) stack.shrink(1);
                 }
-                return ItemInteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.sidedSuccess(level.isClientSide());
             }
             ItemStack container = breech.getMagazine();
             boolean changed = false;
@@ -192,10 +191,10 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
             }
             if (changed) {
                 breech.notifyUpdate();
-                return ItemInteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.sidedSuccess(level.isClientSide());
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION; // todo: check behavior
+        return InteractionResult.TRY_WITH_EMPTY_HAND; // todo: check behavior
     }
 
     @Override

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import net.minecraft.core.Direction;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +23,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import rbasamoyai.createbigcannons.cannons.big_cannons.BigCannonBlock;
 import rbasamoyai.createbigcannons.cannons.big_cannons.IBigCannonBlockEntity;
 import rbasamoyai.createbigcannons.crafting.BlockRecipe;
@@ -63,7 +65,7 @@ public class BuiltUpHeatingRecipe implements BlockRecipe {
 		return false;
 	}
 
-	private static final DirectionProperty FACING = BlockStateProperties.FACING;
+	private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
 	@Override
 	public void assembleInWorld(Level level, BlockPos pos) {

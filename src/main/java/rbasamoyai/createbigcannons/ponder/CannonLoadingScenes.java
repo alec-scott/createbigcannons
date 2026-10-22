@@ -242,7 +242,7 @@ public class CannonLoadingScenes {
 		scene.overlay().showText(50)
 			.text("Unlike the Cannon Loader, other blocks can still be attached to the contraption.")
 			.attachKeyFrame();
-		scene.world().setBlock(util.grid().at(1, 2, 3), AllBlocks.MECHANICAL_PISTON_HEAD.getDefaultState()
+		scene.world().setBlock(util.grid().at(1, 2, 3), AllBlocks.MECHANICAL_PISTON_HEAD.defaultBlockState()
 			.setValue(BlockStateProperties.FACING, Direction.SOUTH).setValue(PistonHeadBlock.TYPE, PistonType.STICKY), false);
 		scene.effects().emitParticles(util.vector().blockSurface(util.grid().at(1, 1, 3), Direction.SOUTH), scene.effects().simpleParticleEmitter(ParticleTypes.ITEM_SLIME, Vec3.ZERO), 8, 1);
 		scene.world().setBlock(util.grid().at(1, 2, 4), Blocks.OAK_PLANKS.defaultBlockState(), false);

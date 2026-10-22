@@ -114,7 +114,7 @@ public class EntityGoggleOverlayRenderer {
 		RemovedGuiUtils.drawHoveringText(graphics, tooltip, posX, posY, graphics.guiWidth(), graphics.guiHeight(), -1, colorBackground.getRGB(),
 			colorBorderTop.getRGB(), colorBorderBot.getRGB(), mc.font);
 
-		ItemStack item = AllItems.GOGGLES.asStack();
+		ItemStack item = new ItemStack(AllItems.GOGGLES);
 		GuiGameElement.of(item)
 			.at(posX + 10, posY - 16, 450)
 			.render(graphics);

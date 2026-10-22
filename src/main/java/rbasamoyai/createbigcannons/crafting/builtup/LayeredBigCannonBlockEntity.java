@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -41,7 +45,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import rbasamoyai.createbigcannons.base.CBCRegistries;
 import rbasamoyai.createbigcannons.cannons.ICannonBlockEntity;
@@ -62,7 +66,7 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 
 public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBigCannonBlockEntity, WandActionable {
 
-	private static final DirectionProperty FACING = BlockStateProperties.FACING;
+	private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 	private static final Object BUILT_UP_HEATING_RECIPES_KEY = new Object();
 
 	private BigCannonBehavior cannonBehavior;
@@ -355,8 +359,8 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.write(tag, registry, clientPacket);
+	protected void write(ValueOutput tag, boolean clientPacket) {
+		super.write(tag, clientPacket);
 		if (this.baseMaterial != null) {
 			tag.putString("Material", this.baseMaterial.name().toString());
 		}
@@ -387,8 +391,8 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 	}
 
     @Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.read(tag, registry, clientPacket);
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
 		boolean justBored = tag.contains("JustBored");
 
 		this.layersConnectedTowards.clear();
@@ -408,7 +412,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 			return;
 		}
 
-		this.baseMaterial = tag.contains("Material") ? BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getString("Material"))) : null;
+		this.baseMaterial = tag.contains("Material") ? BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("Material", ""))) : null;
 		if (this.baseMaterial == null) this.baseMaterial = CBCBigCannonMaterials.STEEL;
 		this.layeredBlocks.clear();
 		ListTag layers = tag.getList("Layers", Tag.TAG_COMPOUND);
@@ -417,8 +421,8 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 			this.layeredBlocks.put(cannonCastShapeRegistry.get(CBCUtils.location(entry.getString("Shape"))),
 				CBCRegistryUtils.getBlock(CBCUtils.location(entry.getString("Block"))));
 		}
-		this.currentFacing = tag.contains("Facing") ? Direction.byName(tag.getString("Facing")) : null;
-		this.completionProgress = tag.getInt("Progress");
+		this.currentFacing = tag.contains("Facing") ? Direction.byName(tag.getStringOr("Facing", "")) : null;
+		this.completionProgress = tag.getIntOr("Progress", 0);
 	}
 
 	@Override

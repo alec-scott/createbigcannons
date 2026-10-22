@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.math.Constants;
@@ -60,23 +64,23 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 
 	@Override
 	public void tick() {
-		ChunkPos cpos = new ChunkPos(this.blockPosition());
-		if (this.level().isClientSide() || this.level().hasChunk(cpos.x, cpos.z)) {
+		ChunkPos cpos = ChunkPos.containing(this.blockPosition());
+		if (this.level().isClientSide() || this.level().hasChunk(cpos.x(), cpos.z())) {
 			Vec3 oldPos = this.position();
 			super.tick();
 			if (!this.isInGround()) {
 				TrailType trailType = CBCConfigs.server().munitions.bigCannonTrailType.get();
 				if (trailType != TrailType.NONE) {
-					int lifetime = trailType == TrailType.SHORT ? 100 : 280 + this.level().random.nextInt(50);
+					int lifetime = trailType == TrailType.SHORT ? 100 : 280 + this.level().getRandom().nextInt(50);
 					ParticleOptions options = new TrailSmokeParticleData(lifetime);
 					for (int i = 0; i < 10; ++i) {
 						double partial = i * 0.1f;
 						double dx = Mth.lerp(partial, this.xOld, this.getX());
 						double dy = Mth.lerp(partial, this.yOld, this.getY());
 						double dz = Mth.lerp(partial, this.zOld, this.getZ());
-						double sx = this.level().random.nextDouble() * 0.004d - 0.002d;
-						double sy = this.level().random.nextDouble() * 0.004d - 0.002d;
-						double sz = this.level().random.nextDouble() * 0.004d - 0.002d;
+						double sx = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
+						double sy = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
+						double sz = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
 						this.level().addAlwaysVisibleParticle(options, true, dx, dy, dz, sx, sy, sz);
 					}
 				}
@@ -112,13 +116,13 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 	public ItemStack getTracer() { return this.entityData.get(TRACER); }
 
 	@Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
         tag.put("Tracer", this.getTracer().saveOptional(this.level().registryAccess()));
 	}
 
 	@Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
 		this.setTracer(ItemStack.parseOptional(this.level().registryAccess(), tag.getCompound("Tracer")));
 	}

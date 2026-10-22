@@ -63,7 +63,7 @@ public class DimensionMunitionPropertiesHandler {
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundSyncDimensionMunitionPropertiesPacket pkt) {
 		buf.writeVarInt(pkt.dimensions.size());
 		for (Map.Entry<ResourceKey<Level>, DimensionMunitionProperties> entry : pkt.dimensions.entrySet()) {
-			buf.writeResourceLocation(entry.getKey().location());
+			buf.writeIdentifier(entry.getKey().location());
 			entry.getValue().toNetwork(buf);
 		}
 	}
@@ -72,7 +72,7 @@ public class DimensionMunitionPropertiesHandler {
 		int sz = buf.readVarInt();
         Map<ResourceKey<Level>, DimensionMunitionProperties> dimensions = new HashMap<>();
 		for (int i = 0; i < sz; ++i) {
-			Identifier loc = buf.readResourceLocation();
+			Identifier loc = buf.readIdentifier();
 			ResourceKey<Level> key = ResourceKey.create(CBCRegistryUtils.getDimensionRegistryKey(), loc);
 			DimensionMunitionProperties properties = DimensionMunitionProperties.fromNetwork(buf);
             dimensions.put(key, properties);

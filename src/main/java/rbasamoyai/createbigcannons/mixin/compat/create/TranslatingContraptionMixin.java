@@ -33,7 +33,7 @@ public abstract class TranslatingContraptionMixin extends Contraption {
 		if (!(CBCModifiedContraptionRegistry.canLoadBigCannon(this))) return false;
 		StructureBlockInfo offsetInfo = this.blocks.get(offsetPos);
 		Direction.Axis axis = movementDirection.getAxis();
-		if (info.state().getBlock() == AllBlocks.MECHANICAL_PISTON_HEAD.get()
+		if (info.state().getBlock() == AllBlocks.MECHANICAL_PISTON_HEAD
 			&& info.state().getValue(BlockStateProperties.FACING) != movementDirection) return false;
 		return !IBigCannonBlockEntity.isValidMunitionState(axis, info) && IBigCannonBlockEntity.isValidMunitionState(axis, offsetInfo);
 	}

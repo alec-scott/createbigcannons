@@ -28,7 +28,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -58,7 +58,7 @@ public class CannonBuildingContraption extends PoleContraption {
 		super(orientation, retract);
 	}
 
-	private static final DirectionProperty FACING = BlockStateProperties.FACING;
+	private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
 	@Override
 	protected boolean collectExtensions(Level level, BlockPos pos, Direction direction) throws AssemblyException {
@@ -94,7 +94,7 @@ public class CannonBuildingContraption extends PoleContraption {
 				.setValue(FACING, direction)
 				.setValue(CannonBuilderHeadBlock.ATTACHED, this.isActivated), null));
 		} else {
-			poles.add(new StructureBlockInfo(pos, AllBlocks.PISTON_EXTENSION_POLE.getDefaultState().setValue(FACING, direction), null));
+			poles.add(new StructureBlockInfo(pos, AllBlocks.PISTON_EXTENSION_POLE.defaultBlockState().setValue(FACING, direction), null));
 		}
 
 		BlockPos end = pos;
@@ -398,7 +398,7 @@ public class CannonBuildingContraption extends PoleContraption {
 				if (this.getBlocks().containsKey(offsetPos)) {
 					StructureBlockInfo offsetInfo = this.getBlocks().get(offsetPos);
 					if (!offsetInfo.state().getCollisionShape(level, offsetPos).isEmpty()
-						&& (AllBlocks.PISTON_EXTENSION_POLE.has(blockInfo.state()) || CBCBlocks.CANNON_BUILDER_HEAD.has(offsetInfo.state())))
+						&& (blockInfo.state().is(AllBlocks.PISTON_EXTENSION_POLE) || CBCBlocks.CANNON_BUILDER_HEAD.has(offsetInfo.state())))
 						continue;
 				}
 

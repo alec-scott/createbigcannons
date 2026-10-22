@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.world.InteractionResult;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.zurrtum.create.AllShapes;
@@ -15,7 +17,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -232,7 +233,7 @@ public class PowderChargeBlock extends RotatedPillarBlock implements IWrenchable
 
 	// Adapted from TntBlock#use
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		ItemStack itemStack = player.getItemInHand(hand);
 		if (!isPropellantIgniter(itemStack, player) || BigCannonMunitionBlock.doesntIgnite(state))
 			return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
@@ -248,7 +249,7 @@ public class PowderChargeBlock extends RotatedPillarBlock implements IWrenchable
 			}
 		}
 		player.awardStat(Stats.ITEM_USED.get(item));
-		return ItemInteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.sidedSuccess(level.isClientSide());
 	}
 
 	// Adapted from TntBlock#onProjectileHit

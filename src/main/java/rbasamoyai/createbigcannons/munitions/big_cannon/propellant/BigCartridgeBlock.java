@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.world.InteractionResult;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
@@ -17,7 +19,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -299,7 +300,7 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 
 	// Adapted from TntBlock#use
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if (!PowderChargeBlock.isPropellantIgniter(stack, player) || BigCannonMunitionBlock.doesntIgnite(state))
 			return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
 		if (!(level.getBlockEntity(pos) instanceof BigCartridgeBlockEntity cartridge) || cartridge.getPower() < 1)
@@ -316,7 +317,7 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 			}
 		}
 		player.awardStat(Stats.ITEM_USED.get(item));
-		return ItemInteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.sidedSuccess(level.isClientSide());
 	}
 
 	// Adapted from TntBlock#onProjectileHit

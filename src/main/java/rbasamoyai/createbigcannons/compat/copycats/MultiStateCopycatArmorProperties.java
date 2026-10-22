@@ -44,7 +44,7 @@ public abstract class MultiStateCopycatArmorProperties implements BlockArmorProp
         for (BlockState ccstate : materials.values()) {
             if (ccstate.getDestroySpeed(level, pos) == -1)
                 return 1;
-            if (ccstate.isAir() || AllBlocks.COPYCAT_BASE.has(ccstate))
+            if (ccstate.isAir() || ccstate.is(AllBlocks.COPYCAT_BASE))
                 continue;
             sumHardness += (float) BlockArmorPropertiesHandler.getProperties(ccstate).hardness(level, ccstate, pos, false);
             if (--unfilled <= 0)
@@ -66,7 +66,7 @@ public abstract class MultiStateCopycatArmorProperties implements BlockArmorProp
         for (BlockState ccstate : materials.values()) {
             if (ccstate.getDestroySpeed(level, pos) == -1)
                 unbreakableToughness = Math.max(unbreakableToughness, ccstate.getBlock().getExplosionResistance());
-            if (ccstate.isAir() || AllBlocks.COPYCAT_BASE.has(ccstate))
+            if (ccstate.isAir() || ccstate.is(AllBlocks.COPYCAT_BASE))
                 continue;
             sumToughness += (float) BlockArmorPropertiesHandler.getProperties(ccstate).toughness(level, ccstate, pos, false);
             if (--unfilled <= 0)

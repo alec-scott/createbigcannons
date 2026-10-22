@@ -19,7 +19,7 @@ public class ShellExplosionSmokeParticle extends BaseAshSmokeParticle {
 		this.gravity = 0.05f;
 		this.friction = 0.8f;
 		this.xd = dx;
-		this.yd = dy + level.random.nextFloat() / 500f;
+		this.yd = dy + level.getRandom().nextFloat() / 500f;
 		this.zd = dz;
 		this.rCol = 1;
 		this.gCol = 1;

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.incomplete;
 
+import net.minecraft.world.InteractionResult;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -72,10 +73,10 @@ public class IncompleteSlidingBreechBlock extends SolidBigCannonBlock<Incomplete
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
 		int stage = state.getValue(STAGE_2);
-		if (stage == 0 && !AllBlocks.SHAFT.is(stack.getItem())) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-		if (stage == 1 && !stack.is(this.resolveSecondItem())) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		if (stage == 0 && !AllBlocks.SHAFT.is(stack.getItem())) return InteractionResult.TRY_WITH_EMPTY_HAND;
+		if (stage == 1 && !stack.is(this.resolveSecondItem())) return InteractionResult.TRY_WITH_EMPTY_HAND;
 		level.playSound(player, pos, SoundEvents.NETHERITE_BLOCK_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
 		if (!level.isClientSide()) {
 			if (!player.isCreative()) stack.shrink(1);
@@ -101,7 +102,7 @@ public class IncompleteSlidingBreechBlock extends SolidBigCannonBlock<Incomplete
 				}
 			});
 		}
-		return ItemInteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.sidedSuccess(level.isClientSide());
 	}
 
 	@Override
@@ -132,7 +133,7 @@ public class IncompleteSlidingBreechBlock extends SolidBigCannonBlock<Incomplete
 	public List<ItemLike> requiredItems() {
 		if (this.resolvedRequiredItems == null) {
 			this.resolvedRequiredItems = new ArrayList<>(2);
-			this.resolvedRequiredItems.add(AllBlocks.SHAFT.get());
+			this.resolvedRequiredItems.add(AllBlocks.SHAFT);
 			this.resolvedRequiredItems.add(this.resolveSecondItem());
 		}
 		return this.resolvedRequiredItems;

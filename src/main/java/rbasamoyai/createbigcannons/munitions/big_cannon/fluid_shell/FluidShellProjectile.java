@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Direction;
@@ -31,13 +35,13 @@ public class FluidShellProjectile extends FuzedBigCannonProjectile {
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		tag.put("Fluid", this.fluidStack.writeTag(new CompoundTag(), this.level().registryAccess()));
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
 		this.fluidStack = EndFluidStack.readTag(tag.getCompound("Fluid"), this.level().registryAccess());
 	}

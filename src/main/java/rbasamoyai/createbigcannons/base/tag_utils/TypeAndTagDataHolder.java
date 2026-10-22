@@ -67,7 +67,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
-			buf.writeResourceLocation(key);
+			buf.writeIdentifier(key);
 			consumer.accept(buf, entry.getValue());
 		}
 		buf.writeVarInt(this.tagData.size());
@@ -76,7 +76,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
-			buf.writeResourceLocation(key);
+			buf.writeIdentifier(key);
 			consumer.accept(buf, entry.getValue());
 		}
 	}
@@ -87,7 +87,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 		for (int i = 0; i < typeSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			Identifier location = buf.readResourceLocation();
+			Identifier location = buf.readIdentifier();
 			TYPE type = this.registry.get(location);
 			VALUE value = consumer.apply(buf);
 			if (type != null)
@@ -97,7 +97,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 		for (int i = 0; i < tagSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			Identifier location = buf.readResourceLocation();
+			Identifier location = buf.readIdentifier();
 			TYPE type = this.registry.get(location);
 			VALUE value = consumer.apply(buf);
 			if (type != null)

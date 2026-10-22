@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.ponder;
 
+
+import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -272,7 +274,7 @@ public class CannonMountScenes {
 			.text("Cannon Mounts can be rotated to face downwards by clicking their sides with a wrench.");
 		scene.idle(30);
 		scene.overlay().showControls(util.vector().blockSurface(util.grid().at(2, 3, 2), Direction.WEST), Pointing.LEFT, 40)
-			.withItem(AllItems.WRENCH.asStack()).rightClick();
+			.withItem(new ItemStack(AllItems.WRENCH)).rightClick();
 		scene.idle(30);
 		scene.world().modifyBlock(util.grid().at(2, 3, 2), setStateValue(BlockStateProperties.VERTICAL_DIRECTION, Direction.UP), false);
 		scene.idle(30);
@@ -303,10 +305,10 @@ public class CannonMountScenes {
 			.text("Cannon Mount Extensions provide extra interface areas for blocks.");
 		scene.idle(20);
 		scene.overlay().showControls(util.vector().blockSurface(util.grid().at(2, 2, 2), Direction.WEST), Pointing.LEFT, 40)
-			.withItem(AllBlocks.DISPLAY_LINK.asStack());
+			.withItem(new ItemStack(AllBlocks.DISPLAY_LINK));
 		scene.idle(65);
 		scene.overlay().showControls(util.vector().blockSurface(util.grid().at(2, 3, 3), Direction.WEST), Pointing.LEFT, 40)
-			.withItem(AllBlocks.BRASS_FUNNEL.asStack());
+			.withItem(new ItemStack(AllBlocks.BRASS_FUNNEL));
 		scene.idle(65);
 		scene.overlay().showText(50)
 			.attachKeyFrame()
@@ -448,11 +450,11 @@ public class CannonMountScenes {
 			.text("Wrenching the end of an autocannon will change the type of barrel end.")
 			.pointAt(util.vector().centerOf(barrelEnd));
 		scene.idle(20);
-		scene.overlay().showControls(util.vector().topOf(barrelEnd), Pointing.DOWN, 40).withItem(AllItems.WRENCH.asStack()).rightClick();
+		scene.overlay().showControls(util.vector().topOf(barrelEnd), Pointing.DOWN, 40).withItem(new ItemStack(AllItems.WRENCH)).rightClick();
 		scene.idle(30);
 		scene.world().modifyBlock(barrelEnd, setStateValue(AutocannonBarrelBlock.BARREL_END, AutocannonBarrelBlock.AutocannonBarrelEnd.FLANGED), false);
 		scene.idle(25);
-		scene.overlay().showControls(util.vector().topOf(barrelEnd), Pointing.DOWN, 40).withItem(AllItems.WRENCH.asStack()).rightClick();
+		scene.overlay().showControls(util.vector().topOf(barrelEnd), Pointing.DOWN, 40).withItem(new ItemStack(AllItems.WRENCH)).rightClick();
 		scene.idle(30);
 		scene.world().modifyBlock(barrelEnd, setStateValue(AutocannonBarrelBlock.BARREL_END, AutocannonBarrelBlock.AutocannonBarrelEnd.NOTHING), false);
 		scene.idle(25);
@@ -470,7 +472,7 @@ public class CannonMountScenes {
 			.text("Wrenching the autocannon breech will add handles.")
 			.pointAt(util.vector().topOf(breechPos));
 		scene.idle(20);
-		scene.overlay().showControls(util.vector().topOf(breechPos), Pointing.DOWN, 40).withItem(AllItems.WRENCH.asStack()).rightClick();
+		scene.overlay().showControls(util.vector().topOf(breechPos), Pointing.DOWN, 40).withItem(new ItemStack(AllItems.WRENCH)).rightClick();
 		scene.idle(30);
 		scene.world().modifyBlock(breechPos, setStateValue(AutocannonBreechBlock.HANDLE, true), false);
 		scene.idle(30);
@@ -515,7 +517,7 @@ public class CannonMountScenes {
 			.text("Wrenching the autocannon breech again will remove handles.")
 			.pointAt(util.vector().topOf(breechPos));
 		scene.idle(20);
-		scene.overlay().showControls(util.vector().topOf(breechPos), Pointing.DOWN, 40).withItem(AllItems.WRENCH.asStack()).rightClick();
+		scene.overlay().showControls(util.vector().topOf(breechPos), Pointing.DOWN, 40).withItem(new ItemStack(AllItems.WRENCH)).rightClick();
 		scene.idle(30);
 		scene.world().modifyBlock(breechPos, setStateValue(AutocannonBreechBlock.HANDLE, false), false);
 		scene.idle(30);

@@ -63,7 +63,7 @@ public class BigCannonPropellantCompatibilityHandler {
 	public static void writeBuf(FriendlyByteBuf buf, ClientboundBigCannonPropellantCompatibilitiesPacket pkt) {
 		buf.writeVarInt(pkt.properties.size());
 		for (Map.Entry<Block, BigCannonPropellantCompatibilities> entry : pkt.properties.entrySet()) {
-			buf.writeResourceLocation(CBCRegistryUtils.getBlockLocation(entry.getKey()));
+			buf.writeIdentifier(CBCRegistryUtils.getBlockLocation(entry.getKey()));
 			entry.getValue().writeBuf(buf);
 		}
 	}
@@ -72,7 +72,7 @@ public class BigCannonPropellantCompatibilityHandler {
 		int sz = buf.readVarInt();
         Map<Block, BigCannonPropellantCompatibilities> properties = new Reference2ObjectOpenHashMap<>();
 		for (int i = 0; i < sz; ++i)
-			properties.put(CBCRegistryUtils.getBlock(buf.readResourceLocation()), BigCannonPropellantCompatibilities.readBuf(buf));
+			properties.put(CBCRegistryUtils.getBlock(buf.readIdentifier()), BigCannonPropellantCompatibilities.readBuf(buf));
         return new ClientboundBigCannonPropellantCompatibilitiesPacket(properties);
 	}
 

@@ -75,7 +75,7 @@ public class CannonBuilderHeadBlock extends WrenchableDirectionalBlock implement
     }
 
 	private static boolean isExtensionPole(BlockState state) {
-		return AllBlocks.PISTON_EXTENSION_POLE.has(state);
+		return state.is(AllBlocks.PISTON_EXTENSION_POLE);
 	}
 
 	private static boolean isBuilderBlock(BlockState state) {

@@ -174,7 +174,7 @@ public class CBCClientHandlers {
 		if (mc.level == null)
 			return;
 		SoundInstance sound = new SimpleSoundInstance(pkt.sound(), pkt.source(), pkt.volume(), pkt.pitch(),
-			RandomSource.create(mc.level.random.nextLong()), pkt.x(), pkt.y(), pkt.z());
+			RandomSource.create(mc.level.getRandom().nextLong()), pkt.x(), pkt.y(), pkt.z());
 		if (CBCConfigs.client().blastSoundAirAbsorption.get())
 			sound = new AirAbsorptionWrapper(sound, pkt.airAbsorption());
 		if (!CBCConfigs.client().isInstantaneousBlastEffect() && mc.player != null) {

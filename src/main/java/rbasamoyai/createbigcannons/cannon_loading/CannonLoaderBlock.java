@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import rbasamoyai.createbigcannons.config.CBCConfigs;
@@ -28,7 +28,7 @@ import rbasamoyai.createbigcannons.remix.ContraptionRemix;
 public class CannonLoaderBlock extends DirectionalAxisKineticBlock implements IBE<CannonLoaderBlockEntity> {
 
 	public static final BooleanProperty MOVING = BooleanProperty.create("moving");
-	public static final DirectionProperty FACING = DirectionalAxisKineticBlock.FACING;
+	public static final EnumProperty<Direction> FACING = DirectionalAxisKineticBlock.FACING;
 
 	public CannonLoaderBlock(Properties properties) {
 		super(properties);

@@ -398,8 +398,8 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 		}
 
 		if (projectile != null && CBCConfigs.server().munitions.projectilesCanChunkload.get()) {
-            ChunkPos cpos1 = new ChunkPos(CBCCompatTransformers.transformBlockPos(level, BlockPos.containing(projectile.position())));
-			RitchiesProjectileLib.queueForceLoad(level, cpos1.x, cpos1.z);
+            ChunkPos cpos1 = ChunkPos.containing(CBCCompatTransformers.transformBlockPos(level, BlockPos.containing(projectile.position())));
+			RitchiesProjectileLib.queueForceLoad(level, cpos1.x(), cpos1.z());
 		}
 	}
 

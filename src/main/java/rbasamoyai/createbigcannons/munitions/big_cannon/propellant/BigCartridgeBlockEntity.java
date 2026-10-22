@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import com.zurrtum.create.api.schematic.requirement.SpecialBlockEntityItemRequirement;
 import com.zurrtum.create.content.schematics.requirement.ItemRequirement;
 import com.zurrtum.create.foundation.blockEntity.SyncedBlockEntity;
@@ -25,15 +29,15 @@ public class BigCartridgeBlockEntity extends SyncedBlockEntity implements Specia
     public int getPower() { return this.power; }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
         tag.putInt("Power", this.power);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.power = Math.max(tag.getInt("Power"), 0);
+    protected void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
+        this.power = Math.max(tag.getIntOr("Power", 0), 0);
     }
 
     @Override

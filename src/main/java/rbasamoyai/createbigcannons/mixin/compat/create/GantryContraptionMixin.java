@@ -46,7 +46,7 @@ public abstract class GantryContraptionMixin extends TranslatingContraption impl
 		BlockEntity blockEntity = level.getBlockEntity(this.anchor.relative(direction.getOpposite()));
 		if (!(blockEntity instanceof GantryShaftBlockEntity shaftBE)) return null;
 		BlockState shaftState = shaftBE.getBlockState();
-		if (!AllBlocks.GANTRY_SHAFT.has(shaftState)) return null;
+		if (!shaftState.is(AllBlocks.GANTRY_SHAFT)) return null;
 
 		Direction movementDirection = shaftState.getValue(GantryShaftBlock.FACING);
 		return shaftBE.getPinionMovementSpeed() < 0 ? movementDirection.getOpposite() : movementDirection;

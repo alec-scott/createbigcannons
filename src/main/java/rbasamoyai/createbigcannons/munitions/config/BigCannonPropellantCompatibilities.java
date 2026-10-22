@@ -58,7 +58,7 @@ public record BigCannonPropellantCompatibilities(Map<Block, Integer> validPropel
 	public void writeBuf(FriendlyByteBuf buf) {
 		buf.writeVarInt(this.validPropellantCounts.size());
 		for (Map.Entry<Block, Integer> e : this.validPropellantCounts.entrySet()) {
-			buf.writeResourceLocation(CBCRegistryUtils.getBlockLocation(e.getKey())).writeVarInt(e.getValue());
+			buf.writeIdentifier(CBCRegistryUtils.getBlockLocation(e.getKey())).writeVarInt(e.getValue());
 		}
 	}
 
@@ -66,7 +66,7 @@ public record BigCannonPropellantCompatibilities(Map<Block, Integer> validPropel
 		int sz = buf.readVarInt();
 		ImmutableMap.Builder<Block, Integer> builder = ImmutableMap.builder();
 		for (int i = 0; i < sz; ++i) {
-			Optional<Block> block = CBCRegistryUtils.getOptionalBlock(buf.readResourceLocation());
+			Optional<Block> block = CBCRegistryUtils.getOptionalBlock(buf.readIdentifier());
 			if (block.isEmpty()) continue;
 			int count = buf.readVarInt();
 			builder.put(block.get(), count);

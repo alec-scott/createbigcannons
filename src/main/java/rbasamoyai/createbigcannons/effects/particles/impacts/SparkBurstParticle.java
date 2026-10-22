@@ -47,15 +47,15 @@ public class SparkBurstParticle extends NoRenderParticle {
 
 		ParticleOptions particle = new SparkParticleData(this.rCol, this.gCol, this.bCol);
 		for (int i = 0; i < count; ++i) {
-			double rx = this.x + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.5;
-			double ry = this.y + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.5;
-			double rz = this.z + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.5;
-			double d1 = 1 + (this.level.random.nextDouble() - this.level.random.nextDouble()) * velScale;
-			double d2 = (this.level.random.nextDouble() - this.level.random.nextDouble()) * velScale1;
-			double d3 = (this.level.random.nextDouble() - this.level.random.nextDouble()) * velScale1;
-			double d4 = (this.level.random.nextDouble() - this.level.random.nextDouble()) * velScale2;
-			double d5 = (this.level.random.nextDouble() - this.level.random.nextDouble()) * velScale2;
-			double d6 = (this.level.random.nextDouble() - this.level.random.nextDouble()) * velScale2;
+			double rx = this.x + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
+			double ry = this.y + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
+			double rz = this.z + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
+			double d1 = 1 + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale;
+			double d2 = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale1;
+			double d3 = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale1;
+			double d4 = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale2;
+			double d5 = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale2;
+			double d6 = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale2;
 			Vec3 vel1 = vel.scale(d1).add(up.scale(d2)).add(right.scale(d3)).add(d4, d5, d6);
 			this.level.addParticle(particle, true, rx, ry, rz, vel1.x, vel1.y, vel1.z);
 		}

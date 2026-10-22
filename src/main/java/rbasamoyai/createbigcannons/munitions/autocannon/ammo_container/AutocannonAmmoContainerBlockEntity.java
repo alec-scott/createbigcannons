@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -77,8 +81,8 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
 	}
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
         tag.put("Ammo", this.ammoStack.saveOptional(registries));
         tag.put("Tracers", this.tracerStack.saveOptional(registries));
         tag.putInt("TracerSpacing", this.tracerSpacing);
@@ -87,13 +91,13 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
         this.ammoStack = ItemStack.parseOptional(registries, tag.getCompound("Ammo"));
         this.tracerStack = ItemStack.parseOptional(registries, tag.getCompound("Tracers"));
-        this.tracerSpacing = Mth.clamp(tag.getInt("TracerSpacing"), 1, 6);
+        this.tracerSpacing = Mth.clamp(tag.getIntOr("TracerSpacing", 0), 1, 6);
         if (tag.contains("CustomName", Tag.TAG_STRING))
-            this.name = parseCustomNameSafe(tag.getString("CustomName"), registries);
+            this.name = parseCustomNameSafe(tag.getStringOr("CustomName", ""), registries);
     }
 
     @Override public ItemStack getMainAmmoStack() { return this.ammoStack; }
@@ -260,7 +264,7 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
     }
 
     @Override
-    public void writeSafe(CompoundTag tag, HolderLookup.Provider registries) {
+    public void writeSafe(ValueOutput tag) {
         PatchedDataComponentMap copy = new PatchedDataComponentMap(DataComponentMap.EMPTY);
         copy.set(CBCDataComponents.TRACER_SPACING, this.getSpacing());
         if (this.components().has(DataComponents.CUSTOM_NAME))

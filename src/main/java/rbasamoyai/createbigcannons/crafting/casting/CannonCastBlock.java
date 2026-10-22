@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import net.minecraft.world.InteractionResult;
+
 import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
@@ -8,7 +10,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -99,17 +100,17 @@ public class CannonCastBlock extends Block implements IBE<AbstractCannonCastBloc
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (hit.getDirection() != Direction.UP) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (hit.getDirection() != Direction.UP) return InteractionResult.TRY_WITH_EMPTY_HAND;
 
 		return this.onBlockEntityUseItemOn(level, pos, cast -> {
 			AbstractCannonCastBlockEntity controller = cast.getControllerBE();
-			if (controller == null || stack.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			if (controller == null || stack.isEmpty()) return InteractionResult.TRY_WITH_EMPTY_HAND;
 			if (controller.tryEmptyItemIntoBE(level, player, hand, stack, Direction.UP))
-				return ItemInteractionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			if (controller.tryFillItemFromBE(level, player, hand, stack, Direction.UP))
-				return ItemInteractionResult.SUCCESS;
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+				return InteractionResult.SUCCESS;
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
 		});
 	}
 

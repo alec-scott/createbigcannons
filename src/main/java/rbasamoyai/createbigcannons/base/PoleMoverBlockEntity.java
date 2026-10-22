@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.base;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import com.zurrtum.create.AllSoundEvents;
 import com.zurrtum.create.content.contraptions.AssemblyException;
 import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
@@ -16,13 +20,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.cannon_loading.CannonLoaderBlock;
 
 public abstract class PoleMoverBlockEntity extends LinearActuatorBlockEntity {
 
-	private static final DirectionProperty FACING = BlockStateProperties.FACING;
+	private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
 	protected int extensionLength;
 
@@ -31,15 +35,15 @@ public abstract class PoleMoverBlockEntity extends LinearActuatorBlockEntity {
 	}
 
 	@Override
-	protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-		this.extensionLength = compound.getInt("ExtensionLength");
-		super.read(compound, registries, clientPacket);
+	protected void read(ValueInput compound, boolean clientPacket) {
+		this.extensionLength = compound.getIntOr("ExtensionLength", 0);
+		super.read(compound, clientPacket);
 	}
 
 	@Override
-	protected void write(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
+	protected void write(ValueOutput compound, boolean clientPacket) {
 		compound.putInt("ExtensionLength", this.extensionLength);
-		super.write(compound, registries, clientPacket);
+		super.write(compound, clientPacket);
 	}
 
 	@Override

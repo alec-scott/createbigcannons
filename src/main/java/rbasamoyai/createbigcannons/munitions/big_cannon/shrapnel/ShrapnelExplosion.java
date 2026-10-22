@@ -27,7 +27,7 @@ public class ShrapnelExplosion extends CustomExplosion.Impl {
 
 	@Override
 	public void playLocalSound(Level level, double x, double y, double z) {
-		float pitch = 0.7f + this.level.random.nextFloat() * 0.4f - 0.2f;
+		float pitch = 0.7f + this.level.getRandom().nextFloat() * 0.4f - 0.2f;
 		CBCSoundEvents.SHRAPNEL_SHELL_EXPLOSION.playAt(this.level, this.x, this.y, this.z, 6.0f, pitch, false);
 	}
 

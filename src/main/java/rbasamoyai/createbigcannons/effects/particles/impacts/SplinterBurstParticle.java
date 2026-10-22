@@ -33,12 +33,12 @@ public class SplinterBurstParticle extends NoRenderParticle {
 		double scale = Math.sqrt(this.xd * this.xd + this.yd * this.yd + this.zd * this.zd) * 0.75;
 		scale = Math.min(scale, 2);
 		for (int i = 0; i < actualCount; ++i) {
-			double x = this.x + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.75;
-			double y = this.y + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.75;
-			double z = this.z + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.75;
-			double dx = (this.level.random.nextDouble() - this.level.random.nextDouble()) * scale;
-			double dy = (this.level.random.nextDouble() - this.level.random.nextDouble()) * scale;
-			double dz = (this.level.random.nextDouble() - this.level.random.nextDouble()) * scale;
+			double x = this.x + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.75;
+			double y = this.y + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.75;
+			double z = this.z + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.75;
+			double dx = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * scale;
+			double dy = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * scale;
+			double dz = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * scale;
 			this.level.addParticle(options, x, y, z, dx, dy, dz);
 		}
 		this.remove();

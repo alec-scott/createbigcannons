@@ -12,7 +12,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -126,17 +125,17 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (hand == InteractionHand.OFF_HAND)
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
 		Direction facing = hit.getDirection();
 		Direction targetDir = this.isBaseFuze() ? state.getValue(FACING).getOpposite() : state.getValue(FACING);
 		boolean correctOrientation = facing == targetDir;
 
 		return this.onBlockEntityUseItemOn(level, pos, shell -> {
 			if (!stack.isEmpty() && correctOrientation) {
-				if (shell.tryEmptyItemIntoTE(level, player, hand, stack, facing)) return ItemInteractionResult.SUCCESS;
-				if (shell.tryFillItemFromTE(level, player, hand, stack, facing)) return ItemInteractionResult.SUCCESS;
+				if (shell.tryEmptyItemIntoTE(level, player, hand, stack, facing)) return InteractionResult.SUCCESS;
+				if (shell.tryFillItemFromTE(level, player, hand, stack, facing)) return InteractionResult.SUCCESS;
 			}
 			return super.useItemOn(stack, state, level, pos, player, hand, hit);
 		});

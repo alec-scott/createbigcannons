@@ -48,7 +48,7 @@ public class MortarStoneExplosion extends CustomExplosion.Impl {
 
 	@Override
 	public void playLocalSound(Level level, double x, double y, double z) {
-		CBCSoundEvents.MORTAR_STONE_EXPLODE.playAt(level, x, y, z, 3f, 0.8f + level.random.nextFloat() * 0.4f, false);
+		CBCSoundEvents.MORTAR_STONE_EXPLODE.playAt(level, x, y, z, 3f, 0.8f + level.getRandom().nextFloat() * 0.4f, false);
 	}
 
 	@Override
@@ -58,12 +58,12 @@ public class MortarStoneExplosion extends CustomExplosion.Impl {
 		ParticleOptions options = new DebrisSmokeParticleData(this.blockSize);
 		float f1 = 0.15f * this.blockSize;
 		for (int i = 0; i < 50; ++i) {
-			double rx = this.x + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.1f;
-			double ry = this.y + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.1f;
-			double rz = this.z + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.1f;
-			double dx = (this.level.random.nextDouble() - this.level.random.nextDouble()) * f1;
-			double dy = (this.level.random.nextDouble() - this.level.random.nextDouble() + 0.5) * f1;
-			double dz = (this.level.random.nextDouble() - this.level.random.nextDouble()) * f1;
+			double rx = this.x + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
+			double ry = this.y + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
+			double rz = this.z + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
+			double dx = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * f1;
+			double dy = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble() + 0.5) * f1;
+			double dz = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * f1;
 			this.level.addParticle(options, true, rx, ry, rz, dx, dy, dz);
 		}
 	}

@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -30,20 +34,20 @@ public class FuzedBlockEntity extends BigCannonProjectileBlockEntity {
 	}
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    public void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
         tag.put("Fuze", this.getFuze().saveOptional(registries));
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
         this.setFuze(ItemStack.parseOptional(registries, tag.getCompound("Fuze")));
     }
 
     @Override
-    public void writeSafe(CompoundTag tag, HolderLookup.Provider registries) {
-        super.writeSafe(tag, registries);
+    public void writeSafe(ValueOutput tag) {
+        super.writeSafe(tag);
         tag.put("Fuze", this.getFuze().saveOptional(registries));
     }
 

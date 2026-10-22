@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import rbasamoyai.createbigcannons.cannon_control.cannon_mount.CannonMountBlock;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 
@@ -30,7 +30,7 @@ public class FixedCannonMountBlock extends DirectionalBlock implements IBE<Fixed
 
 	public static final BooleanProperty ASSEMBLY_POWERED = CannonMountBlock.ASSEMBLY_POWERED;
 	public static final BooleanProperty FIRE_POWERED = CannonMountBlock.FIRE_POWERED;
-	public static final DirectionProperty ROTATION = DirectionProperty.create("rotation", Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+	public static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
 
     public static final MapCodec<? extends DirectionalBlock> CODEC = simpleCodec(FixedCannonMountBlock::new);
 

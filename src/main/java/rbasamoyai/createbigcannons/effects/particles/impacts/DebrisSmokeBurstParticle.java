@@ -20,12 +20,12 @@ public class DebrisSmokeBurstParticle extends NoRenderParticle {
 	public void tick() {
 		ParticleOptions options = new DebrisSmokeParticleData(3);
 		for (int i = 0; i < 10; ++i) {
-			double rx = this.x + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.1;
-			double ry = this.y + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.1;
-			double rz = this.z + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.1;
-			double dx1 = this.xd * 0.2 + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.5;
-			double dy1 = this.yd * 0.2 + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.5;
-			double dz1 = this.zd * 0.2 + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 0.5;
+			double rx = this.x + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1;
+			double ry = this.y + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1;
+			double rz = this.z + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1;
+			double dx1 = this.xd * 0.2 + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
+			double dy1 = this.yd * 0.2 + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
+			double dz1 = this.zd * 0.2 + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
 			this.level.addParticle(options, true, rx, ry, rz, dx1, dy1, dz1);
 		}
 		this.remove();

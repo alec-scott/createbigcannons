@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 
 import com.zurrtum.create.content.fluids.transfer.GenericItemEmptying;
@@ -48,20 +52,20 @@ public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
     }
 
 	@Override
-	public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		super.saveAdditional(tag, registries);
+	public void saveAdditional(ValueOutput tag) {
+		super.saveAdditional(tag);
 		tag.put("FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
 	}
 
 	@Override
-	public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		super.loadAdditional(tag, registries);
+	public void loadAdditional(ValueInput tag) {
+		super.loadAdditional(tag);
 		this.tank.readFromNBT(registries, tag.getCompound("FluidContent"));
 	}
 
     @Override
-    public void writeSafe(CompoundTag tag, HolderLookup.Provider registries) {
-        super.writeSafe(tag, registries);
+    public void writeSafe(ValueOutput tag) {
+        super.writeSafe(tag);
         tag.put("FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
     }
 

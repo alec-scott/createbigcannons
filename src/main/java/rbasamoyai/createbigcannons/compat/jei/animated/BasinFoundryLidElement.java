@@ -25,7 +25,7 @@ public class BasinFoundryLidElement implements IDrawable {
 			.scale(scale)
 			.render(graphics);
 
-		GuiGameElement.of(AllBlocks.BASIN.getDefaultState())
+		GuiGameElement.of(AllBlocks.BASIN.defaultBlockState())
 			.atLocal(0, 1.65, 0)
 			.scale(scale)
 			.render(graphics);

@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import static rbasamoyai.createbigcannons.cannon_control.cannon_mount.CannonMountBlockEntity.cannonBlockOutsideOfWorld;
 
 import java.util.List;
@@ -270,8 +274,8 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.write(tag, registry, clientPacket);
+	protected void write(ValueOutput tag, boolean clientPacket) {
+		super.write(tag, clientPacket);
 		tag.putBoolean("Running", this.running);
 		tag.putFloat("CannonYaw", this.cannonYaw);
 		tag.putFloat("CannonPitch", this.cannonPitch);
@@ -282,11 +286,11 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 	}
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.read(tag, registry, clientPacket);
-		this.running = tag.getBoolean("Running");
-		this.cannonYaw = tag.getFloat("CannonYaw");
-		this.cannonPitch = tag.getFloat("CannonPitch");
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
+		this.running = tag.getBooleanOr("Running", false);
+		this.cannonYaw = tag.getFloatOr("CannonYaw", 0f);
+		this.cannonPitch = tag.getFloatOr("CannonPitch", 0f);
 		this.lastException = AssemblyException.read(tag, registry);
         this.reassemble = tag.contains("TryReassembling");
 
@@ -405,12 +409,12 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 		}
 
 		@Override
-		public void write(CompoundTag nbt, HolderLookup.Provider registries, boolean clientPacket) {
+		public void write(ValueOutput nbt, boolean clientPacket) {
 			nbt.putInt(this.pitch ? "PitchAdjustment" : "YawAdjustment", this.value);
 		}
 
 		@Override
-		public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean clientPacket) {
+		public void read(ValueInput nbt, boolean clientPacket) {
 			this.value = nbt.getInt(this.pitch ? "PitchAdjustment" : "YawAdjustment");
 		}
 	}

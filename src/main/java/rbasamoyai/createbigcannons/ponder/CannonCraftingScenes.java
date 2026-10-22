@@ -41,7 +41,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -680,7 +680,7 @@ public class CannonCraftingScenes {
 			.colored(PonderPalette.GREEN);
 		scene.idle(20);
 
-		scene.overlay().showControls(util.vector().topOf(incompletePos), Pointing.DOWN, 40).rightClick().withItem(AllBlocks.SHAFT.asStack());
+		scene.overlay().showControls(util.vector().topOf(incompletePos), Pointing.DOWN, 40).rightClick().withItem(new ItemStack(AllBlocks.SHAFT));
 		scene.idle(10);
 		scene.world().modifyBlock(incompletePos, setStateValue(IncompleteWithItemsCannonBlock.STAGE_2, 1), false);
 		scene.idle(40);
@@ -851,7 +851,7 @@ public class CannonCraftingScenes {
 
 		scene.idle(20);
 
-		scene.overlay().showControls(util.vector().topOf(breechPos), Pointing.DOWN, 60).rightClick().withItem(AllItems.WRENCH.asStack()).rightClick();
+		scene.overlay().showControls(util.vector().topOf(breechPos), Pointing.DOWN, 60).rightClick().withItem(new ItemStack(AllItems.WRENCH)).rightClick();
 
 		scene.idle(80);
 
@@ -989,7 +989,7 @@ public class CannonCraftingScenes {
 		scene.markAsFinished();
 	}
 
-	private static final DirectionProperty FACING = BlockStateProperties.FACING;
+	private static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 	private static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 	private static final BooleanProperty ATTACHED = CannonBuilderHeadBlock.ATTACHED;
 	private static final BooleanProperty ALONG_FIRST = DirectionalAxisKineticBlock.AXIS_ALONG_FIRST_COORDINATE;

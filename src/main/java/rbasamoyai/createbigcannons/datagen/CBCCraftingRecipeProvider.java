@@ -246,7 +246,7 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.build(recipeOutput);
 
 		MechanicalCraftingRecipeBuilder.shapedRecipe(CBCBlocks.FLUID_SHELL.get())
-			.key('I', CommonMetal.IRON.ingots).key('P', AllBlocks.FLUID_PIPE.get()).key('S', ItemTags.WOODEN_SLABS)
+			.key('I', CommonMetal.IRON.ingots).key('P', AllBlocks.FLUID_PIPE).key('S', ItemTags.WOODEN_SLABS)
 			.patternLine(" I ")
 			.patternLine("IPI")
 			.patternLine("IPI")
@@ -263,7 +263,7 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.DROP_MORTAR_SHELL.get())
 			.define('X', CBCTags.CBCItemTags.HIGH_EXPLOSIVE_MATERIALS).define('I', CommonMetal.IRON.plates)
-			.define('S', AllBlocks.SHAFT.get()).define('C', CBCBlocks.POWDER_CHARGE.get())
+			.define('S', AllBlocks.SHAFT).define('C', CBCBlocks.POWDER_CHARGE.get())
 			.pattern(" X ")
 			.pattern("ISI")
 			.pattern(" C ")
@@ -286,52 +286,52 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.CANNON_LOADER.get())
-			.define('C', AllBlocks.ANDESITE_CASING.get()).define('G', CBCTags.CBCItemTags.GUNPOWDER).define('P', AllBlocks.PISTON_EXTENSION_POLE.get())
+			.define('C', AllBlocks.ANDESITE_CASING).define('G', CBCTags.CBCItemTags.GUNPOWDER).define('P', AllBlocks.PISTON_EXTENSION_POLE)
 			.pattern("G")
 			.pattern("C")
 			.pattern("P")
-			.unlockedBy(getHasName(AllBlocks.PISTON_EXTENSION_POLE.get()), has(AllBlocks.PISTON_EXTENSION_POLE.get()))
+			.unlockedBy(getHasName(AllBlocks.PISTON_EXTENSION_POLE), has(AllBlocks.PISTON_EXTENSION_POLE))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.RAM_HEAD.get())
-			.define('H', ItemTags.PLANKS).define('P', AllBlocks.PISTON_EXTENSION_POLE.get())
+			.define('H', ItemTags.PLANKS).define('P', AllBlocks.PISTON_EXTENSION_POLE)
 			.pattern("H")
 			.pattern("P")
 			.unlockedBy(getHasName(CBCBlocks.CANNON_LOADER.get()), has(CBCBlocks.CANNON_LOADER.get()))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.WORM_HEAD.get())
-			.define('H', Items.IRON_BARS).define('P', AllBlocks.PISTON_EXTENSION_POLE.get())
+			.define('H', Items.IRON_BARS).define('P', AllBlocks.PISTON_EXTENSION_POLE)
 			.pattern("HHH")
 			.pattern(" P ")
 			.unlockedBy(getHasName(CBCBlocks.CANNON_LOADER.get()), has(CBCBlocks.CANNON_LOADER.get()))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.CANNON_BUILDER.get())
-			.define('C', AllBlocks.ANDESITE_CASING.get()).define('H', CommonMetal.IRON.plates).define('h', CommonMetal.IRON.nuggets).define('P', AllBlocks.PISTON_EXTENSION_POLE.get())
+			.define('C', AllBlocks.ANDESITE_CASING).define('H', CommonMetal.IRON.plates).define('h', CommonMetal.IRON.nuggets).define('P', AllBlocks.PISTON_EXTENSION_POLE)
 			.pattern("hHh")
 			.pattern(" C ")
 			.pattern(" P ")
-			.unlockedBy(getHasName(AllBlocks.PISTON_EXTENSION_POLE.get()), has(AllBlocks.PISTON_EXTENSION_POLE.get()))
+			.unlockedBy(getHasName(AllBlocks.PISTON_EXTENSION_POLE), has(AllBlocks.PISTON_EXTENSION_POLE))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.CANNON_DRILL.get())
-			.define('C', AllBlocks.ANDESITE_CASING.get()).define('D', CommonMetal.IRON.ingots).define('P', AllBlocks.PISTON_EXTENSION_POLE.get()).define('p', AllBlocks.FLUID_PIPE.get())
+			.define('C', AllBlocks.ANDESITE_CASING).define('D', CommonMetal.IRON.ingots).define('P', AllBlocks.PISTON_EXTENSION_POLE).define('p', AllBlocks.FLUID_PIPE)
 			.pattern(" D ")
 			.pattern("pCp")
 			.pattern(" P ")
-			.unlockedBy(getHasName(AllBlocks.PISTON_EXTENSION_POLE.get()), has(AllBlocks.PISTON_EXTENSION_POLE.get()))
+			.unlockedBy(getHasName(AllBlocks.PISTON_EXTENSION_POLE), has(AllBlocks.PISTON_EXTENSION_POLE))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.BASIN_FOUNDRY_LID.get())
-			.define('A', AllItems.ANDESITE_ALLOY.get())
+			.define('A', AllItems.ANDESITE_ALLOY)
 			.pattern(" A ")
 			.pattern("AAA")
-			.unlockedBy(getHasName(AllBlocks.BASIN.get()), has(AllBlocks.BASIN.get()))
+			.unlockedBy(getHasName(AllBlocks.BASIN), has(AllBlocks.BASIN))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.QUICKFIRING_MECHANISM.get())
-			.define('L', Items.LEVER).define('c', AllBlocks.COGWHEEL.get()).define('C', AllBlocks.LARGE_COGWHEEL.get())
+			.define('L', Items.LEVER).define('c', AllBlocks.COGWHEEL).define('C', AllBlocks.LARGE_COGWHEEL)
 			.pattern(" L")
 			.pattern("cC")
 			.unlockedBy(getHasName(Items.LEVER), has(Items.LEVER))
@@ -384,7 +384,7 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput, "wrought_iron_drop_mortar_end_mirrored");
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.CANNON_MOUNT.get())
-			.define('S', AllBlocks.SHAFT.get()).define('C', AllBlocks.ANDESITE_CASING.get()).define('G', CBCTags.CBCItemTags.GUNPOWDER).define('I', CommonMetal.IRON.plates)
+			.define('S', AllBlocks.SHAFT).define('C', AllBlocks.ANDESITE_CASING).define('G', CBCTags.CBCItemTags.GUNPOWDER).define('I', CommonMetal.IRON.plates)
 			.pattern("ISI")
 			.pattern("SCS")
 			.pattern("GSG")
@@ -392,7 +392,7 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.CANNON_MOUNT_EXTENSION.get())
-			.define('S', AllBlocks.SHAFT.get()).define('C', AllBlocks.ANDESITE_CASING.get()).define('G', CBCTags.CBCItemTags.GUNPOWDER)
+			.define('S', AllBlocks.SHAFT).define('C', AllBlocks.ANDESITE_CASING).define('G', CBCTags.CBCItemTags.GUNPOWDER)
 			.pattern(" S ")
 			.pattern("GCG")
 			.pattern(" S ")
@@ -400,14 +400,14 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.FIXED_CANNON_MOUNT.get())
-			.define('C', AllBlocks.ANDESITE_CASING.get()).define('G', CBCTags.CBCItemTags.GUNPOWDER).define('I', CommonMetal.IRON.plates)
+			.define('C', AllBlocks.ANDESITE_CASING).define('G', CBCTags.CBCItemTags.GUNPOWDER).define('I', CommonMetal.IRON.plates)
 			.pattern(" I ")
 			.pattern("GCG")
 			.unlockedBy("has_gunpowder", has(CBCTags.CBCItemTags.GUNPOWDER))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.CAST_IRON_SLIDING_BREECHBLOCK.get())
-			.define('I', CBCCommonMetal.CAST_IRON.ingots).define('C', AllBlocks.COGWHEEL.get())
+			.define('I', CBCCommonMetal.CAST_IRON.ingots).define('C', AllBlocks.COGWHEEL)
 			.pattern(" I ")
 			.pattern("CIC")
 			.pattern(" I ")
@@ -415,7 +415,7 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.BRONZE_SLIDING_BREECHBLOCK.get())
-			.define('I', CBCCommonMetal.BRONZE.ingots).define('C', AllBlocks.COGWHEEL.get())
+			.define('I', CBCCommonMetal.BRONZE.ingots).define('C', AllBlocks.COGWHEEL)
 			.pattern(" I ")
 			.pattern("CIC")
 			.pattern(" I ")
@@ -423,7 +423,7 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.STEEL_SLIDING_BREECHBLOCK.get())
-			.define('I', CommonMetal.STEEL.ingots).define('C', AllBlocks.COGWHEEL.get())
+			.define('I', CommonMetal.STEEL.ingots).define('C', AllBlocks.COGWHEEL)
 			.pattern(" I ")
 			.pattern("CIC")
 			.pattern(" I ")
@@ -431,14 +431,14 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.STEEL_SCREW_LOCK.get())
-			.define('I', CommonMetal.STEEL.ingots).define('S', AllBlocks.SHAFT.get())
+			.define('I', CommonMetal.STEEL.ingots).define('S', AllBlocks.SHAFT)
 			.pattern(" S ")
 			.pattern("III")
 			.unlockedBy("has_steel_ingot", has(CommonMetal.STEEL.ingots))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.NETHERSTEEL_SCREW_LOCK.get())
-			.define('I', CBCItems.NETHERSTEEL_INGOT.get()).define('S', AllBlocks.SHAFT.get())
+			.define('I', CBCItems.NETHERSTEEL_INGOT.get()).define('S', AllBlocks.SHAFT)
 			.pattern(" S ")
 			.pattern("III")
 			.unlockedBy(getHasName(CBCItems.NETHERSTEEL_INGOT.get()), has(CBCItems.NETHERSTEEL_INGOT.get()))
@@ -469,7 +469,7 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCBlocks.CANNON_CARRIAGE.get())
-			.define('P', ItemTags.PLANKS).define('S', AllBlocks.SHAFT.get()).define('W', CBCItems.PAIR_OF_CANNON_WHEELS.get())
+			.define('P', ItemTags.PLANKS).define('S', AllBlocks.SHAFT).define('W', CBCItems.PAIR_OF_CANNON_WHEELS.get())
 			.pattern(" SP")
 			.pattern("PPP")
 			.pattern("W W")
@@ -478,20 +478,20 @@ public abstract class CBCCraftingRecipeProvider extends RecipeProvider {
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.CANNON_WELDER.get())
 			.define('V', AllTags.AllItemTags.VALVE_HANDLES.tag).define('I', CommonMetal.IRON.plates)
-			.define('B', CommonMetal.BRASS.plates).define('Z', AllBlocks.BLAZE_BURNER.get())
+			.define('B', CommonMetal.BRASS.plates).define('Z', AllBlocks.BLAZE_BURNER)
 			.pattern("VI ")
 			.pattern("BZB")
 			.pattern(" B ")
-			.unlockedBy(getHasName(AllBlocks.BLAZE_BURNER.get()), has(AllBlocks.BLAZE_BURNER.get()))
+			.unlockedBy(getHasName(AllBlocks.BLAZE_BURNER), has(AllBlocks.BLAZE_BURNER))
 			.save(recipeOutput);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.CANNON_WELDER.get())
 			.define('V', AllTags.AllItemTags.VALVE_HANDLES.tag).define('I', CommonMetal.IRON.plates)
-			.define('B', CommonMetal.BRASS.plates).define('Z', AllBlocks.BLAZE_BURNER.get())
+			.define('B', CommonMetal.BRASS.plates).define('Z', AllBlocks.BLAZE_BURNER)
 			.pattern(" IV")
 			.pattern("BZB")
 			.pattern(" B ")
-			.unlockedBy(getHasName(AllBlocks.BLAZE_BURNER.get()), has(AllBlocks.BLAZE_BURNER.get()))
+			.unlockedBy(getHasName(AllBlocks.BLAZE_BURNER), has(AllBlocks.BLAZE_BURNER))
 			.save(recipeOutput, "cannon_welder_mirrored");
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CBCItems.GAS_MASK.get())

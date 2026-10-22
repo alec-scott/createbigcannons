@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.boring;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -81,19 +85,19 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 	}
 
 	@Override
-	protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-        super.read(compound, registries, clientPacket);
+	protected void read(ValueInput compound, boolean clientPacket) {
+        super.read(compound, clientPacket);
 		this.boringPos = NbtUtils.readBlockPos(compound, "BoringPos").orElse(null);
 
 		if (!clientPacket) return;
-		this.boreSpeed = compound.getFloat("BoreSpeed");
-		this.addedStressImpact = compound.getFloat("AddedStress");
-		this.failureReason = compound.contains("FailureReason") ? FailureReason.fromId(compound.getString("FailureReason")) : FailureReason.NONE;
+		this.boreSpeed = compound.getFloatOr("BoreSpeed", 0f);
+		this.addedStressImpact = compound.getFloatOr("AddedStress", 0f);
+		this.failureReason = compound.contains("FailureReason") ? FailureReason.fromId(compound.getStringOr("FailureReason", "")) : FailureReason.NONE;
 	}
 
 	@Override
-	protected void write(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-		super.write(compound, registries, clientPacket);
+	protected void write(ValueOutput compound, boolean clientPacket) {
+		super.write(compound, clientPacket);
 		if (this.boringPos != null) compound.put("BoringPos", NbtUtils.writeBlockPos(this.boringPos));
 
 		if (!clientPacket) return;

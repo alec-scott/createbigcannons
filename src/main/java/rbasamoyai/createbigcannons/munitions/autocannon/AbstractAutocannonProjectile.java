@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.autocannon;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -66,9 +70,9 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 	@Override
 	public void tick() {
 		Vec3 prevPos = this.position();
-		ChunkPos cpos = new ChunkPos(this.blockPosition());
+		ChunkPos cpos = ChunkPos.containing(this.blockPosition());
 		Vec3 nextVelocity = this.nextVelocity;
-		if (this.level().isClientSide() || this.level().hasChunk(cpos.x, cpos.z)) {
+		if (this.level().isClientSide() || this.level().hasChunk(cpos.x(), cpos.z())) {
 			super.tick();
 			this.displacement += this.position().distanceTo(prevPos);
 			if (!this.level().isClientSide()) {
@@ -79,16 +83,16 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 			if (!this.isInGround()) {
 				TrailType trailType = CBCConfigs.server().munitions.autocannonTrailType.get();
 				if (trailType != TrailType.NONE) {
-					int lifetime = trailType == TrailType.SHORT ? 50 : 100 + this.level().random.nextInt(50);
+					int lifetime = trailType == TrailType.SHORT ? 50 : 100 + this.level().getRandom().nextInt(50);
 					ParticleOptions options = new TrailSmokeParticleData(lifetime);
 					for (int i = 0; i < 10; ++i) {
 						double partial = i * 0.1f;
 						double dx = Mth.lerp(partial, this.xOld, this.getX());
 						double dy = Mth.lerp(partial, this.yOld, this.getY());
 						double dz = Mth.lerp(partial, this.zOld, this.getZ());
-						double sx = this.level().random.nextDouble() * 0.004d - 0.002d;
-						double sy = this.level().random.nextDouble() * 0.004d - 0.002d;
-						double sz = this.level().random.nextDouble() * 0.004d - 0.002d;
+						double sx = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
+						double sy = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
+						double sz = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
 						this.level().addAlwaysVisibleParticle(options, true, dx, dy, dz, sx, sy, sz);
 					}
 					if (nextVelocity != null) {
@@ -99,9 +103,9 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 							double dx = Mth.lerp(partial, this.getX(), nextPos.x);
 							double dy = Mth.lerp(partial, this.getY(), nextPos.y);
 							double dz = Mth.lerp(partial, this.getZ(), nextPos.z);
-							double sx = this.level().random.nextDouble() * 0.004d - 0.002d;
-							double sy = this.level().random.nextDouble() * 0.004d - 0.002d;
-							double sz = this.level().random.nextDouble() * 0.004d - 0.002d;
+							double sx = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
+							double sy = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
+							double sz = this.level().getRandom().nextDouble() * 0.004d - 0.002d;
 							this.level().addAlwaysVisibleParticle(options1, true, dx, dy, dz, sx, sy, sz);
 						}
 					}
@@ -232,7 +236,7 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 	public void setTotalDisplacement(double value) { this.displacement = value; }
 
     @Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putBoolean("Tracer", this.isTracer());
 		tag.putInt("Age", this.ageRemaining);
@@ -240,11 +244,11 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		this.setTracer(tag.getBoolean("Tracer"));
-		this.ageRemaining = tag.getInt("Age");
-		this.displacement = tag.getFloat("Displacement");
+		this.setTracer(tag.getBooleanOr("Tracer", false));
+		this.ageRemaining = tag.getIntOr("Age", 0);
+		this.displacement = tag.getFloatOr("Displacement", 0f);
 	}
 
 	@Override

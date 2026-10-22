@@ -38,7 +38,7 @@ public abstract class PulleyBlockEntityMixin extends LinearActuatorBlockEntity {
 			|| !(this.level.getBlockEntity(ropePos) instanceof IBigCannonBlockEntity cbe))
             return original.call(instance, state);
 		StructureBlockInfo info = cbe.cannonBehavior().block();
-		return AllBlocks.ROPE.has(info.state()) || AllBlocks.PULLEY_MAGNET.has(info.state());
+		return info.state().is(AllBlocks.ROPE) || info.state().is(AllBlocks.PULLEY_MAGNET);
     }
 
 	@WrapOperation(method = "removeRopes",
@@ -57,12 +57,12 @@ public abstract class PulleyBlockEntityMixin extends LinearActuatorBlockEntity {
 
 	@WrapOperation(method = "disassemble", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;destroyBlock(Lnet/minecraft/core/BlockPos;Z)Z", ordinal = 0))
 	private boolean createbigcannons$disassemble$0(Level instance, BlockPos pos, boolean dropBlock, Operation<Boolean> original) {
-		return !createbigcannons$isLoadingCannon(instance, pos, AllBlocks.PULLEY_MAGNET.getDefaultState()) && original.call(instance, pos, dropBlock);
+		return !createbigcannons$isLoadingCannon(instance, pos, AllBlocks.PULLEY_MAGNET.defaultBlockState()) && original.call(instance, pos, dropBlock);
 	}
 
 	@WrapOperation(method = "disassemble", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;destroyBlock(Lnet/minecraft/core/BlockPos;Z)Z", ordinal = 1))
 	private boolean createbigcannons$disassemble$1(Level instance, BlockPos pos, boolean dropBlock, Operation<Boolean> original) {
-		return !createbigcannons$isLoadingCannon(instance, pos, AllBlocks.ROPE.getDefaultState()) && original.call(instance, pos, dropBlock);
+		return !createbigcannons$isLoadingCannon(instance, pos, AllBlocks.ROPE.defaultBlockState()) && original.call(instance, pos, dropBlock);
 	}
 
 	@WrapOperation(method = "disassemble", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"))
@@ -84,7 +84,7 @@ public abstract class PulleyBlockEntityMixin extends LinearActuatorBlockEntity {
 		if (state.getBlock() instanceof BigCannonBlock cBlock
 			&& cBlock.getFacing(state).getAxis().isVertical()
 			&& this.level.getBlockEntity(posBelow) instanceof IBigCannonBlockEntity cbe
-			&& cbe.cannonBehavior().canLoadBlock(new StructureBlockInfo(BlockPos.ZERO, AllBlocks.PULLEY_MAGNET.getDefaultState(), null))
+			&& cbe.cannonBehavior().canLoadBlock(new StructureBlockInfo(BlockPos.ZERO, AllBlocks.PULLEY_MAGNET.defaultBlockState(), null))
 			&& ci.isCancellable()) {
 			ci.cancel();
 		}

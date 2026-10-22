@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,16 +70,16 @@ public abstract class CannonMountInterfaceBlockEntity extends KineticBlockEntity
     protected abstract void applyRotationAndAngle();
 
     @Override
-    protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-        super.write(tag, registries, clientPacket);
+    protected void write(ValueOutput tag, boolean clientPacket) {
+        super.write(tag, clientPacket);
         if (this.sequencedAngleLimit >= 0)
             tag.putDouble("SequencedAngleLimit", this.sequencedAngleLimit);
     }
 
     @Override
-    protected void read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-        super.read(tag, registries, clientPacket);
-        this.sequencedAngleLimit = tag.contains("SequencedAngleLimit") ? tag.getDouble("SequencedAngleLimit") : -1;
+    protected void read(ValueInput tag, boolean clientPacket) {
+        super.read(tag, clientPacket);
+        this.sequencedAngleLimit = tag.contains("SequencedAngleLimit") ? tag.getDoubleOr("SequencedAngleLimit", 0d) : -1;
     }
 
 	public static class PitchInterface extends CannonMountInterfaceBlockEntity {

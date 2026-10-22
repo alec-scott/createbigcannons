@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 
+import net.minecraft.world.level.storage.ValueInput;
+
 import com.zurrtum.create.client.flywheel.lib.visualization.VisualizationHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -30,8 +32,8 @@ public class AutocannonBreechBlockEntity extends AbstractAutocannonBreechBlockEn
 	}
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-		super.read(tag, registries, clientPacket);
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
 		if (clientPacket && !this.isVirtual()) this.requestModelDataUpdate();
 	}
 

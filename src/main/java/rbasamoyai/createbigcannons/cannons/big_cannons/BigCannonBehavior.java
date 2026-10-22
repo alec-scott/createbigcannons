@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -58,8 +62,8 @@ public class BigCannonBehavior extends CannonBehavior {
 	}
 
 	@Override
-	public void write(CompoundTag nbt, HolderLookup.Provider registries, boolean spawnPacket) {
-		super.write(nbt, registries, spawnPacket);
+	public void write(ValueOutput nbt, boolean spawnPacket) {
+		super.write(nbt, spawnPacket);
 		if (this.containedBlockInfo.isPresent()) {
 			StructureBlockInfo blockInfo = this.containedBlockInfo.get();
 			if (!blockInfo.state().isAir()) {
@@ -73,14 +77,14 @@ public class BigCannonBehavior extends CannonBehavior {
 	}
 
     @Override
-    public void writeSafe(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.write(nbt, registries, false);
+    public void writeSafe(ValueOutput nbt) {
+        super.write(nbt, false);
     }
 
     @Override
-	public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean clientPacket) {
-		super.read(nbt, registries, clientPacket);
-		BlockPos pos = BlockPos.of(nbt.getLong("Pos"));
+	public void read(ValueInput nbt, boolean clientPacket) {
+		super.read(nbt, clientPacket);
+		BlockPos pos = BlockPos.of(nbt.getLongOr("Pos", 0L));
 		BlockState state = NbtUtils.readBlockState(this.blockEntity.blockHolderGetter(), nbt.getCompound("State"));
 		CompoundTag tag = nbt.contains("Data") ? nbt.getCompound("Data") : null;
 		this.containedBlockInfo = Optional.of(new StructureBlockInfo(pos, state, tag));

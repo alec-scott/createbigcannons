@@ -160,7 +160,7 @@ public class MunitionPropertiesHandler {
 		buf.writeVarInt(handlers.size());
 		for (Map.Entry<TYPE, PropertiesTypeHandler<TYPE, ?>> entry : handlers.entrySet()) {
 			TYPE type = entry.getKey();
-			buf.writeResourceLocation(registry.getKey(type));
+			buf.writeIdentifier(registry.getKey(type));
 			entry.getValue().writeToNetwork(type, buf);
 		}
 	}
@@ -175,7 +175,7 @@ public class MunitionPropertiesHandler {
 		map.values().forEach(PropertiesTypeHandler::clearForReload);
 		int size = buf.readVarInt();
 		for (int i = 0; i < size; ++i) {
-			TYPE type = registry.get(buf.readResourceLocation());
+			TYPE type = registry.get(buf.readIdentifier());
 			map.get(type).loadFromNetwork(type, buf);
 		}
 	}

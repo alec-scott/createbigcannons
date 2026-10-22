@@ -51,7 +51,7 @@ public class DrillBoringCategory extends CBCBlockRecipeCategory<DrillBoringBlock
 			.scale(scale)
 			.render(graphics);
 
-		BlockState shaft = AllBlocks.SHAFT.getDefaultState();
+		BlockState shaft = AllBlocks.SHAFT.defaultBlockState();
 		Direction.Axis axis = shaft.getValue(BlockStateProperties.AXIS);
 
 		AnimatedKinetics.defaultBlockElement(shaft)
@@ -77,7 +77,7 @@ public class DrillBoringCategory extends CBCBlockRecipeCategory<DrillBoringBlock
 			.scale(scale)
 			.render(graphics);
 
-		AnimatedKinetics.defaultBlockElement(AllBlocks.MECHANICAL_BEARING.getDefaultState())
+		AnimatedKinetics.defaultBlockElement(AllBlocks.MECHANICAL_BEARING.defaultBlockState())
 			.rotateBlock(0, 0, 0)
 			.atLocal(0, 0, 3)
 			.scale(scale)

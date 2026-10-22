@@ -122,7 +122,7 @@ public class SparkParticle extends Particle {
 									   double xSpeed, double ySpeed, double zSpeed) {
 			Vector3f color = type.color();
 			SparkParticle particle = new SparkParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, color.x(), color.y(), color.z());
-			int lifetime = 12 + level.random.nextInt(12);
+			int lifetime = 12 + level.getRandom().nextInt(12);
 			particle.setLifetime(lifetime);
 			return particle;
 		}

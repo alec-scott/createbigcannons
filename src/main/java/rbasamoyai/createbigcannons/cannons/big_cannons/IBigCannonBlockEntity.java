@@ -50,10 +50,10 @@ public interface IBigCannonBlockEntity extends ICannonBlockEntity<BigCannonBehav
 		if (blockInfo == null) return false;
 		if (CBCBlocks.RAM_HEAD.has(blockInfo.state())
 			|| CBCBlocks.WORM_HEAD.has(blockInfo.state())
-			|| AllBlocks.PISTON_EXTENSION_POLE.has(blockInfo.state())) {
+			|| blockInfo.state().is(AllBlocks.PISTON_EXTENSION_POLE)) {
 			return cannonAxis == null || blockInfo.state().getValue(BlockStateProperties.FACING).getAxis() == cannonAxis;
 		}
-		if (AllBlocks.ROPE.has(blockInfo.state()) || AllBlocks.PULLEY_MAGNET.has(blockInfo.state())) {
+		if (blockInfo.state().is(AllBlocks.ROPE) || blockInfo.state().is(AllBlocks.PULLEY_MAGNET)) {
 			return cannonAxis == null || cannonAxis.isVertical();
 		}
 		return false;

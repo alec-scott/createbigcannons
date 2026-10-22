@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -114,7 +118,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
+	protected void write(ValueOutput tag, boolean clientPacket) {
 		Registry<CannonCastShape> shapeRegistry = CBCRegistries.cannonCastShapes();
 		if (this.canRenderCastModel() && this.castShape != null) {
 			tag.putString("Size", shapeRegistry.getKey(this.castShape).toString());
@@ -160,7 +164,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 			tag.put("Controller", NbtUtils.writeBlockPos(this.controllerPos));
 		}
 
-		super.write(tag, registries, clientPacket);
+		super.write(tag, clientPacket);
 
 		if (!clientPacket) return;
 		if (this.forceFluidLevelUpdate) tag.putBoolean("ForceFluidLevel", true);
@@ -174,15 +178,15 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 	protected abstract void writeFluidToTag(CompoundTag tag, HolderLookup.Provider registries);
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.read(tag, registry, clientPacket);
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
 
 		Registry<CannonCastShape> shapeRegistry = CBCRegistries.cannonCastShapes();
 
 		BlockPos controllerBefore = this.controllerPos;
 		int prevHeight = this.getControllerBE() == null ? 0 : this.getControllerBE().height;
 
-		this.castShape = tag.contains("Size") ? shapeRegistry.get(CBCUtils.location(tag.getString("Size"))) : null;
+		this.castShape = tag.contains("Size") ? shapeRegistry.get(CBCUtils.location(tag.getStringOr("Size", ""))) : null;
 		if (tag.contains("LastKnownPos")) this.lastKnownPos = NbtUtils.readBlockPos(tag, "LastKnownPos").orElse(null);
 
 		this.structure.clear();
@@ -192,10 +196,10 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 				CannonCastShape shape = shapeRegistry.get(CBCUtils.location(list.getString(i)));
 				this.structure.add(shape == null ? CannonCastShape.VERY_SMALL : shape);
 			}
-			this.height = tag.getInt("Height");
+			this.height = tag.getIntOr("Height", 0);
 			this.updateFluids(tag, registry);
-			this.castingTime = Math.max(tag.getInt("CastingTime"), 0);
-			this.startCastingTime = Math.max(tag.getInt("StartCastingTime"), 1);
+			this.castingTime = Math.max(tag.getIntOr("CastingTime", 0), 0);
+			this.startCastingTime = Math.max(tag.getIntOr("StartCastingTime", 0), 1);
 			this.updateRecipes = this.firstLoadUpdate || tag.contains("UpdateRecipes");
 
 			this.resultPreview.clear();
@@ -211,7 +215,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
             } else {
                 this.invalidCastingError = null;
             }
-			this.castDelay = tag.getInt("CastingDelay");
+			this.castDelay = tag.getIntOr("CastingDelay", 0);
 
 			this.controllerPos = null;
 		} else if (tag.contains("Controller")) {

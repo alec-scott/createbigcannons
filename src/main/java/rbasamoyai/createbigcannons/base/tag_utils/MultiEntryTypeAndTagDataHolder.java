@@ -77,7 +77,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
-			buf.writeResourceLocation(key);
+			buf.writeIdentifier(key);
 			List<VALUE> list = entry.getValue();
 			buf.writeVarInt(list.size());
 			for (VALUE value : list)
@@ -89,7 +89,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
-			buf.writeResourceLocation(key);
+			buf.writeIdentifier(key);
 			List<VALUE> list = entry.getValue();
 			buf.writeVarInt(list.size());
 			for (VALUE value : list)
@@ -103,7 +103,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 		for (int i = 0; i < typeSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			Identifier location = buf.readResourceLocation();
+			Identifier location = buf.readIdentifier();
 			TYPE type = this.registry.get(location);
 			int size = buf.readVarInt();
 			for (int j = 0; j < size; ++j) {
@@ -120,7 +120,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 		for (int i = 0; i < tagSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			Identifier location = buf.readResourceLocation();
+			Identifier location = buf.readIdentifier();
 			TYPE type = this.registry.get(location);
 			int size = buf.readVarInt();
 			for (int j = 0; j < size; ++j) {

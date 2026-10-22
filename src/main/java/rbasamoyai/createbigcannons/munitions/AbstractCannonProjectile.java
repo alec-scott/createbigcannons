@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -100,8 +104,8 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 			this.discard();
 			return;
 		}
-		ChunkPos cpos = new ChunkPos(this.blockPosition());
-		if (this.level().isClientSide() || this.level().hasChunk(cpos.x, cpos.z)) {
+		ChunkPos cpos = ChunkPos.containing(this.blockPosition());
+		if (this.level().isClientSide() || this.level().hasChunk(cpos.x(), cpos.z())) {
 			super.tick();
 
             if (this.impactPos != null) {
@@ -176,8 +180,8 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
                     BlockPos lpos = this.blockPosition();
                     if (this.isInGround()) // Flying projectiles should not load ship chunks
                         lpos = CBCCompatTransformers.transformBlockPos(slevel, lpos);
-                    ChunkPos cpos1 = new ChunkPos(lpos);
-                    RitchiesProjectileLib.queueForceLoad(slevel, cpos1.x, cpos1.z);
+                    ChunkPos cpos1 = ChunkPos.containing(lpos);
+                    RitchiesProjectileLib.queueForceLoad(slevel, cpos1.x(), cpos1.z());
                 }
 			}
 		}
@@ -498,7 +502,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
+	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putFloat("ProjectileMass", this.getProjectileMass());
 		tag.putBoolean("InGround", this.isInGround());
@@ -519,11 +523,11 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		this.setProjectileMass(tag.getFloat("ProjectileMass"));
-		this.setInGround(tag.getBoolean("InGround"));
-		this.damage = tag.getFloat("Damage");
+		this.setProjectileMass(tag.getFloatOr("ProjectileMass", 0f));
+		this.setInGround(tag.getBooleanOr("InGround", false));
+		this.damage = tag.getFloatOr("Damage", 0f);
 		ListTag motionTag = tag.getList("Motion", Tag.TAG_DOUBLE);
 		this.setDeltaMovement(motionTag.getDouble(0), motionTag.getDouble(1), motionTag.getDouble(2));
 		if (tag.contains("NextMotion", Tag.TAG_LIST)) {
@@ -548,7 +552,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		this.lastPenetratedBlock = tag.contains("LastPenetration", Tag.TAG_COMPOUND)
 			? NbtUtils.readBlockState(this.level().holderLookup(CBCRegistryUtils.getBlockRegistryKey()), tag.getCompound("LastPenetration"))
 			: Blocks.AIR.defaultBlockState();
-		this.inGroundTime = tag.getInt("InGroundTime");
+		this.inGroundTime = tag.getIntOr("InGroundTime", 0);
 		this.removeNextTick = tag.contains("RemoveNextTick");
 	}
 

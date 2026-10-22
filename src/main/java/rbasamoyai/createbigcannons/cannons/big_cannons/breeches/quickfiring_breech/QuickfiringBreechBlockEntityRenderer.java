@@ -76,7 +76,7 @@ public class QuickfiringBreechBlockEntityRenderer extends SafeBlockEntityRendere
 		Vector3f normal1 = dir.step();
 		Axis axis1 = Axis.of(normal1);
 
-		CachedBuffers.block(AllBlocks.SHAFT.getDefaultState().setValue(BlockStateProperties.AXIS, axis))
+		CachedBuffers.block(AllBlocks.SHAFT.defaultBlockState().setValue(BlockStateProperties.AXIS, axis))
 			.rotateCentered(axis1.rotationDegrees(angle))
 			.light(light)
 			.renderInto(ms, vcons);

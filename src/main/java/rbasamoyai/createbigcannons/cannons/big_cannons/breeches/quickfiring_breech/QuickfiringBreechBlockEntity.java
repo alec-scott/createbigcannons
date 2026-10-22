@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.quickfiring_breech;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
@@ -44,8 +48,8 @@ public class QuickfiringBreechBlockEntity extends SmartBlockEntity implements IB
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.write(tag, registry, clientPacket);
+	protected void write(ValueOutput tag, boolean clientPacket) {
+		super.write(tag, clientPacket);
 		tag.putBoolean("InPonder", this.inPonder);
 		tag.putInt("OpenProgress", this.openProgress);
 		tag.putInt("OpenDirection", this.openDirection);
@@ -53,12 +57,12 @@ public class QuickfiringBreechBlockEntity extends SmartBlockEntity implements IB
 	}
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.read(tag, registry, clientPacket);
-		this.inPonder = tag.getBoolean("InPonder");
-		this.openProgress = tag.getInt("OpenProgress");
-		this.openDirection = Mth.clamp(tag.getInt("OpenDirection"), -1, 1);
-		this.loadingCooldown = Math.max(0, tag.getInt("LoadingCooldown"));
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
+		this.inPonder = tag.getBooleanOr("InPonder", false);
+		this.openProgress = tag.getIntOr("OpenProgress", 0);
+		this.openDirection = Mth.clamp(tag.getIntOr("OpenDirection", 0), -1, 1);
+		this.loadingCooldown = Math.max(0, tag.getIntOr("LoadingCooldown", 0));
 	}
 
 	@Override

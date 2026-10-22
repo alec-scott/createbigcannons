@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import static rbasamoyai.createbigcannons.cannons.big_cannons.BigCannonBlock.writeAndSyncSingleBlockData;
 
 import java.util.Deque;
@@ -141,13 +145,13 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 	@Nullable DyeColor getSeatColor() { return this.seat; }
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.read(tag, registry, clientPacket);
-		this.fireRate = tag.getInt("FiringRate");
-		this.firingCooldown = tag.getInt("Cooldown");
-		this.animateTicks = tag.getInt("AnimateTicks");
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
+		this.fireRate = tag.getIntOr("FiringRate", 0);
+		this.firingCooldown = tag.getIntOr("Cooldown", 0);
+		this.animateTicks = tag.getIntOr("AnimateTicks", 0);
 		this.outputBuffer = tag.contains("Output") ? ItemStack.parseOptional(registry, tag.getCompound("Output")) : ItemStack.EMPTY;
-		this.seat = DyeColor.byName(tag.getString("Seat"), null);
+		this.seat = DyeColor.byName(tag.getStringOr("Seat", ""), null);
 
 		this.inputBuffer.clear();
 		ListTag inputTag = tag.getList("Input", Tag.TAG_COMPOUND);
@@ -161,8 +165,8 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.write(tag, registry, clientPacket);
+	protected void write(ValueOutput tag, boolean clientPacket) {
+		super.write(tag, clientPacket);
 		tag.putInt("FiringRate", this.fireRate);
 		tag.putInt("Cooldown", this.firingCooldown);
 		tag.putInt("AnimateTicks", this.animateTicks);
@@ -181,8 +185,8 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 	}
 
     @Override
-    public void writeSafe(CompoundTag tag, HolderLookup.Provider registries) {
-        super.writeSafe(tag, registries);
+    public void writeSafe(ValueOutput tag) {
+        super.writeSafe(tag);
         tag.putInt("FiringRate", this.fireRate);
     }
 

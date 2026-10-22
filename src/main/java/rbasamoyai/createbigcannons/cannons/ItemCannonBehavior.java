@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
 import com.zurrtum.create.foundation.blockEntity.behaviour.BehaviourType;
 
@@ -36,20 +40,20 @@ public class ItemCannonBehavior extends CannonBehavior {
 	}
 
 	@Override
-	public void write(CompoundTag nbt, HolderLookup.Provider registries, boolean spawnPacket) {
+	public void write(ValueOutput nbt, boolean spawnPacket) {
 		nbt.put("ContainedStack", this.containedStack.saveOptional(registries));
-		super.write(nbt, registries, spawnPacket);
+		super.write(nbt, spawnPacket);
 	}
 
     @Override
-    public void writeSafe(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.write(nbt, registries, false);
+    public void writeSafe(ValueOutput nbt) {
+        super.write(nbt, false);
     }
 
 	@Override
-	public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean clientPacket) {
+	public void read(ValueInput nbt, boolean clientPacket) {
 		this.containedStack = ItemStack.parseOptional(registries, nbt.getCompound("ContainedStack"));
-		super.read(nbt, registries, clientPacket);
+		super.read(nbt, clientPacket);
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class CannonDrillBlock extends DirectionalAxisKineticBlock implements IBE
 			BlockPos cPos = pos.relative(dir, i);
 			BlockState cState = level.getBlockState(cPos);
 
-			if (AllBlocks.PISTON_EXTENSION_POLE.has(cState) && dir.getAxis() == cState.getValue(BlockStateProperties.FACING).getAxis()) {
+			if (cState.is(AllBlocks.PISTON_EXTENSION_POLE) && dir.getAxis() == cState.getValue(BlockStateProperties.FACING).getAxis()) {
 				continue;
 			}
 			if (CBCBlocks.CANNON_DRILL_BIT.has(cState) && dir == cState.getValue(BlockStateProperties.FACING)) {
@@ -80,7 +80,7 @@ public class CannonDrillBlock extends DirectionalAxisKineticBlock implements IBE
 		for (int i = 1; i < max; ++i) {
 			BlockPos cPos = pos.relative(dir, -i);
 			BlockState cState = level.getBlockState(cPos);
-			if (AllBlocks.PISTON_EXTENSION_POLE.has(cState) && dir.getAxis() == cState.getValue(BlockStateProperties.FACING).getAxis()) {
+			if (cState.is(AllBlocks.PISTON_EXTENSION_POLE) && dir.getAxis() == cState.getValue(BlockStateProperties.FACING).getAxis()) {
 				level.destroyBlock(cPos, dropBlocks);
 				continue;
 			}

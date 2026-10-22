@@ -38,7 +38,7 @@ public class FluidExplosion extends CustomExplosion.Impl {
 		if (FluidBlobEffectRegistry.effectOnFluidShellExplode(this.fluid, level, x, y, z, this.radius))
 			return;
 		level.playLocalSound(x, y, z, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 4.0F,
-			(1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F, false);
+			(1.0F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.2F) * 0.7F, false);
 		if (this.radius >= 2.0F && this.interactsWithBlocks()) {
 			level.addParticle(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 1.0, 0.0, 0.0);
 		} else {

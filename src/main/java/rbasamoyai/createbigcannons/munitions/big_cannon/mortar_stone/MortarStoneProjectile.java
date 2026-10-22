@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.mortar_stone;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.particles.BlockParticleOption;
@@ -60,13 +64,13 @@ public class MortarStoneProjectile extends AbstractBigCannonProjectile {
     }
 
 	@Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        this.tooManyCharges = tag.getBoolean("TooManyCharges");
+        this.tooManyCharges = tag.getBooleanOr("TooManyCharges", false);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("TooManyCharges", this.tooManyCharges);
     }

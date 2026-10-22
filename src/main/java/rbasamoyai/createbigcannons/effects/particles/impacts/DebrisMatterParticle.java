@@ -31,12 +31,12 @@ public class DebrisMatterParticle extends NoRenderParticle {
 		int count = this.deflect ? 20 : 40;
 		ParticleOptions particle = new CBCBlockParticleData(this.blockState);
 		for (int i = 0; i < count; ++i) {
-			double rx = this.x + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 1.5;
-			double ry = this.y + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 1.5;
-			double rz = this.z + (this.level.random.nextDouble() - this.level.random.nextDouble()) * 1.5;
-			double dx1 = this.xd * velScale + (this.level.random.nextDouble() - this.level.random.nextDouble()) * offsetScale;
-			double dy1 = this.yd * velScale + (this.level.random.nextDouble() - this.level.random.nextDouble()) * offsetScale;
-			double dz1 = this.zd * velScale + (this.level.random.nextDouble() - this.level.random.nextDouble()) * offsetScale;
+			double rx = this.x + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 1.5;
+			double ry = this.y + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 1.5;
+			double rz = this.z + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 1.5;
+			double dx1 = this.xd * velScale + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * offsetScale;
+			double dy1 = this.yd * velScale + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * offsetScale;
+			double dz1 = this.zd * velScale + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * offsetScale;
 			this.level.addParticle(particle, this.forceDisplay, rx, ry, rz, dx1, dy1, dz1);
 		}
 		this.remove();

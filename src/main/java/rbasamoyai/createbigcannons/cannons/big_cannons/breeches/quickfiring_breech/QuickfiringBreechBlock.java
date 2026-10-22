@@ -302,7 +302,7 @@ public class QuickfiringBreechBlock extends BigCannonBaseBlock implements IBE<Qu
 					}
 					newBe.setChanged();
 				}
-                AllSoundEvents.WRENCH_REMOVE.playOnServer(level, pos, 1, level.random.nextFloat() * .5f + .5f);
+                AllSoundEvents.WRENCH_REMOVE.playOnServer(level, pos, 1, level.getRandom().nextFloat() * .5f + .5f);
 			}
 			return InteractionResult.sidedSuccess(level.isClientSide());
 		}

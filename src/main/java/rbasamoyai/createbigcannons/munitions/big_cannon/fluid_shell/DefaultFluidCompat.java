@@ -50,9 +50,9 @@ public class DefaultFluidCompat {
 	}
 
 	public static void registerCreateBlobEffects() {
-		FluidBlobEffectRegistry.registerHitBlock(AllFluids.POTION.get(), DefaultFluidCompat::potionHitBlock);
-		FluidBlobEffectRegistry.registerHitEntity(AllFluids.POTION.get(), DefaultFluidCompat::potionHitEntity);
-		FluidBlobEffectRegistry.registerFluidShellExplosionEffect(AllFluids.POTION.get(), DefaultFluidCompat::potionFluidShellExplode);
+		FluidBlobEffectRegistry.registerHitBlock(AllFluids.POTION, DefaultFluidCompat::potionHitBlock);
+		FluidBlobEffectRegistry.registerHitEntity(AllFluids.POTION, DefaultFluidCompat::potionHitEntity);
+		FluidBlobEffectRegistry.registerFluidShellExplosionEffect(AllFluids.POTION, DefaultFluidCompat::potionFluidShellExplode);
 	}
 
 	public static void waterHitEntity(OnHitEntity.Context context) {
@@ -66,7 +66,7 @@ public class DefaultFluidCompat {
 			return;
 		entity.igniteForSeconds(10);
 		if (entity.hurt(context.level().damageSources().onFire(), 4.0F))
-			entity.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + entity.level().random.nextFloat() * 0.4F);
+			entity.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + entity.level().getRandom().nextFloat() * 0.4F);
 	}
 
 	public static void potionHitEntity(OnHitEntity.Context context) {
@@ -98,8 +98,8 @@ public class DefaultFluidCompat {
 		double x = context.x();
 		double y = context.y();
 		double z = context.z();
-		CBCSoundEvents.WATER_FLUID_RELEASE.playAt(level, x, y, z, 2.5f, 0.15f + level.random.nextFloat() * 0.3f, false);
-		CBCSoundEvents.FLUID_SHELL_EXPLOSION.playAt(level, x, y, z, 3, 0.9f + level.random.nextFloat() * 0.1f, false);
+		CBCSoundEvents.WATER_FLUID_RELEASE.playAt(level, x, y, z, 2.5f, 0.15f + level.getRandom().nextFloat() * 0.3f, false);
+		CBCSoundEvents.FLUID_SHELL_EXPLOSION.playAt(level, x, y, z, 3, 0.9f + level.getRandom().nextFloat() * 0.1f, false);
 		level.addParticle(FluidCloudParticleData.instance(), true, x, y, z, 0, 0, 0);
 	}
 
@@ -108,8 +108,8 @@ public class DefaultFluidCompat {
 		double x = context.x();
 		double y = context.y();
 		double z = context.z();
-		CBCSoundEvents.LAVA_FLUID_RELEASE.playAt(level, x, y, z, 2.25f, 1.0f + level.random.nextFloat() * 0.1f, false);
-		CBCSoundEvents.FLUID_SHELL_EXPLOSION.playAt(level, x, y, z, 3, 0.9f + level.random.nextFloat() * 0.1f, false);
+		CBCSoundEvents.LAVA_FLUID_RELEASE.playAt(level, x, y, z, 2.25f, 1.0f + level.getRandom().nextFloat() * 0.1f, false);
+		CBCSoundEvents.FLUID_SHELL_EXPLOSION.playAt(level, x, y, z, 3, 0.9f + level.getRandom().nextFloat() * 0.1f, false);
 		level.addParticle(FluidCloudParticleData.instance(), true, x, y, z, 0, 0, 0);
 	}
 
@@ -118,8 +118,8 @@ public class DefaultFluidCompat {
 		double x = context.x();
 		double y = context.y();
 		double z = context.z();
-		CBCSoundEvents.POTION_FLUID_RELEASE.playAt(level, x, y, z, 3, 0.9f + level.random.nextFloat() * 0.1f, false);
-		CBCSoundEvents.FLUID_SHELL_EXPLOSION.playAt(level, x, y, z, 3, 0.9f + level.random.nextFloat() * 0.1f, false);
+		CBCSoundEvents.POTION_FLUID_RELEASE.playAt(level, x, y, z, 3, 0.9f + level.getRandom().nextFloat() * 0.1f, false);
+		CBCSoundEvents.FLUID_SHELL_EXPLOSION.playAt(level, x, y, z, 3, 0.9f + level.getRandom().nextFloat() * 0.1f, false);
 		level.addParticle(FluidCloudParticleData.instance(), true, x, y, z, 0, 0, 0);
 	}
 

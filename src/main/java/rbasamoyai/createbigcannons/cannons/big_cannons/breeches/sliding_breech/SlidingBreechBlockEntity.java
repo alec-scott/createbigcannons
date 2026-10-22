@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.sliding_breech;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 
 import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
@@ -70,8 +74,8 @@ public class SlidingBreechBlockEntity extends AbstractBigCannonBreechBlockEntity
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.write(tag, registry, clientPacket);
+	protected void write(ValueOutput tag, boolean clientPacket) {
+		super.write(tag, clientPacket);
 		tag.putFloat("Progress", this.openProgress);
         if (!clientPacket)
             return;
@@ -79,12 +83,12 @@ public class SlidingBreechBlockEntity extends AbstractBigCannonBreechBlockEntity
 	}
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.read(tag, registry, clientPacket);
-		this.openProgress = tag.getFloat("Progress");
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
+		this.openProgress = tag.getFloatOr("Progress", 0f);
         if (!clientPacket)
             return;
-        this.canClose = tag.getBoolean("CanClose");
+        this.canClose = tag.getBooleanOr("CanClose", false);
 	}
 
 }

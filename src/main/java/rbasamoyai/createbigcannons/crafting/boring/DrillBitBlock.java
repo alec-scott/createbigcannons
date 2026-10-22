@@ -88,7 +88,7 @@ public class DrillBitBlock extends WrenchableDirectionalBlock implements SimpleW
     }
 
 	private static boolean isExtensionPole(BlockState state) {
-		return AllBlocks.PISTON_EXTENSION_POLE.has(state);
+		return state.is(AllBlocks.PISTON_EXTENSION_POLE);
 	}
 
 	private static boolean isDrillBlock(BlockState state) {

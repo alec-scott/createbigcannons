@@ -57,7 +57,7 @@ public class ShellExplosion extends CustomExplosion.Impl {
 			return;
 		ShellBlastWaveEffectParticleData blastWave = new ShellBlastWaveEffectParticleData(this.blockSize * 12,
 			CBCRegistryUtils.getSoundEventRegistry().wrapAsHolder(CBCSoundEvents.SHELL_EXPLOSION.getMainEvent()), SoundSource.BLOCKS,
-			Math.max(this.blockSize * 2, 16), 0.8f + level.random.nextFloat() * 0.4f, 2f, this.blockSize);
+			Math.max(this.blockSize * 2, 16), 0.8f + level.getRandom().nextFloat() * 0.4f, 2f, this.blockSize);
 		ShellExplosionCloudParticleData explosionCloud = new ShellExplosionCloudParticleData(this.blockSize, this.isPlume);
 		this.level.addParticle(blastWave, true, this.x, this.y, this.z, 0, 0, 0);
 		this.level.addParticle(explosionCloud, true, this.x, this.y, this.z, 0, 0, 0);

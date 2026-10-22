@@ -52,7 +52,7 @@ public class BigCannonMaterialPropertiesHandler {
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundBigCannonMaterialPropertiesPacket pkt) {
 		buf.writeVarInt(pkt.properties.size());
 		for (Map.Entry<BigCannonMaterial, BigCannonMaterialProperties> entry : pkt.properties.entrySet()) {
-			buf.writeResourceLocation(entry.getKey().name());
+			buf.writeIdentifier(entry.getKey().name());
 			entry.getValue().writeBuf(buf);
 		}
 	}
@@ -61,7 +61,7 @@ public class BigCannonMaterialPropertiesHandler {
 		int sz = buf.readVarInt();
         Map<BigCannonMaterial, BigCannonMaterialProperties> properties = new Reference2ObjectOpenHashMap<>();
 		for (int i = 0; i < sz; ++i)
-			properties.put(BigCannonMaterial.fromName(buf.readResourceLocation()), BigCannonMaterialProperties.fromBuf(buf));
+			properties.put(BigCannonMaterial.fromName(buf.readIdentifier()), BigCannonMaterialProperties.fromBuf(buf));
         return new ClientboundBigCannonMaterialPropertiesPacket(properties);
 	}
 

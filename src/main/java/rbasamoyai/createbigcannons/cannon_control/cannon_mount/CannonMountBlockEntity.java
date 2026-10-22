@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import static net.minecraft.ChatFormatting.GRAY;
 
 import java.util.List;
@@ -31,7 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -48,7 +52,7 @@ import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 public class CannonMountBlockEntity extends KineticBlockEntity implements IDisplayAssemblyExceptions, ControlPitchContraption.Block,
 	ExtendsCannonMount, HasMultipleKineticInterfaces, IHaveGoggleInformation, CBCHasIItemHandlerBlockEntity {
 
-	private static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+	private static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 	private AssemblyException lastException = null;
 	protected PitchOrientedContraptionEntity mountedContraption;
@@ -399,8 +403,8 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 	}
 
 	@Override
-	protected void write(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.write(tag, registry, clientPacket);
+	protected void write(ValueOutput tag, boolean clientPacket) {
+		super.write(tag, clientPacket);
 		tag.putBoolean("Running", this.running);
 		tag.putFloat("CannonYaw", this.cannonYaw);
 		tag.putFloat("CannonPitch", this.cannonPitch);
@@ -419,12 +423,12 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 	}
 
 	@Override
-	protected void read(CompoundTag tag, HolderLookup.Provider registry, boolean clientPacket) {
-		super.read(tag, registry, clientPacket);
+	protected void read(ValueInput tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
 		boolean oldRunning = this.running;
-		this.running = tag.getBoolean("Running");
-		this.cannonYaw = tag.getFloat("CannonYaw");
-		this.cannonPitch = tag.getFloat("CannonPitch");
+		this.running = tag.getBooleanOr("Running", false);
+		this.cannonYaw = tag.getFloatOr("CannonYaw", 0f);
+		this.cannonPitch = tag.getFloatOr("CannonPitch", 0f);
 		this.lastException = AssemblyException.read(tag, registry);
 
 		if (clientPacket) {

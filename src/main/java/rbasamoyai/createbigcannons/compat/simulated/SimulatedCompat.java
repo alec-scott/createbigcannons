@@ -142,12 +142,12 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing == facing1 && facing == attached);
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
         }
-        if (AllBlocks.PISTON_EXTENSION_POLE.has(state)) {
+        if (state.is(AllBlocks.PISTON_EXTENSION_POLE)) {
             Direction facing = state.getValue(BlockStateProperties.FACING);
             if (CBCBlocks.RAM_HEAD.has(rootState) || CBCBlocks.WORM_HEAD.has(rootState)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
@@ -157,7 +157,7 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
@@ -168,7 +168,7 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing == facing1 && facing == attached.getOpposite());
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing == attached.getOpposite());
             }
@@ -191,12 +191,12 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing == facing1 && facing == attached);
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
         }
-        if (AllBlocks.PISTON_EXTENSION_POLE.has(state)) {
+        if (state.is(AllBlocks.PISTON_EXTENSION_POLE)) {
             Direction facing = state.getValue(BlockStateProperties.FACING);
             if (CBCBlocks.CANNON_DRILL_BIT.has(rootState)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
@@ -206,7 +206,7 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
@@ -217,7 +217,7 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing == facing1 && facing == attached.getOpposite());
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing == attached.getOpposite());
             }
@@ -240,12 +240,12 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing == facing1 && facing == attached);
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
         }
-        if (AllBlocks.PISTON_EXTENSION_POLE.has(state)) {
+        if (state.is(AllBlocks.PISTON_EXTENSION_POLE)) {
             Direction facing = state.getValue(BlockStateProperties.FACING);
             if (CBCBlocks.CANNON_BUILDER_HEAD.has(rootState)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
@@ -255,7 +255,7 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing.getAxis() == attached.getAxis());
             }
@@ -266,7 +266,7 @@ public class SimulatedCompat {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing == facing1 && facing == attached.getOpposite());
             }
-            if (AllBlocks.PISTON_EXTENSION_POLE.has(rootState)) {
+            if (rootState.is(AllBlocks.PISTON_EXTENSION_POLE)) {
                 Direction facing1 = rootState.getValue(BlockStateProperties.FACING);
                 return BlockMovementChecks.CheckResult.of(facing.getAxis() == facing1.getAxis() && facing == attached.getOpposite());
             }

@@ -392,7 +392,7 @@ public class CBCBuilderTransformers {
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonDrillBit() {
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
-			.loot((t, p) -> t.dropOther(p, AllBlocks.PISTON_EXTENSION_POLE.get()))
+			.loot((t, p) -> t.dropOther(p, AllBlocks.PISTON_EXTENSION_POLE))
 			.blockstate(BlockStateGen.directionalBlockProvider(false));
 	}
 
@@ -410,7 +410,7 @@ public class CBCBuilderTransformers {
 		Identifier attachedLoc = CreateBigCannons.resource("block/cannon_builder/cannon_builder_head_attached");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
-			.loot((t, p) -> t.dropOther(p, AllBlocks.PISTON_EXTENSION_POLE.get()))
+			.loot((t, p) -> t.dropOther(p, AllBlocks.PISTON_EXTENSION_POLE))
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p, s ->
 				p.models().getExistingFile(s.getValue(CannonBuilderHeadBlock.ATTACHED) ? attachedLoc : notAttachedLoc)));
 	}

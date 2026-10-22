@@ -53,7 +53,7 @@ public class BuiltUpHeatingCategory extends CBCBlockRecipeCategory<BuiltUpHeatin
 			.scale(scale)
 			.render(graphics);
 
-		AnimatedKinetics.defaultBlockElement(AllBlocks.SHAFT.getDefaultState())
+		AnimatedKinetics.defaultBlockElement(AllBlocks.SHAFT.defaultBlockState())
 			.rotateBlock(0, AnimatedKinetics.getCurrentAngle(), -90)
 			.atLocal(0, 0, 0)
 			.scale(scale)
@@ -70,7 +70,7 @@ public class BuiltUpHeatingCategory extends CBCBlockRecipeCategory<BuiltUpHeatin
 			.scale(scale)
 			.render(graphics);
 
-		AnimatedKinetics.defaultBlockElement(AllBlocks.ENCASED_FAN.getDefaultState())
+		AnimatedKinetics.defaultBlockElement(AllBlocks.ENCASED_FAN.defaultBlockState())
 			.rotateBlock(0, 180, 0)
 			.atLocal(0, 0, 0)
 			.scale(scale)

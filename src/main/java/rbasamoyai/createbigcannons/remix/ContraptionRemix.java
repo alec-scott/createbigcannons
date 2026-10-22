@@ -327,7 +327,7 @@ public class ContraptionRemix {
 				if (contraption.getBlocks().containsKey(localPrev)) {
 					prevInfo = contraption.getBlocks().get(localPrev);
 				} else if (contraption instanceof PulleyContraption && pos.equals(contraption.anchor) && offset == Direction.DOWN) {
-					prevInfo = new StructureBlockInfo(BlockPos.ZERO, AllBlocks.PULLEY_MAGNET.getDefaultState(), null);
+					prevInfo = new StructureBlockInfo(BlockPos.ZERO, AllBlocks.PULLEY_MAGNET.defaultBlockState(), null);
 				}
 				BlockState currentState = state;
 				if (state.getBlock() instanceof BigCannonBlock cBlock1
@@ -427,7 +427,7 @@ public class ContraptionRemix {
 				if (contraption.getBlocks().containsKey(localPrev)) {
 					prevInfo = contraption.getBlocks().get(localPrev);
 				} else if (contraption instanceof PulleyContraption && pos.equals(contraption.anchor) && offset == Direction.DOWN) {
-					prevInfo = new StructureBlockInfo(BlockPos.ZERO, AllBlocks.PULLEY_MAGNET.getDefaultState(), null);
+					prevInfo = new StructureBlockInfo(BlockPos.ZERO, AllBlocks.PULLEY_MAGNET.defaultBlockState(), null);
 				}
                 boolean pusherMunition = IBigCannonBlockEntity.isValidMunitionState(forcedAxis, state);
                 if (pusherMunition) {
@@ -638,7 +638,7 @@ public class ContraptionRemix {
 			&& cBlock.getFacing(state).getAxis().isVertical()
 			&& level.getBlockEntity(pos) instanceof IBigCannonBlockEntity cbe) {
 			BlockState innerState = cbe.cannonBehavior().block().state();
-			if (!AllBlocks.ROPE.has(innerState) && !AllBlocks.PULLEY_MAGNET.has(innerState)) return;
+			if (!innerState.is(AllBlocks.ROPE) && !innerState.is(AllBlocks.PULLEY_MAGNET)) return;
 
 			cbe.cannonBehavior().removeBlock();
 			cbe.cannonBehavior().blockEntity.notifyUpdate();
@@ -716,10 +716,10 @@ public class ContraptionRemix {
 			StructureBlockInfo info = entry.getValue();
 			if (levelState.getBlock() instanceof BigCannonBlock
 				&& level.getBlockEntity(gpos) instanceof IBigCannonBlockEntity cbe) {
-				if (AllBlocks.ROPE.has(info.state()) || AllBlocks.PULLEY_MAGNET.has(info.state()))
+				if (info.state().is(AllBlocks.ROPE) || info.state().is(AllBlocks.PULLEY_MAGNET))
 					throw AssemblyException.unmovableBlock(gpos, level.getBlockState(gpos));
 				StructureBlockInfo contained = cbe.cannonBehavior().block();
-				if (!AllBlocks.ROPE.has(contained.state()) && !AllBlocks.PULLEY_MAGNET.has(contained.state())) continue;
+				if (!contained.state().is(AllBlocks.ROPE) && !contained.state().is(AllBlocks.PULLEY_MAGNET)) continue;
 				blocksToCheck.add(gpos);
 			}
 		}
@@ -739,11 +739,11 @@ public class ContraptionRemix {
 					BlockState state = level.getBlockState(pos1);
 					BlockState containedState = getInnerCannonState(level, state, pos1, Direction.UP);
 					if (contraption.getBlocks().containsKey(pos1.subtract(diff))) {
-						if (AllBlocks.ROPE_PULLEY.has(containedState) && dir == Direction.UP
-							|| AllBlocks.PULLEY_MAGNET.has(containedState) && dir == Direction.DOWN) break;
+						if (containedState.is(AllBlocks.ROPE_PULLEY) && dir == Direction.UP
+							|| containedState.is(AllBlocks.PULLEY_MAGNET) && dir == Direction.DOWN) break;
 						continue;
 					}
-					if (AllBlocks.ROPE_PULLEY.has(state) || AllBlocks.ROPE.has(containedState) || AllBlocks.PULLEY_MAGNET.has(containedState))
+					if (state.is(AllBlocks.ROPE_PULLEY) || containedState.is(AllBlocks.ROPE) || containedState.is(AllBlocks.PULLEY_MAGNET))
 						throw AssemblyException.unmovableBlock(pos1, level.getBlockState(pos1));
 					if (state.getBlock() instanceof BigCannonBlock cBlock
 						&& cBlock.getFacing(state).getAxis().isVertical()

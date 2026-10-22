@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
@@ -90,7 +94,7 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 	}
 
 	@Override
-	public void write(CompoundTag nbt, HolderLookup.Provider registries, boolean clientPacket) {
+	public void write(ValueOutput nbt, boolean clientPacket) {
 		if (this.currentFacing != null) {
 			nbt.putString("Facing", this.currentFacing.getSerializedName());
 		}
@@ -109,13 +113,13 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 			.forEach(weldsTag::add);
 		nbt.put("Welds", weldsTag);
 
-		super.write(nbt, registries, clientPacket);
+		super.write(nbt, clientPacket);
 	}
 
 	@Override
-	public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean clientPacket) {
+	public void read(ValueInput nbt, boolean clientPacket) {
         this.protectedFromSurroundingRemovals = true;
-		this.currentFacing = nbt.contains("Facing") ? Direction.byName(nbt.getString("Facing")) : null;
+		this.currentFacing = nbt.contains("Facing") ? Direction.byName(nbt.getStringOr("Facing", "")) : null;
 
 		boolean updateFlag = false;
 		Set<Direction> oldConnected = EnumSet.noneOf(Direction.class);
@@ -147,7 +151,7 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 			}
 		}
 
-		super.read(nbt, registries, clientPacket);
+		super.read(nbt, clientPacket);
 	}
 
 	public void setWelded(Direction face, boolean welded) {

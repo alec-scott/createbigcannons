@@ -158,21 +158,21 @@ public class CannonMountPropertiesHandler {
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundSyncCannonMountPropertiesPacket pkt) {
 		buf.writeVarInt(pkt.blockMountProperties.size());
 		for (Map.Entry<BlockEntityType<?>, Map<ICannonContraptionType, CannonMountBlockPropertiesProvider>> entry : pkt.blockMountProperties.entrySet()) {
-			buf.writeResourceLocation(CBCRegistryUtils.getBlockEntityTypeLocation(entry.getKey()));
+			buf.writeIdentifier(CBCRegistryUtils.getBlockEntityTypeLocation(entry.getKey()));
 			Map<ICannonContraptionType, CannonMountBlockPropertiesProvider> map = entry.getValue();
 			buf.writeVarInt(map.size());
 			for (Map.Entry<ICannonContraptionType, CannonMountBlockPropertiesProvider> entry1 : map.entrySet()) {
-				buf.writeResourceLocation(CannonContraptionTypeRegistry.getKey(entry1.getKey()));
+				buf.writeIdentifier(CannonContraptionTypeRegistry.getKey(entry1.getKey()));
 				toNetworkCasted(buf, entry.getKey(), entry1.getValue());
 			}
 		}
 		buf.writeVarInt(pkt.entityMountProperties.size());
 		for (Map.Entry<EntityType<?>, Map<ICannonContraptionType, CannonMountEntityPropertiesProvider>> entry : pkt.entityMountProperties.entrySet()) {
-			buf.writeResourceLocation(CBCRegistryUtils.getEntityTypeLocation(entry.getKey()));
+			buf.writeIdentifier(CBCRegistryUtils.getEntityTypeLocation(entry.getKey()));
 			Map<ICannonContraptionType, CannonMountEntityPropertiesProvider> map = entry.getValue();
 			buf.writeVarInt(map.size());
 			for (Map.Entry<ICannonContraptionType, CannonMountEntityPropertiesProvider> entry1 : map.entrySet()) {
-				buf.writeResourceLocation(CannonContraptionTypeRegistry.getKey(entry1.getKey()));
+				buf.writeIdentifier(CannonContraptionTypeRegistry.getKey(entry1.getKey()));
 				toNetworkCasted(buf, entry.getKey(), entry1.getValue());
 			}
 		}
@@ -194,14 +194,14 @@ public class CannonMountPropertiesHandler {
 		Map<BlockEntityType<?>, Map<ICannonContraptionType, CannonMountBlockPropertiesProvider>> blockMountProperties = new Reference2ObjectOpenHashMap<>();
 		int blockSz = buf.readVarInt();
 		for (int i = 0; i < blockSz; ++i) {
-			Identifier beTypeLoc = buf.readResourceLocation();
+			Identifier beTypeLoc = buf.readIdentifier();
 			BlockEntityType<?> beType = CBCRegistryUtils.getBlockEntityType(beTypeLoc);
 			CannonMountBlockPropertiesSerializer<?> ser = BLOCK_MOUNT_SERIALIZERS.get(beType);
 
 			int mapSz = buf.readVarInt();
 			Map<ICannonContraptionType, CannonMountBlockPropertiesProvider> map = new Reference2ObjectOpenHashMap<>();
 			for (int j = 0; j < mapSz; ++j) {
-				Identifier contraptionTypeLoc = buf.readResourceLocation();
+				Identifier contraptionTypeLoc = buf.readIdentifier();
 				ICannonContraptionType contraptionType = CannonContraptionTypeRegistry.get(contraptionTypeLoc);
 				map.put(contraptionType, ser.fromNetwork(buf));
 			}
@@ -210,14 +210,14 @@ public class CannonMountPropertiesHandler {
 		Map<EntityType<?>, Map<ICannonContraptionType, CannonMountEntityPropertiesProvider>> entityMountProperties = new Reference2ObjectOpenHashMap<>();
 		int entitySz = buf.readVarInt();
 		for (int i = 0; i < entitySz; ++i) {
-			Identifier entityTypeLoc = buf.readResourceLocation();
+			Identifier entityTypeLoc = buf.readIdentifier();
 			EntityType<?> entityType = CBCRegistryUtils.getEntityType(entityTypeLoc);
 			CannonMountEntityPropertiesSerializer<?> ser = ENTITY_MOUNT_SERIALIZERS.get(entityType);
 
 			int mapSz = buf.readVarInt();
 			Map<ICannonContraptionType, CannonMountEntityPropertiesProvider> map = new Reference2ObjectOpenHashMap<>();
 			for (int j = 0; j < mapSz; ++j) {
-				Identifier contraptionTypeLoc = buf.readResourceLocation();
+				Identifier contraptionTypeLoc = buf.readIdentifier();
 				ICannonContraptionType contraptionType = CannonContraptionTypeRegistry.get(contraptionTypeLoc);
 				map.put(contraptionType, ser.fromNetwork(buf));
 			}

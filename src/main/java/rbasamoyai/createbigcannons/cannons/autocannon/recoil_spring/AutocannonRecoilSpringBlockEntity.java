@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.recoil_spring;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,8 +63,8 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
     }
 
     @Override
-    protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-        super.write(tag, registries, clientPacket);
+    protected void write(ValueOutput tag, boolean clientPacket) {
+        super.write(tag, clientPacket);
 
         tag.putInt("AnimateTicks", this.animateTicks);
 
@@ -76,10 +80,10 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
     }
 
     @Override
-    protected void read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-        super.read(tag, registries, clientPacket);
+    protected void read(ValueInput tag, boolean clientPacket) {
+        super.read(tag, clientPacket);
 
-        this.animateTicks = tag.getInt("AnimateTicks");
+        this.animateTicks = tag.getIntOr("AnimateTicks", 0);
 
         this.toAnimate.clear();
         ListTag renderedList = tag.getList("RenderedBlocks", Tag.TAG_COMPOUND);

@@ -29,7 +29,7 @@ sourceSets {
         resources.srcDir 'src/generated/resources'
         java {
             // Datagen is stubbed for now (committed src/generated/resources are used as-is); see PORTING-26.1.md.
-            exclude { el -> el.path.startsWith('rbasamoyai/createbigcannons/datagen/') && !(el.path in KEPT_DATAGEN) }
+            exclude { el -> !el.directory && el.path.startsWith('rbasamoyai/createbigcannons/datagen/') && !(el.path in KEPT_DATAGEN) }
             // Compat for mods with no 26.1 Fabric build yet.
             exclude 'rbasamoyai/createbigcannons/compat/copycats/**'
             exclude 'rbasamoyai/createbigcannons/compat/framedblocks/**'

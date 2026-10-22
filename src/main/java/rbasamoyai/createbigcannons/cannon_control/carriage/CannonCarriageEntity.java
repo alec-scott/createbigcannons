@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.carriage;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -497,18 +501,18 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag tag) {
-		this.setDamage(tag.getFloat("Damage"));
-		this.setHurtTime(tag.getInt("HurtTime"));
-		this.setHurtDir(tag.getInt("HurtDir"));
-		this.setCannonRider(tag.getBoolean("CannonRider"));
+	protected void readAdditionalSaveData(ValueInput tag) {
+		this.setDamage(tag.getFloatOr("Damage", 0f));
+		this.setHurtTime(tag.getIntOr("HurtTime", 0));
+		this.setHurtDir(tag.getIntOr("HurtDir", 0));
+		this.setCannonRider(tag.getBooleanOr("CannonRider", false));
 
 		ListTag wheelStateTag = tag.getList("WheelState", Tag.TAG_FLOAT);
 		this.setWheelState(new Vector4f(wheelStateTag.getFloat(0), wheelStateTag.getFloat(1), wheelStateTag.getFloat(2), wheelStateTag.getFloat(3)));
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag tag) {
+	protected void addAdditionalSaveData(ValueOutput tag) {
 		tag.putFloat("Damage", this.getDamage());
 		tag.putInt("HurtTime", this.getHurtTime());
 		tag.putInt("HurtDir", this.getHurtDir());
