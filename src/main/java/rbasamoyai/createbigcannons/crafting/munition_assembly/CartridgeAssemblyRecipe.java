@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -19,9 +18,8 @@ import rbasamoyai.createbigcannons.munitions.fuzes.FuzeItem;
 
 public class CartridgeAssemblyRecipe extends CustomRecipe {
 
-	public CartridgeAssemblyRecipe() { this(CraftingBookCategory.MISC); }
-
-	public CartridgeAssemblyRecipe(CraftingBookCategory cat) { super(cat); }
+	public CartridgeAssemblyRecipe() {
+	}
 
 	@Override
 	public boolean matches(CraftingInput container, Level level) {
@@ -54,7 +52,7 @@ public class CartridgeAssemblyRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput input, HolderLookup.Provider access) {
+	public ItemStack assemble(CraftingInput input) {
 		int roundPosition = -1;
 		int cartridgePosition = -1;
 		boolean searchFuze = false;
@@ -96,7 +94,6 @@ public class CartridgeAssemblyRecipe extends CustomRecipe {
 		return result;
 	}
 
-	@Override public boolean canCraftInDimensions(int width, int height) { return width >= 1 && height >= 2; }
 
-	@Override public RecipeSerializer<?> getSerializer() { return CBCRecipeTypes.CARTRIDGE_ASSEMBLY.getSerializer(); }
+	@Override public RecipeSerializer<? extends CustomRecipe> getSerializer() { return CBCRecipeTypes.CARTRIDGE_ASSEMBLY.getSerializer(); }
 }

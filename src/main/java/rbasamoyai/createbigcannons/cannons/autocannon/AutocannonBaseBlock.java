@@ -1,5 +1,13 @@
 package rbasamoyai.createbigcannons.cannons.autocannon;
 
+import net.minecraft.util.RandomSource;
+
+import net.minecraft.world.level.LevelReader;
+
+import net.minecraft.world.level.ScheduledTickAccess;
+
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,7 +26,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
 import rbasamoyai.createbigcannons.cannons.autocannon.material.AutocannonMaterial;
 
-public abstract class AutocannonBaseBlock extends DirectionalBlock implements AutocannonBlock, SimpleWaterloggedBlock {
+public abstract class AutocannonBaseBlock extends DirectionalBlock implements AutocannonBlock, SimpleWaterloggedBlock, CBCRemovalListener {
 
     private final AutocannonMaterial material;
 
@@ -41,7 +49,6 @@ public abstract class AutocannonBaseBlock extends DirectionalBlock implements Au
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
-        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override
@@ -60,11 +67,11 @@ public abstract class AutocannonBaseBlock extends DirectionalBlock implements Au
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction face, BlockState otherState, LevelAccessor level, BlockPos pos, BlockPos otherPos) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction face, BlockPos otherPos, BlockState otherState, RandomSource random) {
         if (state.getValue(BlockStateProperties.WATERLOGGED)) {
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return super.updateShape(state, face, otherState, level, pos, otherPos);
+        return super.updateShape(state, level, ticks, pos, face, otherPos, otherState, random);
     }
 
 }

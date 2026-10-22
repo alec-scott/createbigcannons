@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import net.minecraft.world.InteractionResult;
 
 import com.zurrtum.create.foundation.block.IBE;
@@ -26,7 +28,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 
-public class CannonCastBlock extends Block implements IBE<AbstractCannonCastBlockEntity> {
+public class CannonCastBlock extends Block implements IBE<AbstractCannonCastBlockEntity>, CBCRemovalListener {
 
 	public CannonCastBlock(Properties properties) {
 		super(properties);
@@ -38,11 +40,10 @@ public class CannonCastBlock extends Block implements IBE<AbstractCannonCastBloc
 		if (state.hasBlockEntity() && (state.getBlock() != newState.getBlock() || !newState.hasBlockEntity())) {
 			this.withBlockEntityDo(level, pos, AbstractCannonCastBlockEntity::destroyCastMultiblockAtLayer);
 		}
-		super.onRemove(state, level, pos, newState, dropContents);
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		return CBCBlocks.CASTING_SAND.asStack();
 	}
 
@@ -52,7 +53,7 @@ public class CannonCastBlock extends Block implements IBE<AbstractCannonCastBloc
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+	public boolean propagatesSkylightDown(BlockState state) {
 		return false;
 	}
 
@@ -82,7 +83,7 @@ public class CannonCastBlock extends Block implements IBE<AbstractCannonCastBloc
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
 		return this.getBlockEntityOptional(level, pos)
 			.map(AbstractCannonCastBlockEntity::getControllerBE)
 			.map(AbstractCannonCastBlockEntity::getFillState)

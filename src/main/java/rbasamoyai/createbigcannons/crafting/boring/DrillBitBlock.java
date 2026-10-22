@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.boring;
 
+import net.minecraft.util.RandomSource;
+
+import net.minecraft.world.level.ScheduledTickAccess;
+
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.AllShapes;
 import com.zurrtum.create.content.contraptions.piston.MechanicalPistonBlock;
@@ -50,7 +54,7 @@ public class DrillBitBlock extends WrenchableDirectionalBlock implements SimpleW
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		return CBCBlocks.CANNON_DRILL.asStack();
 	}
 
@@ -107,11 +111,11 @@ public class DrillBitBlock extends WrenchableDirectionalBlock implements SimpleW
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction direction, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+	public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighbor, RandomSource random) {
 		if (state.getValue(BlockStateProperties.WATERLOGGED)) {
 			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
-		return super.updateShape(state, direction, neighbor, level, pos, neighborPos);
+		return super.updateShape(state, level, ticks, pos, direction, neighborPos, neighbor, random);
 	}
 
 	@Override

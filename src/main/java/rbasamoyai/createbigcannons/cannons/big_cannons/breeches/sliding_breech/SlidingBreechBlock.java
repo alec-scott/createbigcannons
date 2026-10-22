@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.sliding_breech;
 
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.zurrtum.create.content.kinetics.base.DirectionalAxisKineticBlock;
@@ -24,7 +26,7 @@ import rbasamoyai.createbigcannons.cannons.big_cannons.material.BigCannonMateria
 import rbasamoyai.createbigcannons.crafting.casting.CannonCastShape;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 
-public class SlidingBreechBlock extends DirectionalAxisKineticBlock implements IBE<SlidingBreechBlockEntity>, BigCannonBlock {
+public class SlidingBreechBlock extends DirectionalAxisKineticBlock implements IBE<SlidingBreechBlockEntity>, BigCannonBlock, CBCRemovalListener {
 
 	private final BigCannonMaterial cannonMaterial;
 	private final NonNullSupplier<? extends Block> quickfiringConversion;
@@ -84,7 +86,6 @@ public class SlidingBreechBlock extends DirectionalAxisKineticBlock implements I
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override

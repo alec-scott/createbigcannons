@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.world.level.redstone.Orientation;
+
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.AllShapes;
 import com.zurrtum.create.AllSoundEvents;
@@ -96,7 +100,7 @@ public class CannonBuilderBlock extends DirectionalAxisKineticBlock implements I
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean isMoving) {
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean isMoving) {
 		if (!level.isClientSide()) {
 			if (!level.getBlockTicks().willTickThisTick(pos, this)) {
 				level.scheduleTick(pos, this, 0);

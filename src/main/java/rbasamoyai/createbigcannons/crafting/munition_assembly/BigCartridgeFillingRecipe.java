@@ -3,7 +3,6 @@ package rbasamoyai.createbigcannons.crafting.munition_assembly;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -16,9 +15,8 @@ import rbasamoyai.createbigcannons.munitions.big_cannon.propellant.BigCartridgeB
 
 public class BigCartridgeFillingRecipe extends CustomRecipe {
 
-	public BigCartridgeFillingRecipe() { this(CraftingBookCategory.MISC); }
-
-    public BigCartridgeFillingRecipe(CraftingBookCategory cat) { super(cat); }
+	public BigCartridgeFillingRecipe() {
+	}
 
 	@Override
 	public boolean matches(CraftingInput input, Level level) {
@@ -41,7 +39,7 @@ public class BigCartridgeFillingRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput input , HolderLookup.Provider access) {
+	public ItemStack assemble(CraftingInput input) {
 		ItemStack cartridge = ItemStack.EMPTY;
 		BigCartridgeBlockItem cartridgeItem = null;
 		int powderCount = 0;
@@ -105,8 +103,7 @@ public class BigCartridgeFillingRecipe extends CustomRecipe {
 		return result;
 	}
 
-	@Override public boolean canCraftInDimensions(int width, int height) { return width * height > 1; }
 
-	@Override public RecipeSerializer<?> getSerializer() { return CBCRecipeTypes.BIG_CARTRIDGE_FILLING.getSerializer(); }
+	@Override public RecipeSerializer<? extends CustomRecipe> getSerializer() { return CBCRecipeTypes.BIG_CARTRIDGE_FILLING.getSerializer(); }
 
 }

@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.fuzes;
 
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
@@ -32,5 +36,16 @@ public class FuzeItem extends Item {
 	public boolean canLingerInGround(ItemStack stack, AbstractCannonProjectile projectile) { return false; }
 
 	public void addExtraInfo(List<Component> tooltip, boolean isSneaking, ItemStack stack) {}
+
+	/** List-based tooltip for subclasses; PORT-NOTE(mc26.1): bridged from the 26.1 Consumer-based override below. */
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag flag) {
+		List<Component> tooltip = new ArrayList<>();
+		this.appendHoverText(stack, context, tooltip, flag);
+		tooltip.forEach(builder);
+	}
 
 }

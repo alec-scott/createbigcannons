@@ -1,5 +1,8 @@
 package rbasamoyai.createbigcannons.equipment.manual_loading;
 
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -161,9 +164,8 @@ public class WormItem extends Item implements HandloadingTool {
 		return false;
 	}
 
-	@Override
+	// PORT-NOTE(mc26.1): List-based tooltip, called from the appendHoverText(..., Consumer) override below.
 	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-		super.appendHoverText(stack, ctx, tooltip, flag);
 		CBCTooltip.appendWormText(stack, ctx, tooltip, flag);
 	}
 
@@ -173,6 +175,13 @@ public class WormItem extends Item implements HandloadingTool {
 
 	public static boolean deployersCanUse() {
 		return CBCConfigs.server().cannons.deployersCanUseLoadingTools.get();
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag flag) {
+		List<Component> tooltip = new ArrayList<>();
+		this.appendHoverText(stack, context, tooltip, flag);
+		tooltip.forEach(builder);
 	}
 
 }

@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import net.minecraft.world.level.ScheduledTickAccess;
+
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +46,7 @@ import rbasamoyai.createbigcannons.index.CBCMenuTypes;
 import rbasamoyai.createbigcannons.index.CBCShapes;
 import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonAmmoType;
 
-public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, SimpleWaterloggedBlock, IBE<AutocannonAmmoContainerBlockEntity> {
+public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, SimpleWaterloggedBlock, IBE<AutocannonAmmoContainerBlockEntity>, CBCRemovalListener {
 
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -105,13 +109,12 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 			if (level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity) {
 				level.updateNeighbourForOutputSignal(pos, state.getBlock());
 			}
-			super.onRemove(state, level, pos, newState, isMoving);
 		}
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
-		ItemStack itemStack = super.getCloneItemStack(level, pos, state);
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+		ItemStack itemStack = super.getCloneItemStack(level, pos, state, includeData);
 		if (level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity be) be.saveToItem(itemStack, level.registryAccess());
 		return itemStack;
 	}
@@ -133,7 +136,7 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
 		if (!(level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity be)) return 0;
 		AutocannonAmmoType type = be.getAmmoType();
 		if (type == AutocannonAmmoType.NONE) return 0;
@@ -153,11 +156,11 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction face, BlockState otherState, LevelAccessor level, BlockPos pos, BlockPos otherPos) {
+	public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction face, BlockPos otherPos, BlockState otherState, RandomSource random) {
 		if (state.getValue(WATERLOGGED)) {
 			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
-		return super.updateShape(state, face, otherState, level, pos, otherPos);
+		return super.updateShape(state, level, ticks, pos, face, otherPos, otherState, random);
 	}
 
 	@Override public Class<AutocannonAmmoContainerBlockEntity> getBlockEntityClass() { return AutocannonAmmoContainerBlockEntity.class; }

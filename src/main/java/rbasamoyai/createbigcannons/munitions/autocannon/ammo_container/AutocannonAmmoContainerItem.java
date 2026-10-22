@@ -1,5 +1,8 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -157,9 +160,8 @@ public class AutocannonAmmoContainerItem extends BlockItem implements MenuProvid
 		return ret;
 	}
 
-	@Override
+	// PORT-NOTE(mc26.1): List-based tooltip, called from the appendHoverText(..., Consumer) override below.
 	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-		super.appendHoverText(stack, ctx, tooltipComponents, isAdvanced);
 		String infinity = "\u221E";
 
 		ItemStack mainAmmo = getMainAmmoStack(stack);
@@ -178,6 +180,13 @@ public class AutocannonAmmoContainerItem extends BlockItem implements MenuProvid
 
 	public boolean isCreative() {
 		return CBCBlocks.CREATIVE_AUTOCANNON_AMMO_CONTAINER.is(this);
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag flag) {
+		List<Component> tooltip = new ArrayList<>();
+		this.appendHoverText(stack, context, tooltip, flag);
+		tooltip.forEach(builder);
 	}
 
 }

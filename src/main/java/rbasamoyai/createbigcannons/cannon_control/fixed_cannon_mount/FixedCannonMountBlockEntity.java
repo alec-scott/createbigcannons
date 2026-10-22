@@ -5,6 +5,8 @@ import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.util.ProblemReporter;
 
 import net.minecraft.world.level.storage.ValueInput;
 
@@ -18,17 +20,13 @@ import com.google.common.collect.ImmutableList;
 import com.zurrtum.create.AllSoundEvents;
 import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
 import com.zurrtum.create.content.contraptions.AssemblyException;
-import com.zurrtum.create.client.content.contraptions.IDisplayAssemblyExceptions;
+import rbasamoyai.createbigcannons.base.goggles.CBCAssemblyExceptionHolder;
 import com.zurrtum.create.content.equipment.clipboard.ClipboardCloneable;
-import com.zurrtum.create.content.kinetics.crank.ValveHandleBlockEntity;
+import com.zurrtum.create.foundation.blockEntity.behaviour.ValueSettings;
+import com.zurrtum.create.foundation.blockEntity.behaviour.scrollValue.ServerScrollValueBehaviour;
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
 import com.zurrtum.create.foundation.blockEntity.behaviour.BehaviourType;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
-import com.zurrtum.create.client.foundation.blockEntity.behaviour.CenteredSideValueBoxTransform;
-import com.zurrtum.create.client.foundation.blockEntity.behaviour.ValueBoxTransform;
-import com.zurrtum.create.client.foundation.blockEntity.ValueSettingsBoard;
-import com.zurrtum.create.client.foundation.blockEntity.ValueSettingsFormatter;
-import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import com.zurrtum.create.catnip.math.VecHelper;
 import net.minecraft.ChatFormatting;
@@ -47,7 +45,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.CreateBigCannons;
@@ -59,7 +56,7 @@ import rbasamoyai.createbigcannons.cannons.CannonContraptionProviderBlock;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 
-public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDisplayAssemblyExceptions,
+public class FixedCannonMountBlockEntity extends SmartBlockEntity implements CBCAssemblyExceptionHolder,
     ControlPitchContraption.Block, CBCGoggleInfo, CBCHasIItemHandlerBlockEntity, ClipboardCloneable {
 
 	private AssemblyException lastException = null;
@@ -81,7 +78,7 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 		behaviours.add(this.pitchSlot = new FixedCannonMountScrollValueBehaviour(this, true));
 		behaviours.add(this.yawSlot = new FixedCannonMountScrollValueBehaviour(this, false));
 	}
@@ -213,7 +210,7 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 			return;
 		if (this.mountedContraption != null) {
 			this.resetContraptionToOffset();
-			this.mountedContraption.save(new CompoundTag()); // Crude refresh of block data
+			this.mountedContraption.saveWithoutId(TagValueOutput.createWithContext(ProblemReporter.DISCARDING, this.level.registryAccess())); // Crude refresh of block data
 			this.mountedContraption.disassemble();
 			AllSoundEvents.CONTRAPTION_DISASSEMBLE.playOnServer(this.getLevel(), this.worldPosition);
 		}
@@ -283,7 +280,7 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 		tag.putBoolean("Running", this.running);
 		tag.putFloat("CannonYaw", this.cannonYaw);
 		tag.putFloat("CannonPitch", this.cannonPitch);
-		AssemblyException.write(tag, registry, this.lastException);
+		AssemblyException.write(tag, this.lastException);
 
         if (this.reassemble)
             tag.putBoolean("TryReassembling", true);
@@ -295,7 +292,7 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 		this.running = tag.getBooleanOr("Running", false);
 		this.cannonYaw = tag.getFloatOr("CannonYaw", 0f);
 		this.cannonPitch = tag.getFloatOr("CannonPitch", 0f);
-		this.lastException = AssemblyException.read(tag, registry);
+		this.lastException = AssemblyException.read(tag);
         this.reassemble = CBCValueIO.contains(tag, "TryReassembling");
 
 		if (!clientPacket) return;
@@ -323,62 +320,47 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
     @Nullable
     @Override
     public Storage<ItemVariant> getItemHandler(Direction side) {
-        return this.mountedContraption == null ? null : this.mountedContraption.getCapability(Capabilities.ItemHandler.ENTITY);
+        return this.mountedContraption == null ? null : this.mountedContraption.getItemHandler();
     }
 
     @Override public String getClipboardKey() { return "Angles"; }
 
     @Override
-    public boolean writeToClipboard(HolderLookup.Provider registries, CompoundTag tag, Direction side) {
+    public boolean writeToClipboard(ValueOutput tag, Direction side) {
         tag.putInt("Pitch", this.pitchSlot.getValue());
         tag.putInt("Yaw", this.yawSlot.getValue());
         return true;
     }
 
     @Override
-    public boolean readFromClipboard(HolderLookup.Provider registries, CompoundTag tag, Player player, Direction side, boolean simulate) {
+    public boolean readFromClipboard(ValueInput tag, Player player, Direction side, boolean simulate) {
         if (simulate)
             return true;
-        this.pitchSlot.setValue(tag.getInt("Pitch"));
-        this.yawSlot.setValue(tag.getInt("Yaw"));
+        this.pitchSlot.setValue(tag.getIntOr("Pitch", 0));
+        this.yawSlot.setValue(tag.getIntOr("Yaw", 0));
         this.notifyUpdate();
         return true;
     }
 
-    public static class FixedCannonMountScrollValueBehaviour extends ValveHandleBlockEntity.ValveHandleScrollValueBehaviour {
-		public static final BehaviourType<FixedCannonMountScrollValueBehaviour> PITCH_TYPE = new BehaviourType<>();
+    /**
+     * Server half of the pitch/yaw adjustment slots.
+     *
+     * <p>PORT-NOTE(fabric): Create Fly splits scroll values into a server behaviour and a client one (value box, board,
+     * formatting), so the client half is {@code fabric.client.FixedCannonMountValueBehaviour}. Create Fly routes value
+     * settings packets only to the behaviour registered as {@link ServerScrollValueBehaviour#TYPE}; the pitch slot uses
+     * that type and {@code ValueSettingsHandlerMixin} sends packets with the yaw slot's net id to the yaw slot.</p>
+     */
+    public static class FixedCannonMountScrollValueBehaviour extends ServerScrollValueBehaviour {
 		public static final BehaviourType<FixedCannonMountScrollValueBehaviour> YAW_TYPE = new BehaviourType<>();
+		public static final int PITCH_NET_ID = 0;
+		public static final int YAW_NET_ID = 1;
 
 		private final boolean pitch;
-		private final ValueBoxTransform newSlotPositioning;
 
 		public FixedCannonMountScrollValueBehaviour(SmartBlockEntity be, boolean pitch) {
 			super(be);
-			String suffix = pitch ? "pitch" : "yaw";
-			this.setLabel(CreateLang.builder(CreateBigCannons.MOD_ID).translate("fixed_cannon_mount.angle_" + suffix).component());
-			this.newSlotPositioning = new FixedCannonMountValueBox(pitch);
 			this.pitch = pitch;
 			this.between(-45, 45);
-			this.withFormatter(v -> {
-				return String.format("%s%d", v < 0 ? "-" : v > 0 ? "+" : "", Math.abs(v)) + CreateLang.translateDirect("generic.unit.degrees").getString();
-			});
-		}
-
-		@Override
-		public boolean testHit(Vec3 hit) {
-            Level level = this.blockEntity.getLevel();
-            BlockPos pos = this.blockEntity.getBlockPos();
-			BlockState state = this.blockEntity.getBlockState();
-			Vec3 localHit = hit.subtract(Vec3.atLowerCornerOf(this.blockEntity.getBlockPos()));
-			return this.newSlotPositioning.testHit(level, pos, state, localHit);
-		}
-
-		@Override
-		public MutableComponent formatValue(ValueSettings settings) {
-			int sgn = settings.row() == 0 ? -1 : 1;
-			return CreateLang.number(settings.value() * sgn)
-				.add(CreateLang.translateDirect("generic.unit.degrees"))
-				.component();
 		}
 
 		@Override
@@ -390,22 +372,23 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 		}
 
 		@Override
-		public ValueSettingsBoard createBoard(Player player, BlockHitResult hitResult) {
-			ImmutableList<Component> rows = ImmutableList.of(Component.literal("-")
-					.withStyle(ChatFormatting.BOLD),
-				Component.literal("+")
-					.withStyle(ChatFormatting.BOLD));
-			return new ValueSettingsBoard(this.label, 45, 15, rows, new ValueSettingsFormatter(this::formatValue));
-		}
-
-		@Override
-		public ValueBoxTransform getSlotPositioning() {
-			return this.newSlotPositioning;
+		public ValueSettings getValueSettings() {
+			return new ValueSettings(this.value < 0 ? 0 : 1, Math.abs(this.value));
 		}
 
 		@Override
 		public BehaviourType<?> getType() {
-			return this.pitch ? PITCH_TYPE : YAW_TYPE;
+			return this.pitch ? TYPE : YAW_TYPE;
+		}
+
+		@Override
+		public int netId() {
+			return this.pitch ? PITCH_NET_ID : YAW_NET_ID;
+		}
+
+		@Nullable
+		public static FixedCannonMountScrollValueBehaviour get(SmartBlockEntity be, boolean pitch) {
+			return pitch ? (be.getBehaviour(TYPE) instanceof FixedCannonMountScrollValueBehaviour slot ? slot : null) : be.getBehaviour(YAW_TYPE);
 		}
 
 		public boolean setsPitch() {
@@ -419,24 +402,7 @@ public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDi
 
 		@Override
 		public void read(ValueInput nbt, boolean clientPacket) {
-			this.value = nbt.getInt(this.pitch ? "PitchAdjustment" : "YawAdjustment");
-		}
-	}
-
-	public static class FixedCannonMountValueBox extends CenteredSideValueBoxTransform {
-		private final boolean pitch;
-
-		public FixedCannonMountValueBox(boolean pitch) {
-			super((state, dir) -> {
-				return state.getValue(BlockStateProperties.FACING) != dir;
-			});
-			this.pitch = pitch;
-		}
-
-		@Override
-		protected Vec3 getSouthLocation() {
-			double xOffset = this.pitch ? -4 : 4;
-			return VecHelper.voxelSpace(8 + xOffset, 8, 15.5);
+			this.value = nbt.getIntOr(this.pitch ? "PitchAdjustment" : "YawAdjustment", 0);
 		}
 	}
 

@@ -1,5 +1,11 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import java.util.function.BiConsumer;
+
+import rbasamoyai.createbigcannons.base.CBCDynamicFlammableBlock;
+
+import rbasamoyai.createbigcannons.base.CaughtFireBlock;
+
 import net.minecraft.world.InteractionResult;
 
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +66,7 @@ import rbasamoyai.createbigcannons.munitions.big_cannon.ProjectileBlock;
 import rbasamoyai.createbigcannons.munitions.big_cannon.propellant.config.BigCartridgeProperties;
 
 public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, BigCannonPropellantBlock, IBE<BigCartridgeBlockEntity>,
-	SimpleWaterloggedBlock {
+	SimpleWaterloggedBlock, CaughtFireBlock, CBCDynamicFlammableBlock {
 
     private static final MapCodec<BigCartridgeBlock> CODEC = simpleCodec(BigCartridgeBlock::new);
 
@@ -333,8 +339,8 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
-		ItemStack result = super.getCloneItemStack(level, pos, state);
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+		ItemStack result = super.getCloneItemStack(level, pos, state, includeData);
 		if (state.getValue(DAMP))
 			result.set(CBCDataComponents.DAMP, true);
 		result.set(CBCDataComponents.POWER, level.getBlockEntity(pos) instanceof BigCartridgeBlockEntity cartridge ? cartridge.getPower() : 0);
@@ -363,18 +369,19 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
     }
 
     @Override
-    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+    protected void onExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> onHit) {
+        // PORT-NOTE(mc26.1): was NeoForge's onBlockExploded; onExplosionHit also runs before the block is removed.
         this.createbigcannons$onBlockExplode(level, pos, state, explosion);
-        super.onBlockExploded(state, level, pos, explosion);
+        super.onExplosionHit(state, level, pos, explosion, onHit);
     }
 
     @Override
-    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos) {
         return level.getBlockEntity(pos) instanceof BigCartridgeBlockEntity cartridge && cartridge.getPower() > 0 ? 30 : 0;
     }
 
     @Override
-    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos) {
         return level.getBlockEntity(pos) instanceof BigCartridgeBlockEntity cartridge && cartridge.getPower() > 0 ? 8 : 0;
     }
 

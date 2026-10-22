@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.autocannon;
 
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +27,8 @@ public class AutocannonCartridgeItem extends Item implements AutocannonAmmoItem 
 		super(properties);
 	}
 
-	@Override
+	// PORT-NOTE(mc26.1): List-based tooltip, called from the appendHoverText(..., Consumer) override below.
 	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-		super.appendHoverText(stack, ctx, tooltip, flag);
 		ItemStack round = getProjectileStack(stack);
 		if (!round.isEmpty()) {
 			tooltip.add(Component.translatable("item.minecraft.crossbow.projectile").append(" ").append(round.getDisplayName()));
@@ -101,6 +102,13 @@ public class AutocannonCartridgeItem extends Item implements AutocannonAmmoItem 
         ItemStack projectile = items.copyOne();
         projectile.set(CBCDataComponents.AUTOCANNON_TRACER, value);
         stack.set(CBCDataComponents.PROJECTILE, ItemContainerContents.fromItems(Lists.newArrayList(projectile)));
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag flag) {
+		List<Component> tooltip = new ArrayList<>();
+		this.appendHoverText(stack, context, tooltip, flag);
+		tooltip.forEach(builder);
 	}
 
 }

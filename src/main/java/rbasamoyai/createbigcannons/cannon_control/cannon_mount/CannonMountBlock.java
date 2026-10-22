@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.world.level.redstone.Orientation;
+
 import com.zurrtum.create.content.kinetics.base.KineticBlock;
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import com.zurrtum.create.foundation.block.IBE;
@@ -86,7 +90,7 @@ public class CannonMountBlock extends KineticBlock implements IBE<CannonMountBlo
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean isMoving) {
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean isMoving) {
 		if (!level.isClientSide()) {
 			if (!level.getBlockTicks().willTickThisTick(pos, this)) {
 				level.scheduleTick(pos, this, 0);

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount;
 
+import net.minecraft.world.level.redstone.Orientation;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
@@ -65,7 +67,7 @@ public class FixedCannonMountBlock extends DirectionalBlock implements IBE<Fixed
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean isMoving) {
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean isMoving) {
 		if (!level.isClientSide()) {
 			if (!level.getBlockTicks().willTickThisTick(pos, this)) {
 				level.scheduleTick(pos, this, 0);

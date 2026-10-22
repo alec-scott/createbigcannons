@@ -166,8 +166,8 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
-        ItemStack item = super.getCloneItemStack(level, pos, state);
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        ItemStack item = super.getCloneItemStack(level, pos, state, includeData);
         if (level.getBlockEntity(pos) instanceof AbstractFluidShellBlockEntity be) {
             be.setFluidShellItemFluidData(item, level.registryAccess());
         }

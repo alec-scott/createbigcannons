@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import java.util.List;
 
 import com.mojang.serialization.MapCodec;
@@ -29,7 +31,7 @@ import rbasamoyai.createbigcannons.crafting.casting.CannonCastShape;
 import rbasamoyai.createbigcannons.index.CBCBigCannonMaterials;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 
-public class BuiltUpCannonBlock extends DirectionalBlock implements IBE<LayeredBigCannonBlockEntity>, BigCannonBlock {
+public class BuiltUpCannonBlock extends DirectionalBlock implements IBE<LayeredBigCannonBlockEntity>, BigCannonBlock, CBCRemovalListener {
 
     public static final MapCodec<? extends DirectionalBlock> CODEC = simpleCodec(BuiltUpCannonBlock::new);
 
@@ -69,7 +71,6 @@ public class BuiltUpCannonBlock extends DirectionalBlock implements IBE<LayeredB
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override
@@ -123,7 +124,7 @@ public class BuiltUpCannonBlock extends DirectionalBlock implements IBE<LayeredB
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		return ItemStack.EMPTY;
 	}
 

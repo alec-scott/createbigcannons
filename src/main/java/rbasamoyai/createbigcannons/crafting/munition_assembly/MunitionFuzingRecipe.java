@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -18,9 +17,8 @@ import rbasamoyai.createbigcannons.munitions.fuzes.FuzeItem;
 
 public class MunitionFuzingRecipe extends CustomRecipe {
 
-	public MunitionFuzingRecipe() { this(CraftingBookCategory.MISC); }
-
-    public MunitionFuzingRecipe(CraftingBookCategory cat) { super(cat); }
+	public MunitionFuzingRecipe() {
+	}
 
 	@Override
 	public boolean matches(CraftingInput input, Level level) {
@@ -50,7 +48,7 @@ public class MunitionFuzingRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+	public ItemStack assemble(CraftingInput input) {
 		ItemStack round = ItemStack.EMPTY;
 		ItemStack fuze = ItemStack.EMPTY;
 
@@ -86,6 +84,5 @@ public class MunitionFuzingRecipe extends CustomRecipe {
 		return result;
 	}
 
-	@Override public boolean canCraftInDimensions(int width, int height) { return width * height >= 2; }
-	@Override public RecipeSerializer<?> getSerializer() { return CBCRecipeTypes.MUNITION_FUZING.getSerializer(); }
+	@Override public RecipeSerializer<? extends CustomRecipe> getSerializer() { return CBCRecipeTypes.MUNITION_FUZING.getSerializer(); }
 }

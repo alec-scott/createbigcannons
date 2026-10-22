@@ -61,7 +61,6 @@ public class CBCRootNetwork {
 		addMsg(id++, ClientboundSendCustomBreakProgressPacket.class, ClientboundSendCustomBreakProgressPacket.STREAM_CODEC);
 		addMsg(id++, ClientboundFluidDragPacket.class, ClientboundFluidDragPacket.STREAM_CODEC);
 		addMsg(id++, ClientboundBlastSoundPacket.class, ClientboundBlastSoundPacket.STREAM_CODEC);
-		addMsg(id++, ServerboundSetFixedCannonMountValuePacket.class, ServerboundSetFixedCannonMountValuePacket.STREAM_CODEC);
 	}
 
 	private static <T extends RootPacket> void addMsg(int id, Class<T> clazz, StreamCodec<RegistryFriendlyByteBuf, T> streamCodec) {

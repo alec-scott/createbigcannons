@@ -1,5 +1,8 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
@@ -16,12 +19,18 @@ public class ProjectileBlockItem extends BlockItem {
 		super(block, properties.component(CBCDataComponents.TRACER, ItemContainerContents.EMPTY));
 	}
 
-	@Override
+	// PORT-NOTE(mc26.1): List-based tooltip, called from the appendHoverText(..., Consumer) override below.
 	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-		super.appendHoverText(stack, ctx, tooltip, flag);
         ItemContainerContents items = stack.getOrDefault(CBCDataComponents.TRACER, ItemContainerContents.EMPTY);
 		ItemStack tracer = items.copyOne();
 		if (!tracer.isEmpty())
 			tooltip.add(Component.translatable("tooltip.createbigcannons.tracer"));
 	}
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag flag) {
+		List<Component> tooltip = new ArrayList<>();
+		this.appendHoverText(stack, context, tooltip, flag);
+		tooltip.forEach(builder);
+	}
+
 }

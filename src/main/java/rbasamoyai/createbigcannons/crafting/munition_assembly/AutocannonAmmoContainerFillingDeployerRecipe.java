@@ -5,8 +5,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -17,7 +15,7 @@ import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonAmmoItem;
 import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonAmmoType;
 import rbasamoyai.createbigcannons.munitions.autocannon.ammo_container.AutocannonAmmoContainerItem;
 
-public class AutocannonAmmoContainerFillingDeployerRecipe implements Recipe<RecipeInput> { // TODO c6 playtest
+public class AutocannonAmmoContainerFillingDeployerRecipe extends CBCDeployerRecipe {
 
 	private final ItemStack ammoContainer;
 	private final ItemStack insertedAmmo;
@@ -30,13 +28,8 @@ public class AutocannonAmmoContainerFillingDeployerRecipe implements Recipe<Reci
 	public AutocannonAmmoContainerFillingDeployerRecipe() {
 		this(ItemStack.EMPTY, ItemStack.EMPTY);
 	}
-
-    public AutocannonAmmoContainerFillingDeployerRecipe(CraftingBookCategory cat) {
-        this();
-    }
-
 	@Override
-	public boolean matches(RecipeInput input, Level level) {
+	public boolean matchesInput(RecipeInput input, Level level) {
 		if (!(this.ammoContainer.getItem() instanceof AutocannonAmmoContainerItem containerItem)
 			|| containerItem.isCreative()
 			|| !(this.insertedAmmo.getItem() instanceof AutocannonAmmoItem ammoItem)) return false;
@@ -51,14 +44,7 @@ public class AutocannonAmmoContainerFillingDeployerRecipe implements Recipe<Reci
 	}
 
 	@Override
-	public ItemStack assemble(RecipeInput input, HolderLookup.Provider registries) {
-		return this.getResultItem(registries);
-	}
-
-	@Override public boolean canCraftInDimensions(int width, int height) { return true; }
-
-	@Override
-	public ItemStack getResultItem(HolderLookup.Provider registries) {
+	public ItemStack getResultItem() {
 		if (!(this.insertedAmmo.getItem() instanceof AutocannonAmmoItem ammoItem)) return ItemStack.EMPTY;
 		ItemStack result = this.ammoContainer.copy();
 		boolean tracer = ammoItem.isTracer(this.insertedAmmo);
@@ -78,7 +64,7 @@ public class AutocannonAmmoContainerFillingDeployerRecipe implements Recipe<Reci
 		return result;
 	}
 
-	@Override public RecipeSerializer<?> getSerializer() { return CBCRecipeTypes.AUTOCANNON_AMMO_CONTAINER_FILLING_DEPLOYER.getSerializer(); }
-	@Override public RecipeType<?> getType() { return CBCRecipeTypes.AUTOCANNON_AMMO_CONTAINER_FILLING_DEPLOYER.getType(); }
+	@Override public RecipeSerializer<? extends CBCDeployerRecipe> getSerializer() { return CBCRecipeTypes.AUTOCANNON_AMMO_CONTAINER_FILLING_DEPLOYER.getSerializer(); }
+	@Override public RecipeType<? extends CBCDeployerRecipe> getType() { return CBCRecipeTypes.AUTOCANNON_AMMO_CONTAINER_FILLING_DEPLOYER.getType(); }
 
 }

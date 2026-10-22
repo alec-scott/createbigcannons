@@ -1,5 +1,8 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.bullet;
 
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -61,9 +64,8 @@ public class MachineGunRoundItem extends Item implements AutocannonAmmoItem {
 		return AutocannonAmmoType.MACHINE_GUN;
 	}
 
-	@Override
+	// PORT-NOTE(mc26.1): List-based tooltip, called from the appendHoverText(..., Consumer) override below.
 	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-		super.appendHoverText(stack, ctx, tooltipComponents, isAdvanced);
 		if (stack.getComponents().getOrDefault(CBCDataComponents.AUTOCANNON_TRACER, false)) {
 			CreateLang.builder("tooltip").translate(CreateBigCannons.MOD_ID + ".tracer").addTo(tooltipComponents);
 		}
@@ -72,6 +74,13 @@ public class MachineGunRoundItem extends Item implements AutocannonAmmoItem {
 	@Override
 	public AutocannonProjectilePropertiesComponent getAutocannonProperties(ItemStack itemStack) {
 		return CBCMunitionPropertiesHandlers.INERT_AUTOCANNON_PROJECTILE.getPropertiesOf(this.getEntityType(itemStack)).autocannonProperties();
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag flag) {
+		List<Component> tooltip = new ArrayList<>();
+		this.appendHoverText(stack, context, tooltip, flag);
+		tooltip.forEach(builder);
 	}
 
 }

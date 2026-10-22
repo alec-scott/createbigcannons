@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import net.minecraft.core.Direction;
+
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
@@ -20,7 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 
-public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannonCastBlockEntity> {
+public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannonCastBlockEntity>, CBCRemovalListener {
 
 	public FinishedCannonCastBlock(Properties properties) {
 		super(properties);
@@ -32,7 +36,7 @@ public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannon
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+	public boolean propagatesSkylightDown(BlockState state) {
 		return false;
 	}
 
@@ -62,11 +66,10 @@ public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannon
 		if (state.hasBlockEntity() && (state.getBlock() != newState.getBlock() || !newState.hasBlockEntity())) {
 			this.withBlockEntityDo(level, pos, FinishedCannonCastBlockEntity::removeCast);
 		}
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		return CBCBlocks.CASTING_SAND.asStack();
 	}
 
@@ -84,7 +87,7 @@ public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannon
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
 		return 15;
 	}
 

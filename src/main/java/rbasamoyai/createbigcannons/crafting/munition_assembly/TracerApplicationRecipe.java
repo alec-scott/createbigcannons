@@ -2,7 +2,6 @@ package rbasamoyai.createbigcannons.crafting.munition_assembly;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -15,9 +14,8 @@ import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonRoundItem;
 
 public class TracerApplicationRecipe extends CustomRecipe {
 
-	public TracerApplicationRecipe() { this(CraftingBookCategory.MISC); }
-
-    public TracerApplicationRecipe(CraftingBookCategory cat) { super(cat); }
+	public TracerApplicationRecipe() {
+	}
 
 	@Override
 	public boolean matches(CraftingInput input, Level level) {
@@ -45,7 +43,7 @@ public class TracerApplicationRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput input, HolderLookup.Provider access) {
+	public ItemStack assemble(CraftingInput input) {
 		ItemStack round = ItemStack.EMPTY;
 		ItemStack tracer = ItemStack.EMPTY;
 
@@ -74,6 +72,5 @@ public class TracerApplicationRecipe extends CustomRecipe {
 		return result;
 	}
 
-	@Override public boolean canCraftInDimensions(int width, int height) { return width * height >= 2; }
-	@Override public RecipeSerializer<?> getSerializer() { return CBCRecipeTypes.TRACER_APPLICATION.getSerializer(); }
+	@Override public RecipeSerializer<? extends CustomRecipe> getSerializer() { return CBCRecipeTypes.TRACER_APPLICATION.getSerializer(); }
 }

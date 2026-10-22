@@ -1,5 +1,11 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import net.minecraft.util.RandomSource;
+
+import net.minecraft.world.level.LevelReader;
+
+import net.minecraft.world.level.ScheduledTickAccess;
+
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.AllShapes;
 import com.zurrtum.create.foundation.block.WrenchableDirectionalBlock;
@@ -88,11 +94,11 @@ public class CannonBuilderHeadBlock extends WrenchableDirectionalBlock implement
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction face, BlockState otherState, LevelAccessor level, BlockPos pos, BlockPos otherPos) {
+	public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction face, BlockPos otherPos, BlockState otherState, RandomSource random) {
 		if (state.getValue(BlockStateProperties.WATERLOGGED)) {
 			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
-		return super.updateShape(state, face, otherState, level, pos, otherPos);
+		return super.updateShape(state, level, ticks, pos, face, otherPos, otherState, random);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons;
 
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +16,7 @@ import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.material.PushReaction;
 import rbasamoyai.createbigcannons.cannons.big_cannons.material.BigCannonMaterial;
 
-public abstract class BigCannonBaseBlock extends DirectionalBlock implements BigCannonBlock {
+public abstract class BigCannonBaseBlock extends DirectionalBlock implements BigCannonBlock, CBCRemovalListener {
 
 	private final BigCannonMaterial material;
 
@@ -36,7 +38,6 @@ public abstract class BigCannonBaseBlock extends DirectionalBlock implements Big
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override

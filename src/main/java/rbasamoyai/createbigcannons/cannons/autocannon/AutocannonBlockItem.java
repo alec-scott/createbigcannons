@@ -1,5 +1,8 @@
 package rbasamoyai.createbigcannons.cannons.autocannon;
 
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
@@ -22,9 +25,8 @@ public class AutocannonBlockItem<T extends Block & AutocannonBlock> extends Bloc
         this.autocannonBlock = block;
     }
 
-    @Override
+    // PORT-NOTE(mc26.1): List-based tooltip, called from the appendHoverText(..., Consumer) override below.
     public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, ctx, tooltip, flag);
         CBCTooltip.appendTextAutocannon(stack, ctx, tooltip, flag, this.autocannonBlock);
     }
 
@@ -37,5 +39,12 @@ public class AutocannonBlockItem<T extends Block & AutocannonBlock> extends Bloc
 			AutocannonBlock.onPlace(context.getLevel(), context.getClickedPos());
         return result;
     }
+
+	@Override
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag flag) {
+		List<Component> tooltip = new ArrayList<>();
+		this.appendHoverText(stack, context, tooltip, flag);
+		tooltip.forEach(builder);
+	}
 
 }

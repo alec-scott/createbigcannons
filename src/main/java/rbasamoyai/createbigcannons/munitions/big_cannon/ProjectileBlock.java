@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import java.util.function.BiConsumer;
+
+import net.minecraft.server.level.ServerLevel;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import java.util.List;
@@ -205,14 +209,15 @@ public abstract class ProjectileBlock<ENTITY extends AbstractBigCannonProjectile
 	}
 
     @Override
-    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+    protected void onExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> onHit) {
+        // PORT-NOTE(mc26.1): was NeoForge's onBlockExploded; onExplosionHit also runs before the block is removed.
         this.createbigcannons$onBlockExplode(level, pos, state, explosion);
-        super.onBlockExploded(state, level, pos, explosion);
+        super.onExplosionHit(state, level, pos, explosion, onHit);
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
-        ItemStack item = super.getCloneItemStack(level, pos, state);
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        ItemStack item = super.getCloneItemStack(level, pos, state, includeData);
         if (level.getBlockEntity(pos) instanceof BigCannonProjectileBlockEntity be) {
             ItemStack tracer = be.getTracer();
             item.set(CBCDataComponents.TRACER, tracer.isEmpty() ? ItemContainerContents.EMPTY : ItemContainerContents.fromItems(List.of(tracer)));

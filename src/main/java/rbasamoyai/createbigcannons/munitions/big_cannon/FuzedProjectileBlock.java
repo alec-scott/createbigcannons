@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.level.redstone.Orientation;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import java.util.List;
@@ -186,7 +188,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
 	public abstract boolean isBaseFuze();
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean isMoving) {
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean isMoving) {
 		if (!level.isClientSide()) {
 			if (!level.getBlockTicks().willTickThisTick(pos, this)) {
 				level.scheduleTick(pos, this, 0);
@@ -225,8 +227,8 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
 	}
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
-        ItemStack item = super.getCloneItemStack(level, pos, state);
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        ItemStack item = super.getCloneItemStack(level, pos, state, includeData);
         if (level.getBlockEntity(pos) instanceof FuzedBlockEntity be) {
             ItemStack fuze = be.getFuze();
             item.set(CBCDataComponents.FUZE, fuze.isEmpty() ? ItemContainerContents.EMPTY : ItemContainerContents.fromItems(List.of(fuze)));

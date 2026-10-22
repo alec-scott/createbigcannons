@@ -20,6 +20,8 @@ import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.fabric.client.CBCBlockEntityRenderers;
 import rbasamoyai.createbigcannons.fabric.client.CBCEntityRenderers;
 import rbasamoyai.createbigcannons.fabric.client.CBCItemTooltips;
+import rbasamoyai.createbigcannons.fabric.client.FixedCannonMountValueBehaviour;
+import rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount.FixedCannonMountBlockEntity;
 import rbasamoyai.createbigcannons.fabric.client.CBCConnectedTextures;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
@@ -73,6 +75,7 @@ public class CBCClientFabric implements ClientModInitializer {
 	 * PORT-NOTE(fabric): Create Fly attaches kinetic goggle info (stress) and machine sounds as client behaviours per
 	 * block-entity type, instead of building them into {@code KineticBlockEntity}. Register them for CBC's kinetic types.
 	 */
+	@SuppressWarnings("unchecked")
 	private static void registerKineticBehaviours() {
 		kinetic(CBCBlockEntities.CANNON_LOADER.get());
 		kinetic(CBCBlockEntities.CANNON_BUILDER.get());
@@ -83,6 +86,9 @@ public class CBCClientFabric implements ClientModInitializer {
 		kinetic(CBCBlockEntities.SCREW_BREECH.get());
 		kinetic(CBCBlockEntities.SLIDING_BREECH.get());
 		kinetic(CBCBlockEntities.BASIN_FOUNDRY.get());
+
+		AllBlockEntityBehaviours.add((BlockEntityType<FixedCannonMountBlockEntity>) CBCBlockEntities.FIXED_CANNON_MOUNT.get(),
+			FixedCannonMountValueBehaviour::pitch, FixedCannonMountValueBehaviour::yaw);
 	}
 
 	@SuppressWarnings("unchecked")

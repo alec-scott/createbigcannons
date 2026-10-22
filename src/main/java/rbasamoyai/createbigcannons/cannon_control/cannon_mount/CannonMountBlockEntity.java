@@ -5,6 +5,8 @@ import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.util.ProblemReporter;
 
 import net.minecraft.world.level.storage.ValueInput;
 
@@ -17,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import com.zurrtum.create.AllSoundEvents;
 import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
 import com.zurrtum.create.content.contraptions.AssemblyException;
-import com.zurrtum.create.client.content.contraptions.IDisplayAssemblyExceptions;
+import rbasamoyai.createbigcannons.base.goggles.CBCAssemblyExceptionHolder;
 import com.zurrtum.create.content.kinetics.base.IRotate;
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
@@ -41,7 +43,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.CreateBigCannons;
@@ -53,7 +54,7 @@ import rbasamoyai.createbigcannons.cannons.CannonContraptionProviderBlock;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 
-public class CannonMountBlockEntity extends KineticBlockEntity implements IDisplayAssemblyExceptions, ControlPitchContraption.Block,
+public class CannonMountBlockEntity extends KineticBlockEntity implements CBCAssemblyExceptionHolder, ControlPitchContraption.Block,
 	ExtendsCannonMount, HasMultipleKineticInterfaces, CBCGoggleInfo, CBCHasIItemHandlerBlockEntity {
 
 	private static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -92,7 +93,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 	}
 
 	@Override
@@ -368,7 +369,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 		if (!this.running && this.mountedContraption == null) return;
 		if (this.mountedContraption != null) {
 			this.resetContraptionToOffset();
-			this.mountedContraption.save(new CompoundTag()); // Crude refresh of block data
+			this.mountedContraption.saveWithoutId(TagValueOutput.createWithContext(ProblemReporter.DISCARDING, this.level.registryAccess())); // Crude refresh of block data
 			this.mountedContraption.disassemble();
 			AllSoundEvents.CONTRAPTION_DISASSEMBLE.playOnServer(this.getLevel(), this.worldPosition);
 		}
@@ -412,7 +413,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 		tag.putBoolean("Running", this.running);
 		tag.putFloat("CannonYaw", this.cannonYaw);
 		tag.putFloat("CannonPitch", this.cannonPitch);
-		AssemblyException.write(tag, registry, this.lastException);
+		AssemblyException.write(tag, this.lastException);
 
 		CompoundTag pitchTag = new CompoundTag();
 		this.pitchInterface.saveAdditional(pitchTag, registry);
@@ -433,7 +434,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 		this.running = tag.getBooleanOr("Running", false);
 		this.cannonYaw = tag.getFloatOr("CannonYaw", 0f);
 		this.cannonPitch = tag.getFloatOr("CannonPitch", 0f);
-		this.lastException = AssemblyException.read(tag, registry);
+		this.lastException = AssemblyException.read(tag);
 
 		if (clientPacket) {
 			this.pitchInterface.readClient(CBCValueIO.getCompound(tag, "PitchInterface"), registry);
@@ -593,7 +594,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
     @Nullable
     @Override
     public Storage<ItemVariant> getItemHandler(Direction side) { // TODO c6 playtest
-        return this.mountedContraption != null ? this.mountedContraption.getCapability(Capabilities.ItemHandler.ENTITY) : null;
+        return this.mountedContraption != null ? this.mountedContraption.getItemHandler() : null;
     }
 
 }

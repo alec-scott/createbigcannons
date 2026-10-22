@@ -3,16 +3,12 @@ package rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.datafixers.util.Pair;
-import com.simibubi.create.CreateClient;
-import com.zurrtum.create.foundation.blockEntity.behaviour.BehaviourType;
-import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.catnip.data.Iterate;
+import com.zurrtum.create.client.Create;
+import com.zurrtum.create.client.catnip.outliner.Outliner;
 import com.zurrtum.create.client.foundation.blockEntity.behaviour.ValueBox;
-import com.zurrtum.create.client.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
 import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import com.zurrtum.create.catnip.data.Iterate;
-import com.zurrtum.create.client.catnip.outliner.Outliner;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -21,70 +17,54 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import rbasamoyai.createbigcannons.CreateBigCannons;
+import rbasamoyai.createbigcannons.fabric.client.FixedCannonMountValueBehaviour;
 
+/**
+ * Value boxes for the fixed cannon mount's pitch and yaw slots.
+ *
+ * <p>PORT-NOTE(fabric): Create Fly's {@code ScrollValueRenderer} only draws a block entity's single
+ * {@code ScrollValueBehaviour.TYPE} behaviour, so both slots are drawn here, as upstream did.</p>
+ */
 public class FixedCannonMountBoxRenderer {
 
-	/**
-	 * Adpated from {@link com.simibubi.create.content.redstone.link.LinkRenderer}
-	 */
 	public static void tick() {
 		Minecraft mc = Minecraft.getInstance();
-		HitResult target = mc.hitResult;
-		if (target == null || !(target instanceof BlockHitResult))
+		if (!(mc.hitResult instanceof BlockHitResult result) || mc.level == null)
 			return;
-
-		BlockHitResult result = (BlockHitResult) target;
 		ClientLevel level = mc.level;
 		BlockPos pos = result.getBlockPos();
 		Direction face = result.getDirection();
-
-		Component anglePitch = CreateLang.builder(CreateBigCannons.MOD_ID).translate("fixed_cannon_mount.angle_pitch").component();
-		Component angleYaw = CreateLang.builder(CreateBigCannons.MOD_ID).translate("fixed_cannon_mount.angle_yaw").component();
+		if (!(level.getBlockEntity(pos) instanceof FixedCannonMountBlockEntity mount))
+			return;
 
 		for (boolean pitch : Iterate.trueAndFalse) {
-			BehaviourType<FixedCannonMountBlockEntity.FixedCannonMountScrollValueBehaviour> type = pitch ? FixedCannonMountBlockEntity.FixedCannonMountScrollValueBehaviour.PITCH_TYPE : FixedCannonMountBlockEntity.FixedCannonMountScrollValueBehaviour.YAW_TYPE;
-			FixedCannonMountBlockEntity.FixedCannonMountScrollValueBehaviour behaviour = BlockEntityBehaviour.get(level, pos, type);
+			FixedCannonMountValueBehaviour behaviour = mount.getBehaviour(pitch ? FixedCannonMountValueBehaviour.PITCH_TYPE : FixedCannonMountValueBehaviour.YAW_TYPE);
 			if (behaviour == null)
 				continue;
-			Pair<BehaviourType<?>, BlockPos> slot = Pair.of(type, pos);
 			if (!behaviour.isActive()) {
-				Outliner.getInstance().remove(slot);
+				Outliner.getInstance().remove(behaviour);
 				continue;
 			}
-
-			Component label = pitch ? anglePitch : angleYaw;
-			boolean hit = behaviour.testHit(target.getLocation());
-			addBox(level, pos, face, behaviour, hit, slot);
-
+			boolean hit = behaviour.testHit(result.getLocation());
+			addBox(pos, face, behaviour, hit);
 			if (!hit)
 				continue;
 
 			List<MutableComponent> tip = new ArrayList<>();
-			tip.add(label.copy());
+			tip.add(behaviour.label.copy());
 			tip.add(CreateLang.translateDirect("gui.value_settings.hold_to_edit"));
-			CreateClient.VALUE_SETTINGS_HANDLER.showHoverTip(tip);
+			Create.VALUE_SETTINGS_HANDLER.showHoverTip(mc, tip);
 		}
 	}
 
-	/**
-	 * Copied from {@link com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueRenderer}
-	 */
-	protected static void addBox(ClientLevel level, BlockPos pos, Direction face, ScrollValueBehaviour behaviour,
-								 boolean highlight, Object slot) {
-		AABB bb = new AABB(Vec3.ZERO, Vec3.ZERO).inflate(.5f)
-			.contract(0, 0, -.5f)
-			.move(0, 0, -.125f);
+	/** Copied from Create Fly's {@code ScrollValueRenderer#addBox}. */
+	protected static void addBox(BlockPos pos, Direction face, FixedCannonMountValueBehaviour behaviour, boolean highlight) {
+		AABB bb = new AABB(Vec3.ZERO, Vec3.ZERO).inflate(.5f).contract(0, 0, -.5f).move(0, 0, -.125f);
 		Component label = behaviour.label;
 		ValueBox box = new ValueBox.TextValueBox(label, bb, pos, Component.literal(behaviour.formatValue()));
-
-		box.passive(!highlight)
-			.wideOutline();
-
-		Outliner.getInstance().showOutline(slot, box.transform(behaviour.getSlotPositioning()))
-			.highlightFace(face);
+		box.passive(!highlight).wideOutline();
+		Outliner.getInstance().showOutline(behaviour, box.transform(behaviour.getSlotPositioning())).highlightFace(face);
 	}
 
 }

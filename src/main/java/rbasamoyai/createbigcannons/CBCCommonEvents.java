@@ -1,12 +1,14 @@
 package rbasamoyai.createbigcannons;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.content.contraptions.piston.MechanicalPistonBlock;
-import com.zurrtum.create.content.kinetics.deployer.DeployerBlockEntity;
+import com.zurrtum.create.content.kinetics.deployer.ItemApplicationInput;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,6 +49,7 @@ import rbasamoyai.createbigcannons.crafting.builtup.CannonBuilderBlock;
 import rbasamoyai.createbigcannons.crafting.builtup.CannonBuilderBlockEntity;
 import rbasamoyai.createbigcannons.crafting.casting.FluidCastingTimeHandler;
 import rbasamoyai.createbigcannons.crafting.munition_assembly.AutocannonAmmoContainerFillingDeployerRecipe;
+import rbasamoyai.createbigcannons.crafting.munition_assembly.CBCDeployerRecipe;
 import rbasamoyai.createbigcannons.crafting.munition_assembly.BigCartridgeFillingDeployerRecipe;
 import rbasamoyai.createbigcannons.crafting.munition_assembly.CartridgeAssemblyDeployerRecipe;
 import rbasamoyai.createbigcannons.crafting.munition_assembly.MunitionFuzingDeployerRecipe;
@@ -266,37 +269,30 @@ public class CBCCommonEvents {
 		cons.accept(FluidDragHandler.ReloadListener.INSTANCE, CreateBigCannons.resource("fluid_drag_handler"));
 	}
 
-	public static void onAddDeployerRecipes(DeployerBlockEntity deployer, RecipeInput container,
-		BiConsumer<Supplier<Optional<? extends RecipeHolder<? extends Recipe<? extends RecipeInput>>>>, Integer> cons) {
-		Level level = deployer.getLevel();
-		ItemStack containerItem = container.getItem(0);
-		ItemStack deployerItem = container.getItem(1);
-
-        // TODO c6 playtest
+	/**
+	 * CBC's deployer recipes for this pair of items, or null.
+	 *
+	 * <p>PORT-NOTE(fabric): was a NeoForge Create deployer recipe search event listener; now called from
+	 * {@code DeployerBlockEntityMixin} when Create Fly finds no recipe of its own.</p>
+	 */
+	@Nullable
+	public static CBCDeployerRecipe getDeployerRecipe(Level level, ItemStack containerItem, ItemStack deployerItem) {
+		ItemApplicationInput container = new ItemApplicationInput(containerItem, deployerItem);
 		if (containerItem.getItem() instanceof BigCartridgeBlockItem cartridge && deployerItem.is(CBCTags.CBCItemTags.NITROPOWDER)) {
 			int power = BigCartridgeBlockItem.getPower(containerItem);
-			if (power < cartridge.getMaximumPowerLevels()) {
-				cons.accept(() -> Optional.of(new RecipeHolder<>(CBCRecipeTypes.BIG_CARTRIDGE_FILLING_DEPLOYER.getId(),
-                    new BigCartridgeFillingDeployerRecipe(power, power + 1))), 25);
-			}
+			if (power < cartridge.getMaximumPowerLevels())
+				return new BigCartridgeFillingDeployerRecipe(power, power + 1);
 		}
-		if (CBCItems.FILLED_AUTOCANNON_CARTRIDGE.isIn(containerItem)
-			&& deployerItem.getItem() instanceof AutocannonRoundItem) {
-			cons.accept(() -> Optional.of(new RecipeHolder<>(CBCRecipeTypes.CARTRIDGE_ASSEMBLY_DEPLOYER.getId(),
-                new CartridgeAssemblyDeployerRecipe(deployerItem))), 25);
+		if (CBCItems.FILLED_AUTOCANNON_CARTRIDGE.isIn(containerItem) && deployerItem.getItem() instanceof AutocannonRoundItem)
+			return new CartridgeAssemblyDeployerRecipe(deployerItem);
+		for (CBCDeployerRecipe recipe : new CBCDeployerRecipe[] {
+			new MunitionFuzingDeployerRecipe(containerItem, deployerItem),
+			new TracerApplicationDeployerRecipe(containerItem, deployerItem),
+			new AutocannonAmmoContainerFillingDeployerRecipe(containerItem, deployerItem) }) {
+			if (recipe.matchesInput(container, level))
+				return recipe;
 		}
-		MunitionFuzingDeployerRecipe fuzingRecipe = new MunitionFuzingDeployerRecipe(containerItem, deployerItem);
-		if (fuzingRecipe.matches(container, level)) {
-			cons.accept(() -> Optional.of(new RecipeHolder<>(CBCRecipeTypes.MUNITION_FUZING_DEPLOYER.getId(), fuzingRecipe)), 25);
-		}
-		TracerApplicationDeployerRecipe tracerRecipe = new TracerApplicationDeployerRecipe(containerItem, deployerItem);
-		if (tracerRecipe.matches(container, level)) {
-			cons.accept(() -> Optional.of(new RecipeHolder<>(CBCRecipeTypes.TRACER_APPLICATION_DEPLOYER.getId(), tracerRecipe)), 25);
-		}
-		AutocannonAmmoContainerFillingDeployerRecipe ammoContainerRecipe = new AutocannonAmmoContainerFillingDeployerRecipe(containerItem, deployerItem);
-		if (ammoContainerRecipe.matches(container, level)) {
-			cons.accept(() -> Optional.of(new RecipeHolder<>(CBCRecipeTypes.AUTOCANNON_AMMO_CONTAINER_FILLING_DEPLOYER.getId(), ammoContainerRecipe)), 25);
-		}
+		return null;
 	}
 
 	public static InteractionResult onUseItemOnBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {

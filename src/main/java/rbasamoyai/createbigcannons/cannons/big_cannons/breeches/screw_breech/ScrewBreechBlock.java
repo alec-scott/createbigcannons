@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.screw_breech;
 
+import rbasamoyai.createbigcannons.base.CBCRemovalListener;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.zurrtum.create.content.kinetics.base.DirectionalKineticBlock;
@@ -31,7 +33,7 @@ import rbasamoyai.createbigcannons.crafting.casting.CannonCastShape;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCShapes;
 
-public class ScrewBreechBlock extends DirectionalKineticBlock implements IBE<ScrewBreechBlockEntity>, BigCannonBlock {
+public class ScrewBreechBlock extends DirectionalKineticBlock implements IBE<ScrewBreechBlockEntity>, BigCannonBlock, CBCRemovalListener {
 
 	public static final EnumProperty<BigCannonEnd> OPEN = EnumProperty.create("open", BigCannonEnd.class);
 
@@ -103,7 +105,6 @@ public class ScrewBreechBlock extends DirectionalKineticBlock implements IBE<Scr
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override

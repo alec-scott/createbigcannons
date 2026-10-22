@@ -3,7 +3,6 @@ package rbasamoyai.createbigcannons.crafting.munition_assembly;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -19,12 +18,7 @@ public class TracerRemovalRecipe extends CustomRecipe {
 
 
 	public TracerRemovalRecipe() {
-		this(CraftingBookCategory.MISC);
 	}
-
-    public TracerRemovalRecipe(CraftingBookCategory cat) {
-        super(cat);
-    }
 
 	@Override
 	public boolean matches(CraftingInput container, Level level) {
@@ -51,7 +45,7 @@ public class TracerRemovalRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput input, HolderLookup.Provider registryAccess) {
+	public ItemStack assemble(CraftingInput input) {
 		return new ItemStack(CBCItems.TRACER_TIP.get());
 	}
 
@@ -100,7 +94,6 @@ public class TracerRemovalRecipe extends CustomRecipe {
 		return result;
 	}
 
-	@Override public boolean canCraftInDimensions(int width, int height) { return width * height >= 1; }
-	@Override public RecipeSerializer<?> getSerializer() { return CBCRecipeTypes.TRACER_REMOVAL.getSerializer(); }
+	@Override public RecipeSerializer<? extends CustomRecipe> getSerializer() { return CBCRecipeTypes.TRACER_REMOVAL.getSerializer(); }
 
 }
