@@ -35,7 +35,7 @@ public class FinishedCannonCastBlockEntity extends SmartBlockEntity {
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 	}
 
 	public void setCentralBlock(BlockPos pos) {

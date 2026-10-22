@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import com.zurrtum.create.AllClientHandle;
+
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import static rbasamoyai.createbigcannons.cannons.big_cannons.BigCannonBlock.writeAndSyncSingleBlockData;
 
 import java.util.ArrayList;
@@ -413,10 +417,10 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 			if (this.presentBlockEntities.get(pos) instanceof AutocannonRecoilSpringBlockEntity spring)
 				spring.handleFiring();
 		}
-        if (this.getBlockEntityClientSide(this.startPos) instanceof AbstractAutocannonBreechBlockEntity breech)
+        if (AllClientHandle.INSTANCE.getBlockEntityClientSide(this, this.startPos) instanceof AbstractAutocannonBreechBlockEntity breech)
             breech.handleFiring();
         for (BlockPos pos : this.recoilSpringPositions) {
-            if (this.getBlockEntityClientSide(pos) instanceof AutocannonRecoilSpringBlockEntity spring)
+            if (AllClientHandle.INSTANCE.getBlockEntityClientSide(this, pos) instanceof AutocannonRecoilSpringBlockEntity spring)
                 spring.handleFiring();
         }
 	}
@@ -530,11 +534,11 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 	public CompoundTag writeNBT(HolderLookup.Provider registries, boolean spawnPacket) {
 		CompoundTag tag = super.writeNBT(registries, spawnPacket);
 		tag.putString("AutocannonMaterial", this.cannonMaterial == null ? CBCAutocannonMaterials.CAST_IRON.name().toString() : this.cannonMaterial.name().toString());
-		if (this.startPos != null) tag.put("StartPos", NbtUtils.writeBlockPos(this.startPos));
+		if (this.startPos != null) tag.put("StartPos", CBCValueIO.writeBlockPos(this.startPos));
 		if (!this.recoilSpringPositions.isEmpty()) {
 			ListTag positionsTag = new ListTag();
 			for (BlockPos pos : this.recoilSpringPositions)
-				positionsTag.add(NbtUtils.writeBlockPos(pos));
+				positionsTag.add(CBCValueIO.writeBlockPos(pos));
 			tag.put("RecoilSpringPositions", positionsTag);
 		}
 		tag.putBoolean("IsHandle", this.isHandle);
@@ -546,7 +550,7 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 		super.readNBT(level, tag, clientData);
 		this.cannonMaterial = AutocannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("AutocannonMaterial", "")));
 		if (this.cannonMaterial == null) this.cannonMaterial = CBCAutocannonMaterials.CAST_IRON;
-		this.startPos = tag.contains("StartPos") ? NbtUtils.readBlockPos(tag, "StartPos").get() : null;
+		this.startPos = tag.contains("StartPos") ? CBCValueIO.readBlockPos(tag, "StartPos").get() : null;
 		this.recoilSpringPositions.clear();
 		if (tag.contains("RecoilSpringPositions")) {
 			ListTag positionTags = tag.getListOrEmpty("RecoilSpringPositions");

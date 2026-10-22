@@ -44,7 +44,7 @@ public class CannonWelderItem extends Item {
 		if (!(fstate.getBlock() instanceof WeldableBlock wblockf)) return false;
 		BlockState tstate = level.getBlockState(to);
 		if (!(tstate.getBlock() instanceof WeldableBlock wblockt)) return false;
-		Direction dir = Direction.getNearest(to.getX() - from.getX(), to.getY() - from.getY(), to.getZ() - from.getZ());
+		Direction dir = Direction.getApproximateNearest(to.getX() - from.getX(), to.getY() - from.getY(), to.getZ() - from.getZ());
 		if (!wblockf.canWeldSide(level, dir, fstate, tstate, from)
 			|| !wblockt.canWeldSide(level, dir.getOpposite(), tstate, fstate, to)) return false;
 		if (!simulate) {

@@ -129,7 +129,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
 			if (!newState.getValue(HANDLE)) {
 				DyeColor seat = autocannon1.getSeatColor();
 				if (seat != null) {
-					ItemStack drop = AllBlocks.SEATS.get(seat).asStack();
+					ItemStack drop = new ItemStack(SeatBlock.getColorBlock(seat));
 					Player player = context.getPlayer();
 					if (!player.addItem(drop) && !player.isCreative()) {
 						Vec3 spawnLoc = Vec3.atCenterOf(pos);
@@ -204,7 +204,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
                 if (!level.isClientSide()) {
                     DyeColor seat = breech.getSeatColor();
                     if (seat != null) {
-                        ItemStack drop = AllBlocks.SEATS.get(seat).asStack();
+                        ItemStack drop = new ItemStack(SeatBlock.getColorBlock(seat));
                         if (!player.addItem(drop) && !player.isCreative()) {
                             Vec3 spawnLoc = Vec3.atCenterOf(pos);
                             ItemEntity dropEntity = new ItemEntity(level, spawnLoc.x, spawnLoc.y, spawnLoc.z, drop);

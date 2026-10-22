@@ -100,7 +100,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 	}
 
 	@Override

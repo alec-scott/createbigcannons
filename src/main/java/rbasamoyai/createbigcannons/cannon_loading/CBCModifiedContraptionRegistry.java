@@ -35,13 +35,13 @@ public class CBCModifiedContraptionRegistry {
 
 	public static void registerDefaults() {
 		registerCannonLoaderType(CBCContraptionTypes.CANNON_LOADER.value());
-		registerCannonLoaderType(AllContraptionTypes.PISTON.value());
-		registerCannonLoaderType(AllContraptionTypes.GANTRY.value());
-		registerCannonLoaderType(AllContraptionTypes.PULLEY.value());
+		registerCannonLoaderType(AllContraptionTypes.PISTON);
+		registerCannonLoaderType(AllContraptionTypes.GANTRY);
+		registerCannonLoaderType(AllContraptionTypes.PULLEY);
 		registerFragileType(CBCContraptionTypes.CANNON_LOADER.value());
-		registerFragileType(AllContraptionTypes.PISTON.value());
-		registerFragileType(AllContraptionTypes.GANTRY.value());
-		registerFragileType(AllContraptionTypes.PULLEY.value());
+		registerFragileType(AllContraptionTypes.PISTON);
+		registerFragileType(AllContraptionTypes.GANTRY);
+		registerFragileType(AllContraptionTypes.PULLEY);
 	}
 
 }

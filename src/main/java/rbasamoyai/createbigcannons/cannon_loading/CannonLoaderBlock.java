@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_loading;
 
+import rbasamoyai.createbigcannons.utils.CBCUtils;
+
 import com.zurrtum.create.AllShapes;
 import com.zurrtum.create.content.contraptions.piston.MechanicalPistonBlock;
 import com.zurrtum.create.content.kinetics.base.DirectionalAxisKineticBlock;
@@ -9,7 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -69,7 +71,7 @@ public class CannonLoaderBlock extends DirectionalAxisKineticBlock implements IB
     }
 
 	public static void destroyExtensionPoles(Level level, BlockPos pos, BlockState state, boolean dropBlocks) {
-		dropBlocks &= level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS);
+		dropBlocks &= CBCUtils.booleanRule(level, GameRules.BLOCK_DROPS);
 		Direction direction = state.getValue(FACING);
 		BlockPos loaderHead = null;
 

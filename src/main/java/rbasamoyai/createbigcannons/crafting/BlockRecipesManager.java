@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
@@ -21,6 +20,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.player.Player;
 import rbasamoyai.createbigcannons.CreateBigCannons;
@@ -73,13 +74,12 @@ public class BlockRecipesManager {
 		NetworkPlatform.sendToClientAll(new ClientboundBlockRecipesPacket(), server);
 	}
 
-	public static class ReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 
         private final RegistryAccess registryAccess;
 
 		public ReloadListener(RegistryAccess registryAccess) {
-            super(GSON, "createbigcannons/block_recipes");
+            super(ExtraCodecs.JSON, FileToIdConverter.json("createbigcannons/block_recipes"));
             this.registryAccess = registryAccess;
         }
 

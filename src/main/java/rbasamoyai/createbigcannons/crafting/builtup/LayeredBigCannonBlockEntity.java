@@ -351,7 +351,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 		behaviours.add(this.cannonBehavior = new BigCannonBehavior(this, this::canLoadBlock));
 		behaviours.add(new TransportedItemStackHandlerBehaviour(this, this::clockCallback));
 	}

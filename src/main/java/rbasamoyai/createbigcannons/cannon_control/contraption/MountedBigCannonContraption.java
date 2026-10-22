@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import com.zurrtum.create.AllClientHandle;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import java.util.ArrayList;
@@ -239,7 +241,7 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 		BlockPos endPos = this.startPos.relative(this.initialOrientation.getOpposite());
 		if (this.presentBlockEntities.get(endPos) instanceof QuickfiringBreechBlockEntity qfbreech) {
             qfbreech.tickAnimation();
-            if (level.isClientSide() && this.getBlockEntityClientSide(endPos) instanceof QuickfiringBreechBlockEntity qfbreech1)
+            if (level.isClientSide() && AllClientHandle.INSTANCE.getBlockEntityClientSide(this, endPos) instanceof QuickfiringBreechBlockEntity qfbreech1)
                 qfbreech1.tickAnimation();
         }
 		if (!level.isClientSide() && this.isDropMortar() && this.mortarDelay > 0) {

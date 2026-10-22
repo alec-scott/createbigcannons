@@ -67,7 +67,7 @@ public class RamHeadBlock extends WrenchableDirectionalBlock implements SimpleWa
 	@Override
 	public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighbor, RandomSource random) {
 		if (state.getValue(BlockStateProperties.WATERLOGGED)) {
-			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+			ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
 		return super.updateShape(state, level, ticks, pos, direction, neighborPos, neighbor, random);
 	}

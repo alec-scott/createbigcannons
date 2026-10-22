@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.base;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import java.util.Map;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap;
@@ -33,7 +35,7 @@ public class PartialBlockDamageSaveData extends SavedData {
 		for (Map.Entry<ResourceKey<Level>, Object2FloatLinkedOpenHashMap<BlockPos>> entry : this.blockDamage.object2ObjectEntrySet()) {
 			blockDamage.put(entry.getKey().location().toString(), NBTHelper.writeCompoundList(entry.getValue().object2FloatEntrySet(), e -> {
 				CompoundTag tag1 = new CompoundTag();
-				tag1.put("Pos", NbtUtils.writeBlockPos(e.getKey()));
+				tag1.put("Pos", CBCValueIO.writeBlockPos(e.getKey()));
 				tag1.putFloat("Damage", e.getFloatValue());
 				return tag1;
 			}));
@@ -58,7 +60,7 @@ public class PartialBlockDamageSaveData extends SavedData {
 			int len = Math.min(damagesTag.size(), MAX_DAMAGES_PER_DIMENSION);
 			for (int i = 0; i < len; ++i) {
 				CompoundTag entry = damagesTag.getCompoundOrEmpty(i);
-				damages.put(NbtUtils.readBlockPos(entry, "Pos").get(), entry.getFloat("Damage"));
+				damages.put(CBCValueIO.readBlockPos(entry, "Pos").get(), entry.getFloat("Damage"));
 			}
 			savedata.blockDamage.put(dimensionKey, damages);
 		}

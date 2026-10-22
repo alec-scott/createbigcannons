@@ -2,13 +2,14 @@ package rbasamoyai.createbigcannons.block_hit_effects;
 
 import java.util.Map;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.Block;
@@ -22,11 +23,10 @@ public class BlockImpactTransformationHandler {
 
 	private static final TypeAndTagDataHolder<Block, BlockTransformation> TRANSFORMS = new TypeAndTagDataHolder<>(CBCRegistryUtils.getBlockRegistry());
 
-	public static class ReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final ReloadListener INSTANCE = new ReloadListener();
 
-		ReloadListener() { super(GSON, "block_impact_transforms"); }
+		ReloadListener() { super(ExtraCodecs.JSON, FileToIdConverter.json("block_impact_transforms")); }
 
 		@Override
 		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {

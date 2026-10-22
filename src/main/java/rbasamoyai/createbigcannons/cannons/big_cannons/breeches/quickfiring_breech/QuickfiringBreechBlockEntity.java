@@ -33,7 +33,7 @@ public class QuickfiringBreechBlockEntity extends SmartBlockEntity implements IB
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 		behaviours.add(this.cannonBehavior = new BigCannonBehavior(this, this::canLoadBlock));
 	}
 

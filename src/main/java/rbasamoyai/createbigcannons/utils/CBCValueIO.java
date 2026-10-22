@@ -1,9 +1,11 @@
 package rbasamoyai.createbigcannons.utils;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -60,6 +62,16 @@ public final class CBCValueIO {
 	public static ItemStack parseItem(HolderLookup.Provider registries, Tag tag) {
 		if (tag instanceof CompoundTag compound && compound.isEmpty()) return ItemStack.EMPTY;
 		return ItemStack.OPTIONAL_CODEC.parse(registries.createSerializationContext(NbtOps.INSTANCE), tag).result().orElse(ItemStack.EMPTY);
+	}
+
+	/** Replaces 1.21.1 {@code NbtUtils.writeBlockPos}; same int-array format. */
+	public static Tag writeBlockPos(BlockPos pos) {
+		return BlockPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).getOrThrow();
+	}
+
+	/** Replaces 1.21.1 {@code NbtUtils.readBlockPos}. */
+	public static Optional<BlockPos> readBlockPos(CompoundTag tag, String key) {
+		return tag.read(key, BlockPos.CODEC);
 	}
 
 	public static void putUUID(ValueOutput output, String key, UUID uuid) {

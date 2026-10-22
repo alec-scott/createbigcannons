@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.entity.EntitySpawnReason;
+
 import net.minecraft.world.level.redstone.Orientation;
 
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
@@ -56,7 +58,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, List<StructureBlockInfo> projectileBlocks) {
-		FuzedBigCannonProjectile projectile = this.getAssociatedEntityType().create(level);
+		FuzedBigCannonProjectile projectile = this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setTracer(getTracerFromBlocks(projectileBlocks, level.registryAccess()));
 		projectile.setFuze(getFuzeFromBlocks(projectileBlocks, level.registryAccess()));
 		return projectile;
@@ -64,7 +66,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, ItemStack itemStack) {
-		FuzedBigCannonProjectile projectile = this.getAssociatedEntityType().create(level);
+		FuzedBigCannonProjectile projectile = this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setTracer(getTracerFromItemStack(itemStack));
 		projectile.setFuze(getFuzeFromItemStack(itemStack));
 		return projectile;
@@ -72,7 +74,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, BlockPos pos, BlockState state) {
-		FuzedBigCannonProjectile projectile = this.getAssociatedEntityType().create(level);
+		FuzedBigCannonProjectile projectile = this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setTracer(getTracerFromBlock(level, pos, state));
 		projectile.setFuze(getFuzeFromBlock(level, pos, state));
 		return projectile;

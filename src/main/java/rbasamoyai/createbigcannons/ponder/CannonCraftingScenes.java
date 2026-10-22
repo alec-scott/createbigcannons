@@ -1013,7 +1013,7 @@ public class CannonCraftingScenes {
 	}
 
 	private static Consumer<CompoundTag> setCentralBlock(BlockPos pos) {
-		return tag -> tag.put("CentralBlock", NbtUtils.writeBlockPos(pos));
+		return tag -> tag.put("CentralBlock", CBCValueIO.writeBlockPos(pos));
 	}
 
 	private static Consumer<CompoundTag> setFinishedCannonShape(CannonCastShape shape) {

@@ -140,7 +140,7 @@ public interface BigCannonBlock extends WeldableBlock, CannonContraptionProvider
 			Direction facing = cBlock.getFacing(state);
 			Direction opposite = facing.getOpposite();
 			Vec3 center = Vec3.atCenterOf(pos);
-			Vec3 offset = Vec3.atBottomCenterOf(facing.getNormal()).scale(0.5d);
+			Vec3 offset = Vec3.atBottomCenterOf(facing.getUnitVec3i()).scale(0.5d);
 			BigCannonMaterial material = cBlock.getCannonMaterial();
 			CannonCastShape shape = cBlock.getCannonShape();
 
@@ -242,8 +242,8 @@ public interface BigCannonBlock extends WeldableBlock, CannonContraptionProvider
 				StructureBlockInfo loadInfo = munition.getHandloadingInfo(stack, localPos, side, level.registryAccess());
 				boolean flag = false;
 				if (cannon.isDropMortar()) {
-					if (!player.getCooldowns().isOnCooldown(stack.getItem()) && cannon.tryDroppingMortarRound(stack)) {
-						player.getCooldowns().addCooldown(stack.getItem(), CBCConfigs.server().cannons.dropMortarItemCooldown.get());
+					if (!player.getCooldowns().isOnCooldown(stack) && cannon.tryDroppingMortarRound(stack)) {
+						player.getCooldowns().addCooldown(stack, CBCConfigs.server().cannons.dropMortarItemCooldown.get());
 						flag = true;
 					}
 				} else {
@@ -260,7 +260,7 @@ public interface BigCannonBlock extends WeldableBlock, CannonContraptionProvider
 			}
 			return true;
 		}
-		if (stack.getItem() instanceof HandloadingTool tool && !player.getCooldowns().isOnCooldown(stack.getItem())) {
+		if (stack.getItem() instanceof HandloadingTool tool && !player.getCooldowns().isOnCooldown(stack)) {
 			tool.onUseOnCannon(player, level, localPos, side, cannon);
 			return true;
 		}

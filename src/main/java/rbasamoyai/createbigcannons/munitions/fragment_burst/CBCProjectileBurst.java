@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.fragment_burst;
 
+import net.minecraft.world.entity.EntitySpawnReason;
+
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -69,7 +71,7 @@ public abstract class CBCProjectileBurst extends ProjectileBurst {
 
 	public static <T extends ProjectileBurst> T spawnConeBurst(Level level, EntityType<T> type, Vec3 position,
 															   Vec3 initialVelocity, int count, double spread) {
-		T burst = type.create(level);
+		T burst = type.create(level, EntitySpawnReason.TRIGGERED);
 		burst.setPos(position);
 
 		Vec3 forward = initialVelocity.normalize();

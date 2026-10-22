@@ -5,7 +5,6 @@ import java.util.concurrent.Executor;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -19,6 +18,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -35,11 +36,10 @@ public class FluidDragHandler {
 
 	private static final FluidTypeDataHolder<Double> FLUID_DRAG = new FluidTypeDataHolder<>();
 
-	public static class ReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final ReloadListener INSTANCE = new ReloadListener();
 
-		ReloadListener() { super(GSON, "fluid_drag"); }
+		ReloadListener() { super(ExtraCodecs.JSON, FileToIdConverter.json("fluid_drag")); }
 
 		@Override
 		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {

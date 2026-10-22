@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.zurrtum.create.content.contraptions.Contraption;
@@ -64,7 +66,7 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 	protected void readAdditional(CompoundTag compound, boolean spawnPacket) {
 		super.readAdditional(compound, spawnPacket);
 		if (compound.contains("ControllerRelative"))
-			this.controllerPos = NbtUtils.readBlockPos(compound, "ControllerRelative").get().offset(this.blockPosition());
+			this.controllerPos = CBCValueIO.readBlockPos(compound, "ControllerRelative").get().offset(this.blockPosition());
 		else if (this.level().getBlockEntity(this.blockPosition().below(2)) instanceof ControlPitchContraption.Block controller && !this.isPassenger()) {
 			// Legacy, cannon mount
 			this.controllerPos = controller.getControllerBlockPos();
@@ -76,7 +78,7 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 	protected void writeAdditional(CompoundTag compound, HolderLookup.Provider registries, boolean spawnPacket) {
 		super.writeAdditional(compound, registries, spawnPacket);
 		if (this.controllerPos != null)
-			compound.put("ControllerRelative", NbtUtils.writeBlockPos(controllerPos.subtract(blockPosition())));
+			compound.put("ControllerRelative", CBCValueIO.writeBlockPos(controllerPos.subtract(blockPosition())));
 		compound.putBoolean("UpdatesOwnRotation", this.updatesOwnRotation);
         NBTHelper.writeEnum(compound, "InitialOrientation", this.getInitialOrientation()); // Write all initial orientations
 	}

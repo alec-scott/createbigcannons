@@ -10,7 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.zurrtum.create.api.stress.BlockStressValues;
 
-import com.zurrtum.create.catnip.config.ConfigBase;
+import rbasamoyai.createbigcannons.port.catnip.config.ConfigBase;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.entity.EntitySpawnReason;
+
 import java.util.List;
 
 import com.zurrtum.create.foundation.block.IBE;
@@ -28,21 +30,21 @@ public abstract class InertProjectileBlock extends ProjectileBlock<AbstractBigCa
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, List<StructureTemplate.StructureBlockInfo> projectileBlocks) {
-		AbstractBigCannonProjectile projectile = this.getAssociatedEntityType().create(level);
+		AbstractBigCannonProjectile projectile = this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setTracer(getTracerFromBlocks(projectileBlocks, level.registryAccess()));
 		return projectile;
 	}
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, ItemStack itemStack) {
-		AbstractBigCannonProjectile projectile = this.getAssociatedEntityType().create(level);
+		AbstractBigCannonProjectile projectile = this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setTracer(getTracerFromItemStack(itemStack));
 		return projectile;
 	}
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, BlockPos pos, BlockState state) {
-		AbstractBigCannonProjectile projectile = this.getAssociatedEntityType().create(level);
+		AbstractBigCannonProjectile projectile = this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setTracer(getTracerFromBlock(level, pos, state));
 		return projectile;
 	}

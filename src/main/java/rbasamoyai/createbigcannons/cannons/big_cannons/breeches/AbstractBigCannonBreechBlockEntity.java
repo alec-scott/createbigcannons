@@ -21,7 +21,7 @@ public abstract class AbstractBigCannonBreechBlockEntity extends KineticBlockEnt
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviors) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviors) {
 		super.addBehaviours(behaviors);
 		behaviors.add(this.cannonBehavior = new BigCannonBehavior(this, this::canLoadBlock));
 	}

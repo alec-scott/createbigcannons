@@ -82,7 +82,7 @@ public class DelayedImpactFuzeItem extends FuzeItem implements MenuProvider {
         Direction shellFacing = state.getValue(FuzedProjectileBlock.FACING);
         Direction hitFace = baseFuze ? shellFacing.getOpposite() : shellFacing;
         Vec3 hitDir = impactPos.subtract(pos.getCenter());
-        Direction closest = Direction.getNearest(hitDir.x, hitDir.y, hitDir.z);
+        Direction closest = Direction.getApproximateNearest(hitDir.x, hitDir.y, hitDir.z);
         if (closest != hitFace)
             return false;
 

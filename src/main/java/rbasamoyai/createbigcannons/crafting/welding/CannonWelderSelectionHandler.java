@@ -80,7 +80,7 @@ public class CannonWelderSelectionHandler {
 					.disableLineNormals()
 					.lineWidth(1 / 16f);
 				if (color == HIGHLIGHT && mc.level.getGameTime() % 20 == 0) {
-					Direction dir = Direction.getNearest(hovered.getX() - this.firstPos.getX(), hovered.getY() - this.firstPos.getY(), hovered.getZ() - this.firstPos.getZ());
+					Direction dir = Direction.getApproximateNearest(hovered.getX() - this.firstPos.getX(), hovered.getY() - this.firstPos.getY(), hovered.getZ() - this.firstPos.getZ());
 					spawnParticles(mc.level, this.firstPos, dir, true);
 				}
 			}
@@ -103,7 +103,7 @@ public class CannonWelderSelectionHandler {
 		LocalPlayer player = mc.player;
 		NetworkPlatform.sendToServer(new ServerboundUseWelderPacket(this.firstPos, this.hoveredPos));
 		AllSoundEvents.STEAM.playAt(player.level(), this.hoveredPos, 0.5F, 0.95F, false);
-		Direction dir = Direction.getNearest(this.hoveredPos.getX() - this.firstPos.getX(), this.hoveredPos.getY() - this.firstPos.getY(), this.hoveredPos.getZ() - this.firstPos.getZ());
+		Direction dir = Direction.getApproximateNearest(this.hoveredPos.getX() - this.firstPos.getX(), this.hoveredPos.getY() - this.firstPos.getY(), this.hoveredPos.getZ() - this.firstPos.getZ());
 		spawnParticles(mc.level, this.firstPos, dir, true);
 		CreateLang.builder(CreateBigCannons.MOD_ID).translate("cannon_welder.success").sendStatus(player);
 		this.firstPos = null;
@@ -151,7 +151,7 @@ public class CannonWelderSelectionHandler {
 	}
 
 	public static void spawnParticles(Level world, BlockPos pos, Direction direction, boolean fullBlock) {
-		Vec3 vec = Vec3.atLowerCornerOf(direction.getNormal());
+		Vec3 vec = Vec3.atLowerCornerOf(direction.getUnitVec3i());
 		Vec3 plane = VecHelper.axisAlingedPlaneOf(vec);
 		Vec3 facePos = VecHelper.getCenterOf(pos).add(vec.scale(.5f));
 		float distance = fullBlock ? 1f : .25f + .25f * (world.getRandom().nextFloat() - .5f);

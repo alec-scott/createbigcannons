@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
@@ -27,6 +26,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.player.Player;
@@ -54,11 +55,10 @@ public class BlockArmorPropertiesHandler {
         @Override public List<BlockState> containedBlockStates(Level level, BlockState state, BlockPos pos, boolean recurse) { return Lists.newArrayList(state); }
     };
 
-	public static class BlockReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class BlockReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final BlockReloadListener INSTANCE = new BlockReloadListener();
 
-		public BlockReloadListener() { super(GSON, "block_armor"); }
+		public BlockReloadListener() { super(ExtraCodecs.JSON, FileToIdConverter.json("block_armor")); }
 
 		@Override
 		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {

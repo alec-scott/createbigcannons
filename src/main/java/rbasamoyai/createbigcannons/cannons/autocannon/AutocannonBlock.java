@@ -91,7 +91,7 @@ public interface AutocannonBlock extends WeldableBlock, CannonContraptionProvide
         Direction opposite = facing.getOpposite();
 
         Vec3 center = Vec3.atCenterOf(pos);
-        Vec3 offset = Vec3.atBottomCenterOf(facing.getNormal()).scale(0.5d);
+        Vec3 offset = Vec3.atBottomCenterOf(facing.getUnitVec3i()).scale(0.5d);
         AutocannonMaterial material = cBlock.getAutocannonMaterialInLevel(level, state, pos);
 
         BlockPos pos1 = pos.relative(facing);

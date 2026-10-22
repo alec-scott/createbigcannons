@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
 import net.minecraft.network.PacketListener;
@@ -16,6 +15,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -28,14 +29,12 @@ public class DimensionMunitionPropertiesHandler {
     public static Map<ResourceKey<Level>, DimensionMunitionProperties> DIMENSIONS = new HashMap<>();
 	private static final DimensionMunitionProperties DEFAULT = new DimensionMunitionProperties(1, 1);
 
-    public static class ReloadListener extends SimpleJsonResourceReloadListener {
-
-        private static final Gson GSON = new Gson();
+    public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 
         public static final ReloadListener INSTANCE = new ReloadListener();
 
         protected ReloadListener() {
-            super(GSON, "dimension_munition_properties");
+            super(ExtraCodecs.JSON, FileToIdConverter.json("dimension_munition_properties"));
         }
 
         @Override

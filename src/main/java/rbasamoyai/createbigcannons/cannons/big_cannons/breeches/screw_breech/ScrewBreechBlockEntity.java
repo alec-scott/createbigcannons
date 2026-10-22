@@ -33,7 +33,7 @@ public class ScrewBreechBlockEntity extends KineticBlockEntity implements IBigCa
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 		super.addBehaviours(behaviours);
 		behaviours.add(this.cannonBehavior = new BigCannonBehavior(this, this::canLoadBlock));
 	}

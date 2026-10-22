@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.config;
 
-import com.zurrtum.create.catnip.config.ConfigBase;
+import rbasamoyai.createbigcannons.port.catnip.config.ConfigBase;
 
 public class CBCCfgCompat extends ConfigBase {
 

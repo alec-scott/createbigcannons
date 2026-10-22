@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import rbasamoyai.createbigcannons.utils.CBCUtils;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.level.redstone.Orientation;
@@ -18,7 +20,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -59,7 +61,7 @@ public class CannonBuilderBlock extends DirectionalAxisKineticBlock implements I
     }
 
 	public static void destroyExtensionPoles(Level level, BlockPos pos, BlockState state, boolean dropBlocks) {
-		dropBlocks &= level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS);
+		dropBlocks &= CBCUtils.booleanRule(level, GameRules.BLOCK_DROPS);
 		Direction dir = state.getValue(FACING);
 		BlockPos headPos = null;
 		int max = maxAllowedBuilderLength();

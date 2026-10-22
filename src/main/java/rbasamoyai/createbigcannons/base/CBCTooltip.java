@@ -177,7 +177,7 @@ public class CBCTooltip {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
-		String key = stack.getDescriptionId() + ".tooltip.maximumCharges";
+		String key = stack.getItem().getDescriptionId() + ".tooltip.maximumCharges";
 		tooltip.add(Component.translatable(key).withStyle(ChatFormatting.GRAY));
 		MortarStoneProperties properties = CBCMunitionPropertiesHandlers.MORTAR_STONE.getPropertiesOf(CBCEntityTypes.MORTAR_STONE.get());
 		String value = String.format("%.2f", properties.maxCharges() * 20f);
@@ -190,7 +190,7 @@ public class CBCTooltip {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
-		String keyBase = stack.getDescriptionId() + ".tooltip.";
+		String keyBase = stack.getItem().getDescriptionId() + ".tooltip.";
 
 		String key = keyBase + "pushStrength";
 		tooltip.add(Component.literal(I18n.get(key)).withStyle(ChatFormatting.GRAY));
@@ -211,7 +211,7 @@ public class CBCTooltip {
 			return;
 		}
 		FontHelper.Palette palette = getPalette();
-		String keyBase = stack.getDescriptionId() + ".tooltip.";
+		String keyBase = stack.getItem().getDescriptionId() + ".tooltip.";
 
 		String key = keyBase + "reach";
 		tooltip.add(Component.literal(I18n.get(key)).withStyle(ChatFormatting.GRAY));
@@ -225,10 +225,10 @@ public class CBCTooltip {
 	public static void appendImpactFuzeText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag, float detChance, int fuzeDurability) {
 		if (!Minecraft.getInstance().hasShiftDown()) return;
 		FontHelper.Palette palette = getPalette();
-		String chanceKey = stack.getDescriptionId() + ".tooltip.chance";
+		String chanceKey = stack.getItem().getDescriptionId() + ".tooltip.chance";
 		tooltip.add(Component.literal(I18n.get(chanceKey)).withStyle(ChatFormatting.GRAY));
 		tooltip.addAll(TooltipHelper.cutStringTextComponent(I18n.get(chanceKey + ".value", (int) (detChance * 100.0f)), palette.primary(), palette.highlight(), 1));
-		String durabilityKey = stack.getDescriptionId() + ".tooltip.durability";
+		String durabilityKey = stack.getItem().getDescriptionId() + ".tooltip.durability";
 		tooltip.add(Component.literal(I18n.get(durabilityKey)).withStyle(ChatFormatting.GRAY));
 		tooltip.addAll(TooltipHelper.cutStringTextComponent(I18n.get(durabilityKey + ".value", fuzeDurability), palette.primary(), palette.highlight(), 1));
 	}

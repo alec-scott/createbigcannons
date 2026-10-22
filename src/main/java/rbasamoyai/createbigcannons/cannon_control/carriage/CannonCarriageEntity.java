@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.carriage;
 
+import rbasamoyai.createbigcannons.utils.CBCUtils;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -45,7 +47,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -143,7 +145,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 
 		this.previousWheelState = this.getWheelState();
 
-		if (this.isControlledByLocalInstance()) {
+		if (this.isLocalInstanceAuthoritative()) {
 			this.moveCarriage();
 			if (this.level().isClientSide()) {
 				this.controlCarriage();
@@ -256,7 +258,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 	}
 
 	private void tickLerp() {
-		if (this.isControlledByLocalInstance()) {
+		if (this.isLocalInstanceAuthoritative()) {
 			this.lerpSteps = 0;
 			this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
 		}
@@ -335,7 +337,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 				this.setCannonRider(true);
 				if (!player.isCreative()) stack.shrink(1);
 			}
-			level.playSound(player, this, SoundEvents.HORSE_SADDLE, SoundSource.NEUTRAL, 0.5F, 1.0F);
+			level.playSound(player, this, SoundEvents.HORSE_SADDLE.value(), SoundSource.NEUTRAL, 0.5F, 1.0F);
 			return InteractionResult.SUCCESS;
 		}
 		return super.interact(player, hand);
@@ -450,7 +452,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 		this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
 		boolean flag = source.getEntity() instanceof Player player && player.getAbilities().instabuild;
 		if (flag || this.getDamage() > 40.0F) {
-			if (!flag && this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+			if (!flag && CBCUtils.booleanRule(this.level(), GameRules.ENTITY_DROPS)) {
 				this.spawnAtLocation(CBCBlocks.CANNON_CARRIAGE.asStack());
 				if (this.isCannonRider()) this.spawnAtLocation(Items.SADDLE);
 			}

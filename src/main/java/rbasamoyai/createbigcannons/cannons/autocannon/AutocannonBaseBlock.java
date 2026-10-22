@@ -69,7 +69,7 @@ public abstract class AutocannonBaseBlock extends DirectionalBlock implements Au
     @Override
     public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction face, BlockPos otherPos, BlockState otherState, RandomSource random) {
         if (state.getValue(BlockStateProperties.WATERLOGGED)) {
-            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
         return super.updateShape(state, level, ticks, pos, face, otherPos, otherState, random);
     }

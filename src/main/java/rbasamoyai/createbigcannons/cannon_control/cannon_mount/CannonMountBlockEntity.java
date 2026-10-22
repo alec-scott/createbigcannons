@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import com.zurrtum.create.AllClientHandle;
+
 import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
 
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
@@ -24,7 +26,6 @@ import com.zurrtum.create.content.kinetics.base.IRotate;
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 import com.zurrtum.create.client.foundation.utility.CreateLang;
-import com.zurrtum.create.foundation.utility.ServerSpeedProvider;
 
 import com.zurrtum.create.catnip.math.AngleHelper;
 import net.minecraft.ChatFormatting;
@@ -329,7 +330,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements CBCAss
 			speed = 0;
 		}
 		if (this.getLevel().isClientSide()) {
-			speed *= ServerSpeedProvider.get();
+			speed *= AllClientHandle.INSTANCE.getServerSpeed();
 			speed += clientDiff / 3.0f;
 		}
 		return speed;

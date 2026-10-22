@@ -51,7 +51,7 @@ public class BuiltUpCannonCTBehavior extends ConnectedTextureBehaviour.Base {
 		if (axis != cBlock1.getFacing(other).getAxis()) return false;
 		if (pos.distManhattan(otherPos) != 1) return false;
 		BlockPos diff = otherPos.subtract(pos);
-		Direction dir1 = Direction.getNearest(diff.getX(), diff.getY(), diff.getZ());
+		Direction dir1 = Direction.getApproximateNearest(diff.getX(), diff.getY(), diff.getZ());
 		if (dir1.getAxis() != axis) return false;
 		CannonCastShape shape = cBlock.getCannonShape();
 		CannonCastShape shape1 = cBlock1.getCannonShape();

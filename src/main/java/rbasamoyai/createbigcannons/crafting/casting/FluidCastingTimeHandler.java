@@ -5,7 +5,6 @@ import java.util.concurrent.Executor;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -19,6 +18,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -34,12 +35,11 @@ public class FluidCastingTimeHandler {
 
 	private static final FluidTypeDataHolder<Integer> CASTING_TIME = new FluidTypeDataHolder<>();
 
-	public static class ReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final ReloadListener INSTANCE = new ReloadListener();
 
 		public ReloadListener() {
-			super(GSON, "fluid_casting_time");
+			super(ExtraCodecs.JSON, FileToIdConverter.json("fluid_casting_time"));
 		}
 
 		@Override

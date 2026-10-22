@@ -320,4 +320,10 @@ public class CBCUtils {
     public static ICondition itemTagsPopulated(TagKey<Item> tag) {
         return new NotCondition(new TagEmptyCondition(tag));
     }
+
+	/** PORT-NOTE(mc26.1): game rules are only readable on the server; client-side checks get the rule's default. */
+	public static boolean booleanRule(net.minecraft.world.level.Level level, net.minecraft.world.level.gamerules.GameRule<Boolean> rule) {
+		return level instanceof net.minecraft.server.level.ServerLevel slevel ? slevel.getGameRules().get(rule) : rule.defaultValue();
+	}
+
 }

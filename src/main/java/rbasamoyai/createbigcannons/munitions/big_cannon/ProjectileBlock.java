@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.world.entity.EntitySpawnReason;
+
 import java.util.function.BiConsumer;
 
 import net.minecraft.server.level.ServerLevel;
@@ -110,15 +112,15 @@ public abstract class ProjectileBlock<ENTITY extends AbstractBigCannonProjectile
 	}
 
 	public AbstractBigCannonProjectile getProjectile(Level level, List<StructureBlockInfo> projectileBlocks) {
-		return this.getAssociatedEntityType().create(level);
+		return this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 	}
 
 	public AbstractBigCannonProjectile getProjectile(Level level, ItemStack itemStack) {
-		return this.getAssociatedEntityType().create(level);
+		return this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 	}
 
 	public AbstractBigCannonProjectile getProjectile(Level level, BlockPos pos, BlockState state) {
-		return this.getAssociatedEntityType().create(level);
+		return this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 	}
 
 	protected AbstractBigCannonProjectile spawnFromExplosion(Level level, BlockPos pos, BlockState state, Explosion explosion) {

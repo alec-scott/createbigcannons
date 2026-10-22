@@ -96,7 +96,7 @@ public class CannonBuilderHeadBlock extends WrenchableDirectionalBlock implement
 	@Override
 	public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction face, BlockPos otherPos, BlockState otherState, RandomSource random) {
 		if (state.getValue(BlockStateProperties.WATERLOGGED)) {
-			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+			ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
 		return super.updateShape(state, level, ticks, pos, face, otherPos, otherState, random);
 	}

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import net.minecraft.world.entity.EntitySpawnReason;
+
 import static rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.AbstractFluidShellBlockEntity.getFluidShellCapacity;
 
 import java.util.List;
@@ -89,7 +91,7 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, BlockPos pos, BlockState state) {
-		FluidShellProjectile projectile = this.getAssociatedEntityType().create(level);
+		FluidShellProjectile projectile = this.getAssociatedEntityType().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setTracer(getTracerFromBlock(level, pos, state));
 		projectile.setFuze(getFuzeFromBlock(level, pos, state));
 		if (level.getBlockEntity(pos) instanceof AbstractFluidShellBlockEntity fluidShell)

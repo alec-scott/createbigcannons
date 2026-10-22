@@ -3,7 +3,6 @@ package rbasamoyai.createbigcannons.cannon_control.config;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
@@ -18,6 +17,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -51,11 +52,10 @@ public class CannonMountPropertiesHandler {
 		@Override public float maximumDepression(Entity entity) { return 0f; }
 	};
 
-	public static class BlockEntityReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class BlockEntityReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final BlockEntityReloadListener INSTANCE = new BlockEntityReloadListener();
 
-		public BlockEntityReloadListener() { super(GSON, "cannon_mounts/block_entities"); }
+		public BlockEntityReloadListener() { super(ExtraCodecs.JSON, FileToIdConverter.json("cannon_mounts/block_entities")); }
 
 		@Override
 		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
@@ -87,11 +87,10 @@ public class CannonMountPropertiesHandler {
 		}
 	}
 
-	public static class EntityReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class EntityReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final EntityReloadListener INSTANCE = new EntityReloadListener();
 
-		public EntityReloadListener() { super(GSON, "cannon_mounts/entities"); }
+		public EntityReloadListener() { super(ExtraCodecs.JSON, FileToIdConverter.json("cannon_mounts/entities")); }
 
 		@Override
 		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {

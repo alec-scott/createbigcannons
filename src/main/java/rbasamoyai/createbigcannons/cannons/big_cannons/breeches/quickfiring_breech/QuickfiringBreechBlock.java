@@ -218,7 +218,7 @@ public class QuickfiringBreechBlock extends BigCannonBaseBlock implements IBE<Qu
 			}
 			return true;
 		}
-		if (stack.getItem() instanceof HandloadingTool tool && !player.getCooldowns().isOnCooldown(stack.getItem())) {
+		if (stack.getItem() instanceof HandloadingTool tool && !player.getCooldowns().isOnCooldown(stack)) {
 			tool.onUseOnCannon(player, level, nextPos, side, cannon);
 			return true;
 		}

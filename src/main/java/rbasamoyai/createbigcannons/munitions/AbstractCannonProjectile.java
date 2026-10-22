@@ -34,7 +34,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -330,7 +330,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 			if (projCtx.griefState() != GriefState.NO_DAMAGE) {
 				Vec3 oldVel = this.getDeltaMovement();
 
-                Explosion.BlockInteraction interaction = this.level().getGameRules().getBoolean(GameRules.RULE_BLOCK_EXPLOSION_DROP_DECAY) ?
+                Explosion.BlockInteraction interaction = CBCUtils.booleanRule(this.level(), GameRules.BLOCK_EXPLOSION_DROP_DECAY) ?
                     Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.DESTROY;
 
 				for (Map.Entry<BlockPos, Float> queued : projCtx.getQueuedExplosions().entrySet()) {

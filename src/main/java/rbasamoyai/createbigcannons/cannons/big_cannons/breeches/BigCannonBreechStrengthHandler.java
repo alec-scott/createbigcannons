@@ -3,7 +3,6 @@ package rbasamoyai.createbigcannons.cannons.big_cannons.breeches;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
@@ -16,6 +15,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.player.Player;
@@ -28,11 +29,10 @@ public class BigCannonBreechStrengthHandler {
 
 	private static final Map<Block, Integer> BREECH_STRENGTHS = new Reference2IntOpenHashMap<>();
 
-	public static class ReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final ReloadListener INSTANCE = new ReloadListener();
 
-		ReloadListener() { super(GSON, "big_cannon_breech_strength"); }
+		ReloadListener() { super(ExtraCodecs.JSON, FileToIdConverter.json("big_cannon_breech_strength")); }
 
 		@Override
 		protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {

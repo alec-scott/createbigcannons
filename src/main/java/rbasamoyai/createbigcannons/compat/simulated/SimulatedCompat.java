@@ -68,7 +68,7 @@ public class SimulatedCompat {
     }
 
     private static BlockMovementChecks.CheckResult attachedCheckMountExtensionBlocks(BlockState state, Level level, BlockPos pos, BlockPos posDirection) {
-        Direction attached = Direction.fromDelta(posDirection.getX(), posDirection.getY(), posDirection.getZ());
+        Direction attached = Direction.getNearest(posDirection.getX(), posDirection.getY(), posDirection.getZ(), null);
         if (attached == null)
             return BlockMovementChecks.CheckResult.PASS;
         BlockPos attachedPos = pos.relative(attached);
@@ -87,7 +87,7 @@ public class SimulatedCompat {
     private static BlockMovementChecks.CheckResult attachedCheckCannons(BlockState state, Level level, BlockPos pos, BlockPos posDirection) {
         if (!(state.getBlock() instanceof BigCannonBlock cannonBlock))
             return BlockMovementChecks.CheckResult.PASS;
-        Direction attached = Direction.fromDelta(posDirection.getX(), posDirection.getY(), posDirection.getZ());
+        Direction attached = Direction.getNearest(posDirection.getX(), posDirection.getY(), posDirection.getZ(), null);
         if (attached == null)
             return BlockMovementChecks.CheckResult.PASS;
         BlockPos otherPos = pos.relative(attached);
@@ -112,7 +112,7 @@ public class SimulatedCompat {
 
     private static BlockMovementChecks.CheckResult attachedCheckAutocannons(BlockState state, Level level, BlockPos pos, BlockPos posDirection) {
         if (!(state.getBlock() instanceof AutocannonBlock)) return BlockMovementChecks.CheckResult.PASS;
-        Direction attached = Direction.fromDelta(posDirection.getX(), posDirection.getY(), posDirection.getZ());
+        Direction attached = Direction.getNearest(posDirection.getX(), posDirection.getY(), posDirection.getZ(), null);
         if (attached == null)
             return BlockMovementChecks.CheckResult.PASS;
         BlockPos otherPos = pos.relative(attached);
@@ -128,7 +128,7 @@ public class SimulatedCompat {
     }
 
     private static BlockMovementChecks.CheckResult attachedCheckCannonLoader(BlockState state, Level level, BlockPos pos, BlockPos posDirection) {
-        Direction attached = Direction.fromDelta(posDirection.getX(), posDirection.getY(), posDirection.getZ());
+        Direction attached = Direction.getNearest(posDirection.getX(), posDirection.getY(), posDirection.getZ(), null);
         if (attached == null)
             return BlockMovementChecks.CheckResult.PASS;
 
@@ -178,7 +178,7 @@ public class SimulatedCompat {
     }
 
     private static BlockMovementChecks.CheckResult attachedCheckCannonDrill(BlockState state, Level level, BlockPos pos, BlockPos posDirection) {
-        Direction attached = Direction.fromDelta(posDirection.getX(), posDirection.getY(), posDirection.getZ());
+        Direction attached = Direction.getNearest(posDirection.getX(), posDirection.getY(), posDirection.getZ(), null);
         if (attached == null)
             return BlockMovementChecks.CheckResult.PASS;
         BlockState rootState = level.getBlockState(pos.relative(attached));
@@ -227,7 +227,7 @@ public class SimulatedCompat {
     }
 
     private static BlockMovementChecks.CheckResult attachedCheckCannonBuilder(BlockState state, Level level, BlockPos pos, BlockPos posDirection) {
-        Direction attached = Direction.fromDelta(posDirection.getX(), posDirection.getY(), posDirection.getZ());
+        Direction attached = Direction.getNearest(posDirection.getX(), posDirection.getY(), posDirection.getZ(), null);
         if (attached == null)
             return BlockMovementChecks.CheckResult.PASS;
         BlockState rootState = level.getBlockState(pos.relative(attached));

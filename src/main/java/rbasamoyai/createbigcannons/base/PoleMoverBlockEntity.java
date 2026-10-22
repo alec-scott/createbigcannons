@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.base;
 
+import com.zurrtum.create.AllClientHandle;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -10,7 +12,6 @@ import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
 import com.zurrtum.create.client.content.contraptions.DirectionalExtenderScrollOptionSlot;
 import com.zurrtum.create.content.contraptions.piston.LinearActuatorBlockEntity;
 import com.zurrtum.create.client.foundation.blockEntity.behaviour.ValueBoxTransform;
-import com.zurrtum.create.foundation.utility.ServerSpeedProvider;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -109,7 +110,7 @@ public abstract class PoleMoverBlockEntity extends LinearActuatorBlockEntity {
 	public float getMovementSpeed() {
 		float movementSpeed = Mth.clamp(convertToLinear(this.getSpeed()), -0.49f, 0.49f);
 		if (this.level.isClientSide())
-			movementSpeed *= ServerSpeedProvider.get();
+			movementSpeed *= AllClientHandle.INSTANCE.getServerSpeed();
 		Direction facing = this.getBlockState().getValue(FACING);
 		int movementModifier = facing.getAxisDirection().getStep() * (facing.getAxis() == Direction.Axis.Z ? -1 : 1);
 		movementSpeed = movementSpeed * -movementModifier + this.clientOffsetDiff * 0.5f;
@@ -128,12 +129,12 @@ public abstract class PoleMoverBlockEntity extends LinearActuatorBlockEntity {
 	@Override
 	protected Vec3 toMotionVector(float speed) {
 		Direction facing = this.getBlockState().getValue(CannonLoaderBlock.FACING);
-		return Vec3.atLowerCornerOf(facing.getNormal()).scale(speed);
+		return Vec3.atLowerCornerOf(facing.getUnitVec3i()).scale(speed);
 	}
 
 	@Override
 	protected Vec3 toPosition(float offset) {
-		Vec3 position = Vec3.atLowerCornerOf(this.getBlockState().getValue(CannonLoaderBlock.FACING).getNormal()).scale(offset);
+		Vec3 position = Vec3.atLowerCornerOf(this.getBlockState().getValue(CannonLoaderBlock.FACING).getUnitVec3i()).scale(offset);
 		return position.add(Vec3.atLowerCornerOf(this.movedContraption.getContraption().anchor));
 	}
 

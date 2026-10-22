@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 
+import com.zurrtum.create.AllClientHandle;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -98,7 +100,7 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 			Contraption contraption = poce.getContraption();
 			writeAndSyncSingleBlockData(this, contraption.getBlocks().get(localPos), poce, contraption);
 		}
-        if (level.isClientSide() && poce.getContraption().getBlockEntityClientSide(localPos) instanceof AbstractAutocannonBreechBlockEntity cbe) {
+        if (level.isClientSide() && AllClientHandle.INSTANCE.getBlockEntityClientSide(poce.getContraption(), localPos) instanceof AbstractAutocannonBreechBlockEntity cbe) {
             cbe.allTick(level);
         }
 	}

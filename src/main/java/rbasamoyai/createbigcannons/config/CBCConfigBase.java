@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.config;
 
-import com.zurrtum.create.catnip.config.ConfigBase;
+import rbasamoyai.createbigcannons.port.catnip.config.ConfigBase;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public abstract class CBCConfigBase extends ConfigBase {

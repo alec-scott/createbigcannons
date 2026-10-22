@@ -75,7 +75,7 @@ public abstract class ContraptionMixin {
 		remap = false)
 	private void createbigcannons$searchMovedStructure$removePulley(Level level, BlockPos pos, Direction forcedDirection,
 																	CallbackInfoReturnable<Boolean> cir, @Local Queue<BlockPos> frontier) {
-		if (this.createbigcannons$self.getType() == AllContraptionTypes.PULLEY.value())
+		if (this.createbigcannons$self.getType() == AllContraptionTypes.PULLEY)
 			ContraptionRemix.pulleyChecks((PulleyContraption) this.createbigcannons$self, level, pos, forcedDirection, frontier);
 	}
 

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.drop_mortar_shell;
 
+import net.minecraft.world.entity.EntitySpawnReason;
+
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.world.entity.EntityType;
@@ -34,7 +36,7 @@ public class DropMortarShellBlock extends SimpleShellBlock<DropMortarShellProjec
 
 	@Override
 	public DropMortarShellProjectile getDropMortarProjectile(Level level, ItemStack stack) {
-		DropMortarShellProjectile projectile = CBCEntityTypes.DROP_MORTAR_SHELL.get().create(level);
+		DropMortarShellProjectile projectile = CBCEntityTypes.DROP_MORTAR_SHELL.get().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setFuze(FuzedProjectileBlock.getFuzeFromItemStack(stack));
 		projectile.setTracer(ProjectileBlock.getTracerFromItemStack(stack));
 		return projectile;

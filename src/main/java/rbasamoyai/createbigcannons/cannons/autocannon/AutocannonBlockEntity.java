@@ -19,7 +19,7 @@ public class AutocannonBlockEntity extends SmartBlockEntity implements IAutocann
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 		behaviours.add(this.behavior = this.makeBehavior());
 	}
 

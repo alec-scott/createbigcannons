@@ -5,7 +5,6 @@ import java.util.concurrent.Executor;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
@@ -19,6 +18,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -34,13 +35,12 @@ public class MunitionPropertiesHandler {
 	private static final Map<Block, PropertiesTypeHandler<Block, ?>> BLOCK_PROPELLANT = new Reference2ReferenceOpenHashMap<>();
 	private static final Map<Item, PropertiesTypeHandler<Item, ?>> ITEM_PROPELLANT = new Reference2ReferenceOpenHashMap<>();
 
-    public static class ReloadListenerProjectiles extends SimpleJsonResourceReloadListener {
-        private static final Gson GSON = new Gson();
+    public static class ReloadListenerProjectiles extends SimpleJsonResourceReloadListener<JsonElement> {
 
         public static final ReloadListenerProjectiles INSTANCE = new ReloadListenerProjectiles();
 
         protected ReloadListenerProjectiles() {
-            super(GSON, "munition_properties/projectiles");
+            super(ExtraCodecs.JSON, FileToIdConverter.json("munition_properties/projectiles"));
         }
 
         @Override
@@ -66,14 +66,12 @@ public class MunitionPropertiesHandler {
         }
     }
 
-	public static class ReloadListenerBlockPropellant extends SimpleJsonResourceReloadListener {
-
-		private static final Gson GSON = new Gson();
+	public static class ReloadListenerBlockPropellant extends SimpleJsonResourceReloadListener<JsonElement> {
 
 		public static final ReloadListenerBlockPropellant INSTANCE = new ReloadListenerBlockPropellant();
 
 		protected ReloadListenerBlockPropellant() {
-			super(GSON, "munition_properties/block_propellant");
+			super(ExtraCodecs.JSON, FileToIdConverter.json("munition_properties/block_propellant"));
 		}
 
 		@Override
@@ -99,14 +97,12 @@ public class MunitionPropertiesHandler {
 		}
 	}
 
-	public static class ReloadListenerItemPropellant extends SimpleJsonResourceReloadListener {
-
-		private static final Gson GSON = new Gson();
+	public static class ReloadListenerItemPropellant extends SimpleJsonResourceReloadListener<JsonElement> {
 
 		public static final ReloadListenerItemPropellant INSTANCE = new ReloadListenerItemPropellant();
 
 		protected ReloadListenerItemPropellant() {
-			super(GSON, "munition_properties/item_propellant");
+			super(ExtraCodecs.JSON, FileToIdConverter.json("munition_properties/item_propellant"));
 		}
 
 		@Override

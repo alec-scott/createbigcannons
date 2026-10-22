@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.recoil_spring;
 
+import com.zurrtum.create.AllClientHandle;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -43,7 +45,7 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
     public void tickFromContraption(Level level, PitchOrientedContraptionEntity poce, BlockPos localPos) {
         super.tickFromContraption(level, poce, localPos);
         this.allTick();
-        if (level.isClientSide() && poce.getContraption().getBlockEntityClientSide(localPos) instanceof AutocannonRecoilSpringBlockEntity cbe) {
+        if (level.isClientSide() && AllClientHandle.INSTANCE.getBlockEntityClientSide(poce.getContraption(), localPos) instanceof AutocannonRecoilSpringBlockEntity cbe) {
             cbe.allTick();
         }
     }
@@ -73,7 +75,7 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
         ListTag renderedList = new ListTag();
         for (Map.Entry<BlockPos, BlockState> entry : this.toAnimate.entrySet()) {
             CompoundTag block = new CompoundTag();
-            block.put("Pos", NbtUtils.writeBlockPos(entry.getKey()));
+            block.put("Pos", CBCValueIO.writeBlockPos(entry.getKey()));
             block.put("Block", NbtUtils.writeBlockState(entry.getValue()));
             renderedList.add(block);
         }
@@ -91,7 +93,7 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
         ListTag renderedList = CBCValueIO.getList(tag, "RenderedBlocks");
         for (int i = 0; i < renderedList.size(); ++i) {
             CompoundTag block = renderedList.getCompoundOrEmpty(i);
-            this.toAnimate.put(NbtUtils.readBlockPos(block, "Pos").get(),
+            this.toAnimate.put(CBCValueIO.readBlockPos(block, "Pos").get(),
 				NbtUtils.readBlockState(this.blockHolderGetter(), block.getCompoundOrEmpty("Block")));
         }
     }

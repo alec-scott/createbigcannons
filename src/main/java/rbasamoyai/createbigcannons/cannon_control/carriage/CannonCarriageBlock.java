@@ -81,7 +81,7 @@ public class CannonCarriageBlock extends Block implements IWrenchable, IBE<Canno
         if (!state.getValue(SADDLED) && stack.is(Items.SADDLE)) {
             if (!level.isClientSide() && !player.isCreative()) stack.shrink(1);
             level.setBlock(pos, state.setValue(SADDLED, true), 11);
-            level.playSound(player, pos, SoundEvents.HORSE_SADDLE, SoundSource.NEUTRAL, 0.5F, 1.0F);
+            level.playSound(player, pos, SoundEvents.HORSE_SADDLE.value(), SoundSource.NEUTRAL, 0.5F, 1.0F);
             return InteractionResult.SUCCESS;
         }
 		return InteractionResult.TRY_WITH_EMPTY_HAND;

@@ -37,7 +37,7 @@ public class BigCannonEndBlockEntity extends SmartBlockEntity implements IBigCan
 	}
 
 	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour<?>> behaviours) {
 		behaviours.add(this.cannonBehavior = new BigCannonBehavior(this, this::canLoadBlock));
 	}
 

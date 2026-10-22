@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
@@ -13,6 +12,8 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.Block;
@@ -28,15 +29,14 @@ public class BlockHitEffectsHandler {
 	private static final TypeAndTagDataHolder<Block, BlockHitEffect> BLOCKS = new TypeAndTagDataHolder<>(CBCRegistryUtils.getBlockRegistry());
 	private static final TypeAndTagDataHolder<Block, BlockHitEffect> FLUIDS = new TypeAndTagDataHolder<>(CBCRegistryUtils.getBlockRegistry());
 
-	public static class ReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final ReloadListener BLOCKS_INSTANCE = new ReloadListener("block", BLOCKS);
 		public static final ReloadListener FLUIDS_INSTANCE = new ReloadListener("fluid", FLUIDS);
 
 		private final TypeAndTagDataHolder<Block, BlockHitEffect> holder;
 
 		ReloadListener(String suffix, TypeAndTagDataHolder<Block, BlockHitEffect> holder) {
-			super(GSON, "block_hit_effects/" + suffix);
+			super(ExtraCodecs.JSON, FileToIdConverter.json("block_hit_effects/" + suffix));
 			this.holder = holder;
 		}
 

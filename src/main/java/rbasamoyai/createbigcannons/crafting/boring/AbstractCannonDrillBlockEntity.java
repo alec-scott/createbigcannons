@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.boring;
 
+import com.zurrtum.create.AllClientHandle;
+
 import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
 
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
@@ -24,7 +26,6 @@ import com.zurrtum.create.content.contraptions.piston.MechanicalPistonBlock;
 import com.zurrtum.create.foundation.block.IBE;
 import com.zurrtum.create.client.foundation.item.TooltipHelper;
 import com.zurrtum.create.client.foundation.utility.CreateLang;
-import com.zurrtum.create.foundation.utility.ServerSpeedProvider;
 
 import com.zurrtum.create.client.catnip.lang.FontHelper.Palette;
 import net.minecraft.ChatFormatting;
@@ -261,7 +262,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 		Vec3 mask = (new Vec3(1, 1, 1)).subtract(positive.getStepX(), positive.getStepY(), positive.getStepZ());
 		BlockPos maskedPos = BlockPos.containing(pos.multiply(mask));
 
-		Direction movementDirection = collide ? drill.orientation() : Direction.getNearest(motion.x, motion.y, motion.z);
+		Direction movementDirection = collide ? drill.orientation() : Direction.getApproximateNearest(motion.x, motion.y, motion.z);
 		if (!collide && movementDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE) {
 			gridPos = gridPos.relative(movementDirection);
 		}
@@ -467,7 +468,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 	public float getMovementSpeed() {
 		float movementSpeed = this.failureReason != FailureReason.NONE ? 0 : Mth.clamp(this.boreSpeed != 0 ? this.boreSpeed : convertToLinear(this.getSpeed()), -0.49f, 0.49f);
 		if (this.getLevel().isClientSide()) {
-			movementSpeed *= ServerSpeedProvider.get();
+			movementSpeed *= AllClientHandle.INSTANCE.getServerSpeed();
 		}
 		Direction facing = this.getBlockState().getValue(CannonDrillBlock.FACING);
 		int movementModifier = facing.getAxisDirection().getStep() * (facing.getAxis() == Direction.Axis.Z ? -1 : 1);

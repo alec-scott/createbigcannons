@@ -3,7 +3,6 @@ package rbasamoyai.createbigcannons.cannons.big_cannons.material;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
@@ -15,6 +14,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.player.Player;
 import rbasamoyai.createbigcannons.multiloader.NetworkPlatform;
@@ -24,11 +25,10 @@ public class BigCannonMaterialPropertiesHandler {
 
 	private static final Map<BigCannonMaterial, BigCannonMaterialProperties> PROPERTIES = new Reference2ObjectOpenHashMap<>();
 
-	public static class ReloadListener extends SimpleJsonResourceReloadListener {
-		private static final Gson GSON = new Gson();
+	public static class ReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
 		public static final ReloadListener INSTANCE = new ReloadListener();
 
-		public ReloadListener() { super(GSON, "big_cannon_materials"); }
+		public ReloadListener() { super(ExtraCodecs.JSON, FileToIdConverter.json("big_cannon_materials")); }
 
 		@Override
 		protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
