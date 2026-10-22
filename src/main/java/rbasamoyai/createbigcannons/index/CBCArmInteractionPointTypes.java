@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.index;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.api.registry.CreateBuiltInRegistries;
+import com.zurrtum.create.api.registry.CreateRegistries;
 import com.zurrtum.create.content.kinetics.mechanicalArm.ArmInteractionPoint;
 import com.zurrtum.create.content.kinetics.mechanicalArm.ArmInteractionPointType;
 
@@ -22,7 +22,7 @@ public class CBCArmInteractionPointTypes {
         register("cannon_mount", new CannonMountType());
     }
     private static <T extends ArmInteractionPointType> void register(String name, T type) {
-        Registry.register(CreateBuiltInRegistries.ARM_INTERACTION_POINT_TYPE, CreateBigCannons.resource(name), type);
+        Registry.register(CreateRegistries.ARM_INTERACTION_POINT_TYPE, CreateBigCannons.resource(name), type);
     }
 
 	public static class CannonMountType extends ArmInteractionPointType {

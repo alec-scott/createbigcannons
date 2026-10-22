@@ -4,43 +4,33 @@ import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
 import java.util.function.Consumer;
 
-import com.zurrtum.create.client.content.contraptions.render.ContraptionVisual;
-import com.zurrtum.create.client.content.contraptions.render.OrientedContraptionEntityRenderer;
 import rbasamoyai.createbigcannons.port.registrate.util.entry.EntityEntry;
 import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullConsumer;
 
-import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityType.EntityFactory;
 import net.minecraft.world.entity.MobCategory;
 import rbasamoyai.createbigcannons.cannon_control.carriage.CannonCarriageEntity;
-import rbasamoyai.createbigcannons.cannon_control.carriage.CannonCarriageRenderer;
 import rbasamoyai.createbigcannons.cannon_control.contraption.PitchOrientedContraptionEntity;
 import rbasamoyai.createbigcannons.multiloader.EntityTypeConfigurator;
 import rbasamoyai.createbigcannons.munitions.GasCloudEntity;
 import rbasamoyai.createbigcannons.munitions.autocannon.AbstractAutocannonProjectile;
-import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonProjectileRenderer;
 import rbasamoyai.createbigcannons.munitions.autocannon.ap_round.APAutocannonProjectile;
 import rbasamoyai.createbigcannons.munitions.autocannon.bullet.MachineGunProjectile;
 import rbasamoyai.createbigcannons.munitions.autocannon.flak.FlakAutocannonProjectile;
 import rbasamoyai.createbigcannons.munitions.autocannon.flak.FlakBurst;
 import rbasamoyai.createbigcannons.munitions.big_cannon.AbstractBigCannonProjectile;
-import rbasamoyai.createbigcannons.munitions.big_cannon.BigCannonProjectileRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.ap_shell.APShellProjectile;
 import rbasamoyai.createbigcannons.munitions.big_cannon.ap_shot.APShotProjectile;
 import rbasamoyai.createbigcannons.munitions.big_cannon.drop_mortar_shell.DropMortarShellProjectile;
-import rbasamoyai.createbigcannons.munitions.big_cannon.drop_mortar_shell.DropMortarShellRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.FluidBlobBurst;
 import rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.FluidShellProjectile;
 import rbasamoyai.createbigcannons.munitions.big_cannon.grapeshot.GrapeshotBagProjectile;
 import rbasamoyai.createbigcannons.munitions.big_cannon.grapeshot.GrapeshotBurst;
-import rbasamoyai.createbigcannons.munitions.big_cannon.grapeshot.GrapeshotBurstRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.he_shell.HEShellProjectile;
 import rbasamoyai.createbigcannons.munitions.big_cannon.mortar_stone.MortarStoneProjectile;
 import rbasamoyai.createbigcannons.munitions.big_cannon.propellant.PrimedPropellant;
-import rbasamoyai.createbigcannons.munitions.big_cannon.propellant.PrimedPropellantRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel.ShrapnelBurst;
-import rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel.ShrapnelBurstRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel.ShrapnelShellProjectile;
 import rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell.SmokeEmitterEntity;
 import rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell.SmokeShellProjectile;
@@ -54,8 +44,6 @@ public class CBCEntityTypes {
 
 	public static final EntityEntry<PitchOrientedContraptionEntity> PITCH_ORIENTED_CONTRAPTION = REGISTRATE
 		.entity("pitch_contraption", PitchOrientedContraptionEntity::new, MobCategory.MISC)
-        .visual(() -> ContraptionVisual::new)
-        .renderer(() -> OrientedContraptionEntityRenderer::new)
 		.properties(configure(c -> c.trackingRange(16)
 			.updateInterval(3)
 			.updateVelocity(true)
@@ -77,7 +65,6 @@ public class CBCEntityTypes {
 	public static final EntityEntry<DropMortarShellProjectile> DROP_MORTAR_SHELL = REGISTRATE
 		.entity("drop_mortar_shell", DropMortarShellProjectile::new, MobCategory.MISC)
 		.properties(cannonProperties())
-		.renderer(() -> DropMortarShellRenderer::new)
 		.tag(RPLTags.PRECISE_MOTION)
 		.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, CBCMunitionPropertiesHandlers.DROP_MORTAR_SHELL))
 		.register();
@@ -85,28 +72,24 @@ public class CBCEntityTypes {
 	public static final EntityEntry<ShrapnelBurst> SHRAPNEL_BURST = REGISTRATE
 		.entity("shrapnel_burst", ShrapnelBurst::new, MobCategory.MISC)
 		.properties(shrapnel())
-		.renderer(() -> ShrapnelBurstRenderer::new)
 		.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, CBCMunitionPropertiesHandlers.PROJECTILE_BURST))
 		.register();
 
 	public static final EntityEntry<FlakBurst> FLAK_BURST = REGISTRATE
 		.entity("flak_burst", FlakBurst::new, MobCategory.MISC)
 		.properties(shrapnel())
-		.renderer(() -> ShrapnelBurstRenderer::new)
 		.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, CBCMunitionPropertiesHandlers.PROJECTILE_BURST))
 		.register();
 
 	public static final EntityEntry<GrapeshotBurst> GRAPESHOT_BURST = REGISTRATE
 		.entity("grapeshot_burst", GrapeshotBurst::new, MobCategory.MISC)
 		.properties(shrapnel())
-		.renderer(() -> GrapeshotBurstRenderer::new)
 		.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, CBCMunitionPropertiesHandlers.PROJECTILE_BURST))
 		.register();
 
 	public static final EntityEntry<FluidBlobBurst> FLUID_BLOB_BURST = REGISTRATE
 		.entity("fluid_blob_burst", FluidBlobBurst::new, MobCategory.MISC)
 		.properties(shrapnel())
-		.renderer(() -> NoopRenderer::new)
 		.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, CBCMunitionPropertiesHandlers.PROJECTILE_BURST))
 		.register();
 
@@ -115,7 +98,6 @@ public class CBCEntityTypes {
 		.properties(configure(c -> c.fireImmune()
 			.trackingRange(16)
 			.size(0, 0)))
-		.renderer(() -> NoopRenderer::new)
 		.register();
 
 	public static final EntityEntry<GasCloudEntity> GAS_CLOUD = REGISTRATE
@@ -123,7 +105,6 @@ public class CBCEntityTypes {
 		.properties(configure(c -> c.fireImmune()
 			.trackingRange(16)
 			.size(0, 0)))
-		.renderer(() -> NoopRenderer::new)
 		.register();
 
 	public static final EntityEntry<CannonCarriageEntity> CANNON_CARRIAGE = REGISTRATE
@@ -132,7 +113,6 @@ public class CBCEntityTypes {
 			.fireImmune()
 			.updateVelocity(true)
 			.size(1.5f, 1.5f)))
-		.renderer(() -> CannonCarriageRenderer::new)
 		.register();
 	public static final EntityEntry<APAutocannonProjectile> AP_AUTOCANNON = autocannonProjectile("ap_autocannon", APAutocannonProjectile::new, "Armor Piercing (AP) Autocannon Round", CBCMunitionPropertiesHandlers.INERT_AUTOCANNON_PROJECTILE);
 	public static final EntityEntry<FlakAutocannonProjectile> FLAK_AUTOCANNON = autocannonProjectile("flak_autocannon", FlakAutocannonProjectile::new, "Flak Autocannon Round", CBCMunitionPropertiesHandlers.FLAK_AUTOCANNON);
@@ -145,7 +125,6 @@ public class CBCEntityTypes {
             .eyeHeight(0.15f)
 			.trackingRange(10)
 			.updateInterval(10)))
-		.renderer(() -> PrimedPropellantRenderer::new)
 		.register();
 
 
@@ -154,7 +133,6 @@ public class CBCEntityTypes {
 		return REGISTRATE
 			.entity(id, factory, MobCategory.MISC)
 			.properties(cannonProperties())
-			.renderer(() -> BigCannonProjectileRenderer::new)
 			.tag(RPLTags.PRECISE_MOTION)
 			.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, handler))
 			.register();
@@ -165,7 +143,6 @@ public class CBCEntityTypes {
 		return REGISTRATE
 			.entity(id, factory, MobCategory.MISC)
 			.properties(cannonProperties())
-			.renderer(() -> BigCannonProjectileRenderer::new)
 			.lang(enUSdiffLang)
 			.tag(RPLTags.PRECISE_MOTION)
 			.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, handler))
@@ -177,7 +154,6 @@ public class CBCEntityTypes {
 		return REGISTRATE
 			.entity(id, factory, MobCategory.MISC)
 			.properties(autocannonProperties())
-			.renderer(() -> AutocannonProjectileRenderer::new)
 			.tag(RPLTags.PRECISE_MOTION)
 			.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, handler))
 			.register();
@@ -188,7 +164,6 @@ public class CBCEntityTypes {
 		return REGISTRATE
 			.entity(id, factory, MobCategory.MISC)
 			.properties(autocannonProperties())
-			.renderer(() -> AutocannonProjectileRenderer::new)
 			.lang(enUSdiffLang)
 			.tag(RPLTags.PRECISE_MOTION)
 			.onRegister(type -> MunitionPropertiesHandler.registerProjectileHandler(type, handler))

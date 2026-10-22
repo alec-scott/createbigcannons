@@ -17,6 +17,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.server.packs.PackType;
 import rbasamoyai.createbigcannons.CBCClientCommon;
 import rbasamoyai.createbigcannons.CreateBigCannons;
+import rbasamoyai.createbigcannons.fabric.client.CBCBlockEntityRenderers;
+import rbasamoyai.createbigcannons.fabric.client.CBCEntityRenderers;
 import rbasamoyai.createbigcannons.fabric.client.CBCConnectedTextures;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
@@ -36,6 +38,8 @@ public class CBCClientFabric implements ClientModInitializer {
 	public void onInitializeClient() {
 		CBCBlockPartials.init();
 		CBCConnectedTextures.register();
+		CBCBlockEntityRenderers.register();
+		CBCEntityRenderers.register();
 		CBCClientCommon.onClientSetup();
 		CBCClientCommon.registerKeyMappings(KeyMappingHelper::registerKeyMapping);
 		CBCClientCommon.registerOverlays("hotbar", (id, element) ->
