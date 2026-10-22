@@ -7,7 +7,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import rbasamoyai.createbigcannons.CBCModsNeoForge;
+import rbasamoyai.createbigcannons.CBCMods;
 
 public class CBCMixinPlugin implements IMixinConfigPlugin {
 
@@ -19,9 +19,9 @@ public class CBCMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.startsWith("rbasamoyai.createbigcannons.mixin.compat.sable") && !CBCModsNeoForge.SABLE.isLoaded())
+        if (mixinClassName.startsWith("rbasamoyai.createbigcannons.mixin.compat.sable") && !CBCMods.SABLE.isLoaded())
             return false;
-        if (mixinClassName.startsWith("rbasamoyai.createbigcannons.mixin.compat.simulated") && !CBCModsNeoForge.SIMULATED.isLoaded())
+        if (mixinClassName.startsWith("rbasamoyai.createbigcannons.mixin.compat.simulated") && !CBCMods.SIMULATED.isLoaded())
             return false;
         return true;
     }

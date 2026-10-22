@@ -32,7 +32,6 @@ public class GlassShardParticle extends SplinterParticle {
 				return null;
 			}
 			GlassShardParticle particle = new GlassShardParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, blockstate);
-			IndexPlatform.updateSprite(particle, blockstate, BlockPos.containing(x, y, z));
 			particle.setSecondarySprite(this.sprites.get(level.getRandom()));
 			return particle;
 		}

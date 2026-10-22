@@ -1,31 +1,38 @@
 package rbasamoyai.createbigcannons.multiloader;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.neoforged.neoforge.network.PacketDistributor;
-import rbasamoyai.createbigcannons.network.CBCNeoForgePacket;
+import rbasamoyai.createbigcannons.fabric.CBCNetworkFabricClient;
+import rbasamoyai.createbigcannons.network.CBCPacket;
 import rbasamoyai.createbigcannons.network.RootPacket;
 
+/** PORT-NOTE(fabric): Fabric networking instead of NeoForge's PacketDistributor. */
 public class NetworkPlatform {
 
 	@Environment(EnvType.CLIENT)
 	public static void sendToServer(RootPacket pkt) {
-		PacketDistributor.sendToServer(new CBCNeoForgePacket(pkt));
+		CBCNetworkFabricClient.sendToServer(pkt);
 	}
 
 	public static void sendToClientPlayer(RootPacket pkt, ServerPlayer player) {
-        PacketDistributor.sendToPlayer(player, new CBCNeoForgePacket(pkt));
+		ServerPlayNetworking.send(player, new CBCPacket(pkt));
 	}
 
 	public static void sendToClientTracking(RootPacket pkt, Entity tracked) {
-        PacketDistributor.sendToPlayersTrackingEntity(tracked, new CBCNeoForgePacket(pkt));
+		CBCPacket payload = new CBCPacket(pkt);
+		for (ServerPlayer player : PlayerLookup.tracking(tracked))
+			ServerPlayNetworking.send(player, payload);
 	}
 
 	public static void sendToClientAll(RootPacket pkt, MinecraftServer server) {
-        PacketDistributor.sendToAllPlayers(new CBCNeoForgePacket(pkt));
+		CBCPacket payload = new CBCPacket(pkt);
+		for (ServerPlayer player : PlayerLookup.all(server))
+			ServerPlayNetworking.send(player, payload);
 	}
 
 }

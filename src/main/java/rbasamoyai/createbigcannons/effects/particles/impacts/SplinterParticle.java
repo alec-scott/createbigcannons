@@ -172,7 +172,6 @@ public class SplinterParticle extends CBCBlockParticle {
 				return null;
 			}
 			SplinterParticle particle = new SplinterParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, blockstate);
-			IndexPlatform.updateSprite(particle, blockstate, BlockPos.containing(x, y, z));
 			particle.setSecondarySprite(this.sprites.get(level.getRandom()));
 			return particle;
 		}

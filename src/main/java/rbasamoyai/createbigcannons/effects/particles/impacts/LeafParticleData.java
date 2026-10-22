@@ -3,6 +3,7 @@ package rbasamoyai.createbigcannons.effects.particles.impacts;
 import com.mojang.serialization.MapCodec;
 import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -31,7 +32,7 @@ public record LeafParticleData(BlockState state) implements ParticleOptions, ICu
 
     @Environment(EnvType.CLIENT)
 	@Override
-	public ParticleEngine.SpriteParticleRegistration<LeafParticleData> getMetaFactory() {
+	public ParticleProviderRegistry.PendingParticleProvider<LeafParticleData> getMetaFactory() {
 		return LeafParticle.Provider::new;
 	}
 

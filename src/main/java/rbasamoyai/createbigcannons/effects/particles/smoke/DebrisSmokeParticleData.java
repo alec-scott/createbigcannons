@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -35,7 +36,7 @@ public record DebrisSmokeParticleData(float scale) implements ParticleOptions, I
 
     @Environment(EnvType.CLIENT)
 	@Override
-	public ParticleEngine.SpriteParticleRegistration<DebrisSmokeParticleData> getMetaFactory() {
+	public ParticleProviderRegistry.PendingParticleProvider<DebrisSmokeParticleData> getMetaFactory() {
 		return DebrisSmokeParticle.Provider::new;
 	}
 

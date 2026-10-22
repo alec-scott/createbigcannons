@@ -23,7 +23,7 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
-import net.minecraft.client.gui.LayeredDraw;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -137,7 +137,7 @@ public class CBCClientCommon {
 		KEYS.add(FIRE_CONTROLLED_CANNON);
 	}
 
-	public static void registerOverlays(String type, BiConsumer<String, LayeredDraw.Layer> cons) {
+	public static void registerOverlays(String type, BiConsumer<String, HudElement> cons) {
 		if (type.equals("hotbar")) {
 			cons.accept("entity_goggles_overlay", EntityGoggleOverlayRenderer::renderOverlay);
 		}

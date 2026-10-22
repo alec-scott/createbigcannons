@@ -2,6 +2,7 @@ package rbasamoyai.createbigcannons;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -12,9 +13,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.index.CBCFluids;
 import rbasamoyai.createbigcannons.index.CBCItems;
@@ -28,8 +29,9 @@ public class ModGroup {
 
 	public static final ResourceKey<CreativeModeTab> MAIN_TAB_KEY = makeKey("base");
 
-    private static final DeferredRegister<CreativeModeTab> TAB_REGISTER = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CreateBigCannons.MOD_ID);
-    private static final Map<ResourceKey<CreativeModeTab>, DeferredHolder<CreativeModeTab, CreativeModeTab>> TABS = new HashMap<>();
+    // PORT-NOTE(fabric): tabs are registered directly in registerTabs() instead of through a NeoForge DeferredRegister.
+    private static final Map<ResourceKey<CreativeModeTab>, Supplier<CreativeModeTab>> PENDING_TABS = new LinkedHashMap<>();
+    private static final Map<ResourceKey<CreativeModeTab>, CreativeModeTab> TABS = new HashMap<>();
 
 	public static final Supplier<CreativeModeTab> GROUP = wrapGroup("base", () -> createBuilder()
 		.title(Component.translatable("itemGroup." + CreateBigCannons.MOD_ID))
@@ -261,17 +263,24 @@ public class ModGroup {
 		.build());
 
     public static Supplier<CreativeModeTab> wrapGroup(String id, Supplier<CreativeModeTab> sup) {
-        DeferredHolder<CreativeModeTab, CreativeModeTab> obj = TAB_REGISTER.register(id, sup);
-        TABS.put(ModGroup.makeKey(id), obj);
-        return obj;
+        ResourceKey<CreativeModeTab> key = ModGroup.makeKey(id);
+        PENDING_TABS.put(key, sup);
+        return () -> {
+            CreativeModeTab tab = TABS.get(key);
+            if (tab == null)
+                throw new IllegalStateException("Creative tab " + key + " requested before registration");
+            return tab;
+        };
     }
 
     public static CreativeModeTab.Builder createBuilder() {
-        return CreativeModeTab.builder().withTabsBefore(Create.asResource("palettes"));
+        // PORT-NOTE(fabric): NeoForge's withTabsBefore(...) ordering has no Fabric equivalent.
+        return FabricCreativeModeTab.builder();
     }
 
-    public static void registerNeoForge(IEventBus modBus) {
-        TAB_REGISTER.register(modBus);
+    public static void registerTabs() {
+        PENDING_TABS.forEach((key, sup) -> TABS.put(key, Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, sup.get())));
+        PENDING_TABS.clear();
     }
 
     public static void setDefaultTabToNull() {

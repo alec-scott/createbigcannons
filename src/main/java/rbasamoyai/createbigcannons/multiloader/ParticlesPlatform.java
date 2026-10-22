@@ -1,15 +1,15 @@
 package rbasamoyai.createbigcannons.multiloader;
 
-import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
 
 public class ParticlesPlatform {
-    public static <T extends ParticleOptions> void register(ICustomParticleData<T> iCustomParticleData, ParticleType<T> object, ParticleEngine particles) {
-        iCustomParticleData
-                .register(object, new RegisterParticleProvidersEvent(particles));
-    }
+	@Environment(EnvType.CLIENT)
+	public static <T extends ParticleOptions> void register(ICustomParticleData<T> data, ParticleType<T> type, ParticleEngine particles) {
+		data.register(type);
+	}
 }

@@ -2,12 +2,12 @@ package rbasamoyai.createbigcannons.multiloader;
 
 import java.util.function.Supplier;
 
-import net.createmod.catnip.platform.CatnipServices;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class EnvExecute {
-
 	public static void executeOnClient(Supplier<Runnable> sup) {
-        CatnipServices.PLATFORM.executeOnClientOnly(sup);
-    }
-
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+			sup.get().run();
+	}
 }

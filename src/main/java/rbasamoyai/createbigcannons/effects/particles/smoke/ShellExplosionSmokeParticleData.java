@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -38,7 +39,7 @@ public record ShellExplosionSmokeParticleData(int lifetime, float scale) impleme
 
     @Environment(EnvType.CLIENT)
 	@Override
-	public ParticleEngine.SpriteParticleRegistration<ShellExplosionSmokeParticleData> getMetaFactory() {
+	public ParticleProviderRegistry.PendingParticleProvider<ShellExplosionSmokeParticleData> getMetaFactory() {
 		return ShellExplosionSmokeParticle.Provider::new;
 	}
 

@@ -7,11 +7,11 @@ import java.util.function.Supplier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.fml.loading.LoadingModList;
+import net.fabricmc.loader.api.FabricLoader;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
 // Copied from Create's Mods class --ritchie
-public enum CBCModsNeoForge {
+public enum CBCMods {
 	COPYCATS,
 	CURIOS,
 	FRAMEDBLOCKS,
@@ -21,9 +21,9 @@ public enum CBCModsNeoForge {
 	private final String id;
     private final boolean isLoaded;
 
-	CBCModsNeoForge() {
+	CBCMods() {
 		this.id = name().toLowerCase(Locale.ROOT);
-        this.isLoaded = LoadingModList.get().getModFileById(this.id) != null;
+        this.isLoaded = FabricLoader.getInstance().isModLoaded(this.id);
 	}
 
 	public String id() {
@@ -35,7 +35,7 @@ public enum CBCModsNeoForge {
 	}
 
 	public Block getBlock(String id) {
-		return BuiltInRegistries.BLOCK.get(this.resource(id));
+		return BuiltInRegistries.BLOCK.getValue(this.resource(id));
 	}
 
 	public boolean isLoaded() { return this.isLoaded; }

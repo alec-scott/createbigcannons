@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -51,7 +52,7 @@ public record SplashSprayParticleData(float r, float g, float b, float size, flo
 
     @Environment(EnvType.CLIENT)
 	@Override
-	public ParticleEngine.SpriteParticleRegistration<SplashSprayParticleData> getMetaFactory() {
+	public ParticleProviderRegistry.PendingParticleProvider<SplashSprayParticleData> getMetaFactory() {
 		return SplashSprayParticle.Provider::new;
 	}
 

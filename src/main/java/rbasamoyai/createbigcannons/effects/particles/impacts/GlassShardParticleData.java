@@ -3,6 +3,7 @@ package rbasamoyai.createbigcannons.effects.particles.impacts;
 import com.mojang.serialization.MapCodec;
 import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -34,7 +35,7 @@ public record GlassShardParticleData(BlockState state) implements ParticleOption
 
     @Environment(EnvType.CLIENT)
 	@Override
-	public ParticleEngine.SpriteParticleRegistration<GlassShardParticleData> getMetaFactory() {
+	public ParticleProviderRegistry.PendingParticleProvider<GlassShardParticleData> getMetaFactory() {
 		return GlassShardParticle.Provider::new;
 	}
 

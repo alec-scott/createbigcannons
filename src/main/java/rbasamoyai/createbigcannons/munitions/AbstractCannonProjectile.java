@@ -45,7 +45,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import rbasamoyai.createbigcannons.CBCCompatTransformers;
-import rbasamoyai.createbigcannons.CBCModsNeoForge;
+import rbasamoyai.createbigcannons.CBCMods;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.compat.sable.SableCompat;
 import rbasamoyai.createbigcannons.config.CBCCfgMunitions.GriefState;
@@ -440,7 +440,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 	}
 
 	protected boolean onImpact(HitResult hitResult, ImpactResult impactResult, ProjectileContext projectileContext) {
-        if (CBCModsNeoForge.SABLE.isLoaded()) {
+        if (CBCMods.SABLE.isLoaded()) {
             SableCompat.impactContraption(level(), hitResult, impactResult, projectileContext);
         }
 		return false;

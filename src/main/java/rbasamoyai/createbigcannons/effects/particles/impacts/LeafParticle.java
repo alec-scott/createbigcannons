@@ -36,7 +36,6 @@ public class LeafParticle extends SplinterParticle {
 				return null;
 			}
 			LeafParticle particle = new LeafParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, blockstate);
-			IndexPlatform.updateSprite(particle, blockstate, BlockPos.containing(x, y, z));
 			particle.setSecondarySprite(this.sprites.get(level.getRandom()));
 			return particle;
 		}

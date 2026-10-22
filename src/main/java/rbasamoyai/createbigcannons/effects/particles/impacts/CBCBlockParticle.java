@@ -26,7 +26,6 @@ public class CBCBlockParticle extends TerrainParticle {
 			if (blockstate.isAir() || blockstate.is(Blocks.MOVING_PISTON))
 				return null;
 			CBCBlockParticle particle = new CBCBlockParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, blockstate);
-			IndexPlatform.updateSprite(particle, blockstate, BlockPos.containing(x, y, z));
 			return particle;
 		}
 	}
