@@ -36,6 +36,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
@@ -277,17 +279,16 @@ public abstract class ContraptionMixin {
 			ContraptionRemix.markFragileBlocks((Contraption & HasFragileContraption) this.createbigcannons$self);
 	}
 
-	@Inject(method = "readNBT", at = @At("TAIL"), remap = false)
-	private void createbigcannons$readNBT(Level level, CompoundTag nbt, boolean spawnData, CallbackInfo ci) {
+	@Inject(method = "read", at = @At("TAIL"))
+	private void createbigcannons$readNBT(Level level, ValueInput nbt, boolean spawnData, CallbackInfo ci) {
 		if (CBCModifiedContraptionRegistry.canLoadBigCannon(this.createbigcannons$self))
 			ContraptionRemix.readCannonLoaderData((Contraption & CanLoadBigCannon) this.createbigcannons$self, nbt);
 		if (CBCModifiedContraptionRegistry.isFragileContraption(this.createbigcannons$self))
 			ContraptionRemix.readFragileBlocks((Contraption & HasFragileContraption) this.createbigcannons$self, nbt);
 	}
 
-	@Inject(method = "writeNBT", at = @At("TAIL"), remap = false)
-	private void createbigcannons$writeNBT(HolderLookup.Provider registries, boolean spawnPacket,
-                                           CallbackInfoReturnable<CompoundTag> cir, @Local(ordinal = 0) CompoundTag nbt) {
+	@Inject(method = "write", at = @At("TAIL"))
+	private void createbigcannons$writeNBT(ValueOutput nbt, boolean spawnPacket, CallbackInfo ci) {
 		if (CBCModifiedContraptionRegistry.canLoadBigCannon(this.createbigcannons$self))
 			ContraptionRemix.writeCannonLoaderData((Contraption & CanLoadBigCannon) this.createbigcannons$self, nbt);
 		if (CBCModifiedContraptionRegistry.isFragileContraption(this.createbigcannons$self))

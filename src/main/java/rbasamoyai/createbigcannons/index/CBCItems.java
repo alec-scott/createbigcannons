@@ -1,12 +1,21 @@
 package rbasamoyai.createbigcannons.index;
 
+import net.minecraft.world.entity.EquipmentSlot;
+
+import net.minecraft.world.item.equipment.Equippable;
+
+import net.minecraft.core.component.DataComponents;
+
+import rbasamoyai.createbigcannons.utils.CBCUtils;
+
+import net.minecraft.core.registries.Registries;
+
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 import static net.minecraft.world.item.Item.BASE_ATTACK_SPEED_ID;
 import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
 import com.zurrtum.create.content.processing.sequenced.SequencedAssemblyItem;
 import rbasamoyai.createbigcannons.port.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.foundation.data.recipe.CommonMetal;
 import rbasamoyai.createbigcannons.port.registrate.util.entry.ItemEntry;
 
 import net.minecraft.resources.Identifier;
@@ -27,7 +36,6 @@ import rbasamoyai.createbigcannons.crafting.welding.CannonWelderItem;
 import rbasamoyai.createbigcannons.datagen.CBCCommonMetal;
 import rbasamoyai.createbigcannons.datagen.assets.CBCBuilderTransformers;
 import rbasamoyai.createbigcannons.equipment.gas_mask.GasMaskItem;
-import rbasamoyai.createbigcannons.equipment.gas_mask.GasMaskModel;
 import rbasamoyai.createbigcannons.equipment.manual_loading.RamRodItem;
 import rbasamoyai.createbigcannons.equipment.manual_loading.WormItem;
 import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonCartridgeItem;
@@ -47,7 +55,6 @@ public class CBCItems {
 
 	static {
         ModGroup.setDefaultTabToNull();
-        REGISTRATE.setCreativeTab(null);
     }
 
 	public static final ItemEntry<ImpactFuzeItem> IMPACT_FUZE = REGISTRATE.item("impact_fuze", ImpactFuzeItem::new)
@@ -134,10 +141,10 @@ public class CBCItems {
         .tag(CBCCommonMetal.BRONZE.nuggets)
         .register(),
     STEEL_INGOT = REGISTRATE.item("steel_ingot", Item::new)
-        .tag(CommonMetal.STEEL.ingots)
+        .tag(TagKey.create(Registries.ITEM, CBCUtils.location("c", "ingots/steel")))
         .register(),
 	STEEL_SCRAP = REGISTRATE.item("steel_scrap", Item::new)
-        .tag(CommonMetal.STEEL.nuggets)
+        .tag(TagKey.create(Registries.ITEM, CBCUtils.location("c", "nuggets/steel")))
 		.register(),
 
 	SHOT_BALLS = REGISTRATE.item("shot_balls", Item::new).register(),
@@ -242,7 +249,7 @@ public class CBCItems {
                     EquipmentSlotGroup.MAINHAND)
                 .add(
                     Attributes.ATTACK_KNOCKBACK,
-                    new AttributeModifier(Attributes.ATTACK_KNOCKBACK.unwrapKey().get().location(), 2.5d, AttributeModifier.Operation.ADD_VALUE),
+                    new AttributeModifier(Attributes.ATTACK_KNOCKBACK.unwrapKey().get().identifier(), 2.5d, AttributeModifier.Operation.ADD_VALUE),
                     EquipmentSlotGroup.MAINHAND)
                 .build()))
 		.model((c, p) -> {})
@@ -289,8 +296,8 @@ public class CBCItems {
 
 	public static final ItemEntry<GasMaskItem> GAS_MASK = REGISTRATE
 		.item("gas_mask", GasMaskItem::new)
-		.properties(p -> p.stacksTo(1))
-		.onRegister(CreateRegistrate.itemModel(() -> GasMaskModel::new))
+		// PORT-NOTE(mc26.1): equippable component replaces getEquipmentSlot; the head model (GasMaskModel) is not ported yet.
+		.properties(p -> p.stacksTo(1).component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.HEAD).build()))
 		.tag(CBCTags.CBCItemTags.GAS_MASKS)
 		.register();
 

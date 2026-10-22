@@ -17,7 +17,7 @@ public abstract class SoundInstanceWrapper implements SoundInstance {
 		this.delegate = delegate;
 	}
 
-	@Override public Identifier getLocation() { return this.delegate.getLocation(); }
+	@Override public Identifier getIdentifier() { return this.delegate.getIdentifier(); }
 
 	@Nullable
 	@Override

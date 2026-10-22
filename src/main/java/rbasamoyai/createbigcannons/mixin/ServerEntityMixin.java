@@ -24,7 +24,7 @@ public class ServerEntityMixin {
 			if (poce.getControllingPassenger() == null) {
 				NetworkPlatform.sendToClientTracking(new ClientboundPreciseRotationSyncPacket(this.entity.getId(), this.entity.getYRot(), this.entity.getXRot()), this.entity);
 			}
-			this.entity.hasImpulse = false;
+			this.entity.needsSync = false;
 		}
         original.call();
 	}

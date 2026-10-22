@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.block_armor_properties;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -66,7 +68,7 @@ public class BlockArmorPropertiesHandler {
 
 			Set<Block> missingSerializers = new ReferenceOpenHashSet<>(CUSTOM_SERIALIZERS.keySet());
             ResourceKey<Registry<Block>> regKey = CBCRegistryUtils.getBlockRegistryKey();
-            HolderLookup.RegistryLookup<Block> reg = this.getRegistryLookup().lookupOrThrow(regKey);
+            HolderLookup.RegistryLookup<Block> reg = BuiltInRegistries.BLOCK; // PORT-NOTE(fabric): was the NeoForge listener's context lookup; blocks are a static registry
 
 			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();

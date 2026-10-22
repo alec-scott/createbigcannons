@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_loading;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -335,16 +339,15 @@ public class CannonLoadingContraption extends PoleContraption implements CanLoad
 	}
 
 	@Override
-	public void readNBT(Level level, CompoundTag tag, boolean spawnData) {
-		super.readNBT(level, tag, spawnData);
+	public void read(Level level, ValueInput tag, boolean spawnData) {
+		super.read(level, tag, spawnData);
 		this.loadingHead = LoadingHead.fromOrdinal(tag.getIntOr("LoadingHead", 0));
 	}
 
 	@Override
-	public CompoundTag writeNBT(HolderLookup.Provider registries, boolean spawnPacket) {
-		CompoundTag tag = super.writeNBT(registries, spawnPacket);
+	public void write(ValueOutput tag, boolean spawnPacket) {
+		super.write(tag, spawnPacket);
 		tag.putInt("LoadingHead", this.loadingHead == null ? LoadingHead.NOTHING.ordinal() : this.loadingHead.ordinal());
-		return tag;
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class FlakBurst extends ShrapnelBurst {
 
 	@Override
 	protected DamageSource getDamageSource() {
-		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getHolderOrThrow(CBCDamageTypes.FLAK),
+		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getOrThrow(CBCDamageTypes.FLAK),
 			this.getProperties().damage().ignoresEntityArmor());
 	}
 

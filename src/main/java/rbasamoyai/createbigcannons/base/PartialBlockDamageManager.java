@@ -34,7 +34,7 @@ public class PartialBlockDamageManager {
 
 	public void playerLogin(Player player) {
 		if (player instanceof ServerPlayer splayer) {
-			this.loadDamageData(splayer.getServer());
+			this.loadDamageData(splayer.level().getServer());
 		}
 	}
 

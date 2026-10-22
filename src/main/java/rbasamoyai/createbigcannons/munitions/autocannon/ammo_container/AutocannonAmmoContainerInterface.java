@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import java.util.List;
+
 import java.util.Iterator;
 
 import org.jetbrains.annotations.NotNull;
@@ -7,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.StorageViewArrayIterator;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.world.item.ItemStack;
@@ -105,7 +106,7 @@ public class AutocannonAmmoContainerInterface extends SnapshotParticipant<Autoca
 
 	@Override
 	public Iterator<StorageView<ItemVariant>> iterator() {
-		return new StorageViewArrayIterator<>(this.views);
+		return List.<StorageView<ItemVariant>>of(this.views).iterator();
 	}
 
 	@Override protected ContainerSnapshot createSnapshot() { return new ContainerSnapshot(this); }

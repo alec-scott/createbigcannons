@@ -111,7 +111,7 @@ public class FinishedCannonCastBlockEntity extends SmartBlockEntity {
 		this.rootBlock = CBCValueIO.contains(tag, "RootBlock") ? tag.read("RootBlock", BlockPos.CODEC).get() : this.worldPosition;
 		this.height = tag.getIntOr("Height", 0);
 		this.renderedShape = CBCValueIO.contains(tag, "RenderedShape")
-			? CBCRegistries.cannonCastShapes().get(CBCUtils.location(tag.getStringOr("RenderedShape", "")))
+			? CBCRegistries.cannonCastShapes().getValue(CBCUtils.location(tag.getStringOr("RenderedShape", "")))
 			: CannonCastShape.VERY_SMALL;
 	}
 

@@ -75,7 +75,7 @@ public class IncompleteSlidingBreechBlock extends SolidBigCannonBlock<Incomplete
 	@Override
 	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
 		int stage = state.getValue(STAGE_2);
-		if (stage == 0 && !AllBlocks.SHAFT.is(stack.getItem())) return InteractionResult.TRY_WITH_EMPTY_HAND;
+		if (stage == 0 && !stack.is(AllBlocks.SHAFT.asItem())) return InteractionResult.TRY_WITH_EMPTY_HAND;
 		if (stage == 1 && !stack.is(this.resolveSecondItem())) return InteractionResult.TRY_WITH_EMPTY_HAND;
 		level.playSound(player, pos, SoundEvents.NETHERITE_BLOCK_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
 		if (!level.isClientSide()) {

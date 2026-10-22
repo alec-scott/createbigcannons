@@ -1,5 +1,11 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import net.minecraft.world.entity.EntitySpawnReason;
+
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import org.jetbrains.annotations.Nullable;
@@ -42,12 +48,13 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 	private BlockPos controllerPos;
 	private boolean updatesOwnRotation;
 
+	@SuppressWarnings("unchecked")
 	public PitchOrientedContraptionEntity(EntityType<?> type, Level level) {
-		super(type, level);
+		super((EntityType<? extends OrientedContraptionEntity>) type, level);
 	}
 
 	public static PitchOrientedContraptionEntity create(Level level, Contraption contraption, Direction initialOrientation, boolean updatesOwnRotation) {
-		PitchOrientedContraptionEntity entity = CBCEntityTypes.PITCH_ORIENTED_CONTRAPTION.create(level);
+		PitchOrientedContraptionEntity entity = CBCEntityTypes.PITCH_ORIENTED_CONTRAPTION.create(level, EntitySpawnReason.TRIGGERED);
 
 		entity.setContraption(contraption);
 		entity.setInitialOrientation(initialOrientation);
@@ -63,10 +70,10 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 	}
 
 	@Override
-	protected void readAdditional(CompoundTag compound, boolean spawnPacket) {
+	protected void readAdditional(ValueInput compound, boolean spawnPacket) {
 		super.readAdditional(compound, spawnPacket);
-		if (compound.contains("ControllerRelative"))
-			this.controllerPos = CBCValueIO.readBlockPos(compound, "ControllerRelative").get().offset(this.blockPosition());
+		if (compound.read("ControllerRelative", BlockPos.CODEC).isPresent())
+			this.controllerPos = compound.read("ControllerRelative", BlockPos.CODEC).get().offset(this.blockPosition());
 		else if (this.level().getBlockEntity(this.blockPosition().below(2)) instanceof ControlPitchContraption.Block controller && !this.isPassenger()) {
 			// Legacy, cannon mount
 			this.controllerPos = controller.getControllerBlockPos();
@@ -75,12 +82,12 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 	}
 
 	@Override
-	protected void writeAdditional(CompoundTag compound, HolderLookup.Provider registries, boolean spawnPacket) {
-		super.writeAdditional(compound, registries, spawnPacket);
+	protected void writeAdditional(ValueOutput compound, boolean spawnPacket) {
+		super.writeAdditional(compound, spawnPacket);
 		if (this.controllerPos != null)
-			compound.put("ControllerRelative", CBCValueIO.writeBlockPos(controllerPos.subtract(blockPosition())));
+			compound.store("ControllerRelative", BlockPos.CODEC, controllerPos.subtract(blockPosition()));
 		compound.putBoolean("UpdatesOwnRotation", this.updatesOwnRotation);
-        NBTHelper.writeEnum(compound, "InitialOrientation", this.getInitialOrientation()); // Write all initial orientations
+        compound.store("InitialOrientation", Direction.CODEC, this.getInitialOrientation()); // Write all initial orientations
 	}
 
 	public ControlPitchContraption getController() {

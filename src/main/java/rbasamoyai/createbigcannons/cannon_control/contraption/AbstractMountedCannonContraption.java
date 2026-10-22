@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +80,8 @@ public abstract class AbstractMountedCannonContraption extends Contraption {
 	}
 
 	@Override
-	public CompoundTag writeNBT(HolderLookup.Provider registries, boolean spawnPacket) {
+	public void write(ValueOutput tag, boolean spawnPacket) {
+		HolderLookup.Provider registries = this.entity.level().registryAccess();
 		for (Map.Entry<BlockPos, BlockEntity> entry : this.presentBlockEntities.entrySet()) {
 			StructureBlockInfo info = this.blocks.get(entry.getKey());
 			if (info == null) continue;
@@ -87,20 +92,19 @@ public abstract class AbstractMountedCannonContraption extends Contraption {
 			this.blocks.put(entry.getKey(), new StructureBlockInfo(info.pos(), info.state(), nbt));
 		}
 
-		CompoundTag tag = super.writeNBT(registries, spawnPacket);
+		super.write(tag, spawnPacket);
 		if (this.initialOrientation != null) {
 			tag.putString("InitialOrientation", this.initialOrientation.getSerializedName());
 		}
 		tag.putLong("LocalStartingPos", this.startPos == null ? 0L : this.startPos.asLong());
 		tag.putInt("BackExtensionLength", this.backExtensionLength);
 		tag.putInt("FrontExtensionLength", this.frontExtensionLength);
-		return tag;
 	}
 
 	@Override
-	public void readNBT(Level world, CompoundTag tag, boolean spawnData) {
-		super.readNBT(world, tag, spawnData);
-		this.initialOrientation = tag.contains("InitialOrientation", Tag.TAG_STRING) ? Direction.byName(tag.getStringOr("InitialOrientation", "")) : Direction.NORTH;
+	public void read(Level world, ValueInput tag, boolean spawnData) {
+		super.read(world, tag, spawnData);
+		this.initialOrientation = tag.getString("InitialOrientation").isPresent() ? Direction.byName(tag.getStringOr("InitialOrientation", "")) : Direction.NORTH;
 		this.startPos = BlockPos.of(tag.getLongOr("LocalStartingPos", 0));
 		this.backExtensionLength = tag.getIntOr("BackExtensionLength", 0);
 		this.frontExtensionLength = tag.getIntOr("FrontExtensionLength", 0);

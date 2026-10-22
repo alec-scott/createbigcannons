@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.cannon_end;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import java.util.List;
 
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
@@ -64,7 +66,7 @@ public class BigCannonEndBlockEntity extends SmartBlockEntity implements IBigCan
 			this.setRemoved();
 			this.getLevel().setBlock(this.worldPosition, boredState, 11);
 			BlockEntity newBE = this.getLevel().getBlockEntity(this.worldPosition);
-			if (newBE != null) newBE.loadWithComponents(loadTag, this.getLevel().registryAccess());
+			if (newBE != null) CBCValueIO.loadWithComponents(newBE, loadTag, this.getLevel().registryAccess());
 
 			for (Direction dir1 : Iterate.directions) {
 				if (!this.cannonBehavior.isConnectedTo(dir1)) continue;

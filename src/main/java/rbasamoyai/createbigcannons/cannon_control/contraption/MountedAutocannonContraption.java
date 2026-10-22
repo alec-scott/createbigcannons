@@ -1,5 +1,13 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import com.zurrtum.create.AllClientHandle;
 
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
@@ -459,8 +467,8 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 				Identifier loc = controllerBlock.getTypeId();
 				if (loc != null) key = "." + loc.getNamespace() + "." + loc.getPath();
 			}
-			player.displayClientMessage(Component.translatable("block." + CreateBigCannons.MOD_ID + ".cannon_carriage.hotbar.fireRate" + key,
-				this.getReferencedFireRate()), true);
+			player.sendOverlayMessage(Component.translatable("block." + CreateBigCannons.MOD_ID + ".cannon_carriage.hotbar.fireRate" + key,
+				this.getReferencedFireRate()));
 		}
 
 		if (level instanceof ServerLevel slevel && this.canBeFiredOnController(entity.getController()))
@@ -531,29 +539,28 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 	}
 
 	@Override
-	public CompoundTag writeNBT(HolderLookup.Provider registries, boolean spawnPacket) {
-		CompoundTag tag = super.writeNBT(registries, spawnPacket);
+	public void write(ValueOutput tag, boolean spawnPacket) {
+		super.write(tag, spawnPacket);
 		tag.putString("AutocannonMaterial", this.cannonMaterial == null ? CBCAutocannonMaterials.CAST_IRON.name().toString() : this.cannonMaterial.name().toString());
-		if (this.startPos != null) tag.put("StartPos", CBCValueIO.writeBlockPos(this.startPos));
+		if (this.startPos != null) CBCValueIO.put(tag, "StartPos", CBCValueIO.writeBlockPos(this.startPos));
 		if (!this.recoilSpringPositions.isEmpty()) {
 			ListTag positionsTag = new ListTag();
 			for (BlockPos pos : this.recoilSpringPositions)
 				positionsTag.add(CBCValueIO.writeBlockPos(pos));
-			tag.put("RecoilSpringPositions", positionsTag);
+			CBCValueIO.put(tag, "RecoilSpringPositions", positionsTag);
 		}
 		tag.putBoolean("IsHandle", this.isHandle);
-		return tag;
 	}
 
 	@Override
-	public void readNBT(Level level, CompoundTag tag, boolean clientData) {
-		super.readNBT(level, tag, clientData);
+	public void read(Level level, ValueInput tag, boolean clientData) {
+		super.read(level, tag, clientData);
 		this.cannonMaterial = AutocannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("AutocannonMaterial", "")));
 		if (this.cannonMaterial == null) this.cannonMaterial = CBCAutocannonMaterials.CAST_IRON;
-		this.startPos = tag.contains("StartPos") ? CBCValueIO.readBlockPos(tag, "StartPos").get() : null;
+		this.startPos = CBCValueIO.contains(tag, "StartPos") ? tag.read("StartPos", BlockPos.CODEC).get() : null;
 		this.recoilSpringPositions.clear();
-		if (tag.contains("RecoilSpringPositions")) {
-			ListTag positionTags = tag.getListOrEmpty("RecoilSpringPositions");
+		if (CBCValueIO.contains(tag, "RecoilSpringPositions")) {
+			ListTag positionTags = CBCValueIO.getList(tag, "RecoilSpringPositions");
 			int sz = positionTags.size();
 			for (int i = 0; i < sz; ++i) {
                 int[] is = positionTags.getIntArray(i).orElseGet(() -> new int[0]);
@@ -571,16 +578,32 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 
     @Override
     public ItemStack insertItemIntoCannon(ItemStack stack, boolean simulate) {
-        if (this.getItemStorage() == null)
+        // PORT-NOTE(fabric): IItemHandler slot calls -> Fabric transfer; the breech storage inserts into its input slot.
+        Storage<ItemVariant> storage = this.getItemStorage();
+        if (storage == null || stack.isEmpty())
             return stack;
-        return this.getItemStorage().insertItem(1, stack, simulate);
+        try (Transaction transaction = Transaction.openOuter()) {
+            long inserted = storage.insert(ItemVariant.of(stack), stack.getCount(), transaction);
+            if (!simulate) transaction.commit();
+            ItemStack remainder = stack.copy();
+            remainder.shrink((int) inserted);
+            return remainder;
+        }
     }
 
     @Override
     public ItemStack extractItemFromCannon(boolean simulate) {
-        if (this.getItemStorage() == null)
+        Storage<ItemVariant> storage = this.getItemStorage();
+        if (storage == null)
             return ItemStack.EMPTY;
-        return this.getItemStorage().extractItem(0, 1, simulate);
+        try (Transaction transaction = Transaction.openOuter()) {
+            ItemVariant resource = StorageUtil.findExtractableResource(storage, transaction);
+            if (resource == null)
+                return ItemStack.EMPTY;
+            long extracted = storage.extract(resource, 1, transaction);
+            if (!simulate) transaction.commit();
+            return extracted > 0 ? resource.toStack((int) extracted) : ItemStack.EMPTY;
+        }
     }
 
     @Nullable

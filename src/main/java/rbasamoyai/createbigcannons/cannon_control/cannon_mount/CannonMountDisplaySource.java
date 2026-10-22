@@ -26,6 +26,6 @@ public class CannonMountDisplaySource extends NumericSingleLineDisplaySource {
 		return Component.literal(String.format("%.1f\u00ba", value));
 	}
 
-	@Override protected boolean allowsLabeling(DisplayLinkContext context) { return true; }
+	@Override public boolean allowsLabeling(DisplayLinkContext context) { return true; }
 
 }

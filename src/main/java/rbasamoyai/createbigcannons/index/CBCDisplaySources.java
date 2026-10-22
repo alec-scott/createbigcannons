@@ -16,7 +16,7 @@ public class CBCDisplaySources {
     public static void register() {}
 
     private static <T extends DisplaySource> RegistryEntry<DisplaySource, T> simple(String name, Supplier<T> supplier) {
-        return REGISTRATE.displaySource(name, supplier).register();
+        return REGISTRATE.displaySource(name, supplier::get).register();
     }
 
 }

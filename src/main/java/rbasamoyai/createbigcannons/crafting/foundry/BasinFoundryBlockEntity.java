@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import com.zurrtum.create.content.processing.basin.BasinBlockEntity;
 import com.zurrtum.create.content.processing.basin.BasinOperatingBlockEntity;
-import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 
 import com.zurrtum.create.catnip.math.VecHelper;
 import net.minecraft.core.BlockPos;
@@ -109,9 +108,9 @@ public class BasinFoundryBlockEntity extends BasinOperatingBlockEntity {
 		if (this.getLevel() == null || this.getLevel().isClientSide()) return true;
 		if (!this.getBasin().filter(BasinBlockEntity::canContinueProcessing).isPresent()) return true;
 
-		List<Recipe<?>> recipes = this.getMatchingRecipes();
-		if (recipes.isEmpty()) return true;
-		this.currentRecipe = recipes.get(0);
+		Recipe<?> recipe = this.getMatchingRecipes();
+		if (recipe == null) return true;
+		this.currentRecipe = recipe;
 		this.startProcessingBasin();
 		this.sendData();
 		return true;
@@ -122,7 +121,7 @@ public class BasinFoundryBlockEntity extends BasinOperatingBlockEntity {
 		if (this.running && this.meltingTime > 0) return;
 		super.startProcessingBasin();
 		this.running = true;
-		this.meltingTime = this.currentRecipe instanceof ProcessingRecipe<?, ?> processed ? processed.getProcessingDuration() : 20;
+		this.meltingTime = this.currentRecipe instanceof MeltingRecipe melting && melting.time() > 0 ? melting.time() : 20;
 	}
 
 	@Override

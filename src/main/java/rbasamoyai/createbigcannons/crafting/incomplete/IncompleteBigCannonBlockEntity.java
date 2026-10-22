@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.incomplete;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
 
 import java.util.List;
@@ -50,7 +52,7 @@ public class IncompleteBigCannonBlockEntity extends BigCannonEndBlockEntity impl
 			BigCannonMaterial material = ((BigCannonBlock) state.getBlock()).getCannonMaterialInLevel(this.level, state, this.worldPosition);
 			this.level.setBlock(this.worldPosition, boredState, 11);
 			BlockEntity newBE = this.level.getBlockEntity(this.worldPosition);
-			if (newBE != null) newBE.loadWithComponents(loadTag, this.getLevel().registryAccess());
+			if (newBE != null) CBCValueIO.loadWithComponents(newBE, loadTag, this.getLevel().registryAccess());
 
 			for (Direction dir1 : Iterate.directions) {
 				if (!this.cannonBehavior().isConnectedTo(dir1)) continue;

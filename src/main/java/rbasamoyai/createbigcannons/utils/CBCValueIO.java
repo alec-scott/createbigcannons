@@ -14,6 +14,9 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -72,6 +75,11 @@ public final class CBCValueIO {
 	/** Replaces 1.21.1 {@code NbtUtils.readBlockPos}. */
 	public static Optional<BlockPos> readBlockPos(CompoundTag tag, String key) {
 		return tag.read(key, BlockPos.CODEC);
+	}
+
+	/** Replaces 1.21.1 {@code BlockEntity#loadWithComponents(CompoundTag, Provider)}. */
+	public static void loadWithComponents(BlockEntity be, CompoundTag tag, HolderLookup.Provider registries) {
+		be.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING, registries, tag));
 	}
 
 	public static void putUUID(ValueOutput output, String key, UUID uuid) {

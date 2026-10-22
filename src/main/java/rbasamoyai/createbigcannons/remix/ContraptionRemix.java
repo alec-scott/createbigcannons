@@ -1,5 +1,11 @@
 package rbasamoyai.createbigcannons.remix;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -593,33 +599,33 @@ public class ContraptionRemix {
 		}
 	}
 
-	public static <T extends Contraption & HasFragileContraption> void writeFragileBlocks(T contraption, CompoundTag tag) {
+	public static <T extends Contraption & HasFragileContraption> void writeFragileBlocks(T contraption, ValueOutput tag) {
 		ListTag fragileList = new ListTag();
 		for (BlockPos p : contraption.createbigcannons$getFragileBlockPositions())
 			fragileList.add(LongTag.valueOf(p.asLong()));
-		tag.put("createbigcannons:fragile_blocks", fragileList);
+		CBCValueIO.put(tag, "createbigcannons:fragile_blocks", fragileList);
 	}
 
-	public static <T extends Contraption & CanLoadBigCannon> void writeCannonLoaderData(T contraption, CompoundTag tag) {
+	public static <T extends Contraption & CanLoadBigCannon> void writeCannonLoaderData(T contraption, ValueOutput tag) {
 		ListTag cannonColliderList = new ListTag();
 		for (BlockPos p : contraption.createbigcannons$getCannonLoadingColliders())
 			cannonColliderList.add(LongTag.valueOf(p.asLong()));
-		tag.put("createbigcannons:cannon_loading_colliders", cannonColliderList);
+		CBCValueIO.put(tag, "createbigcannons:cannon_loading_colliders", cannonColliderList);
 	}
 
-	public static <T extends Contraption & HasFragileContraption> void readFragileBlocks(T contraption, CompoundTag tag) {
+	public static <T extends Contraption & HasFragileContraption> void readFragileBlocks(T contraption, ValueInput tag) {
 		Set<BlockPos> fragileBlocks = contraption.createbigcannons$getFragileBlockPositions();
 		fragileBlocks.clear();
-		for (Tag t : tag.getListOrEmpty("createbigcannons:fragile_blocks")) {
+		for (Tag t : CBCValueIO.getList(tag, "createbigcannons:fragile_blocks")) {
 			if (t.getType() == LongTag.TYPE)
 				fragileBlocks.add(BlockPos.of(((LongTag) t).getAsLong()));
 		}
 	}
 
-	public static <T extends Contraption & CanLoadBigCannon> void readCannonLoaderData(T contraption, CompoundTag tag) {
+	public static <T extends Contraption & CanLoadBigCannon> void readCannonLoaderData(T contraption, ValueInput tag) {
 		Set<BlockPos> cannonColliders = contraption.createbigcannons$getCannonLoadingColliders();
 		cannonColliders.clear();
-		for (Tag t : tag.getListOrEmpty("createbigcannons:cannon_loading_colliders")) {
+		for (Tag t : CBCValueIO.getList(tag, "createbigcannons:cannon_loading_colliders")) {
 			if (t.getType() == LongTag.TYPE)
 				cannonColliders.add(BlockPos.of(((LongTag) t).getAsLong()));
 		}

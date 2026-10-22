@@ -130,7 +130,7 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 		this.connectedTowards.clear();
 		ListTag connectionTag = CBCValueIO.getList(nbt, "Connections");
 		connectionTag.stream()
-			.map(Tag::getAsString)
+			.map(t -> t.asString().orElse(""))
 			.map(Direction::byName)
 			.filter(Objects::nonNull)
 			.forEach(this.connectedTowards::add);
@@ -141,15 +141,15 @@ public abstract class CannonBehavior extends BlockEntityBehaviour {
 		this.weldedTowards.clear();
 		ListTag weldsTag = CBCValueIO.getList(nbt, "Welds");
 		weldsTag.stream()
-			.map(Tag::getAsString)
+			.map(t -> t.asString().orElse(""))
 			.map(Direction::byName)
 			.filter(Objects::nonNull)
 			.forEach(this.weldedTowards::add);
 
 		if (clientPacket && (!oldConnected.equals(this.connectedTowards) || !oldWelded.equals(this.weldedTowards))) {
-			if (this.getWorld() != null) {
+			if (this.getLevel() != null) {
 				BlockState blockState = this.blockEntity.getBlockState();
-				this.getWorld().sendBlockUpdated(this.getPos(), blockState, blockState, 8);
+				this.getLevel().sendBlockUpdated(this.getPos(), blockState, blockState, 8);
 			}
 		}
 

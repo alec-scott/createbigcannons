@@ -62,7 +62,7 @@ public class DimensionMunitionPropertiesHandler {
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundSyncDimensionMunitionPropertiesPacket pkt) {
 		buf.writeVarInt(pkt.dimensions.size());
 		for (Map.Entry<ResourceKey<Level>, DimensionMunitionProperties> entry : pkt.dimensions.entrySet()) {
-			buf.writeIdentifier(entry.getKey().location());
+			buf.writeIdentifier(entry.getKey().identifier());
 			entry.getValue().toNetwork(buf);
 		}
 	}

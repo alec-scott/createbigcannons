@@ -28,7 +28,7 @@ public class CannonDamageSource extends DamageSource {
 	}
 
 	public static Registry<DamageType> getDamageRegistry(Level level) {
-		return level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+		return level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
 	}
 
 }

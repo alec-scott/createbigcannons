@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.crafting.casting;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -28,7 +28,7 @@ public record InvalidCastingError(BlockPos pos, EndFluidStack fluidStack, Cannon
 
     public static MutableComponent getFluidStackText(EndFluidStack efstack) {
         FluidStack stack = efstack.isEmpty() ? FluidStack.EMPTY : new FluidStack(Holder.direct(efstack.fluid()), efstack.amount(), efstack.components().asPatch());
-        return stack.getHoverName().copy();
+        return stack.getName().copy();
     }
 
 }

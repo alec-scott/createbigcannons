@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.carriage;
 
+import net.minecraft.world.entity.InterpolationHandler;
+
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
@@ -85,12 +87,8 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 	private boolean inputRight;
 	private boolean inputPitch;
 
-	private int lerpSteps;
-	private double lerpX;
-	private double lerpY;
-	private double lerpZ;
-	private double lerpYRot;
-	private double lerpXRot;
+	// PORT-NOTE(mc26.1): lerpTo is gone; client position updates go through an InterpolationHandler (10 steps, as before).
+	private final InterpolationHandler interpolation = new InterpolationHandler(this, 10);
 	public Vector4f previousWheelState = new Vector4f(0, 0, 0, 0);
 
 	private PitchOrientedContraptionEntity cannonContraption;
@@ -248,32 +246,16 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 	}
 
 	@Override
-	public void lerpTo(double lerpX, double lerpY, double lerpZ, float lerpYRot, float lerpXRot, int lerpSteps) {
-		this.lerpX = lerpX;
-		this.lerpY = lerpY;
-		this.lerpZ = lerpZ;
-		this.lerpYRot = lerpYRot;
-		this.lerpXRot = lerpXRot;
-		this.lerpSteps = 10;
+	public InterpolationHandler getInterpolation() {
+		return this.interpolation;
 	}
 
 	private void tickLerp() {
 		if (this.isLocalInstanceAuthoritative()) {
-			this.lerpSteps = 0;
+			this.interpolation.cancel();
 			this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
 		}
-
-		if (this.lerpSteps > 0) {
-			double d0 = this.getX() + (this.lerpX - this.getX()) / (double) this.lerpSteps;
-			double d1 = this.getY() + (this.lerpY - this.getY()) / (double) this.lerpSteps;
-			double d2 = this.getZ() + (this.lerpZ - this.getZ()) / (double) this.lerpSteps;
-			double d3 = Mth.wrapDegrees(this.lerpYRot - (double) this.getYRot());
-			this.setYRot(this.getYRot() + (float) d3 / (float) this.lerpSteps);
-			this.setXRot(this.getXRot() + (float) (this.lerpXRot - (double) this.getXRot()) / (float) this.lerpSteps);
-			--this.lerpSteps;
-			this.setPos(d0, d1, d2);
-			this.setRot(this.getYRot(), this.getXRot());
-		}
+		this.interpolation.interpolate();
 	}
 
 	public void setInput(boolean inputLeft, boolean inputRight, boolean inputForward, boolean inputBackward, boolean inputPitch) {
@@ -285,8 +267,8 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 	}
 
 	@Override
-	public InteractionResult interact(Player player, InteractionHand hand) {
-		InteractionResult ret = super.interact(player, hand);
+	public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
+		InteractionResult ret = super.interact(player, hand, location);
 		if (ret.consumesAction()) return ret;
 		Level level = this.level();
 
@@ -317,7 +299,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 				return player.startRiding(this.cannonContraption) ? InteractionResult.CONSUME : InteractionResult.PASS;
 			return player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS;
 		}
-		if (AllItems.WRENCH.isIn(stack)) {
+		if (stack.is(AllItems.WRENCH)) {
 			if (!level.isClientSide()) this.disassemble();
 
 			Direction dir = this.getDirection();
@@ -340,7 +322,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 			level.playSound(player, this, SoundEvents.HORSE_SADDLE.value(), SoundSource.NEUTRAL, 0.5F, 1.0F);
 			return InteractionResult.SUCCESS;
 		}
-		return super.interact(player, hand);
+		return super.interact(player, hand, location);
 	}
 
 	protected boolean canTurnCannon() {
@@ -442,9 +424,9 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float damage) {
-		if (this.isInvulnerableTo(source)) return false;
-		if (this.level().isClientSide() || this.isRemoved()) return true;
+	public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+		if (this.isInvulnerableToBase(source)) return false;
+		if (this.isRemoved()) return true;
 		this.setHurtDir(-this.getHurtDir());
 		this.setHurtTime(10);
 		this.setDamage(this.getDamage() + damage * 10.0f);
@@ -453,8 +435,8 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 		boolean flag = source.getEntity() instanceof Player player && player.getAbilities().instabuild;
 		if (flag || this.getDamage() > 40.0F) {
 			if (!flag && CBCUtils.booleanRule(this.level(), GameRules.ENTITY_DROPS)) {
-				this.spawnAtLocation(CBCBlocks.CANNON_CARRIAGE.asStack());
-				if (this.isCannonRider()) this.spawnAtLocation(Items.SADDLE);
+				this.spawnAtLocation(level, CBCBlocks.CANNON_CARRIAGE.asStack());
+				if (this.isCannonRider()) this.spawnAtLocation(level, Items.SADDLE);
 			}
 			this.disassemble();
 		}

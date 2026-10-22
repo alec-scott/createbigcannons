@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.equipment.manual_loading;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.function.Consumer;
 import java.util.ArrayList;
@@ -79,7 +81,7 @@ public class WormItem extends Item implements HandloadingTool {
 						tag.putInt("x", pos2.getX());
 						tag.putInt("y", pos2.getY());
 						tag.putInt("z", pos2.getZ());
-						be2.loadWithComponents(tag, context.getLevel().registryAccess());
+						CBCValueIO.loadWithComponents(be2, tag, context.getLevel().registryAccess());
 					}
 				}
 			} else {
@@ -92,7 +94,7 @@ public class WormItem extends Item implements HandloadingTool {
 
 			level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 1, 1);
 			player.causeFoodExhaustion(CBCConfigs.server().cannons.loadingToolHungerConsumption.getF());
-			player.getCooldowns().addCooldown(this, CBCConfigs.server().cannons.loadingToolCooldown.get());
+			player.getCooldowns().addCooldown(this.getDefaultInstance(), CBCConfigs.server().cannons.loadingToolCooldown.get());
 			return InteractionResult.SUCCESS;
 		}
 		return super.useOn(context);
@@ -145,7 +147,7 @@ public class WormItem extends Item implements HandloadingTool {
 
 			level.playSound(null, player.blockPosition(), SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 1, 1);
 			player.causeFoodExhaustion(CBCConfigs.server().cannons.loadingToolHungerConsumption.getF());
-			player.getCooldowns().addCooldown(this, CBCConfigs.server().cannons.loadingToolCooldown.get());
+			player.getCooldowns().addCooldown(this.getDefaultInstance(), CBCConfigs.server().cannons.loadingToolCooldown.get());
 			return;
 		}
 	}

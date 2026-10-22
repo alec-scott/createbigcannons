@@ -99,17 +99,26 @@ public class CBCClientCommon {
 		PARTICLES_REGISTERED = true;
 	}
 
+	/**
+	 * PORT-NOTE(fabric): Create Fly stores sequenced assembly progress as a fraction (step / total steps) instead of
+	 * the step number, so the step is recovered from the CBC recipe's total (pressing_*_cartridge: 6 and 5 loops).
+	 */
+	private static float sequencedAssemblyStep(ItemStack stack, int totalSteps) {
+		Float progress = stack.get(AllDataComponents.SEQUENCED_ASSEMBLY_PROGRESS);
+		return progress == null ? 0 : Math.max(0, Math.round(progress * totalSteps) - 1);
+	}
+
 	public static void onClientSetup() {
         PonderIndex.addPlugin(new CBCPonderPlugin());
 
 		CBCBlockPartials.resolveDeferredModels();
 
 		IndexPlatform.registerClampedItemProperty(CBCItems.PARTIALLY_FORMED_AUTOCANNON_CARTRIDGE.get(), CreateBigCannons.resource("formed"), (stack, level, player, a) -> {
-			return stack.has(AllDataComponents.SEQUENCED_ASSEMBLY) ? stack.get(AllDataComponents.SEQUENCED_ASSEMBLY).step() - 1 : 0;
+			return sequencedAssemblyStep(stack, 6);
 		});
 
 		IndexPlatform.registerClampedItemProperty(CBCItems.PARTIALLY_FORMED_BIG_CARTRIDGE.get(), CreateBigCannons.resource("formed"), (stack, level, player, a) -> {
-            return stack.has(AllDataComponents.SEQUENCED_ASSEMBLY) ? stack.get(AllDataComponents.SEQUENCED_ASSEMBLY).step() - 1 : 0;
+            return sequencedAssemblyStep(stack, 5);
 		});
 
 		IndexPlatform.registerClampedItemProperty(CBCBlocks.BIG_CARTRIDGE.get().asItem(), CreateBigCannons.resource("big_cartridge_filled"),

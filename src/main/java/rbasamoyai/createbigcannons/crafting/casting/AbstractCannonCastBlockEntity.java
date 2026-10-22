@@ -157,12 +157,8 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 				}
 				CBCValueIO.put(tag, "Preview", previewList);
 			}
-            if (this.invalidCastingError != null) {
-                InvalidCastingError.CODEC.codec()
-                    .encode(this.invalidCastingError, registries.createSerializationContext(NbtOps.INSTANCE), new CompoundTag())
-                    .resultOrPartial(err -> CreateBigCannons.LOGGER.warn("Failed to save cannon casting error: {}", err))
-                    .ifPresent(errtag -> CBCValueIO.put(tag, "CastingError", errtag));
-            }
+            if (this.invalidCastingError != null)
+                tag.store("CastingError", InvalidCastingError.CODEC.codec(), this.invalidCastingError);
 			tag.putInt("CastingDelay", this.castDelay);
 		} else {
 			tag.store("Controller", BlockPos.CODEC, this.controllerPos);
@@ -190,14 +186,14 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 		BlockPos controllerBefore = this.controllerPos;
 		int prevHeight = this.getControllerBE() == null ? 0 : this.getControllerBE().height;
 
-		this.castShape = CBCValueIO.contains(tag, "Size") ? shapeRegistry.get(CBCUtils.location(tag.getStringOr("Size", ""))) : null;
+		this.castShape = CBCValueIO.contains(tag, "Size") ? shapeRegistry.getValue(CBCUtils.location(tag.getStringOr("Size", ""))) : null;
 		if (CBCValueIO.contains(tag, "LastKnownPos")) this.lastKnownPos = tag.read("LastKnownPos", BlockPos.CODEC).orElse(null);
 
 		this.structure.clear();
 		if (CBCValueIO.contains(tag, "Structure")) {
 			ListTag list = CBCValueIO.getList(tag, "Structure");
 			for (int i = 0; i < list.size(); ++i) {
-				CannonCastShape shape = shapeRegistry.get(CBCUtils.location(list.getStringOr(i, "")));
+				CannonCastShape shape = shapeRegistry.getValue(CBCUtils.location(list.getStringOr(i, "")));
 				this.structure.add(shape == null ? CannonCastShape.VERY_SMALL : shape);
 			}
 			this.height = tag.getIntOr("Height", 0);
@@ -211,14 +207,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 			for (int i = 0; i < preview.size(); ++i) {
 				this.resultPreview.add(NbtUtils.readBlockState(this.blockHolderGetter(), preview.getCompoundOrEmpty(i)));
 			}
-            if (CBCValueIO.contains(tag, "CastingError")) {
-                InvalidCastingError.CODEC.codec()
-                    .parse(registry.createSerializationContext(NbtOps.INSTANCE), CBCValueIO.getCompound(tag, "CastingError"))
-                    .resultOrPartial(err -> CreateBigCannons.LOGGER.warn("Failed to read cannon casting error: {}", err))
-                    .ifPresent(casterr -> this.invalidCastingError = casterr);
-            } else {
-                this.invalidCastingError = null;
-            }
+            this.invalidCastingError = tag.read("CastingError", InvalidCastingError.CODEC.codec()).orElse(null);
 			this.castDelay = tag.getIntOr("CastingDelay", 0);
 
 			this.controllerPos = null;

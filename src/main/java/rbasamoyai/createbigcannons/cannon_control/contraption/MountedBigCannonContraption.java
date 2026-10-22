@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import com.zurrtum.create.AllClientHandle;
 
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
@@ -621,26 +625,26 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 	}
 
 	@Override
-	public CompoundTag writeNBT(HolderLookup.Provider registries, boolean spawnPacket) {
-		CompoundTag tag = super.writeNBT(registries, spawnPacket);
+	public void write(ValueOutput tag, boolean spawnPacket) {
+		HolderLookup.Provider registries = this.entity.level().registryAccess();
+		super.write(tag, spawnPacket);
 		tag.putString("CannonMaterial", this.cannonMaterial == null ? CBCBigCannonMaterials.CAST_IRON.name().toString() : this.cannonMaterial.name().toString());
 		if (this.hasWeldedPenalty) tag.putBoolean("WeldedCannon", true);
 		if (this.mortarDelay > 0) tag.putInt("MortarDelay", this.mortarDelay);
 		if (this.cachedMortarRound != null)
-			tag.put("CachedMortarRound", CBCValueIO.saveItem(registries, this.cachedMortarRound));
+			CBCValueIO.put(tag, "CachedMortarRound", CBCValueIO.saveItem(registries, this.cachedMortarRound));
 		if (this.hasFired) tag.putBoolean("HasFired", true);
-		return tag;
 	}
 
 	@Override
-	public void readNBT(Level level, CompoundTag tag, boolean clientData) {
-		super.readNBT(level, tag, clientData);
+	public void read(Level level, ValueInput tag, boolean clientData) {
+		super.read(level, tag, clientData);
 		this.cannonMaterial = BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("CannonMaterial", "")));
-		this.hasWeldedPenalty = tag.contains("WeldedCannon");
+		this.hasWeldedPenalty = CBCValueIO.contains(tag, "WeldedCannon");
 		if (this.cannonMaterial == null) this.cannonMaterial = CBCBigCannonMaterials.CAST_IRON;
 		this.mortarDelay = Math.max(0, tag.getIntOr("MortarDelay", 0));
-		this.cachedMortarRound = CBCValueIO.parseItem(level.registryAccess(), tag.getCompoundOrEmpty("CachedMortarRound"));
-		this.hasFired = tag.contains("HasFired");
+		this.cachedMortarRound = CBCValueIO.parseItem(level.registryAccess(), CBCValueIO.getCompound(tag, "CachedMortarRound"));
+		this.hasFired = CBCValueIO.contains(tag, "HasFired");
 	}
 
 	@Override

@@ -1,5 +1,17 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import net.minecraft.server.level.ServerEntity;
+
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+
+import net.minecraft.network.protocol.Packet;
+
+import com.zurrtum.create.infrastructure.packet.s2c.NbtSpawnPacket;
+
+import io.netty.buffer.Unpooled;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -45,7 +57,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import rbasamoyai.createbigcannons.CBCCompatTransformers;
 import rbasamoyai.createbigcannons.CBCMods;
 import rbasamoyai.createbigcannons.CreateBigCannons;
@@ -64,7 +75,7 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 import rbasamoyai.ritchiesprojectilelib.RitchiesProjectileLib;
 import rbasamoyai.ritchiesprojectilelib.network.ClientboundPreciseMotionSyncPacket;
 
-public abstract class AbstractCannonProjectile extends Projectile implements IEntityWithComplexSpawn {
+public abstract class AbstractCannonProjectile extends Projectile {
 
 	protected static final EntityDataAccessor<Byte> ID_FLAGS = SynchedEntityData.defineId(AbstractCannonProjectile.class, EntityDataSerializers.BYTE);
 	private static final EntityDataAccessor<Float> PROJECTILE_MASS = SynchedEntityData.defineId(AbstractCannonProjectile.class, EntityDataSerializers.FLOAT);
@@ -88,14 +99,47 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		this.setProjectileMass(this.getBallisticProperties().durabilityMass());
 	}
 
-    @Override
     public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
         this.baseWriteSpawnData(buffer);
     }
 
-    @Override
     public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
         this.baseReadSpawnData(additionalData);
+    }
+
+    /**
+     * PORT-NOTE(fabric): NeoForge's {@code IEntityWithComplexSpawn} is replaced by Create Fly's {@link NbtSpawnPacket}; the
+     * spawn data bytes travel in its compound tag. The projectile owner id that vanilla puts in the spawn packet is not
+     * sent (CBC does not use it on the client).
+     */
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
+        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), this.registryAccess());
+        try {
+            this.writeSpawnData(buf);
+            byte[] bytes = new byte[buf.readableBytes()];
+            buf.readBytes(bytes);
+            CompoundTag tag = new CompoundTag();
+            tag.putByteArray("CBCSpawnData", bytes);
+            return new NbtSpawnPacket(this, serverEntity, tag);
+        } finally {
+            buf.release();
+        }
+    }
+
+    @Override
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        if (!(packet instanceof NbtSpawnPacket nbtPacket) || nbtPacket.getNbt() == null)
+            return;
+        nbtPacket.getNbt().getByteArray("CBCSpawnData").ifPresent(bytes -> {
+            RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.wrappedBuffer(bytes), this.registryAccess());
+            try {
+                this.readSpawnData(buf);
+            } finally {
+                buf.release();
+            }
+        });
     }
 
     @NotNull public abstract EntityDamagePropertiesComponent getDamageProperties();
@@ -204,12 +248,8 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
         this.entityData.set(ORIENTATION, new Vector3f((float) orientation.x, (float) orientation.y, (float) orientation.z));
     }
 
-	@Override
-	public void lerpTo(double x, double y, double z, float yRot, float xRot, int lerpSteps) {
-		if (this.tickCount < 2)
-			return;
-		super.lerpTo(x, y, z, yRot, xRot, lerpSteps);
-	}
+	// PORT-NOTE(mc26.1): the lerpTo override (ignore position lerps for the first 2 ticks) has no 26.1 equivalent;
+	// entities without an InterpolationHandler move straight to the synced position.
 
 	/**
 	 * Utility control for local sound cooldown, e.g. flyby sounds.
@@ -456,7 +496,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		return this.getDamageProperties().knockback();
 	}
 
-	@Override public boolean hurt(DamageSource source, float damage) { return false; }
+	@Override public boolean hurtServer(ServerLevel level, DamageSource source, float damage) { return false; }
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -509,15 +549,15 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		tag.putFloat("ProjectileMass", this.getProjectileMass());
 		tag.putBoolean("InGround", this.isInGround());
 		if (this.inGroundPos != null)
-			CBCValueIO.put(tag, "InGroundPos", this.newDoubleList(this.inGroundPos.x, this.inGroundPos.y, this.inGroundPos.z));
+			tag.store("InGroundPos", Vec3.CODEC, this.inGroundPos);
         if (this.impactPos != null)
             tag.store("ImpactPos", BlockPos.CODEC, this.impactPos);
 		tag.putFloat("Damage", this.damage);
 		if (this.nextVelocity != null)
-			CBCValueIO.put(tag, "NextMotion", this.newDoubleList(this.nextVelocity.x, this.nextVelocity.y, this.nextVelocity.z));
+			tag.store("NextMotion", Vec3.CODEC, this.nextVelocity);
         Vec3 orientation = this.getOrientation();
 		if (orientation != null)
-            CBCValueIO.put(tag, "Orientation", this.newDoubleList(orientation.x, orientation.y, orientation.z));
+            tag.store("Orientation", Vec3.CODEC, orientation);
 		CBCValueIO.put(tag, "LastPenetration", NbtUtils.writeBlockState(this.lastPenetratedBlock));
 		tag.putInt("InGroundTime", this.inGroundTime);
 		if (this.removeNextTick)
@@ -599,8 +639,8 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
     }
 
 	@Override
-	protected AABB makeBoundingBox() {
-		AABB box = super.makeBoundingBox();
+	protected AABB makeBoundingBox(Vec3 position) {
+		AABB box = super.makeBoundingBox(position);
 		return box.move(0, -box.getYsize() * 0.5d, 0);
 	}
 
@@ -664,7 +704,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 	}
 
 	public DamageSource indirectArtilleryFire(boolean bypassArmor) {
-		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getHolderOrThrow(CBCDamageTypes.CANNON_PROJECTILE), bypassArmor);
+		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getOrThrow(CBCDamageTypes.CANNON_PROJECTILE), bypassArmor);
 	}
 
 }

@@ -10,8 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import com.google.gson.JsonElement;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.serialization.JsonOps;
-import com.zurrtum.create.client.catnip.lang.LangBuilder;
-import com.zurrtum.create.client.foundation.utility.CreateLang;
 import com.zurrtum.create.foundation.fluid.FluidIngredient;
 import com.zurrtum.create.foundation.fluid.FluidStackIngredient;
 import com.zurrtum.create.foundation.fluid.FluidTagIngredient;
@@ -25,8 +23,6 @@ import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -58,7 +54,6 @@ import rbasamoyai.createbigcannons.crafting.boring.AbstractCannonDrillBlockEntit
 import rbasamoyai.createbigcannons.crafting.boring.CannonDrillBlockEntity;
 import rbasamoyai.createbigcannons.crafting.casting.AbstractCannonCastBlockEntity;
 import rbasamoyai.createbigcannons.crafting.casting.CannonCastBlockEntity;
-import rbasamoyai.createbigcannons.crafting.casting.CannonCastBlockEntityRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.AbstractFluidShellBlockEntity;
 import rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.EndFluidStack;
 import rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.FluidShellBlockEntity;
@@ -97,11 +92,6 @@ public class IndexPlatform {
 	public static ParticleOptions createFluidDripParticle(EndFluidStack stack) {
 		// Same particle as Create Fly's client-only FluidFX.getFluidParticle, built here so servers can send it.
 		return FluidParticleData.particle(stack.fluid(), stack.components().asPatch());
-	}
-
-	public static NonNullSupplier<NonNullFunction<BlockEntityRendererProvider.Context,
-		BlockEntityRenderer<? super AbstractCannonCastBlockEntity, ?>>> getCastRenderer() {
-		return () -> CannonCastBlockEntityRenderer::new;
 	}
 
 	public static void registerDeferredParticleType(String name, ParticleType<?> type) {
@@ -161,29 +151,6 @@ public class IndexPlatform {
 		return new FluidTagIngredient(fluid, amount);
 	}
 
-	public static void addFluidShellComponents(Fluid fluid, DataComponentPatch fluidData, long amount, List<Component> tooltip) {
-		int capacity = AbstractFluidShellBlockEntity.getFluidShellCapacity();
-		LangBuilder mb = CreateLang.translate("generic.unit.millibuckets");
-		if (fluid != Fluids.EMPTY && amount > 0) {
-			CreateLang.translate("gui.goggles.fluid_container").addTo(tooltip);
-			CreateLang.text(" ")
-				.add(CreateLang.fluidName(new FluidStack(fluid, 1, fluidData)).style(ChatFormatting.GRAY))
-				.addTo(tooltip);
-
-			CreateLang.text(" ")
-				.add(CreateLang.builder()
-				.add(CreateLang.number(amount).add(mb).style(ChatFormatting.GOLD))
-				.text(ChatFormatting.GRAY, " / ")
-				.add(CreateLang.number(capacity).add(mb).style(ChatFormatting.DARK_GRAY)))
-				.addTo(tooltip);
-		} else {
-			CreateLang.translate("gui.goggles.fluid_container.capacity")
-				.add(CreateLang.number(capacity).add(mb).style(ChatFormatting.GOLD))
-				.style(ChatFormatting.GRAY)
-				.addTo(tooltip);
-		}
-	}
-
 	/** NeoForge let other mods cancel explosions here; Fabric has no such event, so nothing cancels them. */
 	public static boolean onExplosionStart(Level level, Explosion explosion) {
 		return false;
@@ -191,7 +158,8 @@ public class IndexPlatform {
 
 	public static RegistryOps<JsonElement> makeRegistryOps(RegistryAccess access, SimpleJsonResourceReloadListener<?> listener) {
 		// NeoForge used the listener's condition-aware ops; Fabric resource conditions are applied before parsing.
-		return RegistryOps.create(JsonOps.INSTANCE, access);
+		// Without a registry access (client-side data), the built-in registries are enough.
+		return RegistryOps.create(JsonOps.INSTANCE, access != null ? access : RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
 	}
 
 }

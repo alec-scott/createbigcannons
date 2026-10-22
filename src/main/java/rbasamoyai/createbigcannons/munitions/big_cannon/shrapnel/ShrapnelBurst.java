@@ -107,7 +107,7 @@ public class ShrapnelBurst extends CBCProjectileBurst {
 	@Override public double getSubProjectileHeight() { return 0.8; }
 
 	protected DamageSource getDamageSource() {
-		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getHolderOrThrow(CBCDamageTypes.SHRAPNEL),
+		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getOrThrow(CBCDamageTypes.SHRAPNEL),
 			this.getProperties().damage().ignoresEntityArmor());
 	}
 

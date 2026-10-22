@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.minecraft.world.level.storage.ValueInput;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -417,16 +421,15 @@ public class CannonBuildingContraption extends PoleContraption {
 	}
 
 	@Override
-	public CompoundTag writeNBT(HolderLookup.Provider registries, boolean spawnPacket) {
-		CompoundTag tag = super.writeNBT(registries, spawnPacket);
+	public void write(ValueOutput tag, boolean spawnPacket) {
+		super.write(tag, spawnPacket);
 		tag.putBoolean("Activated", this.isActivated);
 		if (this.material != null) tag.putString("Material", this.material.name().toString());
-		return tag;
 	}
 
 	@Override
-	public void readNBT(Level level, CompoundTag tag, boolean spawnData) {
-		super.readNBT(level, tag, spawnData);
+	public void read(Level level, ValueInput tag, boolean spawnData) {
+		super.read(level, tag, spawnData);
 		this.isActivated = tag.getBooleanOr("Activated", false);
 
 		this.material = BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("Material", "")));
@@ -447,7 +450,7 @@ public class CannonBuildingContraption extends PoleContraption {
                 infoNbt.putInt("x", pos.getX());
                 infoNbt.putInt("y", pos.getY());
                 infoNbt.putInt("z", pos.getZ());
-                infoNbt.putString("id", CBCBlockEntities.LAYERED_CANNON.getKey().location().toString());
+                infoNbt.putString("id", CBCBlockEntities.LAYERED_CANNON.getKey().identifier().toString());
 
                 BlockEntity be = BlockEntity.loadStatic(pos, info.state(), infoNbt, registries);
                 if (be == null)

@@ -49,9 +49,9 @@ public class CannonCastBlockEntity extends AbstractCannonCastBlockEntity {
 
 	public static void registerStorage() {
 		FluidStorage.SIDED.registerForBlockEntity((be, dir) -> {
-			if (dir != Direction.UP)
+			if (dir != Direction.UP || !(be instanceof CannonCastBlockEntity cast))
 				return null;
-			return FluidInventoryStorage.of(be.getTankForCap(), dir);
+			return FluidInventoryStorage.of(cast.getTankForCap(), dir);
 		}, CBCBlockEntities.CANNON_CAST.get());
 	}
 
@@ -143,7 +143,7 @@ public class CannonCastBlockEntity extends AbstractCannonCastBlockEntity {
 	@Override
 	protected InvalidCastingError createInvalidCastingError(BlockPos pos, CannonCastShape shape) {
 		FluidStack stack = this.fluid.getFluid();
-		return new InvalidCastingError(pos, new EndFluidStack(stack.getFluid(), FluidUnits.toMb(stack.getAmount()), stack.getComponents()), shape);
+		return new InvalidCastingError(pos, new EndFluidStack(stack.getFluid(), FluidUnits.toMb(stack.getAmount()), stack.getComponentChanges()), shape);
 	}
 
 	@Override

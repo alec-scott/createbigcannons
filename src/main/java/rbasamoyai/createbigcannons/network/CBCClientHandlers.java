@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.network;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import rbasamoyai.createbigcannons.remix.CustomExplosion;
 
 import java.util.Map;
@@ -64,9 +66,9 @@ public class CBCClientHandlers {
 				copy.putInt("x", info.pos().getX());
 				copy.putInt("y", info.pos().getY());
 				copy.putInt("z", info.pos().getZ());
-				be.loadWithComponents(copy, registryAccess);
+				CBCValueIO.loadWithComponents(be, copy, registryAccess);
                 if (rbe != null)
-                    rbe.loadWithComponents(copy, registryAccess);
+                    CBCValueIO.loadWithComponents(rbe, copy, registryAccess);
 			}
 		}
         contraption.invalidateClientContraptionStructure();

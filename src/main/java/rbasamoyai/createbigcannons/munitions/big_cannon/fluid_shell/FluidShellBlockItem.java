@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import rbasamoyai.createbigcannons.fabric.client.CBCFluidShellTooltip;
+
 import static rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.AbstractFluidShellBlockEntity.getFluidShellCapacity;
 
 import java.util.List;
@@ -40,9 +42,9 @@ public class FluidShellBlockItem extends FuzedProjectileBlockItem {
         if (!data.isEmpty() && registries != null) { // jank alert
             FluidTank tank = new FluidTank(getFluidShellCapacity()).readFromNBT(registries, data.copyTag()); // It's cheaper than recreating the entire BE.
             FluidStack fstack = tank.getFluid();
-            IndexPlatform.addFluidShellComponents(fstack.getFluid(), fstack.getComponentsPatch(), fstack.getAmount(), tooltip);
+            CBCFluidShellTooltip.addFluidShellComponents(fstack.getFluid(), fstack.getComponentsPatch(), fstack.getAmount(), tooltip);
         } else {
-            IndexPlatform.addFluidShellComponents(Fluids.EMPTY, DataComponentPatch.EMPTY, 0, tooltip);
+            CBCFluidShellTooltip.addFluidShellComponents(Fluids.EMPTY, DataComponentPatch.EMPTY, 0, tooltip);
         }
 	}
 

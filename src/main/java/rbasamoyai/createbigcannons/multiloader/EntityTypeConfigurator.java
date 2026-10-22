@@ -32,7 +32,7 @@ public class EntityTypeConfigurator {
     }
 
     public EntityTypeConfigurator trackingRange(int range) {
-        this.builder.setTrackingRange(range);
+        this.builder.clientTrackingRange(range);
         return this;
     }
 
@@ -42,7 +42,7 @@ public class EntityTypeConfigurator {
     }
 
     public EntityTypeConfigurator updateVelocity(boolean update) {
-        this.builder.setShouldReceiveVelocityUpdates(update);
+        this.builder.alwaysUpdateVelocity(update); // PORT-NOTE(fabric): Fabric API builder extension
         return this;
     }
 

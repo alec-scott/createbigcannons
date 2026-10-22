@@ -13,7 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.core.dispenser.EquipmentDispenseItemBehavior;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -28,14 +28,10 @@ public class GasMaskItem extends Item {
 
 	public GasMaskItem(Properties properties) {
         super(properties);
-		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		DispenserBlock.registerBehavior(this, EquipmentDispenseItemBehavior.INSTANCE);
     }
 
-    @Nullable
-    @Override
-    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
-        return EquipmentSlot.HEAD;
-    }
+    // PORT-NOTE(mc26.1): the head slot now comes from the EQUIPPABLE component set in CBCItems.
 
     @Override
 	public InteractionResult use(Level level, Player player, InteractionHand usedHand) {

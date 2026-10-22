@@ -251,7 +251,7 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 
 	@Override
 	protected DamageSource getEntityDamage(Entity entity) {
-		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getHolderOrThrow(CBCDamageTypes.BIG_CANNON_PROJECTILE), this.getDamageProperties().ignoresEntityArmor());
+		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getOrThrow(CBCDamageTypes.BIG_CANNON_PROJECTILE), this.getDamageProperties().ignoresEntityArmor());
 	}
 
 	public float addedChargePower() { return this.getBigCannonProjectileProperties().addedChargePower(); }

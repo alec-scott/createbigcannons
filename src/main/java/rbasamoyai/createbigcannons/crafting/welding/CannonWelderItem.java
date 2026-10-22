@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.welding;
 
+import net.minecraft.world.item.ItemStack;
+
+import net.minecraft.world.entity.LivingEntity;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +21,7 @@ public class CannonWelderItem extends Item {
 		super(properties);
 	}
 
-	@Override public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) { return false; }
+	@Override public boolean canDestroyBlock(ItemStack stack, BlockState state, Level level, BlockPos pos, LivingEntity user) { return false; }
 
 	//@Override public boolean canBeDepleted() { return true; } // fixme
 

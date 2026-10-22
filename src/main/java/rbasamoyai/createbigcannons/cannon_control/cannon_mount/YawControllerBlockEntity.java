@@ -39,7 +39,6 @@ public class YawControllerBlockEntity extends KineticBlockEntity implements Exte
 
 	@Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-		if (!super.addToGoggleTooltip(tooltip, isPlayerSneaking)) return false;
 		CannonMountBlockEntity mount = this.getCannonMount();
 		if (mount != null) ExtendsCannonMount.addCannonInfoToTooltip(tooltip, mount.mountedContraption);
 		return true;

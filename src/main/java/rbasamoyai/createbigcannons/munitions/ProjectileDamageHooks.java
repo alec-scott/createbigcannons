@@ -2,7 +2,6 @@ package rbasamoyai.createbigcannons.munitions;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.NeoForge;
 import rbasamoyai.createbigcannons.CBCCompatTransformers;
 import rbasamoyai.createbigcannons.events.ProjectileDamageEvent;
 
@@ -15,6 +14,6 @@ public class ProjectileDamageHooks {
             return true;
         }
         BlockPos realPos = CBCCompatTransformers.transformBlockPos(level, pos);
-        return !NeoForge.EVENT_BUS.post(new ProjectileDamageEvent(level, realPos)).isCanceled();
+        return ProjectileDamageEvent.EVENT.invoker().canDamageTerrain(level, realPos);
     }
 }

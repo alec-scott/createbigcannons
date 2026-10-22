@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import rbasamoyai.createbigcannons.base.CBCRegistries;
 import rbasamoyai.createbigcannons.crafting.BlockRecipe;
 import rbasamoyai.createbigcannons.crafting.BlockRecipeSerializer;
@@ -25,17 +24,17 @@ import rbasamoyai.createbigcannons.utils.CBCRegistryUtils;
 public class CannonCastingRecipe implements BlockRecipe {
 
 	private final CannonCastShape requiredShape;
-	private final FluidIngredient ingredient;
+	private final CastingFluidIngredient ingredient;
 	private final Block result;
 
-	public CannonCastingRecipe(CannonCastShape requiredShape, FluidIngredient ingredient, Block result) {
+	public CannonCastingRecipe(CannonCastShape requiredShape, CastingFluidIngredient ingredient, Block result) {
 		this.requiredShape = requiredShape;
 		this.ingredient = ingredient;
 		this.result = result;
 	}
 
 	public CannonCastShape shape() { return this.requiredShape; }
-	public FluidIngredient ingredient() { return this.ingredient; }
+	public CastingFluidIngredient ingredient() { return this.ingredient; }
 
 	@Override
 	public boolean matches(Level level, BlockPos pos) {
@@ -67,13 +66,13 @@ public class CannonCastingRecipe implements BlockRecipe {
 
         public static final MapCodec<CannonCastingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 CANNON_SHAPE_CODEC.fieldOf("cast_shape").forGetter(CannonCastingRecipe::shape),
-                FluidIngredient.CODEC.fieldOf("fluid").forGetter(CannonCastingRecipe::ingredient),
+                CastingFluidIngredient.CODEC.fieldOf("fluid").forGetter(CannonCastingRecipe::ingredient),
                 BLOCK_CODEC.fieldOf("result").forGetter(CannonCastingRecipe::getResultBlock)
             ).apply(instance, CannonCastingRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, CannonCastingRecipe> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.registry(CBCRegistries.CANNON_CAST_SHAPES), CannonCastingRecipe::shape,
-            FluidIngredient.STREAM_CODEC, CannonCastingRecipe::ingredient,
+            CastingFluidIngredient.STREAM_CODEC, CannonCastingRecipe::ingredient,
             ByteBufCodecs.registry(CBCRegistryUtils.getBlockRegistryKey()), CannonCastingRecipe::getResultBlock,
             CannonCastingRecipe::new);
 

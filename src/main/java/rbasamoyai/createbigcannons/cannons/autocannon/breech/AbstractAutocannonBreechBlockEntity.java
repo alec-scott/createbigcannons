@@ -158,10 +158,7 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 		this.seat = DyeColor.byName(tag.getStringOr("Seat", ""), null);
 
 		this.inputBuffer.clear();
-		ListTag inputTag = CBCValueIO.getList(tag, "Input");
-		for (int i = 0; i < inputTag.size(); ++i) {
-			this.inputBuffer.add(CBCValueIO.parseItem(registry, inputTag.getCompoundOrEmpty(i)));
-		}
+		tag.read("Input", ItemStack.OPTIONAL_CODEC.listOf()).ifPresent(this.inputBuffer::addAll);
 		this.magazine = CBCValueIO.contains(tag, "Magazine") ? tag.read("Magazine", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
 
 		if (!clientPacket) return;
@@ -178,11 +175,9 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 		if (this.seat != null) tag.putString("Seat", this.seat.getSerializedName());
 
 		if (!this.inputBuffer.isEmpty()) {
-			CBCValueIO.put(tag, "Input", this.inputBuffer.stream()
-					.map(s -> CBCValueIO.saveItem(registry, s))
-					.collect(Collectors.toCollection(ListTag::new)));
+			tag.store("Input", ItemStack.OPTIONAL_CODEC.listOf(), List.copyOf(this.inputBuffer));
 		}
-		if (this.magazine != null && !this.magazine.isEmpty()) CBCValueIO.put(tag, "Magazine", CBCValueIO.saveItem(registry, this.magazine));
+		if (this.magazine != null && !this.magazine.isEmpty()) tag.store("Magazine", ItemStack.OPTIONAL_CODEC, this.magazine);
 
 		if (!clientPacket) return;
 		if (this.updateInstance) tag.putBoolean("UpdateInstance", true);

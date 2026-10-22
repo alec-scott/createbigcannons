@@ -482,7 +482,6 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 
 	@Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-		super.addToGoggleTooltip(tooltip, isPlayerSneaking);
 		tooltip.add(Component.empty());
 		this.addFluidInfoToTooltip(tooltip, isPlayerSneaking);
 		if (this.failureReason != FailureReason.NONE) {

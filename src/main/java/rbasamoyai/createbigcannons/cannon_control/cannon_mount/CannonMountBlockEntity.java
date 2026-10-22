@@ -416,13 +416,8 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements CBCAss
 		tag.putFloat("CannonPitch", this.cannonPitch);
 		AssemblyException.write(tag, this.lastException);
 
-		CompoundTag pitchTag = new CompoundTag();
-		this.pitchInterface.saveAdditional(pitchTag, registry);
-		CBCValueIO.put(tag, "PitchInterface", pitchTag);
-
-		CompoundTag yawTag = new CompoundTag();
-		this.yawInterface.saveAdditional(yawTag, registry);
-		CBCValueIO.put(tag, "YawInterface", yawTag);
+		this.pitchInterface.write(tag.child("PitchInterface"), clientPacket);
+		this.yawInterface.write(tag.child("YawInterface"), clientPacket);
 
         if (this.reassemble)
             tag.putBoolean("TryReassembling", true);
@@ -437,13 +432,8 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements CBCAss
 		this.cannonPitch = tag.getFloatOr("CannonPitch", 0f);
 		this.lastException = AssemblyException.read(tag);
 
-		if (clientPacket) {
-			this.pitchInterface.readClient(CBCValueIO.getCompound(tag, "PitchInterface"), registry);
-			this.yawInterface.readClient(CBCValueIO.getCompound(tag, "YawInterface"), registry);
-		} else {
-			this.pitchInterface.loadWithComponents(CBCValueIO.getCompound(tag, "PitchInterface"), registry);
-			this.yawInterface.loadWithComponents(CBCValueIO.getCompound(tag, "YawInterface"), registry);
-		}
+		tag.child("PitchInterface").ifPresent(t -> this.pitchInterface.read(t, clientPacket));
+		tag.child("YawInterface").ifPresent(t -> this.yawInterface.read(t, clientPacket));
 
         this.reassemble = CBCValueIO.contains(tag, "TryReassembling");
 

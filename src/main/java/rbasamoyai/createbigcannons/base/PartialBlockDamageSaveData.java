@@ -1,5 +1,11 @@
 package rbasamoyai.createbigcannons.base;
 
+import rbasamoyai.createbigcannons.CreateBigCannons;
+
+import it.unimi.dsi.fastutil.objects.Object2FloatMap;
+
+import net.minecraft.world.level.saveddata.SavedDataType;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import java.util.Map;
@@ -26,19 +32,29 @@ public class PartialBlockDamageSaveData extends SavedData {
 
 	private final Object2ObjectLinkedOpenHashMap<ResourceKey<Level>, Object2FloatLinkedOpenHashMap<BlockPos>> blockDamage = new Object2ObjectLinkedOpenHashMap<>();
 
+	/**
+	 * PORT-NOTE(mc26.1): saved data is codec-based ({@link SavedDataType}); the codec wraps the 1.21.1 compound layout.
+	 * Following Create Fly, the file is now {@code data/createbigcannons/block_damage.dat}; damage stored in the old
+	 * {@code createbigcannons_block_damage.dat} is not carried over.
+	 */
+	private static final SavedDataType<PartialBlockDamageSaveData> TYPE = new SavedDataType<>(CreateBigCannons.resource("block_damage"),
+		PartialBlockDamageSaveData::new, CompoundTag.CODEC.xmap(PartialBlockDamageSaveData::load, PartialBlockDamageSaveData::save), null);
+
 	private PartialBlockDamageSaveData() {
 	}
 
-	@Override
-	public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+	private CompoundTag save() {
+		CompoundTag tag = new CompoundTag();
 		CompoundTag blockDamage = new CompoundTag();
 		for (Map.Entry<ResourceKey<Level>, Object2FloatLinkedOpenHashMap<BlockPos>> entry : this.blockDamage.object2ObjectEntrySet()) {
-			blockDamage.put(entry.getKey().location().toString(), NBTHelper.writeCompoundList(entry.getValue().object2FloatEntrySet(), e -> {
+			ListTag damages = new ListTag();
+			for (Object2FloatMap.Entry<BlockPos> e : entry.getValue().object2FloatEntrySet()) {
 				CompoundTag tag1 = new CompoundTag();
 				tag1.put("Pos", CBCValueIO.writeBlockPos(e.getKey()));
 				tag1.putFloat("Damage", e.getFloatValue());
-				return tag1;
-			}));
+				damages.add(tag1);
+			}
+			blockDamage.put(entry.getKey().identifier().toString(), damages);
 		}
 		tag.put("BlockDamage", blockDamage);
 		return tag;
@@ -48,11 +64,11 @@ public class PartialBlockDamageSaveData extends SavedData {
 		return this.blockDamage;
 	}
 
-	private static PartialBlockDamageSaveData load(CompoundTag tag, HolderLookup.Provider registries) {
+	private static PartialBlockDamageSaveData load(CompoundTag tag) {
 		PartialBlockDamageSaveData savedata = new PartialBlockDamageSaveData();
 		CompoundTag values = tag.getCompoundOrEmpty("BlockDamage");
 
-		for (String key : values.getAllKeys()) {
+		for (String key : values.keySet()) {
 			ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, CBCUtils.location(key));
 			ListTag damagesTag = values.getListOrEmpty(key);
 			Object2FloatLinkedOpenHashMap<BlockPos> damages = new Object2FloatLinkedOpenHashMap<>(damagesTag.size());
@@ -60,7 +76,7 @@ public class PartialBlockDamageSaveData extends SavedData {
 			int len = Math.min(damagesTag.size(), MAX_DAMAGES_PER_DIMENSION);
 			for (int i = 0; i < len; ++i) {
 				CompoundTag entry = damagesTag.getCompoundOrEmpty(i);
-				damages.put(CBCValueIO.readBlockPos(entry, "Pos").get(), entry.getFloat("Damage"));
+				damages.put(CBCValueIO.readBlockPos(entry, "Pos").get(), entry.getFloatOr("Damage", 0));
 			}
 			savedata.blockDamage.put(dimensionKey, damages);
 		}
@@ -70,7 +86,7 @@ public class PartialBlockDamageSaveData extends SavedData {
 	public static PartialBlockDamageSaveData load(MinecraftServer server) {
 		return server.overworld()
 			.getDataStorage()
-			.computeIfAbsent(new Factory<>(PartialBlockDamageSaveData::new, PartialBlockDamageSaveData::load, null), "createbigcannons_block_damage");
+			.computeIfAbsent(TYPE);
 	}
 
 }
