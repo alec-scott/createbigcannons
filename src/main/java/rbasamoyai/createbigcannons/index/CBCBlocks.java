@@ -1,13 +1,12 @@
 package rbasamoyai.createbigcannons.index;
 
-import static com.zurrtum.create.api.behaviour.display.DisplaySource.displaySource;
+import static rbasamoyai.createbigcannons.port.create.DisplaySourceTransforms.displaySource;
 import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
 import java.util.function.Supplier;
 
 import rbasamoyai.createbigcannons.port.create.foundation.data.CreateRegistrate;
 import rbasamoyai.createbigcannons.port.create.foundation.data.SharedProperties;
-import com.simibubi.create.foundation.data.recipe.CommonMetal;
 import rbasamoyai.createbigcannons.port.registrate.builders.BlockBuilder;
 import rbasamoyai.createbigcannons.port.registrate.util.entry.BlockEntry;
 import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
@@ -28,7 +27,10 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.Tags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import rbasamoyai.createbigcannons.CBCTags;
 import rbasamoyai.createbigcannons.ModGroup;
 import rbasamoyai.createbigcannons.cannon_control.cannon_mount.CannonMountBlock;
@@ -98,7 +100,7 @@ public class CBCBlocks {
 
 	static {
         ModGroup.setDefaultTabToNull();
-        REGISTRATE.setCreativeTab(null);
+        REGISTRATE.defaultCreativeTab((net.minecraft.resources.ResourceKey<net.minecraft.world.item.CreativeModeTab>) null);
     }
 
 	//////// Log cannon blocks ////////
@@ -303,7 +305,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock())
 		.transform(CBCBuilderTransformers.cannonBarrel("steel", true))
 		.loot(CBCBuilderTransformers.steelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.STEEL_CANNON_BARREL)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -313,7 +314,6 @@ public class CBCBlocks {
 		.transform(CBCBuilderTransformers.builtUpCannonBarrel("steel", true))
 		.lang("Built-Up Steel Cannon Barrel")
 		.loot(CBCBuilderTransformers.steelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.BUILT_UP_STEEL_CANNON_BARREL)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -322,7 +322,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock())
 		.transform(CBCBuilderTransformers.cannonChamber("steel", true))
 		.loot(CBCBuilderTransformers.steelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.STEEL_CANNON_CHAMBER)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -332,7 +331,6 @@ public class CBCBlocks {
 		.transform(CBCBuilderTransformers.builtUpCannonChamber("steel", true))
 		.lang("Built-Up Steel Cannon Chamber")
 		.loot(CBCBuilderTransformers.steelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.BUILT_UP_STEEL_CANNON_CHAMBER)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -341,7 +339,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock())
 		.transform(CBCBuilderTransformers.thickCannonChamber("steel", true))
 		.loot(CBCBuilderTransformers.steelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.THICK_STEEL_CANNON_CHAMBER)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -431,8 +428,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock(false))
 		.loot(CBCBuilderTransformers.steelScrapLoot(10))
 		.transform(CBCBuilderTransformers.slidingBreech("sliding_breech/steel"))
-		.onRegister(CreateRegistrate.connectedTextures(() ->
-			new SlidingBreechCTBehavior(CBCSpriteShifts.STEEL_SLIDING_BREECH_SIDE, CBCSpriteShifts.STEEL_SLIDING_BREECH_SIDE_HOLE)))
 		.register();
 
 	private static NonNullSupplier<? extends Block> steelSlidingBreech() {
@@ -445,8 +440,6 @@ public class CBCBlocks {
 		.loot(CBCBuilderTransformers.steelScrapLoot(10))
 		.transform(CBCBuilderTransformers.slidingBreech("sliding_breech/steel"))
 		.transform(CBCCfgStress.setImpact(32.0d))
-		.onRegister(CreateRegistrate.connectedTextures(() ->
-			new SlidingBreechCTBehavior(CBCSpriteShifts.STEEL_SLIDING_BREECH_SIDE, CBCSpriteShifts.STEEL_SLIDING_BREECH_SIDE_HOLE)))
 		.register();
 
 	public static final BlockEntry<IncompleteSlidingBreechBlock> INCOMPLETE_STEEL_SLIDING_BREECH = REGISTRATE
@@ -496,7 +489,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock())
 		.transform(CBCBuilderTransformers.cannonBarrel("nethersteel", true))
 		.loot(CBCBuilderTransformers.nethersteelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.NETHERSTEEL_CANNON_BARREL)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -506,7 +498,6 @@ public class CBCBlocks {
 		.transform(CBCBuilderTransformers.builtUpCannonBarrel("nethersteel", true))
 		.lang("Built-Up Nethersteel Cannon Barrel")
 		.loot(CBCBuilderTransformers.nethersteelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.BUILT_UP_NETHERSTEEL_CANNON_BARREL)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -515,7 +506,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock())
 		.transform(CBCBuilderTransformers.cannonChamber("nethersteel", true))
 		.loot(CBCBuilderTransformers.nethersteelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.NETHERSTEEL_CANNON_CHAMBER)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -525,7 +515,6 @@ public class CBCBlocks {
 		.transform(CBCBuilderTransformers.builtUpCannonChamber("nethersteel", true))
 		.lang("Built-Up Nethersteel Cannon Chamber")
 		.loot(CBCBuilderTransformers.nethersteelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.BUILT_UP_NETHERSTEEL_CANNON_CHAMBER)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -534,7 +523,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock())
 		.transform(CBCBuilderTransformers.thickCannonChamber("nethersteel", true))
 		.loot(CBCBuilderTransformers.nethersteelScrapLoot(10))
-		.onRegister(CreateRegistrate.connectedTextures(() -> new BuiltUpCannonCTBehavior(CBCSpriteShifts.THICK_NETHERSTEEL_CANNON_CHAMBER)))
 		.item(BigCannonBlockItem::new).build()
 		.register();
 
@@ -951,7 +939,7 @@ public class CBCBlocks {
 		.tag(BlockTags.MINEABLE_WITH_PICKAXE)
 		.tag(BlockTags.NEEDS_STONE_TOOL)
         .tag(CBCCommonMetal.CAST_IRON.storageBlocks.blocks())
-        .tag(Tags.Blocks.STORAGE_BLOCKS)
+        .tag(ConventionalBlockTags.STORAGE_BLOCKS)
 		.lang("Block of Cast Iron")
 		.item()
 		.tag(CBCCommonMetal.CAST_IRON.storageBlocks.items())
@@ -967,7 +955,7 @@ public class CBCBlocks {
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(BlockTags.NEEDS_IRON_TOOL)
         .tag(CBCCommonMetal.BRONZE.storageBlocks.blocks())
-        .tag(Tags.Blocks.STORAGE_BLOCKS)
+        .tag(ConventionalBlockTags.STORAGE_BLOCKS)
         .lang("Block of Bronze")
         .item()
         .tag(CBCCommonMetal.BRONZE.storageBlocks.items())
@@ -982,11 +970,11 @@ public class CBCBlocks {
         .properties(p -> p.sound(SoundType.METAL))
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(BlockTags.NEEDS_IRON_TOOL)
-        .tag(CommonMetal.STEEL.storageBlocks.blocks())
-        .tag(Tags.Blocks.STORAGE_BLOCKS)
+        .tag(TagKey.create(Registries.BLOCK, net.minecraft.resources.Identifier.fromNamespaceAndPath("c", "storage_blocks/steel")))
+        .tag(ConventionalBlockTags.STORAGE_BLOCKS)
         .lang("Block of Steel")
         .item()
-        .tag(CommonMetal.STEEL.storageBlocks.items())
+        .tag(TagKey.create(Registries.ITEM, net.minecraft.resources.Identifier.fromNamespaceAndPath("c", "storage_blocks/steel")))
         .build()
         .register();
 
@@ -999,7 +987,7 @@ public class CBCBlocks {
 		.tag(BlockTags.MINEABLE_WITH_PICKAXE)
 		.tag(BlockTags.NEEDS_DIAMOND_TOOL)
         .tag(CBCCommonMetal.NETHERSTEEL.storageBlocks.blocks())
-        .tag(Tags.Blocks.STORAGE_BLOCKS)
+        .tag(ConventionalBlockTags.STORAGE_BLOCKS)
 		.lang("Block of Nethersteel")
 		.item()
 		.tag(CBCCommonMetal.NETHERSTEEL.storageBlocks.items())

@@ -5,9 +5,7 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.content.processing.recipe.StandardProcessingRecipe;
-import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
-import com.zurrtum.create.client.foundation.utility.CreateLang;
+import java.util.Locale;
 import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -32,9 +30,13 @@ import rbasamoyai.createbigcannons.crafting.munition_assembly.TracerApplicationR
 import rbasamoyai.createbigcannons.crafting.munition_assembly.TracerRemovalRecipe;
 import rbasamoyai.createbigcannons.multiloader.IndexPlatform;
 
-public enum CBCRecipeTypes implements IRecipeTypeInfo {
+/**
+ * PORT-NOTE(fabric): no longer implements Create's {@code IRecipeTypeInfo} (not in Create Fly); 26.1's {@link RecipeSerializer}
+ * is a record of codecs. Ids use plain lower-casing (Create Fly's {@code CreateLang} is client-only).
+ */
+public enum CBCRecipeTypes {
 
-	MELTING(MeltingRecipe::new),
+	MELTING(() -> MeltingRecipe.SERIALIZER),
 	MUNITION_FUZING(noSerializer(MunitionFuzingRecipe::new)),
 	CARTRIDGE_ASSEMBLY(noSerializer(CartridgeAssemblyRecipe::new)),
 	BIG_CARTRIDGE_FILLING(noSerializer(BigCartridgeFillingRecipe::new)),
@@ -54,7 +56,7 @@ public enum CBCRecipeTypes implements IRecipeTypeInfo {
 	private final NonNullSupplier<RecipeType<?>> type;
 
 	CBCRecipeTypes(NonNullSupplier<RecipeSerializer<?>> serializerSupplier, NonNullSupplier<RecipeType<?>> typeSupplier, boolean registerType) {
-		String name = CreateLang.asId(name());
+		String name = name().toLowerCase(Locale.ROOT);
 		id = CreateBigCannons.resource(name);
 		serializerObject = IndexPlatform.registerRecipeSerializer(this.id, serializerSupplier);
 		if (registerType) {
@@ -68,16 +70,12 @@ public enum CBCRecipeTypes implements IRecipeTypeInfo {
 	}
 
 	CBCRecipeTypes(NonNullSupplier<RecipeSerializer<?>> serializerSupplier) {
-		String name = CreateLang.asId(name());
+		String name = name().toLowerCase(Locale.ROOT);
 		id = CreateBigCannons.resource(name);
 		serializerObject = IndexPlatform.registerRecipeSerializer(this.id, serializerSupplier);
 		typeObject = simpleType(id);
 		type = () -> typeObject;
 		IndexPlatform.registerRecipeType(this.id, this.type);
-	}
-
-	CBCRecipeTypes(StandardProcessingRecipe.Factory<?> processingFactory) {
-		this(() -> new StandardProcessingRecipe.Serializer<>(processingFactory));
 	}
 
 	public static <T extends Recipe<?>> RecipeType<T> simpleType(Identifier id) {
@@ -90,19 +88,16 @@ public enum CBCRecipeTypes implements IRecipeTypeInfo {
 		};
 	}
 
-	@Override
 	public Identifier getId() {
 		return this.id;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public <T extends RecipeSerializer<?>> T getSerializer() {
 		return (T) this.serializerObject.get();
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public <I extends RecipeInput, R extends Recipe<I>> RecipeType<R> getType() {
 		return (RecipeType<R>) this.type.get();
 	}
@@ -111,20 +106,7 @@ public enum CBCRecipeTypes implements IRecipeTypeInfo {
 	}
 
 	private static <T extends Recipe<?>> NonNullSupplier<RecipeSerializer<?>> noSerializer(Supplier<T> prov) {
-		return () -> new SimpleRecipeSerializer<>(prov);
+		return () -> new RecipeSerializer<>(MapCodec.unit(prov), StreamCodec.of((buf, recipe) -> {}, buf -> prov.get()));
 	}
-
-	private static class SimpleRecipeSerializer<T extends Recipe<?>> implements RecipeSerializer<T> {
-        private final MapCodec<T> codec;
-        private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
-
-		public SimpleRecipeSerializer(Supplier<T> constructor) {
-            this.codec = MapCodec.unit(constructor);
-            this.streamCodec = StreamCodec.of((buf, r) -> {}, buf -> constructor.get());
-		}
-
-        @Override public MapCodec<T> codec() { return this.codec; }
-        @Override public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() { return this.streamCodec; }
-    }
 
 }
