@@ -11,6 +11,9 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.server.packs.PackType;
 import rbasamoyai.createbigcannons.CBCCommonEvents;
+import rbasamoyai.createbigcannons.crafting.boring.CannonDrillBlockEntity;
+import rbasamoyai.createbigcannons.crafting.casting.CannonCastBlockEntity;
+import rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell.FluidShellBlockEntity;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
@@ -51,6 +54,9 @@ public class CBCCommonFabricEvents {
 			CBCBlockEntities.CANNON_MOUNT.get(),
 			CBCBlockEntities.CANNON_MOUNT_EXTENSION.get(),
 			CBCBlockEntities.FIXED_CANNON_MOUNT.get());
+		CannonCastBlockEntity.registerStorage();
+		CannonDrillBlockEntity.registerStorage();
+		FluidShellBlockEntity.registerStorage();
 	}
 
 }

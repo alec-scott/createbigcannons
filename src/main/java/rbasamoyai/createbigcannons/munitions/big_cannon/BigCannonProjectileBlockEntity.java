@@ -1,12 +1,13 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
 
 import java.util.List;
 
-import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
 import com.zurrtum.create.api.schematic.nbt.PartialSafeNBT;
 import com.zurrtum.create.api.schematic.requirement.SpecialBlockEntityItemRequirement;
 import com.zurrtum.create.content.schematics.requirement.ItemRequirement;
@@ -28,7 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import rbasamoyai.createbigcannons.index.CBCDataComponents;
 import rbasamoyai.createbigcannons.index.CBCItems;
 
-public class BigCannonProjectileBlockEntity extends SyncedBlockEntity implements IHaveGoggleInformation, Container, PartialSafeNBT,
+public class BigCannonProjectileBlockEntity extends SyncedBlockEntity implements CBCGoggleInfo, Container, PartialSafeNBT,
     SpecialBlockEntityItemRequirement {
 
     protected ItemStack tracer = ItemStack.EMPTY;

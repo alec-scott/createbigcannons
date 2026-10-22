@@ -1,8 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.incomplete;
 
+import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
+
 import java.util.List;
 
-import com.zurrtum.create.client.api.goggles.IHaveHoveringInformation;
 
 import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
@@ -24,7 +25,7 @@ import rbasamoyai.createbigcannons.crafting.WandActionable;
 import rbasamoyai.createbigcannons.crafting.builtup.LayeredBigCannonBlockEntity;
 import rbasamoyai.createbigcannons.crafting.casting.CannonCastShape;
 
-public class IncompleteBigCannonBlockEntity extends BigCannonEndBlockEntity implements IHaveHoveringInformation, WandActionable {
+public class IncompleteBigCannonBlockEntity extends BigCannonEndBlockEntity implements CBCGoggleInfo, WandActionable {
 
 	public IncompleteBigCannonBlockEntity(BlockEntityType<? extends IncompleteBigCannonBlockEntity> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);

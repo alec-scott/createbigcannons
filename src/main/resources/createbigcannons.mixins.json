@@ -13,6 +13,7 @@
     "client.EntityClientMixin",
     "client.EntityRenderDispatcherMixin",
     "client.GoggleOverlayRendererMixin",
+    "client.GoggleOverlayTooltipMixin",
     "client.HumanoidPoseMixin",
     "client.LevelRendererMixin",
     "client.PitchOrientedContraptionEntityMixin",

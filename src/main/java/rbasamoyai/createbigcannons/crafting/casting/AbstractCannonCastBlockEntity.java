@@ -1,6 +1,9 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
+import rbasamoyai.createbigcannons.utils.FluidUnits;
 
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -17,7 +20,6 @@ import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 
 import com.zurrtum.create.AllSoundEvents;
-import com.zurrtum.create.client.api.goggles.IHaveHoveringInformation;
 import com.zurrtum.create.foundation.blockEntity.IMultiBlockEntityContainer;
 import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
@@ -61,7 +63,7 @@ import rbasamoyai.createbigcannons.crafting.WandActionable;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
-public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity implements WandActionable, IMultiBlockEntityContainer, IHaveHoveringInformation {
+public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity implements WandActionable, IMultiBlockEntityContainer, CBCGoggleInfo {
 
 	private static final Object CASTING_RECIPES_KEY = new Object();
 
@@ -137,7 +139,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 			}
 			tag.putInt("Height", this.height);
 			tag.putInt("CastingTime", this.castingTime);
-			this.writeFluidToTag(tag, registries);
+			this.writeFluidToTag(tag);
 			if (this.startCastingTime > 1) tag.putInt("StartCastingTime", this.startCastingTime);
 			if (this.updateRecipes) tag.putBoolean("UpdateRecipes", true);
 
@@ -177,7 +179,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 		this.forceCastLevelUpdate = false;
 	}
 
-	protected abstract void writeFluidToTag(CompoundTag tag, HolderLookup.Provider registries);
+	protected abstract void writeFluidToTag(ValueOutput tag);
 
 	@Override
 	protected void read(ValueInput tag, boolean clientPacket) {
@@ -199,7 +201,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 				this.structure.add(shape == null ? CannonCastShape.VERY_SMALL : shape);
 			}
 			this.height = tag.getIntOr("Height", 0);
-			this.updateFluids(tag, registry);
+			this.updateFluids(tag);
 			this.castingTime = Math.max(tag.getIntOr("CastingTime", 0), 0);
 			this.startCastingTime = Math.max(tag.getIntOr("StartCastingTime", 0), 1);
 			this.updateRecipes = this.firstLoadUpdate || CBCValueIO.contains(tag, "UpdateRecipes");
@@ -259,7 +261,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 		this.firstLoadUpdate = false;
 	}
 
-	protected abstract void updateFluids(CompoundTag tag, HolderLookup.Provider registries);
+	protected abstract void updateFluids(ValueInput tag);
 
 	protected abstract void updateFluidClient();
 
@@ -517,7 +519,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 	}
 
 	public int calculateCapacityFromStructure() {
-		return this.structure.stream().map(CannonCastShape::fluidSize).reduce(Integer::sum).orElse(0);
+		return FluidUnits.fromMb(this.structure.stream().map(CannonCastShape::fluidSize).reduce(Integer::sum).orElse(0));
 	}
 
 	public BlockPos getCenterBlock() {

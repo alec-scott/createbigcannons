@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
+
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +18,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 
-public class CannonMountExtensionBlockEntity extends KineticBlockEntity implements ExtendsCannonMount, CBCHasIItemHandlerBlockEntity {
+public class CannonMountExtensionBlockEntity extends KineticBlockEntity implements ExtendsCannonMount, CBCHasIItemHandlerBlockEntity , CBCGoggleInfo {
 
 	public CannonMountExtensionBlockEntity(BlockEntityType<? extends CannonMountExtensionBlockEntity> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);

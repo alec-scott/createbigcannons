@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.boring;
 
+import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -73,7 +75,7 @@ import rbasamoyai.createbigcannons.network.ClientboundUpdateContraptionPacket;
 import rbasamoyai.createbigcannons.utils.CBCRegistryUtils;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
-public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntity {
+public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntity implements CBCGoggleInfo {
 
 	protected AbstractContraptionEntity latheEntity;
 	protected BlockPos boringPos;

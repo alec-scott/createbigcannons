@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -13,7 +15,6 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.zurrtum.create.AllSoundEvents;
-import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
 import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
 import com.zurrtum.create.content.contraptions.AssemblyException;
 import com.zurrtum.create.client.content.contraptions.IDisplayAssemblyExceptions;
@@ -53,7 +54,7 @@ import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 
 public class CannonMountBlockEntity extends KineticBlockEntity implements IDisplayAssemblyExceptions, ControlPitchContraption.Block,
-	ExtendsCannonMount, HasMultipleKineticInterfaces, IHaveGoggleInformation, CBCHasIItemHandlerBlockEntity {
+	ExtendsCannonMount, HasMultipleKineticInterfaces, CBCGoggleInfo, CBCHasIItemHandlerBlockEntity {
 
 	private static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 

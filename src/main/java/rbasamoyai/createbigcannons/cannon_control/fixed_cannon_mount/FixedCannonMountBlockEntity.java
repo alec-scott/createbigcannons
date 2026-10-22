@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount;
 
+import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -14,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableList;
 import com.zurrtum.create.AllSoundEvents;
-import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
 import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
 import com.zurrtum.create.content.contraptions.AssemblyException;
 import com.zurrtum.create.client.content.contraptions.IDisplayAssemblyExceptions;
@@ -59,7 +60,7 @@ import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.remix.CBCHasIItemHandlerBlockEntity;
 
 public class FixedCannonMountBlockEntity extends SmartBlockEntity implements IDisplayAssemblyExceptions,
-    ControlPitchContraption.Block, IHaveGoggleInformation, CBCHasIItemHandlerBlockEntity, ClipboardCloneable {
+    ControlPitchContraption.Block, CBCGoggleInfo, CBCHasIItemHandlerBlockEntity, ClipboardCloneable {
 
 	private AssemblyException lastException = null;
 	protected PitchOrientedContraptionEntity mountedContraption;

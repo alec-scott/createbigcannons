@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.zurrtum.create.content.fluids.transfer.GenericItemEmptying;
 import com.zurrtum.create.content.fluids.transfer.GenericItemFilling;
-import com.simibubi.create.foundation.fluid.SmartFluidTank;
 
 import com.zurrtum.create.catnip.data.Pair;
 import net.minecraft.core.BlockPos;
@@ -28,47 +27,50 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import com.zurrtum.create.infrastructure.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import com.zurrtum.create.infrastructure.transfer.FluidInventoryStorage;
+import rbasamoyai.createbigcannons.fabric.client.CBCGoggleHelper;
+import rbasamoyai.createbigcannons.utils.CBCFluidTank;
+import rbasamoyai.createbigcannons.utils.CBCFluidTank.FluidAction;
+import rbasamoyai.createbigcannons.utils.FluidUnits;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCDataComponents;
 
 public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
 
-	protected FluidTank tank;
+	protected CBCFluidTank tank;
 
 	public FluidShellBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
-		this.tank = new SmartFluidTank(getFluidShellCapacity(), this::onFluidStackChanged);
+		this.tank = new CBCFluidTank(FluidUnits.fromMb(getFluidShellCapacity()), this::onFluidStackChanged);
 	}
 
-    public static void onRegisterCapabilities(RegisterCapabilitiesEvent evt) {
-        evt.registerBlockEntity(Capabilities.FluidHandler.BLOCK, CBCBlockEntities.FLUID_SHELL.get(), (be, dir) -> {
-            if (dir != be.getBlockState().getValue(BlockStateProperties.FACING) || be.hasFuze())
+    /** PORT-NOTE(fabric): NeoForge fluid capability -> Fabric FluidStorage on the facing side, while unfuzed. */
+    public static void registerStorage() {
+        FluidStorage.SIDED.registerForBlockEntity((be, dir) -> {
+            if (!(be instanceof FluidShellBlockEntity shell) || dir != be.getBlockState().getValue(BlockStateProperties.FACING) || shell.hasFuze())
                 return null;
-            return ((FluidShellBlockEntity) be).tank;
-        });
+            return FluidInventoryStorage.of(shell.tank, dir);
+        }, CBCBlockEntities.FLUID_SHELL.get());
     }
 
 	@Override
 	public void saveAdditional(ValueOutput tag) {
 		super.saveAdditional(tag);
-		CBCValueIO.put(tag, "FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
+		this.tank.write(tag.child("FluidContent"));
 	}
 
 	@Override
 	public void loadAdditional(ValueInput tag) {
 		super.loadAdditional(tag);
-		this.tank.readFromNBT(registries, CBCValueIO.getCompound(tag, "FluidContent"));
+		tag.child("FluidContent").ifPresent(this.tank::read);
 	}
 
     @Override
     public void writeSafe(ValueOutput tag) {
         super.writeSafe(tag);
-        CBCValueIO.put(tag, "FluidContent", this.tank.writeToNBT(registries, new CompoundTag()));
+        this.tank.write(tag.child("FluidContent"));
     }
 
     @Override
@@ -100,7 +102,7 @@ public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
 		FluidStack fstack = this.tank.getFluid();
 		shell.setFluidStack(fstack.isEmpty()
 			? EndFluidStack.EMPTY
-			: new EndFluidStack(fstack.getFluid(), fstack.getAmount(), fstack.getComponentsPatch()));
+			: new EndFluidStack(fstack.getFluid(), FluidUnits.toMb(fstack.getAmount()), fstack.getComponentChanges()));
 	}
 
 	@Override
@@ -111,11 +113,11 @@ public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
 		Pair<FluidStack, ItemStack> emptyingResult = GenericItemEmptying.emptyItem(worldIn, heldItem, true);
 		FluidStack fluidStack = emptyingResult.getFirst();
 
-		if (fluidStack.getAmount() != this.tank.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE)) return false;
+		if (fluidStack.getAmount() != this.tank.fill(fluidStack, FluidAction.SIMULATE)) return false;
 
 		ItemStack copyOfHeld = heldItem.copy();
 		emptyingResult = GenericItemEmptying.emptyItem(worldIn, copyOfHeld, false);
-		this.tank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+		this.tank.fill(fluidStack, FluidAction.EXECUTE);
 
 		if (!player.isCreative()) {
 			if (copyOfHeld.isEmpty())
@@ -143,7 +145,7 @@ public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
 
 		FluidStack copy = fluid.copy();
 		copy.setAmount(requiredAmountForItem);
-		this.tank.drain(copy, IFluidHandler.FluidAction.EXECUTE);
+		this.tank.drain(copy, FluidAction.EXECUTE);
 
 		if (!player.isCreative()) player.getInventory().placeItemBackInInventory(out);
 		this.notifyUpdate();
@@ -156,7 +158,7 @@ public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
 
 	@Override
 	protected void addFluidToTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-		this.containedFluidTooltip(tooltip, isPlayerSneaking, this.tank);
+		CBCGoggleHelper.containedFluidTooltip(tooltip, isPlayerSneaking, this.tank);
 	}
 
     @Override
