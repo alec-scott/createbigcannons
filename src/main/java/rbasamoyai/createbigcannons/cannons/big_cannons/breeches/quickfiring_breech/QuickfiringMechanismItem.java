@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.quickfiring_breech;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
@@ -36,7 +36,7 @@ public class QuickfiringMechanismItem extends Item {
 			BlockState newState = sbb.getConversion(state);
 			BlockEntity oldBe = level.getBlockEntity(pos);
 			if (!(oldBe instanceof IBigCannonBlockEntity cbe)) return InteractionResult.PASS;
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				level.setBlock(pos, newState, 11);
 				BlockEntity newBe = level.getBlockEntity(pos);
 
@@ -68,7 +68,7 @@ public class QuickfiringMechanismItem extends Item {
 			}
 			SoundType type = newState.getSoundType();
 			level.playSound(player, pos, type.getPlaceSound(), SoundSource.BLOCKS, type.getVolume(), type.getPitch());
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.sidedSuccess(level.isClientSide());
 		}
 		return super.useOn(context);
 	}

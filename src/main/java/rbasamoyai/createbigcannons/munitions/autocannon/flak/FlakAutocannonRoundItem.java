@@ -3,9 +3,9 @@ package rbasamoyai.createbigcannons.munitions.autocannon.flak;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -61,7 +61,7 @@ public class FlakAutocannonRoundItem extends AutocannonRoundItem implements Fuze
 		}
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public AutocannonProjectilePropertiesComponent getAutocannonProperties(ItemStack itemStack) {
 		return CBCMunitionPropertiesHandlers.FLAK_AUTOCANNON.getPropertiesOf(this.getEntityType(itemStack)).autocannonProperties();

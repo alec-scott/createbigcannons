@@ -2,10 +2,10 @@ package rbasamoyai.createbigcannons.cannons.big_cannons.cannon_end;
 
 import java.util.List;
 
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -57,7 +57,7 @@ public class BigCannonEndBlockEntity extends SmartBlockEntity implements IBigCan
 		Direction dir = state.getValue(BlockStateProperties.FACING);
 		DrillBoringBlockRecipe recipe = AbstractCannonDrillBlockEntity.getBlockRecipe(state, dir);
 		if (recipe == null) return InteractionResult.PASS;
-		if (!this.getLevel().isClientSide) {
+		if (!this.getLevel().isClientSide()) {
 			CompoundTag loadTag = this.saveWithFullMetadata(this.getLevel().registryAccess());
 			BlockState boredState = recipe.getResultState(state);
 			BigCannonMaterial material = ((BigCannonBlock) state.getBlock()).getCannonMaterialInLevel(this.level, state, this.worldPosition);
@@ -87,7 +87,7 @@ public class BigCannonEndBlockEntity extends SmartBlockEntity implements IBigCan
 			}
 			this.level.playSound(null, this.worldPosition, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 1.0f, 1.0f);
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide);
+		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
 	}
 
 }

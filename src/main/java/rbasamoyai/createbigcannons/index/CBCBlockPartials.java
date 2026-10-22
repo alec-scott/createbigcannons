@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import net.minecraft.resources.ResourceLocation;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeColor;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.cannons.autocannon.material.AutocannonMaterial;
@@ -98,7 +98,7 @@ public class CBCBlockPartials {
 		return breechblockPartial(material, CreateBigCannons.resource("item/" + path));
 	}
 
-	public static PartialModel breechblockPartial(BigCannonMaterial material, ResourceLocation loc) {
+	public static PartialModel breechblockPartial(BigCannonMaterial material, Identifier loc) {
 		PartialModel model = PartialModel.of(loc);
 		BREECHBLOCK_BY_MATERIAL.put(material, model);
 		return model;
@@ -112,7 +112,7 @@ public class CBCBlockPartials {
 		return screwLockPartial(material, CreateBigCannons.resource("item/" + path));
 	}
 
-	public static PartialModel screwLockPartial(BigCannonMaterial material, ResourceLocation loc) {
+	public static PartialModel screwLockPartial(BigCannonMaterial material, Identifier loc) {
 		PartialModel model = PartialModel.of(loc);
 		SCREW_LOCK_BY_MATERIAL.put(material, model);
 		return model;
@@ -130,7 +130,7 @@ public class CBCBlockPartials {
 		return model;
 	}
 
-	public static PartialModel cannonCastPartial(CannonCastShape size, ResourceLocation loc) {
+	public static PartialModel cannonCastPartial(CannonCastShape size, Identifier loc) {
 		PartialModel model = PartialModel.of(loc);
 		CANNON_CAST_BY_SIZE.put(size, model);
 		return model;
@@ -144,7 +144,7 @@ public class CBCBlockPartials {
 		return autocannonSpringPartial(material, CreateBigCannons.resource("block/" + path));
 	}
 
-	public static PartialModel autocannonSpringPartial(AutocannonMaterial material, ResourceLocation loc) {
+	public static PartialModel autocannonSpringPartial(AutocannonMaterial material, Identifier loc) {
 		PartialModel model = PartialModel.of(loc);
 		AUTOCANNON_SPRING_BY_MATERIAL.put(material, model);
 		return model;
@@ -158,7 +158,7 @@ public class CBCBlockPartials {
 		return autocannonEjectorPartial(material, CreateBigCannons.resource("item/" + path + "_autocannon_breech_extractor"));
 	}
 
-	public static PartialModel autocannonEjectorPartial(AutocannonMaterial material, ResourceLocation loc) {
+	public static PartialModel autocannonEjectorPartial(AutocannonMaterial material, Identifier loc) {
 		PartialModel model = PartialModel.of(loc);
 		AUTOCANNON_EJECTOR_BY_MATERIAL.put(material, model);
 		return model;
@@ -172,7 +172,7 @@ public class CBCBlockPartials {
 		return autocannonSeatPartial(color, CreateBigCannons.resource("block/" + path));
 	}
 
-	public static PartialModel autocannonSeatPartial(DyeColor color, ResourceLocation loc) {
+	public static PartialModel autocannonSeatPartial(DyeColor color, Identifier loc) {
 		PartialModel model = PartialModel.of(loc);
 		AUTOCANNON_SEAT_BY_COLOR.put(color, model);
 		return model;

@@ -1,9 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.recoil_spring;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.foundation.block.IBE;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.foundation.block.IBE;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullFunction;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

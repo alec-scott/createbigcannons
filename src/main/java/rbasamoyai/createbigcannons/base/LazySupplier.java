@@ -2,16 +2,16 @@ package rbasamoyai.createbigcannons.base;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
 public class LazySupplier<T> implements NonNullSupplier<T> {
 
 	private Supplier<T> sup;
 	private T value = null;
 
-	public LazySupplier(@Nonnull Supplier<T> sup) {
+	public LazySupplier(@NotNull Supplier<T> sup) {
 		this.sup = sup;
 	}
 

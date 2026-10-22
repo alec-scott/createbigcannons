@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ap_round;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ public class APAutocannonRoundItem extends AutocannonRoundItem {
         return CBCEntityTypes.AP_AUTOCANNON.create(level);
     }
 
-	@Nonnull
+	@NotNull
 	@Override
 	public AutocannonProjectilePropertiesComponent getAutocannonProperties(ItemStack itemStack) {
 		return CBCMunitionPropertiesHandlers.INERT_AUTOCANNON_PROJECTILE.getPropertiesOf(this.getEntityType(itemStack)).autocannonProperties();

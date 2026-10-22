@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.drop_mortar_shell;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Position;
 import net.minecraft.world.entity.EntityType;
@@ -36,31 +36,31 @@ public class DropMortarShellProjectile extends FuzedBigCannonProjectile implemen
 		CreateBigCannons.handleCustomExplosion(this.level(), shellExplosion);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BigCannonFuzePropertiesComponent getFuzeProperties() {
 		return this.getAllProperties().fuze();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
 		return this.getAllProperties().bigCannonProperties();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public EntityDamagePropertiesComponent getDamageProperties() {
 		return this.getAllProperties().damage();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BallisticPropertiesComponent getBallisticProperties() {
 		return this.getAllProperties().ballistics();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public DropMortarProjectileProperties getDropMortarProperties() {
 		return this.getAllProperties();

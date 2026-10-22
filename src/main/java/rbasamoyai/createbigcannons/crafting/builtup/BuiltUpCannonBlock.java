@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.crafting.builtup;
 import java.util.List;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -68,13 +68,13 @@ public class BuiltUpCannonBlock extends DirectionalBlock implements IBE<LayeredB
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!level.isClientSide) this.onRemoveCannon(state, level, pos, newState, isMoving);
+		if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
 		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override
 	public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-		if (!level.isClientSide) this.playerWillDestroyBigCannon(level, pos, state, player);
+		if (!level.isClientSide()) this.playerWillDestroyBigCannon(level, pos, state, player);
 		super.playerWillDestroy(level, pos, state, player);
         return state;
     }

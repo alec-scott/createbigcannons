@@ -8,12 +8,12 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
 public class GasMaskOverlay {
 
-	public static final ResourceLocation GAS_MASK_OVERLAY = CreateBigCannons.resource("textures/misc/gas_mask_overlay.png");
+	public static final Identifier GAS_MASK_OVERLAY = CreateBigCannons.resource("textures/misc/gas_mask_overlay.png");
 
 	public static void renderOverlay(GuiGraphics graphics, DeltaTracker tracker) {
 		Minecraft minecraft = Minecraft.getInstance();

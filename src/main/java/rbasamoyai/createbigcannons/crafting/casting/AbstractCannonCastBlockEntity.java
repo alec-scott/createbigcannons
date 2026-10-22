@@ -8,19 +8,19 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
-import com.simibubi.create.foundation.blockEntity.IMultiBlockEntityContainer;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.client.api.goggles.IHaveHoveringInformation;
+import com.zurrtum.create.foundation.blockEntity.IMultiBlockEntityContainer;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.client.foundation.item.TooltipHelper;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import net.createmod.catnip.animation.LerpedFloat;
-import net.createmod.catnip.animation.LerpedFloat.Chaser;
-import net.createmod.catnip.lang.FontHelper.Palette;
+import com.zurrtum.create.catnip.animation.LerpedFloat;
+import com.zurrtum.create.catnip.animation.LerpedFloat.Chaser;
+import com.zurrtum.create.client.catnip.lang.FontHelper.Palette;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -99,7 +99,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 	public void initialize() {
 		super.initialize();
 		this.sendData();
-		if (level.isClientSide) this.invalidateRenderBoundingBox();
+		if (level.isClientSide()) this.invalidateRenderBoundingBox();
 	}
 
 	@Override
@@ -288,7 +288,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 	}
 
 	protected void tickCastingBehavior() {
-		if (this.getLevel().isClientSide) return;
+		if (this.getLevel().isClientSide()) return;
 		if (this.castDelay > 0) {
 			this.castDelay--;
 			this.notifyUpdate();
@@ -404,11 +404,11 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 
 	@Override
 	public InteractionResult onWandUsed(UseOnContext context) {
-		if (!this.getLevel().isClientSide) {
+		if (!this.getLevel().isClientSide()) {
 			AbstractCannonCastBlockEntity controller = this.getControllerBE();
 			if (controller != null) controller.castingTime = 0;
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide);
+		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
 	}
 
 	public void initializeCastMultiblock(CannonCastShape size) {
@@ -561,8 +561,8 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 
 	@Override
 	public void setController(BlockPos pos) {
-		if (this.getLevel().isClientSide) this.invalidateRenderBoundingBox();
-		if (this.getLevel().isClientSide && !this.isVirtual() || pos.equals(this.controllerPos)) return;
+		if (this.getLevel().isClientSide()) this.invalidateRenderBoundingBox();
+		if (this.getLevel().isClientSide() && !this.isVirtual() || pos.equals(this.controllerPos)) return;
 		this.controllerPos = pos;
 		this.refreshCap();
 		this.notifyUpdate();

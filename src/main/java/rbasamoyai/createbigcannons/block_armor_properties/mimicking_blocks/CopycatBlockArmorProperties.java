@@ -2,8 +2,8 @@ package rbasamoyai.createbigcannons.block_armor_properties.mimicking_blocks;
 
 import java.util.Map;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.decoration.copycat.CopycatBlock;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.content.decoration.copycat.CopycatBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

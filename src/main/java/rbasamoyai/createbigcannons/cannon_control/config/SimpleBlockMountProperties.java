@@ -13,7 +13,7 @@ import com.google.gson.JsonSyntaxException;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -42,7 +42,7 @@ public record SimpleBlockMountProperties(GeneralMountProperties defaultPropertie
 			Map<BlockState, GeneralMountProperties> propertiesByState = new Reference2ObjectOpenHashMap<>();
 
 			for (Block block : beType.getValidBlocks()) {
-				ResourceLocation blockLoc = CBCRegistryUtils.getBlockLocation(block);
+				Identifier blockLoc = CBCRegistryUtils.getBlockLocation(block);
 				String blockKey = blockLoc.toString();
 				if (!obj.has(blockKey) && !obj.get(blockKey).isJsonObject()) continue;
 

@@ -4,10 +4,10 @@ import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
 import java.util.function.Consumer;
 
-import com.simibubi.create.content.contraptions.render.ContraptionVisual;
-import com.simibubi.create.content.contraptions.render.OrientedContraptionEntityRenderer;
-import com.tterrag.registrate.util.entry.EntityEntry;
-import com.tterrag.registrate.util.nullness.NonNullConsumer;
+import com.zurrtum.create.client.content.contraptions.render.ContraptionVisual;
+import com.zurrtum.create.client.content.contraptions.render.OrientedContraptionEntityRenderer;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.EntityEntry;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.world.entity.EntityType;

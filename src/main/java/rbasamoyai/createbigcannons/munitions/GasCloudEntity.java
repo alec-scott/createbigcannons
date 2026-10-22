@@ -73,7 +73,7 @@ public class GasCloudEntity extends SmokeEmitterEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!this.level().isClientSide && this.age >= this.waitTime && this.canDoStuff()) {
+		if (!this.level().isClientSide() && this.age >= this.waitTime && this.canDoStuff()) {
 			// Adapted from AreaEffectCloud
 			this.victims.entrySet().removeIf(entry -> this.tickCount >= entry.getValue());
 			List<MobEffectInstance> toApply = new ArrayList<>();

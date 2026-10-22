@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllBlocks;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.AllBlocks;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -77,7 +77,7 @@ public class IncompleteScrewBreechBlock extends SolidBigCannonBlock<IncompleteBi
 		if (stage == 0 && !AllBlocks.SHAFT.is(stack.getItem())) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION; //todo: check behavior
 		if (stage == 1 && !stack.is(this.resolveSecondItem())) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		level.playSound(player, pos, SoundEvents.NETHERITE_BLOCK_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			if (!player.isCreative()) stack.shrink(1);
 			this.withBlockEntityDo(level, pos, cbe -> {
 				CannonBehavior behavior = cbe.cannonBehavior();
@@ -101,7 +101,7 @@ public class IncompleteScrewBreechBlock extends SolidBigCannonBlock<IncompleteBi
 				}
 			});
 		}
-		return ItemInteractionResult.sidedSuccess(level.isClientSide);
+		return ItemInteractionResult.sidedSuccess(level.isClientSide());
 	}
 
 	@Override

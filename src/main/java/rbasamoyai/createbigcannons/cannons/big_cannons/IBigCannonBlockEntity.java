@@ -1,8 +1,8 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.AllBlocks;
+import com.zurrtum.create.AllBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;

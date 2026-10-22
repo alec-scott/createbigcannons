@@ -3,10 +3,10 @@ package rbasamoyai.createbigcannons.cannon_control.contraption;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.content.contraptions.Contraption;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.content.contraptions.Contraption;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -36,7 +36,7 @@ public abstract class AbstractMountedCannonContraption extends Contraption {
 
     public final Map<BlockPos, BlockEntity> presentBlockEntities = new HashMap<>();
 
-	public float maximumDepression(@Nonnull ControlPitchContraption controller) {
+	public float maximumDepression(@NotNull ControlPitchContraption controller) {
 		ICannonContraptionType type = this.getCannonType();
 		if (controller instanceof BlockEntity beMount) {
 			return CannonMountPropertiesHandler.getProperties(beMount, type).maximumDepression(beMount);
@@ -47,7 +47,7 @@ public abstract class AbstractMountedCannonContraption extends Contraption {
 		}
 	}
 
-	public float maximumElevation(@Nonnull ControlPitchContraption controller) {
+	public float maximumElevation(@NotNull ControlPitchContraption controller) {
 		ICannonContraptionType type = this.getCannonType();
 		if (controller instanceof BlockEntity beMount) {
 			return CannonMountPropertiesHandler.getProperties(beMount, type).maximumElevation(beMount);

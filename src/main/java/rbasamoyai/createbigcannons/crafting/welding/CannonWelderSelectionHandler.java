@@ -1,12 +1,12 @@
 package rbasamoyai.createbigcannons.crafting.welding;
 
 import com.google.common.base.Objects;
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.AllSpecialTextures;
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.client.AllSpecialTextures;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import net.createmod.catnip.math.VecHelper;
-import net.createmod.catnip.outliner.Outliner;
+import com.zurrtum.create.catnip.math.VecHelper;
+import com.zurrtum.create.client.catnip.outliner.Outliner;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;

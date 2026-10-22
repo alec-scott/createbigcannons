@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import rbasamoyai.createbigcannons.remix.ContraptionRemix;
 
-@Mixin(targets = "com.simibubi.create.content.contraptions.pulley.PulleyBlock$RopeBlockBase")
+@Mixin(targets = "com.zurrtum.create.content.contraptions.pulley.PulleyBlock$RopeBlockBase")
 public abstract class RopeBlockBaseMixin {
 
 	@WrapOperation(method = "onRemove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;", ordinal = 1))

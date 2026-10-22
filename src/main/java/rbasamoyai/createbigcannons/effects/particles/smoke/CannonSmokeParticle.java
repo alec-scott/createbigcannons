@@ -18,7 +18,7 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.CreateBigCannons;
@@ -28,7 +28,7 @@ import rbasamoyai.createbigcannons.index.CBCRenderTypes;
 
 public class CannonSmokeParticle extends BaseAshSmokeParticle {
 
-	private static final ResourceLocation GRADIENT_LOCATION = CreateBigCannons.resource("textures/particle/cannon_smoke_particle_gradient.png");
+	private static final Identifier GRADIENT_LOCATION = CreateBigCannons.resource("textures/particle/cannon_smoke_particle_gradient.png");
 
 	private static final ParticleRenderType RENDER_TYPE = new ParticleRenderType() {
 		@Override

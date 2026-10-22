@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.cannons;
 
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.foundation.blockEntity.behaviour.BehaviourType;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

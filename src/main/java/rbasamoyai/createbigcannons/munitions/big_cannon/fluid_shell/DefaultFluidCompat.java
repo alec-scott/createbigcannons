@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
-import com.simibubi.create.AllFluids;
-import com.simibubi.create.content.fluids.potion.PotionFluidHandler;
+import com.zurrtum.create.AllFluids;
+import com.zurrtum.create.content.fluids.potion.PotionFluidHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -79,17 +79,17 @@ public class DefaultFluidCompat {
 	}
 
 	public static void waterHitBlock(OnHitBlock.Context context) {
-		if (!context.level().isClientSide)
+		if (!context.level().isClientSide())
 			douseFire(context.result().getBlockPos().relative(context.result().getDirection()), context.burst(), context.level());
 	}
 
 	public static void lavaHitBlock(OnHitBlock.Context context) {
-		if (!context.level().isClientSide)
+		if (!context.level().isClientSide())
 			spawnFire(context.result().getBlockPos().relative(context.result().getDirection()), context.burst(), context.level());
 	}
 
 	public static void potionHitBlock(OnHitBlock.Context context) {
-		if (!context.level().isClientSide)
+		if (!context.level().isClientSide())
 			spawnGasCloud(context.result().getBlockPos().relative(context.result().getDirection()), context.burst(), context.level());
 	}
 

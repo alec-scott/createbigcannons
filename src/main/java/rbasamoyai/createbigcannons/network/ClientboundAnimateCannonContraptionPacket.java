@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.network;
 
 import java.util.concurrent.Executor;
 
-import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
+import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
 
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;

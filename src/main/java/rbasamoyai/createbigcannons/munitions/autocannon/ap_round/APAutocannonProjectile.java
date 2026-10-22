@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ap_round;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -16,13 +16,13 @@ public class APAutocannonProjectile extends AbstractAutocannonProjectile {
         super(type, level);
     }
 
-	@Nonnull
+	@NotNull
 	@Override
 	public EntityDamagePropertiesComponent getDamageProperties() {
 		return this.getAllProperties().damage();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BallisticPropertiesComponent getBallisticProperties() {
 		return this.getAllProperties().ballistics();

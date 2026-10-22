@@ -11,7 +11,7 @@ import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -35,10 +35,10 @@ public class BigCannonBreechStrengthHandler {
 		ReloadListener() { super(GSON, "big_cannon_breech_strength"); }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
 			BREECH_STRENGTHS.clear();
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				try {

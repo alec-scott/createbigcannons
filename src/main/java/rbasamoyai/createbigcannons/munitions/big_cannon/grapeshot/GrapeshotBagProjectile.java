@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.grapeshot;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
@@ -35,19 +35,19 @@ public class GrapeshotBagProjectile extends DisintegratingBigCannonProjectile {
 		return CBCBlocks.BAG_OF_GRAPESHOT.getDefaultState().setValue(BlockStateProperties.FACING, Direction.NORTH);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public EntityDamagePropertiesComponent getDamageProperties() {
 		return EntityDamagePropertiesComponent.DEFAULT;
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
 		return this.getAllProperties().bigCannonProperties();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BallisticPropertiesComponent getBallisticProperties() {
 		return BallisticPropertiesComponent.DEFAULT;

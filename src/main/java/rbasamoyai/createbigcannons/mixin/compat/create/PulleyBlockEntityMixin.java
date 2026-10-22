@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.contraptions.piston.LinearActuatorBlockEntity;
-import com.simibubi.create.content.contraptions.pulley.PulleyBlockEntity;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.content.contraptions.piston.LinearActuatorBlockEntity;
+import com.zurrtum.create.content.contraptions.pulley.PulleyBlockEntity;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.BlockEntry;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 
 import java.util.Deque;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -14,7 +14,7 @@ public record AutocannonBreechInterface(AbstractAutocannonBreechBlockEntity bree
 		return 2;
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public ItemStack getStackInSlot(int slot) {
 		Deque<ItemStack> inputBuffer = this.breech.getInputBuffer();
@@ -25,9 +25,9 @@ public record AutocannonBreechInterface(AbstractAutocannonBreechBlockEntity bree
 		};
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
-	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+	public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
 		if (slot != 1 || !this.isItemValid(slot, stack) || this.breech.isInputFull()) return stack;
 		int maxCount = Math.min(this.breech.getQueueLimit() - this.breech.getInputBuffer().size(), stack.getCount());
 		if (!simulate) {
@@ -38,7 +38,7 @@ public record AutocannonBreechInterface(AbstractAutocannonBreechBlockEntity bree
 		return stack.getCount() == maxCount ? ItemStack.EMPTY : stack.copyWithCount(stack.getCount() - maxCount);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
 		if (amount <= 0) return ItemStack.EMPTY;
@@ -55,7 +55,7 @@ public record AutocannonBreechInterface(AbstractAutocannonBreechBlockEntity bree
 	}
 
 	@Override
-	public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+	public boolean isItemValid(int slot, @NotNull ItemStack stack) {
 		return stack.getItem() instanceof AutocannonAmmoItem;
 	}
 }

@@ -1,9 +1,9 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.foundation.particle.ICustomParticleData;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
 
-import net.createmod.catnip.codecs.stream.CatnipStreamCodecs;
+import com.zurrtum.create.catnip.codecs.stream.CatnipStreamCodecs;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -11,8 +11,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public record CBCBlockParticleData(BlockState state) implements ParticleOptions, ICustomParticleData<CBCBlockParticleData> {
@@ -30,7 +30,7 @@ public record CBCBlockParticleData(BlockState state) implements ParticleOptions,
         return STREAM_CODEC;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleProvider<CBCBlockParticleData> getFactory() {
 		return new CBCBlockParticle.Provider();

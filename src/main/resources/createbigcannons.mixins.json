@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "rbasamoyai.createbigcannons.mixin",
   "plugin": "rbasamoyai.createbigcannons.mixin.CBCMixinPlugin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "client": [
     "client.Blaze3DAudioChannelAccessor",
     "client.BufferBuilderAccessor",
@@ -22,6 +22,7 @@
     "client.ValueSettingsClientMixin"
   ],
   "mixins": [
+    "port.SpawnPlacementsAccessor",
     "ContextAwareReloadListenerAccessor",
     "EntityMixin",
     "ExplosionMixin",

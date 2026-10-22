@@ -3,9 +3,9 @@ package rbasamoyai.createbigcannons;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-import com.tterrag.registrate.providers.ProviderType;
+import rbasamoyai.createbigcannons.port.registrate.providers.ProviderType;
 
-import net.createmod.ponder.foundation.PonderIndex;
+import com.zurrtum.create.client.ponder.foundation.PonderIndex;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;

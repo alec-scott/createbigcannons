@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EntityType;
 import rbasamoyai.createbigcannons.munitions.config.EntityPropertiesTypeHandler;
@@ -17,7 +17,7 @@ public class ProjectileBurstPropertiesHandler extends EntityPropertiesTypeHandle
 		EntityDamagePropertiesComponent.DEFAULT, 1);
 
 	@Override
-	protected ProjectileBurstProperties parseJson(ResourceLocation location, JsonObject obj) throws JsonParseException {
+	protected ProjectileBurstProperties parseJson(Identifier location, JsonObject obj) throws JsonParseException {
 		String id = location.toString();
 		BallisticPropertiesComponent ballistics = BallisticPropertiesComponent.fromJson(id, obj);
 		EntityDamagePropertiesComponent damage = EntityDamagePropertiesComponent.fromJson(id, obj);

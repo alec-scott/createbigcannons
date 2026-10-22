@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -58,16 +58,16 @@ public class CannonMountPropertiesHandler {
 		public BlockEntityReloadListener() { super(GSON, "cannon_mounts/block_entities"); }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
 			BLOCK_MOUNT_PROPERTIES.clear();
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					String[] pathComponents = loc.getPath().split("/");
-					ResourceLocation blockEntityLoc = CBCUtils.location(loc.getNamespace(), pathComponents[0]);
-					ResourceLocation cannonTypeLoc = CBCUtils.location(pathComponents[1], pathComponents[2]);
+					Identifier blockEntityLoc = CBCUtils.location(loc.getNamespace(), pathComponents[0]);
+					Identifier cannonTypeLoc = CBCUtils.location(pathComponents[1], pathComponents[2]);
 					BlockEntityType<?> beType = CBCRegistryUtils.getOptionalBlockEntityType(blockEntityLoc).orElseThrow(() -> {
 						return new JsonSyntaxException("Unknown block entity type '" + blockEntityLoc + "'");
 					});
@@ -94,16 +94,16 @@ public class CannonMountPropertiesHandler {
 		public EntityReloadListener() { super(GSON, "cannon_mounts/entities"); }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
 			ENTITY_MOUNT_PROPERTIES.clear();
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					String[] pathComponents = loc.getPath().split("/");
-					ResourceLocation entityLoc = CBCUtils.location(loc.getNamespace(), pathComponents[0]);
-					ResourceLocation cannonTypeLoc = CBCUtils.location(pathComponents[1], pathComponents[2]);
+					Identifier entityLoc = CBCUtils.location(loc.getNamespace(), pathComponents[0]);
+					Identifier cannonTypeLoc = CBCUtils.location(pathComponents[1], pathComponents[2]);
 					EntityType<?> entityType = CBCRegistryUtils.getOptionalEntityType(entityLoc).orElseThrow(() -> {
 						return new JsonSyntaxException("Unknown entity type '" + entityLoc + "'");
 					});
@@ -194,14 +194,14 @@ public class CannonMountPropertiesHandler {
 		Map<BlockEntityType<?>, Map<ICannonContraptionType, CannonMountBlockPropertiesProvider>> blockMountProperties = new Reference2ObjectOpenHashMap<>();
 		int blockSz = buf.readVarInt();
 		for (int i = 0; i < blockSz; ++i) {
-			ResourceLocation beTypeLoc = buf.readResourceLocation();
+			Identifier beTypeLoc = buf.readResourceLocation();
 			BlockEntityType<?> beType = CBCRegistryUtils.getBlockEntityType(beTypeLoc);
 			CannonMountBlockPropertiesSerializer<?> ser = BLOCK_MOUNT_SERIALIZERS.get(beType);
 
 			int mapSz = buf.readVarInt();
 			Map<ICannonContraptionType, CannonMountBlockPropertiesProvider> map = new Reference2ObjectOpenHashMap<>();
 			for (int j = 0; j < mapSz; ++j) {
-				ResourceLocation contraptionTypeLoc = buf.readResourceLocation();
+				Identifier contraptionTypeLoc = buf.readResourceLocation();
 				ICannonContraptionType contraptionType = CannonContraptionTypeRegistry.get(contraptionTypeLoc);
 				map.put(contraptionType, ser.fromNetwork(buf));
 			}
@@ -210,14 +210,14 @@ public class CannonMountPropertiesHandler {
 		Map<EntityType<?>, Map<ICannonContraptionType, CannonMountEntityPropertiesProvider>> entityMountProperties = new Reference2ObjectOpenHashMap<>();
 		int entitySz = buf.readVarInt();
 		for (int i = 0; i < entitySz; ++i) {
-			ResourceLocation entityTypeLoc = buf.readResourceLocation();
+			Identifier entityTypeLoc = buf.readResourceLocation();
 			EntityType<?> entityType = CBCRegistryUtils.getEntityType(entityTypeLoc);
 			CannonMountEntityPropertiesSerializer<?> ser = ENTITY_MOUNT_SERIALIZERS.get(entityType);
 
 			int mapSz = buf.readVarInt();
 			Map<ICannonContraptionType, CannonMountEntityPropertiesProvider> map = new Reference2ObjectOpenHashMap<>();
 			for (int j = 0; j < mapSz; ++j) {
-				ResourceLocation contraptionTypeLoc = buf.readResourceLocation();
+				Identifier contraptionTypeLoc = buf.readResourceLocation();
 				ICannonContraptionType contraptionType = CannonContraptionTypeRegistry.get(contraptionTypeLoc);
 				map.put(contraptionType, ser.fromNetwork(buf));
 			}

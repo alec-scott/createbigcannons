@@ -75,12 +75,12 @@ public class FluidBlobBurst extends CBCProjectileBurst {
 		this.clippedThisTick.clear();
 		super.tick();
 
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			if (this.level().getGameTime() % 3 == 0) {
 				NetworkPlatform.sendToClientTracking(ClientboundFluidBlobStackSyncPacket.entity(this), this);
 			}
 		}
-		if (this.level().isClientSide) {
+		if (this.level().isClientSide()) {
 			if (!this.getFluidStack().isEmpty()) {
 				for (SubProjectile subProjectile : this.subProjectiles) {
 					double[] disp = subProjectile.displacement();
@@ -125,14 +125,14 @@ public class FluidBlobBurst extends CBCProjectileBurst {
 
 	@Override
 	protected void onSubProjectileHit(HitResult result, SubProjectile subProjectile) {
-		if (!this.level().isClientSide)
+		if (!this.level().isClientSide())
 			FluidBlobEffectRegistry.effectOnAllHit(this, subProjectile, result);
 		super.onSubProjectileHit(result, subProjectile);
 	}
 
 	@Override
 	protected void onSubProjectileHitBlock(BlockHitResult result, SubProjectile subProjectile) {
-		if (!this.level().isClientSide)
+		if (!this.level().isClientSide())
 			FluidBlobEffectRegistry.effectOnHitBlock(this, subProjectile, result);
 		super.onSubProjectileHitBlock(result, subProjectile);
 	}
@@ -140,7 +140,7 @@ public class FluidBlobBurst extends CBCProjectileBurst {
 	@Override
 	protected void onSubProjectileHitEntity(EntityHitResult result, SubProjectile subProjectile) {
 		this.clippedThisTick.add(result.getEntity());
-		if (!this.level().isClientSide)
+		if (!this.level().isClientSide())
 			FluidBlobEffectRegistry.effectOnHitEntity(this, subProjectile, result);
 		super.onSubProjectileHitEntity(result, subProjectile);
 	}

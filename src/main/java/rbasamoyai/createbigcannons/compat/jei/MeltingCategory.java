@@ -1,9 +1,9 @@
 package rbasamoyai.createbigcannons.compat.jei;
 
-import com.simibubi.create.compat.jei.category.BasinCategory;
+import com.zurrtum.create.client.compat.jei.category.BasinCategory;
 import com.simibubi.create.compat.jei.category.animations.AnimatedBlazeBurner;
-import com.simibubi.create.content.processing.basin.BasinRecipe;
-import com.simibubi.create.content.processing.recipe.HeatCondition;
+import com.zurrtum.create.content.processing.basin.BasinRecipe;
+import com.zurrtum.create.content.processing.recipe.HeatCondition;
 
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import net.minecraft.client.gui.GuiGraphics;

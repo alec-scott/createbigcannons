@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.cannons;
 
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
 
 import net.minecraft.world.item.ItemStack;
 

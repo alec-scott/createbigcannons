@@ -3,11 +3,11 @@ package rbasamoyai.createbigcannons.crafting.foundry;
 import java.util.List;
 import java.util.Optional;
 
-import com.simibubi.create.content.processing.basin.BasinBlockEntity;
-import com.simibubi.create.content.processing.basin.BasinOperatingBlockEntity;
+import com.zurrtum.create.content.processing.basin.BasinBlockEntity;
+import com.zurrtum.create.content.processing.basin.BasinOperatingBlockEntity;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 
-import net.createmod.catnip.math.VecHelper;
+import com.zurrtum.create.catnip.math.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.HolderLookup;
@@ -62,7 +62,7 @@ public class BasinFoundryBlockEntity extends BasinOperatingBlockEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!this.getLevel().isClientSide && (this.currentRecipe == null || this.meltingTime == -1)) {
+		if (!this.getLevel().isClientSide() && (this.currentRecipe == null || this.meltingTime == -1)) {
 			--this.recipeCooldown;
 			if (this.recipeCooldown <= 0) {
 				this.running = false;
@@ -75,10 +75,10 @@ public class BasinFoundryBlockEntity extends BasinOperatingBlockEntity {
 		}
 
 		if (this.running && this.getLevel() != null) {
-			if (this.getLevel().isClientSide && this.meltingTime > 0) {
+			if (this.getLevel().isClientSide() && this.meltingTime > 0) {
 				this.renderParticles();
 			}
-			if (!this.getLevel().isClientSide && this.meltingTime <= 0) {
+			if (!this.getLevel().isClientSide() && this.meltingTime <= 0) {
 				this.meltingTime = -1;
 				this.applyBasinRecipe();
 				this.sendData();
@@ -102,7 +102,7 @@ public class BasinFoundryBlockEntity extends BasinOperatingBlockEntity {
 	@Override
 	protected boolean updateBasin() {
 		if (this.running) return true;
-		if (this.getLevel() == null || this.getLevel().isClientSide) return true;
+		if (this.getLevel() == null || this.getLevel().isClientSide()) return true;
 		if (!this.getBasin().filter(BasinBlockEntity::canContinueProcessing).isPresent()) return true;
 
 		List<Recipe<?>> recipes = this.getMatchingRecipes();

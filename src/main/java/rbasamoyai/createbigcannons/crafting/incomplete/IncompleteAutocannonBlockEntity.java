@@ -2,9 +2,9 @@ package rbasamoyai.createbigcannons.crafting.incomplete;
 
 import java.util.List;
 
-import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
+import com.zurrtum.create.client.api.goggles.IHaveHoveringInformation;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -47,7 +47,7 @@ public class IncompleteAutocannonBlockEntity extends AutocannonBlockEntity imple
 
 	@Override
 	public InteractionResult onWandUsed(UseOnContext context) {
-		if (!this.level.isClientSide) {
+		if (!this.level.isClientSide()) {
 			BlockState state = this.getBlockState();
 			Direction dir = state.getValue(BlockStateProperties.FACING);
 			AutocannonMaterial material = ((AutocannonBlock) state.getBlock()).getAutocannonMaterialInLevel(this.level, state, this.worldPosition);
@@ -82,7 +82,7 @@ public class IncompleteAutocannonBlockEntity extends AutocannonBlockEntity imple
 				}
 			}
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide);
+		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
 	}
 
 }

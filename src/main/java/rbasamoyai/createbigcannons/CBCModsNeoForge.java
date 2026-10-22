@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.loading.LoadingModList;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
@@ -30,7 +30,7 @@ public enum CBCModsNeoForge {
 		return this.id;
 	}
 
-	public ResourceLocation resource(String path) {
+	public Identifier resource(String path) {
 		return CBCUtils.location(id, path);
 	}
 

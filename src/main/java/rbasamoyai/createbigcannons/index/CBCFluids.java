@@ -6,16 +6,16 @@ import java.util.function.Supplier;
 
 import org.joml.Vector3f;
 
-import com.simibubi.create.AllFluids;
-import com.tterrag.registrate.builders.FluidBuilder;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.zurrtum.create.AllFluids;
+import rbasamoyai.createbigcannons.port.registrate.builders.FluidBuilder;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.RegistryEntry;
 
-import net.createmod.catnip.theme.Color;
+import com.zurrtum.create.catnip.theme.Color;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DispensibleContainerItem;
@@ -160,8 +160,8 @@ public class CBCFluids {
             };
         }
 
-        private SolidRenderedPlaceableFluidType(Properties properties, ResourceLocation stillTexture,
-                                                ResourceLocation flowingTexture) {
+        private SolidRenderedPlaceableFluidType(Properties properties, Identifier stillTexture,
+                                                Identifier flowingTexture) {
             super(properties, stillTexture, flowingTexture);
         }
 

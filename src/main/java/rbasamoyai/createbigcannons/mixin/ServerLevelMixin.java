@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
+import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;

@@ -3,15 +3,15 @@ package rbasamoyai.createbigcannons.base.goggles;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.simibubi.create.AllItems;
-import com.simibubi.create.content.equipment.goggles.GogglesItem;
-import com.simibubi.create.foundation.gui.RemovedGuiUtils;
-import com.simibubi.create.infrastructure.config.AllConfigs;
-import com.simibubi.create.infrastructure.config.CClient;
+import com.zurrtum.create.AllItems;
+import com.zurrtum.create.content.equipment.goggles.GogglesItem;
+import com.zurrtum.create.client.foundation.gui.RemovedGuiUtils;
+import com.zurrtum.create.infrastructure.config.AllConfigs;
+import com.zurrtum.create.client.infrastructure.config.CClient;
 
-import net.createmod.catnip.gui.element.BoxElement;
-import net.createmod.catnip.gui.element.GuiGameElement;
-import net.createmod.catnip.theme.Color;
+import com.zurrtum.create.client.catnip.gui.element.BoxElement;
+import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
+import com.zurrtum.create.catnip.theme.Color;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

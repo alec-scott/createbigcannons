@@ -5,12 +5,12 @@ import java.util.function.Supplier;
 
 import com.google.gson.JsonElement;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.simibubi.create.content.fluids.FluidFX;
-import com.simibubi.create.foundation.utility.CreateLang;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.client.content.fluids.FluidFX;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullFunction;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
-import net.createmod.catnip.lang.LangBuilder;
+import com.zurrtum.create.client.catnip.lang.LangBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.particle.TerrainParticle;
@@ -26,7 +26,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
@@ -39,8 +39,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -98,26 +98,26 @@ public class IndexPlatform {
 
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static KeyMapping createSafeKeyMapping(String description, InputConstants.Type type, int keycode) {
 		return new KeyMapping(description, type, keycode, "key." + CreateBigCannons.MOD_ID + ".category");
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static <T extends ItemPropertyFunction> void registerClampedItemProperty(Item item, ResourceLocation loc, T func) {
+	@Environment(EnvType.CLIENT)
+	public static <T extends ItemPropertyFunction> void registerClampedItemProperty(Item item, Identifier loc, T func) {
 		ItemProperties.register(item, loc, func);
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static <T extends ItemPropertyFunction> void registerGenericClampedItemProperty(ResourceLocation loc, T func) {
+	@Environment(EnvType.CLIENT)
+	public static <T extends ItemPropertyFunction> void registerGenericClampedItemProperty(Identifier loc, T func) {
 		ItemProperties.registerGeneric(loc, func);
 	}
 
-	public static Supplier<RecipeSerializer<?>> registerRecipeSerializer(ResourceLocation id, NonNullSupplier<RecipeSerializer<?>> sup) {
+	public static Supplier<RecipeSerializer<?>> registerRecipeSerializer(Identifier id, NonNullSupplier<RecipeSerializer<?>> sup) {
 		return CreateBigCannonsNeoForge.RECIPE_SERIALIZER_REGISTER.register(id.getPath(), sup);
 	}
 
-	public static void registerRecipeType(ResourceLocation id, Supplier<RecipeType<?>> type) {
+	public static void registerRecipeType(Identifier id, Supplier<RecipeType<?>> type) {
 		CreateBigCannonsNeoForge.RECIPE_TYPE_REGISTER.register(id.getPath(), type);
 	}
 
@@ -160,7 +160,7 @@ public class IndexPlatform {
 		return EventHooks.onExplosionStart(level, explosion);
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static void updateSprite(TerrainParticle particle, BlockState state, BlockPos pos) {
 		particle.updateSprite(state, pos);
 	}

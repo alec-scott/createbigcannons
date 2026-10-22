@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.createmod.catnip.codecs.CatnipCodecUtils;
+import com.zurrtum.create.catnip.codecs.CatnipCodecUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;

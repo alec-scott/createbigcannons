@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 
 public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataHolder<TYPE, List<VALUE>> {
@@ -47,7 +47,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 		list.add(value);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public List<VALUE> getData(TYPE type) {
 		List<VALUE> data = super.getData(type);
@@ -73,7 +73,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 	public void writeListsToNetwork(FriendlyByteBuf buf, BiConsumer<FriendlyByteBuf, VALUE> consumer) {
 		buf.writeVarInt(this.typeData.size());
 		for (Map.Entry<TYPE, List<VALUE>> entry : this.typeData.entrySet()) {
-			ResourceLocation key = this.registry.getKey(entry.getKey());
+			Identifier key = this.registry.getKey(entry.getKey());
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
@@ -85,7 +85,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 		}
 		buf.writeVarInt(this.tagData.size());
 		for (Map.Entry<TYPE, List<VALUE>> entry : this.tagData.entrySet()) {
-			ResourceLocation key = this.registry.getKey(entry.getKey());
+			Identifier key = this.registry.getKey(entry.getKey());
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
@@ -103,7 +103,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 		for (int i = 0; i < typeSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			ResourceLocation location = buf.readResourceLocation();
+			Identifier location = buf.readResourceLocation();
 			TYPE type = this.registry.get(location);
 			int size = buf.readVarInt();
 			for (int j = 0; j < size; ++j) {
@@ -120,7 +120,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 		for (int i = 0; i < tagSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			ResourceLocation location = buf.readResourceLocation();
+			Identifier location = buf.readResourceLocation();
 			TYPE type = this.registry.get(location);
 			int size = buf.readVarInt();
 			for (int j = 0; j < size; ++j) {

@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -37,9 +37,9 @@ public record BlockHitEffect(List<ParticleOptions> impactParticles, List<Particl
 		sound.playSound(level, x, y, z, dx, dy, dz, projectileEffect);
 	}
 
-	public record HitSound(ResourceLocation location, SoundSource source, float basePitch, float pitchVariation) {
+	public record HitSound(Identifier location, SoundSource source, float basePitch, float pitchVariation) {
         public static final Codec<HitSound> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ResourceLocation.CODEC.fieldOf("sound").forGetter(HitSound::location),
+            Identifier.CODEC.fieldOf("sound").forGetter(HitSound::location),
             CBCUtils.SOUND_SOURCE_CODEC.optionalFieldOf("source", SoundSource.BLOCKS)
                 .validate(s -> s == null ? DataResult.error(() -> "Invalid sound type") : DataResult.success(s))
                 .forGetter(HitSound::source),

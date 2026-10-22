@@ -2,8 +2,8 @@ package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.sliding_breech;
 
 import java.util.List;
 
-import com.simibubi.create.content.contraptions.ControlledContraptionEntity;
-import com.simibubi.create.content.contraptions.TranslatingContraption;
+import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
+import com.zurrtum.create.content.contraptions.TranslatingContraption;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

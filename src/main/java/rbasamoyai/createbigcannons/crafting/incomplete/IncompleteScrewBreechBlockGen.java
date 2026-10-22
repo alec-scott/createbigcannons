@@ -1,15 +1,15 @@
 package rbasamoyai.createbigcannons.crafting.incomplete;
 
-import com.simibubi.create.foundation.data.SpecialBlockStateGen;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import rbasamoyai.createbigcannons.port.create.foundation.data.SpecialBlockStateGen;
+import rbasamoyai.createbigcannons.port.registrate.providers.DataGenContext;
+import rbasamoyai.createbigcannons.port.registrate.providers.RegistrateBlockstateProvider;
 
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import rbasamoyai.createbigcannons.port.porting_lib.models.generators.ModelFile;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
 public class IncompleteScrewBreechBlockGen extends SpecialBlockStateGen {
@@ -26,11 +26,11 @@ public class IncompleteScrewBreechBlockGen extends SpecialBlockStateGen {
     public <T extends Block> ModelFile getModel(DataGenContext<Block, T> context, RegistrateBlockstateProvider provider, BlockState state) {
         int stage = state.getValue(IncompleteScrewBreechBlock.STAGE_2);
         String suf = stage == 0 ? "" : "_axis";
-        ResourceLocation baseLoc = CreateBigCannons.resource("block/screw_breech" + suf);
+        Identifier baseLoc = CreateBigCannons.resource("block/screw_breech" + suf);
 
-        ResourceLocation topLoc = CreateBigCannons.resource("block/" + this.pathAndMaterial + "_screw_breech_top");
-        ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + this.pathAndMaterial + "_screw_breech_bottom");
-        ResourceLocation sideLoc = CreateBigCannons.resource("block/" + this.pathAndMaterial + "_screw_breech_side");
+        Identifier topLoc = CreateBigCannons.resource("block/" + this.pathAndMaterial + "_screw_breech_top");
+        Identifier bottomLoc = CreateBigCannons.resource("block/" + this.pathAndMaterial + "_screw_breech_bottom");
+        Identifier sideLoc = CreateBigCannons.resource("block/" + this.pathAndMaterial + "_screw_breech_side");
         return provider.models().withExistingParent(context.getName() + suf, baseLoc)
             .texture("side", sideLoc)
             .texture("top", topLoc)

@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.mortar_stone;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -49,7 +49,7 @@ public class MortarStoneProjectile extends AbstractBigCannonProjectile {
         super.onImpact(hitResult, impactResult, projectileContext);
 		if (hitResult.getType() != HitResult.Type.BLOCK)
 			return false;
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             Vec3 hitLoc = hitResult.getLocation();
 			MortarStoneExplosion explosion = new MortarStoneExplosion(this.level(), null, this.indirectArtilleryFire(false),
 				hitLoc.x, hitLoc.y, hitLoc.z, this.getAllProperties().explosion().blockDamagePower(), this.getAllProperties().explosion().entityDamagePower(),
@@ -82,19 +82,19 @@ public class MortarStoneProjectile extends AbstractBigCannonProjectile {
         this.tooManyCharges = maxCharges >= 0 && power > maxCharges;
     }
 
-	@Nonnull
+	@NotNull
 	@Override
 	public EntityDamagePropertiesComponent getDamageProperties() {
 		return this.getAllProperties().damage();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
 		return this.getAllProperties().bigCannonProperties();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BallisticPropertiesComponent getBallisticProperties() {
 		return this.getAllProperties().ballistics();

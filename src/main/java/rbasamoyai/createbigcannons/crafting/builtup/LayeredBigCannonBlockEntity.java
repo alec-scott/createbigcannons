@@ -11,17 +11,17 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
-import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
-import com.simibubi.create.content.kinetics.fan.processing.AllFanProcessingTypes;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
+import com.zurrtum.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.zurrtum.create.content.kinetics.fan.processing.AllFanProcessingTypes;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -30,7 +30,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -100,7 +100,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 
 		BlockState state = this.getBlockState();
 
-		if (!this.getLevel().isClientSide && this.isEmpty()) {
+		if (!this.getLevel().isClientSide() && this.isEmpty()) {
 			this.setRemoved();
 			this.getLevel().setBlock(this.worldPosition, Blocks.AIR.defaultBlockState(), 3 | 16);
 			return;
@@ -126,7 +126,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 			}
 		}
 
-		if (!this.getLevel().isClientSide) {
+		if (!this.getLevel().isClientSide()) {
 			if (this.clockStack.processedBy == AllFanProcessingTypes.BLASTING) {
 				this.clockStack.processedBy = null;
 				this.clockStack.processingTime = -1;
@@ -157,8 +157,8 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 
 	@Override
 	public InteractionResult onWandUsed(UseOnContext context) {
-		if (!this.getLevel().isClientSide) this.tryFinishHeating();
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide);
+		if (!this.getLevel().isClientSide()) this.tryFinishHeating();
+		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
 	}
 
 	private boolean matchingRecipeCache(BlockRecipe recipe) {
@@ -375,7 +375,7 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 			layerConnectionTag.put(dir.getSerializedName(),
 				this.layersConnectedTowards.get(dir).stream()
 					.map(cannonCastShapeRegistry::getKey)
-					.map(ResourceLocation::toString)
+					.map(Identifier::toString)
 					.map(StringTag::valueOf)
 					.collect(Collectors.toCollection(ListTag::new)));
 		}

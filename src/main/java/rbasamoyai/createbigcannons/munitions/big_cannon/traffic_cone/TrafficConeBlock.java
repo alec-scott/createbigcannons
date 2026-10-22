@@ -1,9 +1,9 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.traffic_cone;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllShapes;
+import com.zurrtum.create.AllShapes;
 
-import net.createmod.catnip.math.VoxelShaper;
+import com.zurrtum.create.catnip.math.VoxelShaper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.phys.shapes.Shapes;

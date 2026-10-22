@@ -1,15 +1,15 @@
 package rbasamoyai.createbigcannons.effects.particles.explosions;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.foundation.particle.ICustomParticleData;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
 
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public class FluidCloudParticleData implements ParticleOptions, ICustomParticleData<FluidCloudParticleData> {
@@ -26,7 +26,7 @@ public class FluidCloudParticleData implements ParticleOptions, ICustomParticleD
 	@Override public MapCodec<FluidCloudParticleData> getCodec(ParticleType<FluidCloudParticleData> type) { return CODEC; }
 	@Override public StreamCodec<? super RegistryFriendlyByteBuf, FluidCloudParticleData> getStreamCodec() { return STREAM_CODEC; }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleProvider<FluidCloudParticleData> getFactory() {
 		return new FluidCloudParticle.Provider();

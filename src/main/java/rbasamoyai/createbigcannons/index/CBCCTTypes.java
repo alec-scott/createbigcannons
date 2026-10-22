@@ -1,12 +1,12 @@
 package rbasamoyai.createbigcannons.index;
 
-import com.simibubi.create.foundation.block.connected.CTType;
+import com.zurrtum.create.client.foundation.block.connected.CTType;
 import com.simibubi.create.foundation.block.connected.CTTypeRegistry;
-import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour.CTContext;
-import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour.ContextRequirement;
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.block.connected.ConnectedTextureBehaviour.CTContext;
+import com.zurrtum.create.client.foundation.block.connected.ConnectedTextureBehaviour.ContextRequirement;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
 public enum CBCCTTypes implements CTType {
@@ -18,7 +18,7 @@ public enum CBCCTTypes implements CTType {
 		}
 	};
 
-	private final ResourceLocation id;
+	private final Identifier id;
 	private final int sheetSize;
 	private final ContextRequirement contextRequirement;
 
@@ -30,7 +30,7 @@ public enum CBCCTTypes implements CTType {
 	}
 
 	@Override
-	public ResourceLocation getId() {
+	public Identifier getId() {
 		return this.id;
 	}
 

@@ -53,7 +53,7 @@ public class CannonCastMouldBlock extends Block {
         if (state.getValue(SAND)) {
             if (this.isSurroundingAreaCompleteForTransformation(state, level, pos)) {
                 level.setBlock(pos, CBCBlocks.CANNON_CAST.getDefaultState(), 11);
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     if (level.getBlockEntity(pos) instanceof AbstractCannonCastBlockEntity cast)
                         cast.initializeCastMultiblock(this.cannonShape.get());
                     ItemStack resultStack = new ItemStack(this.asItem());
@@ -68,7 +68,7 @@ public class CannonCastMouldBlock extends Block {
                 level.playSound(player, pos, SoundEvents.SAND_PLACE, SoundSource.PLAYERS, 1.0f, 0.0f);
             } else {
                 level.setBlock(pos, state.setValue(SAND, false), 3);
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     ItemStack resultStack = CBCBlocks.CASTING_SAND.asStack();
                     if (!player.addItem(resultStack) && !player.isCreative()) {
                         ItemEntity item = player.drop(resultStack, false);
@@ -80,7 +80,7 @@ public class CannonCastMouldBlock extends Block {
                 }
                 level.playSound(player, pos, SoundEvents.SAND_BREAK, SoundSource.PLAYERS, 1.0f, 1.0f);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
         return InteractionResult.PASS;
     }
@@ -89,7 +89,7 @@ public class CannonCastMouldBlock extends Block {
         if (!state.getValue(SAND) && CBCBlocks.CASTING_SAND.isIn(stack)) {
 			level.setBlock(pos, state.setValue(CannonCastMouldBlock.SAND, true), 3);
 			level.playSound(player, pos, SoundEvents.SAND_PLACE, SoundSource.PLAYERS, 1.0f, 1.0f);
-			if (!level.isClientSide && !player.isCreative()) {
+			if (!level.isClientSide() && !player.isCreative()) {
 				stack.shrink(1);
 			}
 			return ItemInteractionResult.sidedSuccess(level.isClientSide());

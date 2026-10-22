@@ -44,7 +44,7 @@ public class CBCCommonNeoForgeEvents {
 	}
 
 	public static void onServerWorldTick(LevelTickEvent.Post evt) {
-		if (evt.getLevel().isClientSide)
+		if (evt.getLevel().isClientSide())
 			return;
 		CBCCommonEvents.serverLevelTickEnd(evt.getLevel());
 	}

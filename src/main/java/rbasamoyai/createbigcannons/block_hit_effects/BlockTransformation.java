@@ -10,10 +10,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.simibubi.create.foundation.utility.BlockHelper;
+import com.zurrtum.create.foundation.utility.BlockHelper;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Block;
@@ -86,7 +86,7 @@ public class BlockTransformation {
 
 		private static Transform optionalFromJson(JsonObject obj) throws JsonParseException {
 			String id = GsonHelper.getAsString(obj, "block");
-			ResourceLocation blockLocation = CBCUtils.location(id);
+			Identifier blockLocation = CBCUtils.location(id);
 			Optional<Block> optional = CBCRegistryUtils.getOptionalBlock(blockLocation);
 			if (optional.isEmpty())
 				return NO_TRANSFORM;

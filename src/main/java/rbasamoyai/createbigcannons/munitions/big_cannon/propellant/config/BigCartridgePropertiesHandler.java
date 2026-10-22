@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Block;
 import rbasamoyai.createbigcannons.munitions.config.BlockPropertiesTypeHandler;
@@ -15,7 +15,7 @@ public class BigCartridgePropertiesHandler extends BlockPropertiesTypeHandler<Bi
 	private static final BigCartridgeProperties DEFAULT = new BigCartridgeProperties(BigCannonPropellantPropertiesComponent.DEFAULT, 0);
 
 	@Override
-	protected BigCartridgeProperties parseJson(ResourceLocation location, JsonObject obj) throws JsonParseException {
+	protected BigCartridgeProperties parseJson(Identifier location, JsonObject obj) throws JsonParseException {
 		String id = location.toString();
 		BigCannonPropellantPropertiesComponent propellantProperties = BigCannonPropellantPropertiesComponent.fromJson(id, obj);
 		int maxPowerLevels = Mth.clamp(getOrWarn(obj, "maximum_power_levels", id, 4, JsonElement::getAsInt), 1, 20);

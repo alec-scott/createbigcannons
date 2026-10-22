@@ -1,16 +1,16 @@
 package rbasamoyai.createbigcannons.ponder;
 
-import com.simibubi.create.AllBlocks;
-import com.tterrag.registrate.util.entry.ItemProviderEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.zurrtum.create.AllBlocks;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.ItemProviderEntry;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.RegistryEntry;
 
-import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
-import net.minecraft.resources.ResourceLocation;
+import com.zurrtum.create.client.ponder.api.registration.PonderSceneRegistrationHelper;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.index.CBCItems;
 
 public class CBCPonderScenes {
-    public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
+    public static void register(PonderSceneRegistrationHelper<Identifier> helper) {
         PonderSceneRegistrationHelper<ItemProviderEntry<?, ?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
 
         HELPER.forComponents(CBCBlocks.CANNON_MOUNT, CBCBlocks.YAW_CONTROLLER, CBCBlocks.CANNON_MOUNT_EXTENSION)

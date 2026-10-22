@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.crafting.builtup;
 import java.util.function.Supplier;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

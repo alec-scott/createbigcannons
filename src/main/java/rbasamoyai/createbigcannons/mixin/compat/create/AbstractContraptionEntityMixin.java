@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.Unique;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
-import com.simibubi.create.content.contraptions.Contraption;
+import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
+import com.zurrtum.create.content.contraptions.Contraption;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -36,7 +36,7 @@ public abstract class AbstractContraptionEntityMixin extends Entity {
 		if (CBCModifiedContraptionRegistry.isFragileContraption(this.contraption)) {
 			HasFragileContraption fragile = (HasFragileContraption) this.contraption;
 			if (this.level() != null
-				&& !this.level().isClientSide
+				&& !this.level().isClientSide()
 				&& HasFragileContraption.checkForIntersectingBlocks(this.level(), this.self, fragile)) {
 				fragile.createbigcannons$setBrokenDisassembly(true);
 				this.setContraptionMotion(Vec3.ZERO);

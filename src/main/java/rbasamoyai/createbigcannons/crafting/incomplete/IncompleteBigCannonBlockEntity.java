@@ -2,9 +2,9 @@ package rbasamoyai.createbigcannons.crafting.incomplete;
 
 import java.util.List;
 
-import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
+import com.zurrtum.create.client.api.goggles.IHaveHoveringInformation;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -41,7 +41,7 @@ public class IncompleteBigCannonBlockEntity extends BigCannonEndBlockEntity impl
 	public InteractionResult onWandUsed(UseOnContext context) {
 		if (!(this.getBlockState().getBlock() instanceof IncompleteWithItemsCannonBlock incomplete))
 			return InteractionResult.PASS;
-		if (!this.getLevel().isClientSide) {
+		if (!this.getLevel().isClientSide()) {
 			CompoundTag loadTag = this.saveWithFullMetadata(this.getLevel().registryAccess());
 			BlockState state = this.getBlockState();
 			BlockState boredState = incomplete.getCompleteBlockState(state);
@@ -72,7 +72,7 @@ public class IncompleteBigCannonBlockEntity extends BigCannonEndBlockEntity impl
 			}
 			this.level.playSound(null, this.worldPosition, SoundEvents.NETHERITE_BLOCK_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
 		}
-		return InteractionResult.sidedSuccess(this.getLevel().isClientSide);
+		return InteractionResult.sidedSuccess(this.getLevel().isClientSide());
 	}
 
 }

@@ -22,7 +22,7 @@ import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -61,20 +61,20 @@ public class BlockArmorPropertiesHandler {
 		public BlockReloadListener() { super(GSON, "block_armor"); }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
 			cleanUp();
 
 			Set<Block> missingSerializers = new ReferenceOpenHashSet<>(CUSTOM_SERIALIZERS.keySet());
             ResourceKey<Registry<Block>> regKey = CBCRegistryUtils.getBlockRegistryKey();
             HolderLookup.RegistryLookup<Block> reg = this.getRegistryLookup().lookupOrThrow(regKey);
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					if (loc.getPath().startsWith("tags/")) {
-						ResourceLocation pruned = CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5));
+						Identifier pruned = CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5));
 						TagKey<Block> tag = TagKey.create(regKey, pruned);
 						TAGS_TO_EVALUATE.put(tag, SimpleBlockArmorProperties.fromJson(el.getAsJsonObject()));
 					} else {

@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import rbasamoyai.createbigcannons.munitions.config.BlockPropertiesTypeHandler;
 
@@ -13,7 +13,7 @@ public class PowderChargePropertiesHandler extends BlockPropertiesTypeHandler<Po
 	private static final PowderChargeProperties DEFAULT = new PowderChargeProperties(BigCannonPropellantPropertiesComponent.DEFAULT);
 
 	@Override
-	protected PowderChargeProperties parseJson(ResourceLocation location, JsonObject obj) throws JsonParseException {
+	protected PowderChargeProperties parseJson(Identifier location, JsonObject obj) throws JsonParseException {
 		BigCannonPropellantPropertiesComponent propellantProperties = BigCannonPropellantPropertiesComponent.fromJson(location.toString(), obj);
 		return new PowderChargeProperties(propellantProperties);
 	}

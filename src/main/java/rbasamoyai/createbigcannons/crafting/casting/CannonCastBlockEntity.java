@@ -1,12 +1,12 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
-import com.simibubi.create.api.connectivity.ConnectivityHandler;
-import com.simibubi.create.content.fluids.transfer.GenericItemEmptying;
-import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
+import com.zurrtum.create.api.connectivity.ConnectivityHandler;
+import com.zurrtum.create.content.fluids.transfer.GenericItemEmptying;
+import com.zurrtum.create.content.fluids.transfer.GenericItemFilling;
 import com.simibubi.create.foundation.fluid.SmartFluidTank;
 
-import net.createmod.catnip.animation.LerpedFloat;
-import net.createmod.catnip.data.Pair;
+import com.zurrtum.create.catnip.animation.LerpedFloat;
+import com.zurrtum.create.catnip.data.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -100,7 +100,7 @@ public class CannonCastBlockEntity extends AbstractCannonCastBlockEntity {
 			}
 		}
 
-		if (!this.getLevel().isClientSide) {
+		if (!this.getLevel().isClientSide()) {
 			this.notifyUpdate();
 		}
 
@@ -254,7 +254,7 @@ public class CannonCastBlockEntity extends AbstractCannonCastBlockEntity {
 	@Override
 	public boolean tryEmptyItemIntoBE(Level worldIn, Player player, InteractionHand handIn, ItemStack heldItem, Direction side) {
 		if (!GenericItemEmptying.canItemBeEmptied(worldIn, heldItem)) return false;
-		if (worldIn.isClientSide) return true;
+		if (worldIn.isClientSide()) return true;
 
 		Pair<FluidStack, ItemStack> emptyingResult = GenericItemEmptying.emptyItem(worldIn, heldItem, true);
 		FluidStack fluidStack = emptyingResult.getFirst();
@@ -282,7 +282,7 @@ public class CannonCastBlockEntity extends AbstractCannonCastBlockEntity {
 	@Override
 	public boolean tryFillItemFromBE(Level level, Player player, InteractionHand handIn, ItemStack heldItem, Direction side) {
 		if (!GenericItemFilling.canItemBeFilled(level, heldItem)) return false;
-		if (level.isClientSide) return true;
+		if (level.isClientSide()) return true;
 
 		FluidStack fluid = this.fluid.getFluid();
 		if (fluid.isEmpty()) return false;

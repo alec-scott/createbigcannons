@@ -4,12 +4,12 @@ import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 import static net.minecraft.world.item.Item.BASE_ATTACK_SPEED_ID;
 import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
-import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
-import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.zurrtum.create.content.processing.sequenced.SequencedAssemblyItem;
+import rbasamoyai.createbigcannons.port.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.recipe.CommonMetal;
-import com.tterrag.registrate.util.entry.ItemEntry;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.ItemEntry;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -297,6 +297,6 @@ public class CBCItems {
 	public static void register() {
 	}
 
-	public static TagKey<Item> tag(ResourceLocation loc) { return CBCRegistryUtils.createItemTag(loc); }
+	public static TagKey<Item> tag(Identifier loc) { return CBCRegistryUtils.createItemTag(loc); }
 
 }

@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import com.simibubi.create.content.redstone.displayLink.DisplayLinkContext;
-import com.simibubi.create.content.redstone.displayLink.source.NumericSingleLineDisplaySource;
-import com.simibubi.create.foundation.gui.ModularGuiLineBuilder;
+import com.zurrtum.create.content.redstone.displayLink.DisplayLinkContext;
+import com.zurrtum.create.content.redstone.displayLink.source.NumericSingleLineDisplaySource;
+import com.zurrtum.create.client.foundation.gui.ModularGuiLineBuilder;
 
 import net.minecraft.network.chat.Component;
 import rbasamoyai.createbigcannons.CreateBigCannons;

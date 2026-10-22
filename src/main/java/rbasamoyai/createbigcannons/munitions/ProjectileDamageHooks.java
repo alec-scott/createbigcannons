@@ -11,7 +11,7 @@ public class ProjectileDamageHooks {
     }
 
     public static boolean canDamageTerrain(Level level, BlockPos pos){
-        if(level.isClientSide) {
+        if(level.isClientSide()) {
             return true;
         }
         BlockPos realPos = CBCCompatTransformers.transformBlockPos(level, pos);

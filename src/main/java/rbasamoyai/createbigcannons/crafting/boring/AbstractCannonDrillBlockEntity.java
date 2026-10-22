@@ -6,19 +6,19 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.content.contraptions.ContraptionCollider;
-import com.simibubi.create.content.contraptions.ControlledContraptionEntity;
-import com.simibubi.create.content.contraptions.bearing.BearingContraption;
-import com.simibubi.create.content.contraptions.bearing.MechanicalBearingBlockEntity;
-import com.simibubi.create.content.contraptions.piston.MechanicalPistonBlock;
-import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.utility.CreateLang;
-import com.simibubi.create.foundation.utility.ServerSpeedProvider;
+import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.content.contraptions.ContraptionCollider;
+import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
+import com.zurrtum.create.content.contraptions.bearing.BearingContraption;
+import com.zurrtum.create.content.contraptions.bearing.MechanicalBearingBlockEntity;
+import com.zurrtum.create.content.contraptions.piston.MechanicalPistonBlock;
+import com.zurrtum.create.foundation.block.IBE;
+import com.zurrtum.create.client.foundation.item.TooltipHelper;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
+import com.zurrtum.create.foundation.utility.ServerSpeedProvider;
 
-import net.createmod.catnip.lang.FontHelper.Palette;
+import com.zurrtum.create.client.catnip.lang.FontHelper.Palette;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,7 +31,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -204,7 +204,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 
 	@Override
 	public void tick() {
-		if (!this.getLevel().isClientSide && this.running && this.movedContraption != null && this.offset + this.getMovementSpeed() >= this.getExtensionRange()) {
+		if (!this.getLevel().isClientSide() && this.running && this.movedContraption != null && this.offset + this.getMovementSpeed() >= this.getExtensionRange()) {
 			this.collideWithContraptionToBore(null, false);
 		}
 		super.tick();
@@ -212,7 +212,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 
 	@Override
 	public void lazyTick() {
-		if (!this.level.isClientSide) this.sendData();
+		if (!this.level.isClientSide()) this.sendData();
 	}
 
 	@Override
@@ -237,7 +237,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 	}
 
 	public boolean collideWithContraptionToBore(ControlledContraptionEntity other, boolean collide) {
-		if (this.getLevel().isClientSide) return false;
+		if (this.getLevel().isClientSide()) return false;
 		if (other == null && this.latheEntity == null) return false;
 
 		CannonDrillingContraption drill = (CannonDrillingContraption) this.movedContraption.getContraption();
@@ -406,7 +406,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 					BlockEntity be1 = BlockEntity.loadStatic(BlockPos.ZERO, nextBlockInfo.state(), nextBlockInfo.nbt(), level.registryAccess());
 					if (be1 instanceof LayeredBigCannonBlockEntity layered1 && layered1.isLayerConnectedTo(opp, shape)
 						|| be1 instanceof ICannonBlockEntity<?> cbe1 && cbe1.cannonBehavior().isConnectedTo(opp)) {
-						ResourceLocation key = CBCRegistries.cannonCastShapes().getKey(cBlock.getCannonShape());
+						Identifier key = CBCRegistries.cannonCastShapes().getKey(cBlock.getCannonShape());
 						ListTag list = new ListTag();
 						list.add(StringTag.valueOf(key.toString()));
 						layerConnectionsTag.put(facing.getSerializedName(), list);
@@ -417,7 +417,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 					BlockEntity be2 = BlockEntity.loadStatic(BlockPos.ZERO, prevBlockInfo.state(), prevBlockInfo.nbt(), level.registryAccess());
 					if (be2 instanceof LayeredBigCannonBlockEntity layered2 && layered2.isLayerConnectedTo(facing, shape)
 						|| be2 instanceof ICannonBlockEntity<?> cbe2 && cbe2.cannonBehavior().isConnectedTo(facing)) {
-						ResourceLocation key = CBCRegistries.cannonCastShapes().getKey(cBlock.getCannonShape());
+						Identifier key = CBCRegistries.cannonCastShapes().getKey(cBlock.getCannonShape());
 						ListTag list = new ListTag();
 						list.add(StringTag.valueOf(key.toString()));
 						layerConnectionsTag.put(opp.getSerializedName(), list);
@@ -435,7 +435,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 		lathe.getBlocks().put(boringOffset, newInfo);
 		bearing.notifyUpdate();
 
-		ResourceLocation unboredId = CBCRegistryUtils.getBlockLocation(latheBlockInfo.state().getBlock());
+		Identifier unboredId = CBCRegistryUtils.getBlockLocation(latheBlockInfo.state().getBlock());
         ResourceKey<LootTable> key = ResourceKey.create(Registries.LOOT_TABLE, CBCUtils.location(unboredId.getNamespace(), "boring_scrap/" + unboredId.getPath()));
 		LootTable table = slevel.getServer().reloadableRegistries().getLootTable(key); // TODO: c6 playtest
 		List<ItemStack> scrap = table.getRandomItems(new LootParams.Builder(slevel)
@@ -458,7 +458,7 @@ public abstract class AbstractCannonDrillBlockEntity extends PoleMoverBlockEntit
 	@Override
 	public float getMovementSpeed() {
 		float movementSpeed = this.failureReason != FailureReason.NONE ? 0 : Mth.clamp(this.boreSpeed != 0 ? this.boreSpeed : convertToLinear(this.getSpeed()), -0.49f, 0.49f);
-		if (this.getLevel().isClientSide) {
+		if (this.getLevel().isClientSide()) {
 			movementSpeed *= ServerSpeedProvider.get();
 		}
 		Direction facing = this.getBlockState().getValue(CannonDrillBlock.FACING);

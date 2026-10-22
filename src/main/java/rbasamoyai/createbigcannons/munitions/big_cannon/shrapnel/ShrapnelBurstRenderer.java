@@ -7,17 +7,17 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.ritchiesprojectilelib.projectile_burst.ProjectileBurst.SubProjectile;
 import rbasamoyai.ritchiesprojectilelib.projectile_burst.ProjectileBurstRenderer;
 
 public class ShrapnelBurstRenderer<T extends ShrapnelBurst> extends ProjectileBurstRenderer<T> {
 
-	private static final ResourceLocation TEXTURE_LOCATION = CreateBigCannons.resource("textures/entity/shrapnel.png");
+	private static final Identifier TEXTURE_LOCATION = CreateBigCannons.resource("textures/entity/shrapnel.png");
 	private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(TEXTURE_LOCATION);
 
 	public ShrapnelBurstRenderer(EntityRendererProvider.Context context) {
@@ -52,6 +52,6 @@ public class ShrapnelBurstRenderer<T extends ShrapnelBurst> extends ProjectileBu
             .setNormal(0.0f, 1.0f, 0.0f);
     }
 
-	@Override public ResourceLocation getTextureLocation(ShrapnelBurst entity) { return TEXTURE_LOCATION; }
+	@Override public Identifier getTextureLocation(ShrapnelBurst entity) { return TEXTURE_LOCATION; }
 
 }

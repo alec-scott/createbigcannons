@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.index;
 
 import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
-import com.tterrag.registrate.util.entry.MenuEntry;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.MenuEntry;
 
 import rbasamoyai.createbigcannons.munitions.autocannon.ammo_container.AutocannonAmmoContainerMenu;
 import rbasamoyai.createbigcannons.munitions.autocannon.ammo_container.AutocannonAmmoContainerScreen;

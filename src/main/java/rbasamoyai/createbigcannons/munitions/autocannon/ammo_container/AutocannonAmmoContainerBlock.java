@@ -2,10 +2,10 @@ package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
 import java.util.Locale;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -86,7 +86,7 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 
 	@Override
 	public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-		if (!level.isClientSide && level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity be && player.isCreative() && be.canDropInCreative()) {
+		if (!level.isClientSide() && level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity be && player.isCreative() && be.canDropInCreative()) {
 			ItemStack stack = new ItemStack(this.asItem());
 			be.saveToItem(stack, level.registryAccess());
 			if (be.hasCustomName()) stack.set(DataComponents.CUSTOM_NAME, be.getCustomName());
@@ -127,7 +127,7 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 					buf.writeBlockPos(pos);
 				});
 			}
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.sidedSuccess(level.isClientSide());
 		}
 		return super.useWithoutItem(state, level, pos, player, hit);
 	}

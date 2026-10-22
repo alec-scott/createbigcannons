@@ -4,14 +4,14 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.contraptions.piston.MechanicalPistonBlock;
-import com.simibubi.create.content.kinetics.deployer.DeployerBlockEntity;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.content.contraptions.piston.MechanicalPistonBlock;
+import com.zurrtum.create.content.kinetics.deployer.DeployerBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -247,7 +247,7 @@ public class CBCCommonEvents {
 		FluidDragHandler.syncTo(player);
 	}
 
-	public static void onAddReloadListeners(BiConsumer<PreparableReloadListener, ResourceLocation> cons, RegistryAccess access) {
+	public static void onAddReloadListeners(BiConsumer<PreparableReloadListener, Identifier> cons, RegistryAccess access) {
 		cons.accept(BlockRecipeFinder.LISTENER, CreateBigCannons.resource("block_recipe_finder"));
 		cons.accept(new BlockRecipesManager.ReloadListener(access), CreateBigCannons.resource("block_recipe_manager"));
 		cons.accept(BlockArmorPropertiesHandler.BlockReloadListener.INSTANCE, CreateBigCannons.resource("block_hardness_handler"));

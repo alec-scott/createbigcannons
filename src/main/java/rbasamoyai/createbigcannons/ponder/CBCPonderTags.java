@@ -1,23 +1,23 @@
 package rbasamoyai.createbigcannons.ponder;
 
-import com.simibubi.create.AllBlocks;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.zurrtum.create.AllBlocks;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.RegistryEntry;
 
-import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
-import net.minecraft.resources.ResourceLocation;
+import com.zurrtum.create.client.ponder.api.registration.PonderTagRegistrationHelper;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 import rbasamoyai.createbigcannons.index.CBCItems;
 
 
 public class CBCPonderTags {
-    public static final ResourceLocation
+    public static final Identifier
 
     OPERATING_CANNONS = CreateBigCannons.resource("operating_cannons"),
     MUNITIONS = CreateBigCannons.resource("munitions"),
     CANNON_CRAFTING = CreateBigCannons.resource("cannon_crafting");
 
-    public static void register(PonderTagRegistrationHelper<ResourceLocation> helper) {
+    public static void register(PonderTagRegistrationHelper<Identifier> helper) {
         PonderTagRegistrationHelper<RegistryEntry<?, ?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
 
         helper.registerTag(OPERATING_CANNONS)

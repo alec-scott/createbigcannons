@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.mixin.client;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.spongepowered.asm.mixin.Mixin;

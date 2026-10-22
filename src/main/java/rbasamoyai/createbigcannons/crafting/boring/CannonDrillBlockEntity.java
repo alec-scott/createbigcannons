@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.crafting.boring;
 
 import java.util.List;
 
-import com.simibubi.create.content.kinetics.base.DirectionalAxisKineticBlock;
+import com.zurrtum.create.content.kinetics.base.DirectionalAxisKineticBlock;
 import com.simibubi.create.foundation.fluid.SmartFluidTank;
 
 import net.minecraft.core.BlockPos;
@@ -46,7 +46,7 @@ public class CannonDrillBlockEntity extends AbstractCannonDrillBlockEntity {
     }
 
 	protected void onFluidStackChanged(FluidStack newStack) {
-		if (this.hasLevel() && !this.getLevel().isClientSide) {
+		if (this.hasLevel() && !this.getLevel().isClientSide()) {
 			this.notifyUpdate();
 		}
 	}

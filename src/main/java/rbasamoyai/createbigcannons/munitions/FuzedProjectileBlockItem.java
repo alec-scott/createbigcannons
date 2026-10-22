@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

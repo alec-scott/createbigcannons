@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.effects.particles.splashes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.simibubi.create.foundation.particle.ICustomParticleData;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
 
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
@@ -11,8 +11,8 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public record ProjectileSplashParticleData(float r, float g, float b, float light) implements ParticleOptions, ICustomParticleData<ProjectileSplashParticleData> {
@@ -42,7 +42,7 @@ public record ProjectileSplashParticleData(float r, float g, float b, float ligh
 
     @Override public StreamCodec<? super RegistryFriendlyByteBuf, ProjectileSplashParticleData> getStreamCodec() { return STREAM_CODEC; }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleProvider<ProjectileSplashParticleData> getFactory() {
 		return new ProjectileSplashParticle.Provider();

@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.joml.Vector3f;
 
@@ -92,7 +92,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
         this.baseReadSpawnData(additionalData);
     }
 
-    @Nonnull public abstract EntityDamagePropertiesComponent getDamageProperties();
+    @NotNull public abstract EntityDamagePropertiesComponent getDamageProperties();
 
 	@Override
 	public void tick() {
@@ -101,7 +101,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 			return;
 		}
 		ChunkPos cpos = new ChunkPos(this.blockPosition());
-		if (this.level().isClientSide || this.level().hasChunk(cpos.x, cpos.z)) {
+		if (this.level().isClientSide() || this.level().hasChunk(cpos.x, cpos.z)) {
 			super.tick();
 
             if (this.impactPos != null) {
@@ -111,7 +111,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 			if (this.nextVelocity != null) {
 				boolean stop = this.nextVelocity.lengthSqr() < 1e-4d;
 				// Bouncing is stochastic
-				if (!this.level().isClientSide || stop) {
+				if (!this.level().isClientSide() || stop) {
 					if (stop) {
 						this.setInGround(true);
 						this.setGroundPos(this.position());
@@ -128,7 +128,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 
 			if (this.isInGround()) {
 				this.setDeltaMovement(Vec3.ZERO);
-				if (!this.level().isClientSide) {
+				if (!this.level().isClientSide()) {
 					if (this.shouldFall()) {
 						this.startFalling();
 					} else if (!this.canLingerInGround()) {
@@ -320,7 +320,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 				break;
 		}
 
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			if (projCtx.griefState() != GriefState.NO_DAMAGE) {
 				Vec3 oldVel = this.getDeltaMovement();
 
@@ -338,7 +338,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 			for (ClientboundPlayBlockHitEffectPacket pkt : projCtx.getPlayedEffects())
 				NetworkPlatform.sendToClientTracking(pkt, this);
 		}
-		if (!this.level().isClientSide || !stop)
+		if (!this.level().isClientSide() || !stop)
 			this.setOrientation(trajectory);
 		if (shouldRemove)
 			this.removeNextTick = true;
@@ -405,7 +405,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 			double elasticity = 1.7f;
 			this.nextVelocity = curVel.subtract(normal.scale(normal.dot(curVel) * elasticity));
 		}
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			Vec3 effectNormal = bounced ? normal.scale(incidentVel) : curVel.reverse();
 			Vec3 fluidExplosionPos = fluidHitResult.getLocation();
 			projectileContext.addPlayedEffect(new ClientboundPlayBlockHitEffectPacket(blockState, this.getType(), bounced, true,
@@ -419,7 +419,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
         float mass = this.getProjectileMass();
 		if (mass <= 0)
 			return false;
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			EntityDamagePropertiesComponent properties = this.getDamageProperties();
 			entity.setDeltaMovement(this.getDeltaMovement().scale(this.getKnockback(entity)));
 			DamageSource source = this.getEntityDamage(entity);
@@ -624,7 +624,7 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		return Math.min(drag, vel);
 	}
 
-	@Nonnull
+	@NotNull
 	protected abstract BallisticPropertiesComponent getBallisticProperties();
 
 	public void setChargePower(float power) {}

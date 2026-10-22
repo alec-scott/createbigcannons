@@ -2,9 +2,9 @@ package rbasamoyai.createbigcannons.munitions.autocannon;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
@@ -27,7 +27,7 @@ public abstract class AutocannonRoundItem extends Item {
 
 	public abstract EntityType<?> getEntityType(ItemStack stack);
 
-	@Nonnull
+	@NotNull
 	public abstract AutocannonProjectilePropertiesComponent getAutocannonProperties(ItemStack itemStack);
 
 	public ItemStack getCreativeTabCartridgeItem() {

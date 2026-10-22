@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.compat.create;
 
 import static rbasamoyai.createbigcannons.block_armor_properties.mimicking_blocks.AbstractMimickingBlockArmorProperties.createMimicrySerializer;
 
-import com.simibubi.create.AllBlocks;
+import com.zurrtum.create.AllBlocks;
 
 import net.minecraft.world.level.block.Block;
 import rbasamoyai.createbigcannons.block_armor_properties.BlockArmorPropertiesHandler;

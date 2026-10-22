@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions.config;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -14,7 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -42,16 +42,16 @@ public class FluidDragHandler {
 		ReloadListener() { super(GSON, "fluid_drag"); }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
 			FLUID_DRAG.cleanUp();
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				JsonObject obj = el.getAsJsonObject();
 				double fluidDrag = Math.max(GsonHelper.getAsDouble(obj, "fluid_drag", 0), 0);
 
-				ResourceLocation loc = entry.getKey();
+				Identifier loc = entry.getKey();
 				if (loc.getPath().startsWith("tags/")) {
 					TagKey<Fluid> tag = TagKey.create(CBCRegistryUtils.getFluidRegistryKey(), CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5)));
 					FLUID_DRAG.addTagData(tag, fluidDrag);

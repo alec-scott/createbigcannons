@@ -16,7 +16,7 @@ import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -30,8 +30,8 @@ import rbasamoyai.createbigcannons.network.RootPacket;
 
 public class BlockRecipesManager {
 
-	private static final Map<ResourceLocation, BlockRecipe> BLOCK_RECIPES_BY_NAME = new Object2ObjectOpenHashMap<>();
-	private static final Map<BlockRecipeType<?>, Map<ResourceLocation, BlockRecipe>> BLOCK_RECIPES_BY_TYPE = new Reference2ObjectOpenHashMap<>();
+	private static final Map<Identifier, BlockRecipe> BLOCK_RECIPES_BY_NAME = new Object2ObjectOpenHashMap<>();
+	private static final Map<BlockRecipeType<?>, Map<Identifier, BlockRecipe>> BLOCK_RECIPES_BY_TYPE = new Reference2ObjectOpenHashMap<>();
 
 	public static Collection<BlockRecipe> getRecipes() {
 		return BLOCK_RECIPES_BY_NAME.values();
@@ -48,7 +48,7 @@ public class BlockRecipesManager {
 
 	public static void writeBuf(RegistryFriendlyByteBuf buf, ClientboundBlockRecipesPacket pkt) {
 		buf.writeVarInt(pkt.blockRecipes.size());
-		for (Map.Entry<ResourceLocation, BlockRecipe> entry : pkt.blockRecipes.entrySet()) {
+		for (Map.Entry<Identifier, BlockRecipe> entry : pkt.blockRecipes.entrySet()) {
 			buf.writeResourceLocation(entry.getKey());
             BlockRecipe.STREAM_CODEC.encode(buf, entry.getValue()); // TODO c6 playtest
 		}
@@ -56,9 +56,9 @@ public class BlockRecipesManager {
 
 	public static ClientboundBlockRecipesPacket readBuf(RegistryFriendlyByteBuf buf) {
 		int sz = buf.readVarInt();
-        Map<ResourceLocation, BlockRecipe> blockRecipes = new Object2ObjectOpenHashMap<>();
+        Map<Identifier, BlockRecipe> blockRecipes = new Object2ObjectOpenHashMap<>();
 		for (int i = 0; i < sz; ++i) {
-			ResourceLocation id = buf.readResourceLocation();
+			Identifier id = buf.readResourceLocation();
             BlockRecipe recipe = BlockRecipe.STREAM_CODEC.decode(buf);
 			blockRecipes.put(id, recipe);
 		}
@@ -84,14 +84,14 @@ public class BlockRecipesManager {
         }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resources, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager resources, ProfilerFiller profiler) {
 			clear();
 
             RegistryOps<JsonElement> registryOps = IndexPlatform.makeRegistryOps(this.registryAccess, this);
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
-                ResourceLocation id = entry.getKey();
+                Identifier id = entry.getKey();
                 try {
                     BlockRecipe recipe = BlockRecipe.CODEC.parse(registryOps, el).getOrThrow(JsonParseException::new);
                     BLOCK_RECIPES_BY_NAME.put(id, recipe);
@@ -108,7 +108,7 @@ public class BlockRecipesManager {
 	}
 
     // TODO c6 playtest
-	public record ClientboundBlockRecipesPacket(Map<ResourceLocation, BlockRecipe> blockRecipes) implements RootPacket {
+	public record ClientboundBlockRecipesPacket(Map<Identifier, BlockRecipe> blockRecipes) implements RootPacket {
         public static final StreamCodec<RegistryFriendlyByteBuf, ClientboundBlockRecipesPacket> STREAM_CODEC =
             StreamCodec.of(BlockRecipesManager::writeBuf, BlockRecipesManager::readBuf);
 
@@ -117,8 +117,8 @@ public class BlockRecipesManager {
 		@Override
         public void handle(Executor exec, PacketListener listener, Player player) {
             clear();
-            for (Map.Entry<ResourceLocation, BlockRecipe> e : this.blockRecipes.entrySet()) {
-                ResourceLocation id = e.getKey();
+            for (Map.Entry<Identifier, BlockRecipe> e : this.blockRecipes.entrySet()) {
+                Identifier id = e.getKey();
                 BlockRecipe recipe = e.getValue();
                 BLOCK_RECIPES_BY_NAME.put(id, recipe);
                 BlockRecipeType<?> recipeType = recipe.getType();

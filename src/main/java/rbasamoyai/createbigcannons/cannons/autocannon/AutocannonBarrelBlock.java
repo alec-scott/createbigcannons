@@ -1,9 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.autocannon;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -92,7 +92,7 @@ public class AutocannonBarrelBlock extends AutocannonBaseBlock implements IBE<Au
 	@Override
 	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 		Level level = context.getLevel();
-		if (level.isClientSide) return InteractionResult.SUCCESS;
+		if (level.isClientSide()) return InteractionResult.SUCCESS;
 		BlockPos pos = context.getClickedPos();
 		AutocannonBlockEntity autocannon = this.getBlockEntity(level, pos);
 		Direction facing = this.getFacing(state);

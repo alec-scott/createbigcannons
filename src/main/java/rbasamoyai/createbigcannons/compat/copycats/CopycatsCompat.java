@@ -4,7 +4,7 @@ import static rbasamoyai.createbigcannons.block_armor_properties.mimicking_block
 
 import java.util.function.Function;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.copycatsplus.copycats.content.copycat.board.CopycatBoardBlock;
 import com.copycatsplus.copycats.content.copycat.byte_panel.CopycatBytePanelBlock;

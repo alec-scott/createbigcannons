@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.traffic_cone;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;

@@ -2,9 +2,9 @@ package rbasamoyai.createbigcannons.index;
 
 import static net.minecraft.world.level.block.Block.box;
 
-import com.simibubi.create.AllShapes.Builder;
+import com.zurrtum.create.AllShapes.Builder;
 
-import net.createmod.catnip.math.VoxelShaper;
+import com.zurrtum.create.catnip.math.VoxelShaper;
 import net.minecraft.world.phys.shapes.Shapes;
 
 public class CBCShapes {

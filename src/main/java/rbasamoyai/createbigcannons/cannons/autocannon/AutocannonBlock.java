@@ -1,8 +1,8 @@
 package rbasamoyai.createbigcannons.cannons.autocannon;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
-import com.simibubi.create.content.contraptions.Contraption;
+import com.zurrtum.create.content.contraptions.Contraption;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -169,7 +169,7 @@ public interface AutocannonBlock extends WeldableBlock, CannonContraptionProvide
 		behavior.blockEntity.notifyUpdate();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	default AbstractMountedCannonContraption getCannonContraption() {
 		return new MountedAutocannonContraption();

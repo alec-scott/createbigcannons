@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.simibubi.create.content.contraptions.pulley.PulleyBlock;
+import com.zurrtum.create.content.contraptions.pulley.PulleyBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

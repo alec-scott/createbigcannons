@@ -1,10 +1,10 @@
 package rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -66,7 +66,7 @@ public class FixedCannonMountBlock extends DirectionalBlock implements IBE<Fixed
 
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean isMoving) {
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			if (!level.getBlockTicks().willTickThisTick(pos, this)) {
 				level.scheduleTick(pos, this, 0);
 			}
@@ -153,7 +153,7 @@ public class FixedCannonMountBlock extends DirectionalBlock implements IBE<Fixed
 	@Override
 	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 		InteractionResult resultType = IWrenchable.super.onWrenched(state, context);
-		if (!context.getLevel().isClientSide && resultType.consumesAction()
+		if (!context.getLevel().isClientSide() && resultType.consumesAction()
 			&& context.getLevel().getBlockEntity(context.getClickedPos()) instanceof FixedCannonMountBlockEntity mount) {
 			mount.disassemble();
 		}

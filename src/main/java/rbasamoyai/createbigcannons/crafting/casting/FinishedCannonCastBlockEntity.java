@@ -2,8 +2,8 @@ package rbasamoyai.createbigcannons.crafting.casting;
 
 import java.util.List;
 
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -64,7 +64,7 @@ public class FinishedCannonCastBlockEntity extends SmartBlockEntity {
 	public void initialize() {
 		super.initialize();
 		this.sendData();
-		if (this.getLevel().isClientSide) this.invalidateRenderBoundingBox();
+		if (this.getLevel().isClientSide()) this.invalidateRenderBoundingBox();
 	}
 
 	@Override

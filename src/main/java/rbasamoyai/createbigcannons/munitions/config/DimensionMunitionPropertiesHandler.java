@@ -11,7 +11,7 @@ import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -39,14 +39,14 @@ public class DimensionMunitionPropertiesHandler {
         }
 
         @Override
-        protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
+        protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
             DIMENSIONS.clear();
 
-            for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+            for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
                 JsonElement element = entry.getValue();
                 if (!element.isJsonObject()) continue;
 				try {
-					ResourceLocation entityLoc = entry.getKey();
+					Identifier entityLoc = entry.getKey();
 					ResourceKey<Level> dimension = ResourceKey.create(CBCRegistryUtils.getDimensionRegistryKey(), entry.getKey());
 					DimensionMunitionProperties properties = DimensionMunitionProperties.fromJson(element.getAsJsonObject(), entityLoc.toString());
 					DIMENSIONS.put(dimension, properties);
@@ -72,7 +72,7 @@ public class DimensionMunitionPropertiesHandler {
 		int sz = buf.readVarInt();
         Map<ResourceKey<Level>, DimensionMunitionProperties> dimensions = new HashMap<>();
 		for (int i = 0; i < sz; ++i) {
-			ResourceLocation loc = buf.readResourceLocation();
+			Identifier loc = buf.readResourceLocation();
 			ResourceKey<Level> key = ResourceKey.create(CBCRegistryUtils.getDimensionRegistryKey(), loc);
 			DimensionMunitionProperties properties = DimensionMunitionProperties.fromNetwork(buf);
             dimensions.put(key, properties);

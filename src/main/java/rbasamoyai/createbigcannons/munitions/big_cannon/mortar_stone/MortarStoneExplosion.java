@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions.big_cannon.mortar_stone;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;

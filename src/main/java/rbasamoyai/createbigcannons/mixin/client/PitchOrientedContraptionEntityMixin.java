@@ -3,9 +3,9 @@ package rbasamoyai.createbigcannons.mixin.client;
 import org.spongepowered.asm.mixin.Mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.content.contraptions.OrientedContraptionEntity;
+import com.zurrtum.create.content.contraptions.OrientedContraptionEntity;
 
-import dev.engine_room.flywheel.lib.transform.TransformStack;
+import com.zurrtum.create.client.flywheel.lib.transform.TransformStack;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;

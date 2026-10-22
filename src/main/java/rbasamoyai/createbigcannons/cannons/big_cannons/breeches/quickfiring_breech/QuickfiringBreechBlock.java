@@ -4,16 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.api.contraption.transformable.TransformableBlock;
-import com.simibubi.create.content.contraptions.Contraption;
-import com.simibubi.create.content.contraptions.StructureTransform;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.content.kinetics.base.DirectionalAxisKineticBlock;
-import com.simibubi.create.foundation.block.IBE;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.api.contraption.transformable.TransformableBlock;
+import com.zurrtum.create.content.contraptions.Contraption;
+import com.zurrtum.create.content.contraptions.StructureTransform;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.content.kinetics.base.DirectionalAxisKineticBlock;
+import com.zurrtum.create.foundation.block.IBE;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -195,7 +195,7 @@ public class QuickfiringBreechBlock extends BigCannonBaseBlock implements IBE<Qu
 			StructureBlockInfo loadInfo = munition.getHandloadingInfo(stack, nextPos, pushDirection, level.registryAccess());
 			StructureBlockInfo info1 = cbe1.cannonBehavior().block();
 
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				Set<BlockPos> changes = new HashSet<>(2);
 
 				if (!info1.state().isAir()) {
@@ -264,7 +264,7 @@ public class QuickfiringBreechBlock extends BigCannonBaseBlock implements IBE<Qu
 			BlockState newState = qfb.getConversion(state);
 			BlockEntity oldBe = level.getBlockEntity(pos);
 			if (!(oldBe instanceof IBigCannonBlockEntity cbe)) return InteractionResult.PASS;
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				level.setBlock(pos, newState, 11);
 				BlockEntity newBe = level.getBlockEntity(pos);
 
@@ -304,7 +304,7 @@ public class QuickfiringBreechBlock extends BigCannonBaseBlock implements IBE<Qu
 				}
                 AllSoundEvents.WRENCH_REMOVE.playOnServer(level, pos, 1, level.random.nextFloat() * .5f + .5f);
 			}
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.sidedSuccess(level.isClientSide());
 		}
 		return InteractionResult.PASS;
 	}

@@ -2,10 +2,10 @@ package rbasamoyai.createbigcannons.compat.jei.animated;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.simibubi.create.AllBlocks;
+import com.zurrtum.create.AllBlocks;
 
 import mezz.jei.api.gui.drawable.IDrawable;
-import net.createmod.catnip.gui.element.GuiGameElement;
+import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
 import net.minecraft.client.gui.GuiGraphics;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
 

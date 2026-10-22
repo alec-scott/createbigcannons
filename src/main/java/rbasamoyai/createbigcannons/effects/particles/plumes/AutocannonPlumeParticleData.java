@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.effects.particles.plumes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.simibubi.create.foundation.particle.ICustomParticleData;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
 
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
@@ -11,8 +11,8 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public class AutocannonPlumeParticleData implements ParticleOptions, ICustomParticleData<AutocannonPlumeParticleData> {
@@ -55,7 +55,7 @@ public class AutocannonPlumeParticleData implements ParticleOptions, ICustomPart
     @Override
     public StreamCodec<? super RegistryFriendlyByteBuf, AutocannonPlumeParticleData> getStreamCodec() { return STREAM_CODEC; }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleProvider<AutocannonPlumeParticleData> getFactory() {
 		return new AutocannonPlumeParticle.Provider();

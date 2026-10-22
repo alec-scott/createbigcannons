@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.block_hit_effects;
 
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -10,7 +10,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.tags.TagKey;
@@ -41,16 +41,16 @@ public class BlockHitEffectsHandler {
 		}
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
 			this.holder.cleanUp();
             RegistryOps<JsonElement> registryops = IndexPlatform.makeRegistryOps(null, this); // FIXME need registry access for non-neoforge platforms
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
-                ResourceLocation loc = entry.getKey();
+                Identifier loc = entry.getKey();
 				try {
 					if (loc.getPath().startsWith("tags/")) {
-						ResourceLocation pruned = CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5));
+						Identifier pruned = CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5));
 						TagKey<Block> tag = TagKey.create(CBCRegistryUtils.getBlockRegistryKey(), pruned);
                         this.holder.addTagData(tag, BlockHitEffect.CODEC.parse(registryops, el).getOrThrow(JsonParseException::new));
 					} else {

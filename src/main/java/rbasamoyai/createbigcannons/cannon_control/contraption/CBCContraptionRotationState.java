@@ -1,9 +1,9 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
-import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
-import com.simibubi.create.foundation.collision.Matrix3d;
+import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
+import com.zurrtum.create.foundation.collision.Matrix3d;
 
-import net.createmod.catnip.math.AngleHelper;
+import com.zurrtum.create.catnip.math.AngleHelper;
 import net.minecraft.core.Direction;
 
 public class CBCContraptionRotationState extends AbstractContraptionEntity.ContraptionRotationState {

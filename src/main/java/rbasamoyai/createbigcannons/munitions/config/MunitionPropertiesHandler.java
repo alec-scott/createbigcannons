@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions.config;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -14,7 +14,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -44,14 +44,14 @@ public class MunitionPropertiesHandler {
         }
 
         @Override
-        protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
+        protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
             PROJECTILES.values().forEach(PropertiesTypeHandler::clearForReload);
 
-            for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+            for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
                 JsonElement element = entry.getValue();
                 if (!element.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					EntityType<?> type = CBCRegistryUtils.getOptionalEntityType(loc).orElseThrow(() -> {
 						return new JsonSyntaxException("Unknown entity type '" + loc + "'");
 					});
@@ -77,14 +77,14 @@ public class MunitionPropertiesHandler {
 		}
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
 			BLOCK_PROPELLANT.values().forEach(PropertiesTypeHandler::clearForReload);
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement element = entry.getValue();
 				if (!element.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					Block block = CBCRegistryUtils.getOptionalBlock(loc).orElseThrow(() -> {
 						return new JsonSyntaxException("Unknown block '" + loc + "'");
 					});
@@ -110,14 +110,14 @@ public class MunitionPropertiesHandler {
 		}
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profiler) {
 			ITEM_PROPELLANT.values().forEach(PropertiesTypeHandler::clearForReload);
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement element = entry.getValue();
 				if (!element.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					Item item = CBCRegistryUtils.getOptionalItem(loc).orElseThrow(() -> {
 						return new JsonSyntaxException("Unknown item '" + loc + "'");
 					});

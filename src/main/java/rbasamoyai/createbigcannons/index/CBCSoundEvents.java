@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.index;
 
-import static com.simibubi.create.AllSoundEvents.SoundEntry;
-import static com.simibubi.create.AllSoundEvents.SoundEntryBuilder;
+import static com.zurrtum.create.AllSoundEvents.SoundEntry;
+import static com.zurrtum.create.AllSoundEvents.SoundEntryBuilder;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -10,19 +10,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import com.google.gson.JsonObject;
-import com.simibubi.create.AllSoundEvents;
+import com.zurrtum.create.AllSoundEvents;
 
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
 public class CBCSoundEvents {
 
-	public static final Map<ResourceLocation, SoundEntry> ALL = new HashMap<>();
+	public static final Map<Identifier, SoundEntry> ALL = new HashMap<>();
 
 	public static final SoundEntry
 		AUTOCANNON_ROUND_FLYBY = create("autocannon_round_flyby").subtitle("Autocannon round flies by")
@@ -147,7 +147,7 @@ public class CBCSoundEvents {
 	}
 
 	public static class CBCSoundEntryBuilder extends SoundEntryBuilder {
-		public CBCSoundEntryBuilder(ResourceLocation id) {
+		public CBCSoundEntryBuilder(Identifier id) {
 			super(id);
 		}
 

@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.remix;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.neoforged.neoforge.items.IItemHandler;
 

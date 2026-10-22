@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
-import com.simibubi.create.content.kinetics.base.DirectionalAxisKineticBlock;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.content.kinetics.base.DirectionalAxisKineticBlock;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;

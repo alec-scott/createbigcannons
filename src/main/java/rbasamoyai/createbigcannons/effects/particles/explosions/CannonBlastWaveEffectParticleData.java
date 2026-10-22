@@ -9,8 +9,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public class CannonBlastWaveEffectParticleData extends AbstractBlastWaveEffectParticleData<CannonBlastWaveEffectParticleData> {
@@ -29,7 +29,7 @@ public class CannonBlastWaveEffectParticleData extends AbstractBlastWaveEffectPa
 
     @Override public StreamCodec<? super RegistryFriendlyByteBuf, CannonBlastWaveEffectParticleData> getStreamCodec() { return STREAM_CODEC; }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleProvider<CannonBlastWaveEffectParticleData> getFactory() {
 		return new BlastWaveEffectParticle.CannonBlastProvider();

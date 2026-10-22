@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.compat.framedblocks;
 
 import java.util.Map;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;

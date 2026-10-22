@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.multiloader;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;

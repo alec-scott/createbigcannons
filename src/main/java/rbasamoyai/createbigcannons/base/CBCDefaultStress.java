@@ -3,10 +3,10 @@ package rbasamoyai.createbigcannons.base;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
+import rbasamoyai.createbigcannons.port.registrate.builders.BlockBuilder;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullUnaryOperator;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
@@ -16,9 +16,9 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
  */
 public class CBCDefaultStress {
 
-	public static final Map<ResourceLocation, Double> DEFAULT_IMPACTS = new HashMap<>();
+	public static final Map<Identifier, Double> DEFAULT_IMPACTS = new HashMap<>();
 
-	public static void setDefaultImpact(ResourceLocation blockId, double impact) {
+	public static void setDefaultImpact(Identifier blockId, double impact) {
 		DEFAULT_IMPACTS.put(blockId, impact);
 	}
 

@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.content.contraptions.ContraptionCollider;
-import com.simibubi.create.content.contraptions.TranslatingContraption;
+import com.zurrtum.create.content.contraptions.ContraptionCollider;
+import com.zurrtum.create.content.contraptions.TranslatingContraption;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

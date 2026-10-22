@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.cannons;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,7 +11,7 @@ import rbasamoyai.createbigcannons.crafting.casting.CannonCastShape;
 
 public interface CannonContraptionProviderBlock {
 
-	@Nonnull AbstractMountedCannonContraption getCannonContraption();
+	@NotNull AbstractMountedCannonContraption getCannonContraption();
 	Direction getFacing(BlockState state);
 
 	default boolean canConnectToSide(BlockState state, Direction face) { return this.getFacing(state).getAxis() == face.getAxis(); }

@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.effects.particles.smoke;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.simibubi.create.foundation.particle.ICustomParticleDataWithSprite;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
@@ -11,8 +11,8 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public class ShrapnelSmokeParticleData implements ParticleOptions, ICustomParticleDataWithSprite<ShrapnelSmokeParticleData> {
@@ -46,7 +46,7 @@ public class ShrapnelSmokeParticleData implements ParticleOptions, ICustomPartic
 
     @Override public StreamCodec<? super RegistryFriendlyByteBuf, ShrapnelSmokeParticleData> getStreamCodec() { return STREAM_CODEC; }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleEngine.SpriteParticleRegistration<ShrapnelSmokeParticleData> getMetaFactory() {
 		return ShrapnelSmokeParticle.Provider::new;

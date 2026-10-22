@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import com.mojang.math.Constants;
 
@@ -61,7 +61,7 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 	@Override
 	public void tick() {
 		ChunkPos cpos = new ChunkPos(this.blockPosition());
-		if (this.level().isClientSide || this.level().hasChunk(cpos.x, cpos.z)) {
+		if (this.level().isClientSide() || this.level().hasChunk(cpos.x, cpos.z)) {
 			Vec3 oldPos = this.position();
 			super.tick();
 			if (!this.isInGround()) {
@@ -81,7 +81,7 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 					}
 				}
 				Vec3 newPos = this.position();
-				if (this.level().isClientSide && this.localSoundCooldown == 0) {
+				if (this.level().isClientSide() && this.localSoundCooldown == 0) {
 					Vec3 displacement = newPos.subtract(oldPos);
 					double dispLen = displacement.length();
 					Vec3 originPos = newPos.subtract(displacement.scale(0.5));
@@ -187,7 +187,7 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 		ImpactResult.KinematicOutcome outcome;
 		if (surfaceImpact && canBounce && this.level().getRandom().nextDouble() < bounceChance) {
 			outcome = ImpactResult.KinematicOutcome.BOUNCE;
-		} else if (blockBroken && !this.level().isClientSide) {
+		} else if (blockBroken && !this.level().isClientSide()) {
 			outcome = ImpactResult.KinematicOutcome.PENETRATE;
 		} else {
 			outcome = ImpactResult.KinematicOutcome.STOP;
@@ -196,7 +196,7 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 		float durabilityPenalty = ((float) Math.max(0, hardnessPenalty) + 1) * (float) toughness / (float) incidentVel;
 
 		state.onProjectileHit(this.level(), state, blockHitResult, this);
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			boolean bounced = outcome == ImpactResult.KinematicOutcome.BOUNCE;
 			Vec3 effectNormal;
 			if (bounced) {
@@ -222,19 +222,19 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 		} else {
 			if (outcome == ImpactResult.KinematicOutcome.STOP) {
 				this.setProjectileMass(0);
-                if (!this.level().isClientSide)
+                if (!this.level().isClientSide())
                     this.impactPos = blockHitResult.getBlockPos();
 			} else {
 				this.setProjectileMass(incidentVel < 1e-4d ? 0 : Math.max(this.getProjectileMass() - durabilityPenalty / 2f, 0));
 			}
 			Vec3 spallLoc = hitLoc.add(curVel.normalize().scale(2));
-			if (!this.level().isClientSide) {
+			if (!this.level().isClientSide()) {
 				ImpactExplosion explosion = new ImpactExplosion(this.level(), this, this.indirectArtilleryFire(false),
                     spallLoc.x, spallLoc.y, spallLoc.z, 2, 2, Explosion.BlockInteraction.KEEP);
 				CreateBigCannons.handleCustomExplosion(this.level(), explosion);
 			}
 			SoundType sound = state.getSoundType();
-			if (!this.level().isClientSide)
+			if (!this.level().isClientSide())
 				this.level().playSound(null, spallLoc.x, spallLoc.y, spallLoc.z, sound.getBreakSound(), SoundSource.BLOCKS,
 					sound.getVolume(), sound.getPitch());
 		}
@@ -253,7 +253,7 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 	public boolean canSquib() { return this.getBigCannonProjectileProperties().canSquib(); }
 	public float addedRecoil() { return this.getBigCannonProjectileProperties().addedRecoil(); }
 
-	@Nonnull protected abstract BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties();
+	@NotNull protected abstract BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties();
 
     @Override
     public double impactPower(ProjectileContext context) {

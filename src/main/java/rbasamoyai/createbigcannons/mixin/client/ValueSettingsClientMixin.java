@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.AllKeys;
-import com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsBehaviour;
-import com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsClient;
+import com.zurrtum.create.client.AllKeys;
+import com.zurrtum.create.client.foundation.blockEntity.behaviour.ValueSettingsBehaviour;
+import com.zurrtum.create.client.foundation.blockEntity.ValueSettingsClient;
 
 import net.createmod.catnip.platform.services.NetworkHelper;
 import net.minecraft.client.gui.screens.Screen;

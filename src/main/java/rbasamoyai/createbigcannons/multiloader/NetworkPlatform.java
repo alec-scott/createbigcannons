@@ -3,15 +3,15 @@ package rbasamoyai.createbigcannons.multiloader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.neoforged.neoforge.network.PacketDistributor;
 import rbasamoyai.createbigcannons.network.CBCNeoForgePacket;
 import rbasamoyai.createbigcannons.network.RootPacket;
 
 public class NetworkPlatform {
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public static void sendToServer(RootPacket pkt) {
 		PacketDistributor.sendToServer(new CBCNeoForgePacket(pkt));
 	}

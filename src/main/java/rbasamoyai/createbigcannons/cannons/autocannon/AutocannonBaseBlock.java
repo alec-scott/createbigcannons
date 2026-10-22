@@ -40,7 +40,7 @@ public abstract class AutocannonBaseBlock extends DirectionalBlock implements Au
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!level.isClientSide) this.onRemoveCannon(state, level, pos, newState, isMoving);
+        if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
         super.onRemove(state, level, pos, newState, isMoving);
     }
 

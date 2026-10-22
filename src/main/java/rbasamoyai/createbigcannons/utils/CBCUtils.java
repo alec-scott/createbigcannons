@@ -7,8 +7,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix3fc;
@@ -26,7 +26,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -83,8 +83,8 @@ public class CBCUtils {
 	 * @param path the path
 	 * @return Resource location of form {@code <namespace>:<path>}
 	 */
-	public static ResourceLocation location(String namespace, String path) {
-		return ResourceLocation.fromNamespaceAndPath(namespace, path);
+	public static Identifier location(String namespace, String path) {
+		return Identifier.fromNamespaceAndPath(namespace, path);
 	}
 
 	/**
@@ -93,8 +93,8 @@ public class CBCUtils {
 	 * @param location String resource location of form {@code "<namespace>:<path>"}
 	 * @return Resource location of form {@code <namespace>:<path>}
 	 */
-	public static ResourceLocation location(String location) {
-		return ResourceLocation.parse(location);
+	public static Identifier location(String location) {
+		return Identifier.parse(location);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class CBCUtils {
 		return new Matrix4f(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33);
 	}
 
-	public static Matrix4f mat4x4f(@Nonnull Matrix3f mat3x3f) {
+	public static Matrix4f mat4x4f(@NotNull Matrix3f mat3x3f) {
 		return mat4x4f(mat3x3f.m00, mat3x3f.m01, mat3x3f.m02, 0,
 			           mat3x3f.m10, mat3x3f.m11, mat3x3f.m12, 0,
 			           mat3x3f.m20, mat3x3f.m21, mat3x3f.m22, 0,

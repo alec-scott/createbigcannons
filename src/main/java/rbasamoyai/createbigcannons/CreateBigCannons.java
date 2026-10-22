@@ -5,13 +5,13 @@ import net.minecraft.core.BlockPos;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.foundation.item.ItemDescription;
-import com.simibubi.create.foundation.item.KineticStats;
-import com.simibubi.create.foundation.item.TooltipModifier;
+import rbasamoyai.createbigcannons.port.create.foundation.data.CreateRegistrate;
+import com.zurrtum.create.client.foundation.item.ItemDescription;
+import com.zurrtum.create.client.foundation.item.KineticStats;
+import com.zurrtum.create.client.foundation.item.TooltipModifier;
 
-import net.createmod.catnip.lang.FontHelper;
-import net.minecraft.resources.ResourceLocation;
+import com.zurrtum.create.client.catnip.lang.FontHelper;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Explosion;
@@ -71,11 +71,11 @@ public class CreateBigCannons {
 			.andThen(TooltipModifier.mapNull(KineticStats.create(item))));
 	}
 
-	public static ResourceLocation resource(String path) {
+	public static Identifier resource(String path) {
 		return CBCUtils.location(MOD_ID, path);
 	}
 
-	public static final ResourceLocation SCREEN_SHAKE_HANDLER_ID = resource("shake_handler");
+	public static final Identifier SCREEN_SHAKE_HANDLER_ID = resource("shake_handler");
 
 	public static void shakePlayerScreen(ServerPlayer player, ScreenShakeEffect effect) {
 		RitchiesProjectileLib.shakePlayerScreen(player, SCREEN_SHAKE_HANDLER_ID, effect);
@@ -94,7 +94,7 @@ public class CreateBigCannons {
             explosion.clearToBlow();
         }
 
-		explosion.finalizeExplosion(level.isClientSide);
+		explosion.finalizeExplosion(level.isClientSide());
 		if (!(level instanceof ServerLevel slevel))
 			return;
 		if (!explosion.interactsWithBlocks())

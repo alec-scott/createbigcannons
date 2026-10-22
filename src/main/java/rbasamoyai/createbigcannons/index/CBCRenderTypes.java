@@ -6,16 +6,16 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
@@ -24,7 +24,7 @@ public enum CBCRenderTypes {
 	SPLINTER_PARTICLE(type -> RenderType.create(type.id.toString(), CBCRenderingParts.SPLINTER_PARTICLE_INPUT, VertexFormat.Mode.QUADS,
 		512, false, false, CBCRenderingParts.SPLINTER_PARTICLE_STATE.apply(type)));
 
-	private final ResourceLocation id = CreateBigCannons.resource(this.name().toLowerCase(Locale.ROOT));
+	private final Identifier id = CreateBigCannons.resource(this.name().toLowerCase(Locale.ROOT));
 	private final RenderType renderType;
 	@Nullable private ShaderInstance shaderInstance;
 
@@ -36,7 +36,7 @@ public enum CBCRenderTypes {
 		this(type -> RenderType.create(type.id.toString(), format, mode, 256, false, false, state.apply(type)));
 	}
 
-	public ResourceLocation id() { return this.id; }
+	public Identifier id() { return this.id; }
 	public RenderType renderType() { return this.renderType; }
 	@Nullable public ShaderInstance getShaderInstance() { return this.shaderInstance; }
 	public void setShaderInstance(ShaderInstance shaderInstance) { this.shaderInstance = shaderInstance; }
@@ -53,7 +53,7 @@ public enum CBCRenderTypes {
 	}
 
 	public interface CreateShaderInstance {
-		ShaderInstance create(ResourceProvider manager, ResourceLocation location, VertexFormat format) throws IOException;
+		ShaderInstance create(ResourceProvider manager, Identifier location, VertexFormat format) throws IOException;
 	}
 
 }

@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllShapes;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.AllShapes;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
-import net.createmod.catnip.math.VoxelShaper;
+import com.zurrtum.create.catnip.math.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -121,7 +121,7 @@ public class IncompleteAutocannonBlock extends AbstractIncompleteAutocannonBlock
 	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if (stack.getItem() != this.resolveItem()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION; //todo: this behavior might be wrong
 		level.playSound(player, pos, SoundEvents.NETHERITE_BLOCK_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			if (!player.isCreative()) stack.shrink(1);
 			this.withBlockEntityDo(level, pos, cbe -> {
 				CannonBehavior behavior = cbe.cannonBehavior();
@@ -141,7 +141,7 @@ public class IncompleteAutocannonBlock extends AbstractIncompleteAutocannonBlock
 				}
 			});
 		}
-		return ItemInteractionResult.sidedSuccess(level.isClientSide);
+		return ItemInteractionResult.sidedSuccess(level.isClientSide());
 	}
 
 }

@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.simibubi.create.foundation.particle.ICustomParticleDataWithSprite;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
 import net.minecraft.client.particle.ParticleEngine.SpriteParticleRegistration;
 import net.minecraft.core.particles.ParticleOptions;
@@ -14,8 +14,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public record GasCloudParticleData(float scale, Vector3f color) implements ParticleOptions, ICustomParticleDataWithSprite<GasCloudParticleData> {
@@ -40,7 +40,7 @@ public record GasCloudParticleData(float scale, Vector3f color) implements Parti
 
     @Override public StreamCodec<? super RegistryFriendlyByteBuf, GasCloudParticleData> getStreamCodec() { return STREAM_CODEC; }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public SpriteParticleRegistration<GasCloudParticleData> getMetaFactory() {
 		return GasCloudParticle.Provider::new;

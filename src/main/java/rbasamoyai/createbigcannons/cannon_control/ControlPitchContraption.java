@@ -1,11 +1,11 @@
 package rbasamoyai.createbigcannons.cannon_control;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
+import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.CBCModsNeoForge;
@@ -26,7 +26,7 @@ public interface ControlPitchContraption {
 
 	BlockState getControllerState();
 
-	@Nullable default ResourceLocation getTypeId() { return null; }
+	@Nullable default Identifier getTypeId() { return null; }
 
 	default void onRecoil(Vec3 recoilForce, Vec3 recoilPoint, AbstractContraptionEntity cannon) {
         CBCModsNeoForge.SABLE.executeIfInstalled(() -> () -> SableCompat.recoilCannon(cannon.level(), recoilPoint, recoilForce));

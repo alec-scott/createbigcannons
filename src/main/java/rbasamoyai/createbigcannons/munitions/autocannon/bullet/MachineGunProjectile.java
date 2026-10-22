@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.bullet;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,13 +25,13 @@ public class MachineGunProjectile extends AbstractAutocannonProjectile {
 		super(type, level);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public EntityDamagePropertiesComponent getDamageProperties() {
 		return this.getAllProperties().damage();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BallisticPropertiesComponent getBallisticProperties() {
 		return this.getAllProperties().ballistics();

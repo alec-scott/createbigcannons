@@ -7,7 +7,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.content.contraptions.piston.MechanicalPistonBlock;
+import com.zurrtum.create.content.contraptions.piston.MechanicalPistonBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -71,7 +71,7 @@ public class GasMaskItem extends Item {
 	 * Use this method to add custom entry points to the gas mask test, e.g. custom
 	 * armor, handheld alternatives, etc.
 	 *
-	 * <br>Adapted from {@link com.simibubi.create.content.equipment.goggles.GogglesItem#addIsWearingPredicate(Predicate)}.
+	 * <br>Adapted from {@link com.zurrtum.create.content.equipment.goggles.GogglesItem#addIsWearingPredicate(Predicate)}.
 	 */
 	public static void addIsWearingPredicate(Predicate<LivingEntity> predicate) { IS_WEARING_PREDICATES.add(predicate); }
 

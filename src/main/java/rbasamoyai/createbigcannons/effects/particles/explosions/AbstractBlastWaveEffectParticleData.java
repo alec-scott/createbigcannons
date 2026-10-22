@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Function7;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.simibubi.create.foundation.particle.ICustomParticleData;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;

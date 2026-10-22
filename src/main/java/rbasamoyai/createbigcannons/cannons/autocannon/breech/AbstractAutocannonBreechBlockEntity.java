@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.content.contraptions.Contraption;
+import com.zurrtum.create.content.contraptions.Contraption;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -87,12 +87,12 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 	public void tickFromContraption(Level level, PitchOrientedContraptionEntity poce, BlockPos localPos) {
 		super.tickFromContraption(level, poce, localPos);
 		this.allTick(level);
-		if (!level.isClientSide && this.updateInstance) {
+		if (!level.isClientSide() && this.updateInstance) {
 			this.updateInstance = false;
 			Contraption contraption = poce.getContraption();
 			writeAndSyncSingleBlockData(this, contraption.getBlocks().get(localPos), poce, contraption);
 		}
-        if (level.isClientSide && poce.getContraption().getBlockEntityClientSide(localPos) instanceof AbstractAutocannonBreechBlockEntity cbe) {
+        if (level.isClientSide() && poce.getContraption().getBlockEntityClientSide(localPos) instanceof AbstractAutocannonBreechBlockEntity cbe) {
             cbe.allTick(level);
         }
 	}

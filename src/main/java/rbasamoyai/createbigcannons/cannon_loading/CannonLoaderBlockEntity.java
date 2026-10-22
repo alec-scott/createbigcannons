@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_loading;
 
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.content.contraptions.ContraptionCollider;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.content.contraptions.ContraptionCollider;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -50,7 +50,7 @@ public class CannonLoaderBlockEntity extends PoleMoverBlockEntity {
 	public void tick() {
 		super.tick();
 
-//		if (this.level != null && !this.level.isClientSide && !CanLoadBigCannon.intersectionLoadingEnabled()
+//		if (this.level != null && !this.level.isClientSide() && !CanLoadBigCannon.intersectionLoadingEnabled()
 //			&& this.movedContraption != null && this.movedContraption.getContraption() instanceof CannonLoadingContraption loader
 //			&& CanLoadBigCannon.checkForIntersectingBlocks(this.level, this.movedContraption, this.encounteredBlocks)) {
 //			loader.setBrokenDisassembly();

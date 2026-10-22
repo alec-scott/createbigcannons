@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -57,7 +57,7 @@ public class BlockArmorInspectionToolItem extends Item {
 	 * Use this method to add custom entry points to the block armor info overlay, e.g. custom
 	 * armor, handheld alternatives, etc.
 	 *
-	 * <br>Adapted from {@link com.simibubi.create.content.equipment.goggles.GogglesItem#addIsWearingPredicate(Predicate)}.
+	 * <br>Adapted from {@link com.zurrtum.create.content.equipment.goggles.GogglesItem#addIsWearingPredicate(Predicate)}.
 	 */
 	public static void addIsHoldingPredicate(Predicate<Player> predicate) {
 		IS_HOLDING_PREDICATES.add(predicate);

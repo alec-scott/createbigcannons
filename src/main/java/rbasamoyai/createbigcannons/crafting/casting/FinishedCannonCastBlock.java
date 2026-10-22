@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -72,10 +72,10 @@ public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannon
 
 	@Override
 	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult result) {
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			this.withBlockEntityDo(level, result.getBlockPos(), FinishedCannonCastBlockEntity::removeCast);
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide);
+		return InteractionResult.sidedSuccess(level.isClientSide());
 	}
 
 	@Override

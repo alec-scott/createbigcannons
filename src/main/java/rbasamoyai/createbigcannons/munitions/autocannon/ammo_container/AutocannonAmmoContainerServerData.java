@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.inventory.ContainerData;
 

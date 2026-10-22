@@ -6,9 +6,9 @@ import net.createmod.catnip.config.ui.BaseConfigScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.LevelAccessor;
-import net.neoforged.api.distmarker.Dist;
+import net.fabricmc.api.EnvType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
@@ -66,7 +66,7 @@ public class CBCClientNeoForge {
 	}
 
     // TODO c6 playtest
-	private static void wrapOverlay(String id, LayeredDraw.Layer layer, ResourceLocation renderOver, RegisterGuiLayersEvent evt) {
+	private static void wrapOverlay(String id, LayeredDraw.Layer layer, Identifier renderOver, RegisterGuiLayersEvent evt) {
 		evt.registerAbove(renderOver, CreateBigCannons.resource(id), layer);
 	}
 

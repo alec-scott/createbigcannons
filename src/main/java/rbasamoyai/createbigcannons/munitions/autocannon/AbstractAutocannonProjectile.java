@@ -68,10 +68,10 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 		Vec3 prevPos = this.position();
 		ChunkPos cpos = new ChunkPos(this.blockPosition());
 		Vec3 nextVelocity = this.nextVelocity;
-		if (this.level().isClientSide || this.level().hasChunk(cpos.x, cpos.z)) {
+		if (this.level().isClientSide() || this.level().hasChunk(cpos.x, cpos.z)) {
 			super.tick();
 			this.displacement += this.position().distanceTo(prevPos);
-			if (!this.level().isClientSide) {
+			if (!this.level().isClientSide()) {
 				this.ageRemaining--;
 				if (this.ageRemaining <= 0)
 					this.expireProjectile();
@@ -106,7 +106,7 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 						}
 					}
 				}
-				if (this.level().isClientSide && CBCConfigs.client().enableAutocannonFlybySounds.get()) {
+				if (this.level().isClientSide() && CBCConfigs.client().enableAutocannonFlybySounds.get()) {
 					for (Iterator<Map.Entry<Player, Integer>> iter = this.whooshedPlayers.entrySet().iterator(); iter.hasNext(); ) {
 						Map.Entry<Player, Integer> entry = iter.next();
 						if (entry.getKey().isRemoved() || !entry.getKey().isAlive()) {
@@ -198,7 +198,7 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 		}
 		boolean shatter = surfaceImpact && outcome != ImpactResult.KinematicOutcome.BOUNCE && hardnessPenalty > ballistics.toughness();
 
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			boolean bounced = outcome == ImpactResult.KinematicOutcome.BOUNCE;
 			Vec3 effectNormal;
 			if (bounced) {
@@ -223,7 +223,7 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 		}
         this.massLost = (float) (mass - this.getProjectileMass()) / ballistics.durabilityMass();
 		this.onImpact(blockHitResult, new ImpactResult(outcome, shatter), projectileContext);
-		return new ImpactResult(outcome, !this.level().isClientSide && (shatter || outcome != ImpactResult.KinematicOutcome.BOUNCE));
+		return new ImpactResult(outcome, !this.level().isClientSide() && (shatter || outcome != ImpactResult.KinematicOutcome.BOUNCE));
 	}
 
 	public boolean isTracer() { return (this.entityData.get(ID_FLAGS) & 2) != 0; }

@@ -1,12 +1,12 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,7 +28,7 @@ import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonAmmoType;
 
 public class AutocannonAmmoContainerMenu extends AbstractContainerMenu implements SimpleValueContainer {
 
-	private static final ResourceLocation TRACER_SLOT = CreateBigCannons.resource("item/tracer_slot");
+	private static final Identifier TRACER_SLOT = CreateBigCannons.resource("item/tracer_slot");
 
 	public static AutocannonAmmoContainerMenu getServerMenuForItemStack(int id, Inventory playerInv, ItemStack stack, boolean isCreative) {
 		IAutocannonAmmoContainerContainer ct = new AutocannonAmmoContainerItemContainer(stack);
@@ -69,7 +69,7 @@ public class AutocannonAmmoContainerMenu extends AbstractContainerMenu implement
 		this.addSlot(new AutocannonAmmoContainerMenuSlot(ct, IAutocannonAmmoContainerContainer.TRACER_SLOT, 59, 26, isCreative) {
 			@Nullable
 			@Override
-			public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+			public Pair<Identifier, Identifier> getNoItemIcon() {
 				return Pair.of(InventoryMenu.BLOCK_ATLAS, TRACER_SLOT);
 			}
 		});

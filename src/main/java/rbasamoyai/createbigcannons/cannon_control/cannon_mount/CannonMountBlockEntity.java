@@ -4,27 +4,27 @@ import static net.minecraft.ChatFormatting.GRAY;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
-import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.content.contraptions.IDisplayAssemblyExceptions;
-import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import com.simibubi.create.foundation.utility.CreateLang;
-import com.simibubi.create.foundation.utility.ServerSpeedProvider;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
+import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.client.content.contraptions.IDisplayAssemblyExceptions;
+import com.zurrtum.create.content.kinetics.base.IRotate;
+import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
+import com.zurrtum.create.foundation.utility.ServerSpeedProvider;
 
-import net.createmod.catnip.math.AngleHelper;
+import com.zurrtum.create.catnip.math.AngleHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
@@ -94,7 +94,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 
 	@Nullable
 	@Override
-	public ResourceLocation getTypeId() {
+	public Identifier getTypeId() {
 		return CreateBigCannons.resource("cannon_mount");
 	}
 
@@ -126,7 +126,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 
 		boolean flag = this.mountedContraption != null && this.mountedContraption.canBeTurnedByController(this);
 
-		if (this.getLevel().isClientSide) {
+		if (this.getLevel().isClientSide()) {
 			this.clientYawDiff = flag ? this.clientYawDiff * 0.5f : 0;
 			this.clientPitchDiff = flag ? this.clientPitchDiff * 0.5f : 0;
 		}
@@ -319,7 +319,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 		if (value == 0) {
 			speed = 0;
 		}
-		if (this.getLevel().isClientSide) {
+		if (this.getLevel().isClientSide()) {
 			speed *= ServerSpeedProvider.get();
 			speed += clientDiff / 3.0f;
 		}
@@ -454,7 +454,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 	@Override
 	public void remove() {
 		this.remove = true;
-		if (!this.getLevel().isClientSide)
+		if (!this.getLevel().isClientSide())
 			this.disassemble();
 		this.pitchInterface.remove();
 		this.yawInterface.remove();
@@ -470,7 +470,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 	public void attach(PitchOrientedContraptionEntity contraption) {
 		if (!(contraption.getContraption() instanceof AbstractMountedCannonContraption)) return;
 		this.mountedContraption = contraption;
-		if (!this.getLevel().isClientSide) {
+		if (!this.getLevel().isClientSide()) {
 			this.running = true;
 			this.sendData();
 		}
@@ -478,7 +478,7 @@ public class CannonMountBlockEntity extends KineticBlockEntity implements IDispl
 
 	@Override
 	public void onStall() {
-		if (!this.getLevel().isClientSide) this.sendData();
+		if (!this.getLevel().isClientSide()) this.sendData();
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.munitions.big_cannon;
 
 import java.util.function.Predicate;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Position;
 import net.minecraft.nbt.CompoundTag;
@@ -30,9 +30,9 @@ public abstract class FuzedBigCannonProjectile extends AbstractBigCannonProjecti
 	@Override
 	public void tick() {
 		super.tick();
-		if (!this.level().isClientSide && this.explosionCountdown > 0)
+		if (!this.level().isClientSide() && this.explosionCountdown > 0)
 			--this.explosionCountdown;
-		if (this.canDetonate(fz -> fz.onProjectileTick(this.fuze, this)) || !this.level().isClientSide && this.explosionCountdown == 0) {
+		if (this.canDetonate(fz -> fz.onProjectileTick(this.fuze, this)) || !this.level().isClientSide() && this.explosionCountdown == 0) {
 			this.detonate(this.position());
 			this.removeNextTick = true;
 		}
@@ -61,7 +61,7 @@ public abstract class FuzedBigCannonProjectile extends AbstractBigCannonProjecti
 		}
 	}
 
-	@Nonnull protected abstract BigCannonFuzePropertiesComponent getFuzeProperties();
+	@NotNull protected abstract BigCannonFuzePropertiesComponent getFuzeProperties();
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
@@ -79,7 +79,7 @@ public abstract class FuzedBigCannonProjectile extends AbstractBigCannonProjecti
 	}
 
 	protected final boolean canDetonate(Predicate<FuzeItem> cons) {
-		return !this.level().isClientSide && this.level().hasChunkAt(this.blockPosition()) && !this.isRemoved()
+		return !this.level().isClientSide() && this.level().hasChunkAt(this.blockPosition()) && !this.isRemoved()
 			&& this.fuze.getItem() instanceof FuzeItem fuzeItem && cons.test(fuzeItem);
 	}
 
@@ -93,7 +93,7 @@ public abstract class FuzedBigCannonProjectile extends AbstractBigCannonProjecti
 
 	@Override
 	public boolean canLingerInGround() {
-		return !this.level().isClientSide && this.level().hasChunkAt(this.blockPosition()) && this.fuze.getItem() instanceof FuzeItem fuzeItem && fuzeItem.canLingerInGround(this.fuze, this);
+		return !this.level().isClientSide() && this.level().hasChunkAt(this.blockPosition()) && this.fuze.getItem() instanceof FuzeItem fuzeItem && fuzeItem.canLingerInGround(this.fuze, this);
 	}
 
 	public void setExplosionCountdown(int value) { this.explosionCountdown = Math.max(value, -1); }

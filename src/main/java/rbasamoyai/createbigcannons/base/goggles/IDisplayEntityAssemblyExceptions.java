@@ -3,11 +3,11 @@ package rbasamoyai.createbigcannons.base.goggles;
 import java.util.Arrays;
 import java.util.List;
 
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.client.foundation.item.TooltipHelper;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import net.createmod.catnip.lang.FontHelper;
+import com.zurrtum.create.client.catnip.lang.FontHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 

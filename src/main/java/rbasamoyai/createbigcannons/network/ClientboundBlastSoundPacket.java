@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.network;
 
 import java.util.concurrent.Executor;
 
-import net.createmod.catnip.codecs.stream.CatnipStreamCodecBuilders;
+import com.zurrtum.create.catnip.codecs.stream.CatnipStreamCodecBuilders;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;

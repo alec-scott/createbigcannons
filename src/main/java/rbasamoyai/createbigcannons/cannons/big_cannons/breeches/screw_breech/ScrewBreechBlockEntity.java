@@ -2,8 +2,8 @@ package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.screw_breech;
 
 import java.util.List;
 
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -56,7 +56,7 @@ public class ScrewBreechBlockEntity extends KineticBlockEntity implements IBigCa
             this.openProgress = Mth.clamp(this.openProgress + progress, 0.0f, 1.0f);
         }
 
-		if (this.getLevel() != null && !this.getLevel().isClientSide) {
+		if (this.getLevel() != null && !this.getLevel().isClientSide()) {
 			BigCannonEnd openState = this.getBlockState().getValue(ScrewBreechBlock.OPEN);
 			Direction facing = this.getBlockState().getValue(BlockStateProperties.FACING).getOpposite();
 			if (this.openProgress <= 0 && openState != BigCannonEnd.CLOSED) {

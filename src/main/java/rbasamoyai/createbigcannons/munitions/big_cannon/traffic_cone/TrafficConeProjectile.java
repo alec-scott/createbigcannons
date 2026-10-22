@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.traffic_cone;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,19 +35,19 @@ public class TrafficConeProjectile extends AbstractBigCannonProjectile {
 		return new CannonDamageSource(CannonDamageSource.getDamageRegistry(this.level()).getHolderOrThrow(CBCDamageTypes.TRAFFIC_CONE), this.getDamageProperties().ignoresEntityArmor());
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public EntityDamagePropertiesComponent getDamageProperties() {
 		return this.getAllProperties().damage();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
 		return this.getAllProperties().bigCannonProperties();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BallisticPropertiesComponent getBallisticProperties() {
 		return this.getAllProperties().ballistics();

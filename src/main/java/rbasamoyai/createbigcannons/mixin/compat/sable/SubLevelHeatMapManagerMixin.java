@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.mixin.compat.sable;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ import rbasamoyai.createbigcannons.compat.sable.CBCSableConnectivityUtils;
 @Mixin(SubLevelHeatMapManager.class)
 public class SubLevelHeatMapManagerMixin {
 
-    @Shadow @Final @Nonnull private ServerSubLevel subLevel;
+    @Shadow @Final @NotNull private ServerSubLevel subLevel;
 
     @WrapOperation(method = "step", at = @At(value = "INVOKE", target = "Ldev/ryanhcode/sable/sublevel/plot/heat/SubLevelHeatMapManager;isSolidAt(Lnet/minecraft/core/BlockPos;)Z", ordinal = 0))
     private boolean createbigcannons$step$isSolidAt$0(SubLevelHeatMapManager instance, BlockPos blockPos, Operation<Boolean> original) {

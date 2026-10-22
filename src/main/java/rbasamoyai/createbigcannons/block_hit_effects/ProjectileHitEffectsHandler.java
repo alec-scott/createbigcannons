@@ -7,7 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -28,14 +28,14 @@ public class ProjectileHitEffectsHandler {
 		ReloadListener() { super(GSON, "projectile_hit_effects"); }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
 			PROJECTILE_MAP.clear();
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					EntityType<?> entityType = CBCRegistryUtils.getOptionalEntityType(loc).orElseThrow(() -> {
 						return new JsonSyntaxException("Unknown block '" + loc + "'");
 					});

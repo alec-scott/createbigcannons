@@ -1,11 +1,11 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
 
-import net.createmod.catnip.math.VoxelShaper;
+import com.zurrtum.create.catnip.math.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -218,7 +218,7 @@ public class PowderChargeBlock extends RotatedPillarBlock implements IWrenchable
 
 	@Override
 	public void createbigcannons$onBlockExplode(Level level, BlockPos pos, BlockState state, Explosion explosion) {
-		if (!level.isClientSide && !BigCannonMunitionBlock.doesntIgnite(state))
+		if (!level.isClientSide() && !BigCannonMunitionBlock.doesntIgnite(state))
 			this.spawnPrimedPropellant(level, pos, state);
 	}
 
@@ -248,13 +248,13 @@ public class PowderChargeBlock extends RotatedPillarBlock implements IWrenchable
 			}
 		}
 		player.awardStat(Stats.ITEM_USED.get(item));
-		return ItemInteractionResult.sidedSuccess(level.isClientSide);
+		return ItemInteractionResult.sidedSuccess(level.isClientSide());
 	}
 
 	// Adapted from TntBlock#onProjectileHit
 	@Override
 	public void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
-		if (level.isClientSide)
+		if (level.isClientSide())
 			return;
 		BlockPos blockPos = hit.getBlockPos();
 		if (!projectile.isOnFire() || !projectile.mayInteract(level, blockPos) || BigCannonMunitionBlock.doesntIgnite(state))

@@ -4,8 +4,8 @@ import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;

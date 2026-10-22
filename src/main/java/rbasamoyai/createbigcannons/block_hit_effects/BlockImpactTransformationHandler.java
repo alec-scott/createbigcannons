@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.tags.TagKey;
@@ -29,16 +29,16 @@ public class BlockImpactTransformationHandler {
 		ReloadListener() { super(GSON, "block_impact_transforms"); }
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
 			TRANSFORMS.cleanUp();
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				try {
-					ResourceLocation loc = entry.getKey();
+					Identifier loc = entry.getKey();
 					if (loc.getPath().startsWith("tags/")) {
-						ResourceLocation pruned = CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5));
+						Identifier pruned = CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5));
 						TagKey<Block> tag = TagKey.create(CBCRegistryUtils.getBlockRegistryKey(), pruned);
 						TRANSFORMS.addTagData(tag, BlockTransformation.fromJson(el.getAsJsonObject()));
 					} else {

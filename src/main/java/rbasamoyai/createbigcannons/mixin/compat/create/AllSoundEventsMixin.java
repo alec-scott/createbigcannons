@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.AllSoundEvents;
+import com.zurrtum.create.AllSoundEvents;
 
 import rbasamoyai.createbigcannons.index.CBCSoundEvents;
 

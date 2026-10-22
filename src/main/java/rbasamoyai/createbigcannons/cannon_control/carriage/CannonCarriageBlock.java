@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.carriage;
 
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,17 +52,17 @@ public class CannonCarriageBlock extends Block implements IWrenchable, IBE<Canno
 	@Override
 	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 		Level level = context.getLevel();
-		if (!level.isClientSide && level.getBlockEntity(context.getClickedPos()) instanceof CannonCarriageBlockEntity carriage) {
+		if (!level.isClientSide() && level.getBlockEntity(context.getClickedPos()) instanceof CannonCarriageBlockEntity carriage) {
 			carriage.tryAssemble();
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide);
+		return InteractionResult.sidedSuccess(level.isClientSide());
 	}
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (state.getValue(SADDLED)) {
             level.setBlock(pos, state.setValue(SADDLED, false), 11);
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 ItemStack resultStack = Items.SADDLE.getDefaultInstance();
                 if (!player.addItem(resultStack) && !player.isCreative()) {
                     ItemEntity item = player.drop(resultStack, false);
@@ -72,7 +72,7 @@ public class CannonCarriageBlock extends Block implements IWrenchable, IBE<Canno
                     }
                 }
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
         return InteractionResult.PASS;
     }
@@ -80,10 +80,10 @@ public class CannonCarriageBlock extends Block implements IWrenchable, IBE<Canno
 	@Override
 	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!state.getValue(SADDLED) && stack.is(Items.SADDLE)) {
-            if (!level.isClientSide && !player.isCreative()) stack.shrink(1);
+            if (!level.isClientSide() && !player.isCreative()) stack.shrink(1);
             level.setBlock(pos, state.setValue(SADDLED, true), 11);
             level.playSound(player, pos, SoundEvents.HORSE_SADDLE, SoundSource.NEUTRAL, 0.5F, 1.0F);
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
 		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}

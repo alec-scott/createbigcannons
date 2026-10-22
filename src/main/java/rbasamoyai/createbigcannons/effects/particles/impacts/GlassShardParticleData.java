@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.foundation.particle.ICustomParticleDataWithSprite;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
@@ -12,8 +12,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public record GlassShardParticleData(BlockState state) implements ParticleOptions, ICustomParticleDataWithSprite<GlassShardParticleData> {
@@ -32,7 +32,7 @@ public record GlassShardParticleData(BlockState state) implements ParticleOption
         return STREAM_CODEC;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleEngine.SpriteParticleRegistration<GlassShardParticleData> getMetaFactory() {
 		return GlassShardParticle.Provider::new;

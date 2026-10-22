@@ -1,10 +1,10 @@
 package rbasamoyai.createbigcannons.munitions.fuzes;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.simibubi.create.foundation.gui.widget.ScrollInput;
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.gui.widget.ScrollInput;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import net.createmod.catnip.gui.element.GuiGameElement;
+import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;

@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.compat.jei;
 import java.util.List;
 
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.foundation.gui.AllGuiTextures;
+import com.zurrtum.create.client.foundation.gui.AllGuiTextures;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;

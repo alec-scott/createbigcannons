@@ -3,10 +3,10 @@ package rbasamoyai.createbigcannons.cannons.big_cannons;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+import com.zurrtum.create.foundation.blockEntity.behaviour.BehaviourType;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,7 +34,7 @@ public class BigCannonBehavior extends CannonBehavior {
 		this.predicate = predicate;
 	}
 
-	@Nonnull
+	@NotNull
 	public StructureBlockInfo block() {
 		return this.containedBlockInfo.orElse(EMPTY);
 	}

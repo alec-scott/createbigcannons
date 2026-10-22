@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.cannons.autocannon;
 
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;

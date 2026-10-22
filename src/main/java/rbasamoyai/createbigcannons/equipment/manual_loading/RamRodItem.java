@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.simibubi.create.content.kinetics.deployer.DeployerFakePlayer;
+import com.zurrtum.create.content.kinetics.deployer.DeployerFakePlayer;
 
-import net.createmod.catnip.nbt.NBTProcessors;
+import com.zurrtum.create.catnip.nbt.NBTProcessors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -48,7 +48,7 @@ public class RamRodItem extends Item implements HandloadingTool {
 		Direction face = context.getClickedFace();
 		Direction pushDirection = face.getOpposite();
 
-		if (level.isClientSide) return InteractionResult.SUCCESS;
+		if (level.isClientSide()) return InteractionResult.SUCCESS;
 
 		int k = 0;
 		if (level.getBlockEntity(pos) instanceof IBigCannonBlockEntity) {
@@ -173,7 +173,7 @@ public class RamRodItem extends Item implements HandloadingTool {
 		}
 		if (!encounteredCannon || toPush.isEmpty()) return;
 
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			Set<BlockPos> changes = new HashSet<>(2);
 			for (int i = toPush.size() - 1; i >= 0; --i) {
 				BlockPos pos1 = startPos.relative(pushDirection, i + k);

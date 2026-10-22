@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.TntMinecartRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /**
@@ -48,6 +48,6 @@ public class PrimedPropellantRenderer extends EntityRenderer<PrimedPropellant> {
 
     @Override protected int getBlockLightLevel(PrimedPropellant entity, BlockPos pos) { return 15; }
 
-    @Override public ResourceLocation getTextureLocation(PrimedPropellant entity) { return TextureAtlas.LOCATION_BLOCKS; }
+    @Override public Identifier getTextureLocation(PrimedPropellant entity) { return TextureAtlas.LOCATION_BLOCKS; }
 
 }

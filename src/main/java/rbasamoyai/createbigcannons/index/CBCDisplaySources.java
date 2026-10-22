@@ -4,8 +4,8 @@ import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
 import java.util.function.Supplier;
 
-import com.simibubi.create.api.behaviour.display.DisplaySource;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.zurrtum.create.api.behaviour.display.DisplaySource;
+import rbasamoyai.createbigcannons.port.registrate.util.entry.RegistryEntry;
 
 import rbasamoyai.createbigcannons.cannon_control.cannon_mount.CannonMountDisplaySource;
 

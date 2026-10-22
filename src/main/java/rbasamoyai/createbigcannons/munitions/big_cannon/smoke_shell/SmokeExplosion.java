@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;

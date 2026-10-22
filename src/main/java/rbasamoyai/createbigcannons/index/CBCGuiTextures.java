@@ -1,8 +1,8 @@
 package rbasamoyai.createbigcannons.index;
 
-import net.createmod.catnip.gui.element.ScreenElement;
+import com.zurrtum.create.client.catnip.gui.element.ScreenElement;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
@@ -25,7 +25,7 @@ public enum CBCGuiTextures implements ScreenElement {
 	CREATIVE_AUTOCANNON_AMMO_CONTAINER_SELECTOR("backgrounds2", 199, 0, 9, 14)
 	;
 
-	private final ResourceLocation texture;
+	private final Identifier texture;
 	public final int texX;
 	public final int texY;
 	public final int width;

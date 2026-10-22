@@ -3,26 +3,26 @@ package rbasamoyai.createbigcannons.datagen.assets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.simibubi.create.AllBlocks;
+import com.zurrtum.create.AllBlocks;
 import com.simibubi.create.AllTags.AllBlockTags;
 import com.simibubi.create.api.schematic.requirement.SchematicRequirementRegistries;
-import com.simibubi.create.content.kinetics.base.DirectionalAxisKineticBlock;
-import com.simibubi.create.content.schematics.requirement.ItemRequirement;
-import com.simibubi.create.foundation.data.BlockStateGen;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.builders.ItemBuilder;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
+import com.zurrtum.create.content.kinetics.base.DirectionalAxisKineticBlock;
+import com.zurrtum.create.content.schematics.requirement.ItemRequirement;
+import rbasamoyai.createbigcannons.port.create.foundation.data.BlockStateGen;
+import rbasamoyai.createbigcannons.port.registrate.builders.BlockBuilder;
+import rbasamoyai.createbigcannons.port.registrate.builders.ItemBuilder;
+import rbasamoyai.createbigcannons.port.registrate.providers.DataGenContext;
+import rbasamoyai.createbigcannons.port.registrate.providers.RegistrateBlockstateProvider;
+import rbasamoyai.createbigcannons.port.registrate.providers.loot.RegistrateBlockLootTables;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullBiConsumer;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullFunction;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullUnaryOperator;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -41,8 +41,8 @@ import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import rbasamoyai.createbigcannons.port.porting_lib.models.generators.BlockModelBuilder;
+import rbasamoyai.createbigcannons.port.porting_lib.models.generators.ConfiguredModel;
 import rbasamoyai.createbigcannons.CBCTags;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.cannon_control.cannon_mount.CannonMountBlock;
@@ -111,9 +111,9 @@ public class CBCBuilderTransformers {
 		return bored ? b1.andThen(b -> b.tag(CBCTags.CBCBlockTags.THICK_TUBING).tag(CBCTags.CBCBlockTags.REDUCES_SPREAD)) : b1;
 	}
 
-	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonPart(ResourceLocation model, String side, String end) {
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + side);
-		ResourceLocation endLoc = CreateBigCannons.resource("block/" + end);
+	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonPart(Identifier model, String side, String end) {
+		Identifier sideLoc = CreateBigCannons.resource("block/" + side);
+		Identifier endLoc = CreateBigCannons.resource("block/" + end);
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), model)
@@ -123,8 +123,8 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> sizedHollowCannon(String sizePath, String pathAndMaterial) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/" + sizePath + "_cannon_tube");
-		ResourceLocation tubeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_tube");
+		Identifier baseLoc = CreateBigCannons.resource("block/" + sizePath + "_cannon_tube");
+		Identifier tubeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_tube");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
@@ -132,11 +132,11 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonEnd(String pathAndMaterial) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/cannon_end");
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_side");
-		ResourceLocation topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_top");
-		ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_bottom");
-		ResourceLocation knobLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_knob");
+		Identifier baseLoc = CreateBigCannons.resource("block/cannon_end");
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_side");
+		Identifier topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_top");
+		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_bottom");
+		Identifier knobLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_knob");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
@@ -148,12 +148,12 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> dropMortarEnd(String pathAndMaterial) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/drop_mortar_end");
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_side");
-		ResourceLocation topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_top");
-		ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_bottom");
-		ResourceLocation knobLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_knob");
-		ResourceLocation spikeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_drop_mortar_end_spike");
+		Identifier baseLoc = CreateBigCannons.resource("block/drop_mortar_end");
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_side");
+		Identifier topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_top");
+		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_bottom");
+		Identifier knobLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_cannon_end_knob");
+		Identifier spikeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_drop_mortar_end_spike");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
@@ -166,15 +166,15 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block & BigCannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> slidingBreech(String pathAndMaterial) {
-		ResourceLocation itemBaseLoc = CreateBigCannons.resource("block/sliding_breech_item");
-		ResourceLocation holeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_hole");
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_side");
-		ResourceLocation sideHoleLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_side_hole");
-		ResourceLocation insideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_inside");
-		ResourceLocation breechblockTopLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_top");
-		ResourceLocation breechblockEndLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_end");
-		ResourceLocation breechblockSideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_side");
-		ResourceLocation breechblockBottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_bottom");
+		Identifier itemBaseLoc = CreateBigCannons.resource("block/sliding_breech_item");
+		Identifier holeLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_hole");
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_side");
+		Identifier sideHoleLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_side_hole");
+		Identifier insideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_inside");
+		Identifier breechblockTopLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_top");
+		Identifier breechblockEndLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_end");
+		Identifier breechblockSideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_side");
+		Identifier breechblockBottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_bottom");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate(SlidingBreechBlockGen.create(pathAndMaterial)::generate)
@@ -204,12 +204,12 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block & BigCannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> screwBreech(String pathAndMaterial) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/screw_breech");
-		ResourceLocation itemBaseLoc = CreateBigCannons.resource("block/screw_breech_item");
-		ResourceLocation topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_top");
-		ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_bottom");
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_side");
-		ResourceLocation lockLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_lock");
+		Identifier baseLoc = CreateBigCannons.resource("block/screw_breech");
+		Identifier itemBaseLoc = CreateBigCannons.resource("block/screw_breech_item");
+		Identifier topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_top");
+		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_bottom");
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_side");
+		Identifier lockLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_lock");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
@@ -227,11 +227,11 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block & BigCannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> screwBreechUnbored(String pathAndMaterial, String typePathAndMaterial) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/screw_breech");
-		ResourceLocation itemBaseLoc = CreateBigCannons.resource("block/screw_breech_item");
-		ResourceLocation topLoc = CreateBigCannons.resource("block/" + typePathAndMaterial + "_screw_breech_top");
-		ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + typePathAndMaterial + "_screw_breech_bottom");
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_side");
+		Identifier baseLoc = CreateBigCannons.resource("block/screw_breech");
+		Identifier itemBaseLoc = CreateBigCannons.resource("block/screw_breech_item");
+		Identifier topLoc = CreateBigCannons.resource("block/" + typePathAndMaterial + "_screw_breech_top");
+		Identifier bottomLoc = CreateBigCannons.resource("block/" + typePathAndMaterial + "_screw_breech_bottom");
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_breech_side");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().withExistingParent(c.getName(), baseLoc)
@@ -254,21 +254,21 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Item, P> NonNullUnaryOperator<ItemBuilder<T, P>> screwLock(String pathAndMaterial) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("item/screw_lock");
-		ResourceLocation lockLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_lock");
+		Identifier baseLoc = CreateBigCannons.resource("item/screw_lock");
+		Identifier lockLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_screw_lock");
 		return b -> b.model((c, p) -> p.getBuilder(c.getName()).parent(p.getExistingFile(baseLoc))
 			.texture("lock", lockLoc));
 	}
 
 	public static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> autocannonBarrel(String pathAndMaterial) {
-		ResourceLocation texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
+		Identifier texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p, s -> {
 				String name = c.getName() + "_" + (s.getValue(AutocannonBarrelBlock.ASSEMBLED) ? "assembled" : s.getValue(AutocannonBarrelBlock.BARREL_END).getSerializedName());
 				if (s.getValue(AutocannonBarrelBlock.ASSEMBLED))
 					return p.models().getBuilder(name).texture("particle", texLoc);
-				ResourceLocation loc = switch (s.getValue(AutocannonBarrelBlock.BARREL_END)) {
+				Identifier loc = switch (s.getValue(AutocannonBarrelBlock.BARREL_END)) {
 					case FLANGED -> CreateBigCannons.resource("block/autocannon/barrel_flanged");
 					default -> CreateBigCannons.resource("block/autocannon/barrel");
 				};
@@ -280,10 +280,10 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> autocannonBreech(String pathAndMaterial, boolean complete) {
-		ResourceLocation texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
-		ResourceLocation tex1Loc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon_1");
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/autocannon/breech");
-		ResourceLocation handleLoc = CreateBigCannons.resource("block/autocannon/breech_handle");
+		Identifier texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
+		Identifier tex1Loc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon_1");
+		Identifier baseLoc = CreateBigCannons.resource("block/autocannon/breech");
+		Identifier handleLoc = CreateBigCannons.resource("block/autocannon/breech_handle");
 		NonNullUnaryOperator<BlockBuilder<T, P>> result = b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p,
@@ -306,7 +306,7 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> autocannonRecoilSpring(String pathAndMaterial, boolean complete) {
-		ResourceLocation texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
+		Identifier texLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_autocannon");
 		NonNullUnaryOperator<BlockBuilder<T, P>> result = b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p,
@@ -341,7 +341,7 @@ public class CBCBuilderTransformers {
 			CreateBigCannons.resource("block/autocannon/unbored_breech"));
 	}
 
-	private static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> unboredAutocannonBlock(ResourceLocation tex, ResourceLocation tex1, ResourceLocation model) {
+	private static <T extends Block & AutocannonBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> unboredAutocannonBlock(Identifier tex, Identifier tex1, Identifier model) {
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p,
@@ -406,8 +406,8 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonBuilderHead() {
-		ResourceLocation notAttachedLoc = CreateBigCannons.resource("block/cannon_builder/cannon_builder_head");
-		ResourceLocation attachedLoc = CreateBigCannons.resource("block/cannon_builder/cannon_builder_head_attached");
+		Identifier notAttachedLoc = CreateBigCannons.resource("block/cannon_builder/cannon_builder_head");
+		Identifier attachedLoc = CreateBigCannons.resource("block/cannon_builder/cannon_builder_head_attached");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.loot((t, p) -> t.dropOther(p, AllBlocks.PISTON_EXTENSION_POLE.get()))
@@ -424,10 +424,10 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> projectile(String pathAndMaterial, boolean useStandardModel) {
-		ResourceLocation baseLoc = CreateBigCannons.resource(String.format("block/%sprojectile_block", useStandardModel ? "standard_" : ""));
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial);
-		ResourceLocation topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_top");
-		ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_bottom");
+		Identifier baseLoc = CreateBigCannons.resource(String.format("block/%sprojectile_block", useStandardModel ? "standard_" : ""));
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial);
+		Identifier topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_top");
+		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_bottom");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::solid)
 			.blockstate((c, p) -> {
@@ -441,11 +441,11 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Item, P> NonNullUnaryOperator<ItemBuilder<T, P>> fuzedProjectileItem(String pathAndMaterial) {
-		ResourceLocation headFuzeLoc = CreateBigCannons.resource("block/projectile_block_fuze_head");
-		ResourceLocation baseFuzeLoc = CreateBigCannons.resource("block/projectile_block_fuze_base");
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial);
-		ResourceLocation topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_top");
-		ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_bottom");
+		Identifier headFuzeLoc = CreateBigCannons.resource("block/projectile_block_fuze_head");
+		Identifier baseFuzeLoc = CreateBigCannons.resource("block/projectile_block_fuze_base");
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial);
+		Identifier topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_top");
+		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_bottom");
 		return b -> b.model((c, p) -> {
 			var headFuzeModel = p.withExistingParent(c.getName() + "_head_fuze", headFuzeLoc)
 				.texture("side", sideLoc)
@@ -464,7 +464,7 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> powderCharge() {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/powder_charge");
+		Identifier baseLoc = CreateBigCannons.resource("block/powder_charge");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::solid)
 			.blockstate((c, p) -> BlockStateGen.axisBlock(c, p, $ -> p.models().getExistingFile(baseLoc)))
@@ -483,8 +483,8 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends BigCartridgeBlock & BigCannonPropellantBlock, P> NonNullUnaryOperator<BlockBuilder<T, P>> bigCartridge() {
-		ResourceLocation filledLoc = CreateBigCannons.resource("block/big_cartridge_filled");
-		ResourceLocation emptyLoc = CreateBigCannons.resource("block/big_cartridge_empty");
+		Identifier filledLoc = CreateBigCannons.resource("block/big_cartridge_filled");
+		Identifier emptyLoc = CreateBigCannons.resource("block/big_cartridge_empty");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::solid)
 			.blockstate((c, p) -> BlockStateGen.directionalBlockIgnoresWaterlogged(c, p, s -> {
@@ -529,7 +529,7 @@ public class CBCBuilderTransformers {
 						case EMPTY -> "_empty";
 						case FILLED -> "_filled";
 					};
-					ResourceLocation loc = p.modLoc("block/autocannon_ammo_containers/" + root + suffix);
+					Identifier loc = p.modLoc("block/autocannon_ammo_containers/" + root + suffix);
 					Direction.Axis axis = state.getValue(BlockStateProperties.HORIZONTAL_AXIS);
 					return ConfiguredModel.builder()
 						.modelFile(p.models().getExistingFile(loc))
@@ -558,12 +558,12 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonMount() {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount");
-		ResourceLocation flipLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount_flipped");
+		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount");
+		Identifier flipLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount_flipped");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.horizontalBlock(c.get(), state -> {
-				ResourceLocation loc = state.getValue(CannonMountBlock.VERTICAL_DIRECTION) == Direction.DOWN ? baseLoc : flipLoc;
+				Identifier loc = state.getValue(CannonMountBlock.VERTICAL_DIRECTION) == Direction.DOWN ? baseLoc : flipLoc;
 				return p.models().getExistingFile(loc);
 			}, 0))
 			.tag(AllBlockTags.SAFE_NBT.tag)
@@ -573,7 +573,7 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> yawController() {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/cannon_mount/yaw_controller");
+		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/yaw_controller");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.simpleBlock(c.get(), p.models().getExistingFile(baseLoc)))
@@ -584,7 +584,7 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonMountExtension() {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount_extension");
+		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount_extension");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().getExistingFile(baseLoc)))
@@ -600,7 +600,7 @@ public class CBCBuilderTransformers {
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.directionalBlock(c.get(), state -> {
 				Direction rotation = state.getValue(FixedCannonMountBlock.ROTATION);
-				ResourceLocation loc = CreateBigCannons.resource(key + rotation.getName());
+				Identifier loc = CreateBigCannons.resource(key + rotation.getName());
 				return p.models().getExistingFile(loc);
 			}))
 			.tag(AllBlockTags.SAFE_NBT.tag)
@@ -610,8 +610,8 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> cannonCarriage() {
-		ResourceLocation blockLoc = CreateBigCannons.resource("block/cannon_carriage/block");
-		ResourceLocation saddleLoc = CreateBigCannons.resource("block/cannon_carriage/block_saddle");
+		Identifier blockLoc = CreateBigCannons.resource("block/cannon_carriage/block");
+		Identifier saddleLoc = CreateBigCannons.resource("block/cannon_carriage/block_saddle");
 		return b -> b.properties(p -> p.noOcclusion())
 			.addLayer(() -> RenderType::cutoutMipped)
 			.blockstate((c, p) -> p.horizontalBlock(c.get(), s -> p.models().getExistingFile(s.getValue(CannonCarriageBlock.SADDLED) ? saddleLoc : blockLoc)))
@@ -635,11 +635,11 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Item, P> NonNullUnaryOperator<ItemBuilder<T, P>> slidingBreechblock(String pathAndMaterial) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("item/sliding_breechblock");
-		ResourceLocation topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_top");
-		ResourceLocation endLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_end");
-		ResourceLocation sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_side");
-		ResourceLocation bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_bottom");
+		Identifier baseLoc = CreateBigCannons.resource("item/sliding_breechblock");
+		Identifier topLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_top");
+		Identifier endLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_end");
+		Identifier sideLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_side");
+		Identifier bottomLoc = CreateBigCannons.resource("block/" + pathAndMaterial + "_sliding_breech_breechblock_bottom");
 		return b -> b.model((c, p) -> p.getBuilder(c.getName()).parent(p.getExistingFile(baseLoc))
 			.texture("top", topLoc)
 			.texture("end", endLoc)
@@ -648,8 +648,8 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Block, P> NonNullUnaryOperator<BlockBuilder<T, P>> castMould(String size) {
-		ResourceLocation baseLoc = CreateBigCannons.resource("block/cast_mould/" + size + "_cast_mould");
-		ResourceLocation sandLoc = CreateBigCannons.resource("block/casting_sand");
+		Identifier baseLoc = CreateBigCannons.resource("block/cast_mould/" + size + "_cast_mould");
+		Identifier sandLoc = CreateBigCannons.resource("block/casting_sand");
 		return b -> b.properties(p -> p.mapColor(MapColor.PODZOL))
 			.properties(p -> p.strength(2.0f, 3.0f))
 			.properties(p -> p.sound(SoundType.WOOD))
@@ -720,7 +720,7 @@ public class CBCBuilderTransformers {
 
 	public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateBlockstateProvider> builtUpCannon() {
 		return (c, p) -> {
-			ResourceLocation texLoc = CreateBigCannons.resource("block/cannon_chamber/steel_cannon_chamber_side");
+			Identifier texLoc = CreateBigCannons.resource("block/cannon_chamber/steel_cannon_chamber_side");
 			p.directionalBlock(c.get(), p.models().getBuilder(c.getName()).texture("particle", texLoc));
 		};
 	}
@@ -740,8 +740,8 @@ public class CBCBuilderTransformers {
 	}
 
 	public static <T extends Item, P> NonNullUnaryOperator<ItemBuilder<T, P>> dropMortarShellItem() {
-		ResourceLocation headFuzeLoc = CreateBigCannons.resource("block/drop_mortar_shell_head_fuze");
-		ResourceLocation baseFuzeLoc = CreateBigCannons.resource("block/drop_mortar_shell_base_fuze");
+		Identifier headFuzeLoc = CreateBigCannons.resource("block/drop_mortar_shell_head_fuze");
+		Identifier baseFuzeLoc = CreateBigCannons.resource("block/drop_mortar_shell_base_fuze");
 		return b -> b.model((c, p) -> p.blockItem(c)
 			.override().model(p.getExistingFile(headFuzeLoc)).predicate(CreateBigCannons.resource("fuze_state"), 1).end()
 			.override().model(p.getExistingFile(baseFuzeLoc)).predicate(CreateBigCannons.resource("fuze_state"), 2).end());

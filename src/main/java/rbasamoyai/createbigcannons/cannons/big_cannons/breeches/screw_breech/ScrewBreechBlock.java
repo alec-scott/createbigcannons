@@ -1,11 +1,11 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.screw_breech;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.content.kinetics.base.DirectionalKineticBlock;
+import com.zurrtum.create.foundation.block.IBE;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -102,13 +102,13 @@ public class ScrewBreechBlock extends DirectionalKineticBlock implements IBE<Scr
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!level.isClientSide) this.onRemoveCannon(state, level, pos, newState, isMoving);
+		if (!level.isClientSide()) this.onRemoveCannon(state, level, pos, newState, isMoving);
 		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override
 	public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-		if (!level.isClientSide) this.playerWillDestroyBigCannon(level, pos, state, player);
+		if (!level.isClientSide()) this.playerWillDestroyBigCannon(level, pos, state, player);
 		super.playerWillDestroy(level, pos, state, player);
         return state;
     }

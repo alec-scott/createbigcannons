@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
 public enum CBCCannonContraptionTypes implements ICannonContraptionType {
@@ -17,18 +17,18 @@ public enum CBCCannonContraptionTypes implements ICannonContraptionType {
 	AUTOCANNON,
 	HANDLE_AUTOCANNON;
 
-	private static final Map<ResourceLocation, CBCCannonContraptionTypes> BY_ID =
+	private static final Map<Identifier, CBCCannonContraptionTypes> BY_ID =
 		Arrays.stream(values()).collect(Collectors.toMap(CBCCannonContraptionTypes::getId, Function.identity()));
 
-	private final ResourceLocation id = CreateBigCannons.resource(this.name().toLowerCase(Locale.ROOT));
+	private final Identifier id = CreateBigCannons.resource(this.name().toLowerCase(Locale.ROOT));
 
 	CBCCannonContraptionTypes() {
 		CannonContraptionTypeRegistry.register(this.id, this);
 	}
 
-	@Override public ResourceLocation getId() { return this.id; }
+	@Override public Identifier getId() { return this.id; }
 
-	@Nullable public static CBCCannonContraptionTypes byId(ResourceLocation loc) { return BY_ID.get(loc); }
+	@Nullable public static CBCCannonContraptionTypes byId(Identifier loc) { return BY_ID.get(loc); }
 
 	public static void register() {
 	}

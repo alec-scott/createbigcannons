@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.api.contraption.ContraptionType;
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.content.contraptions.StructureTransform;
+import com.zurrtum.create.api.contraption.ContraptionType;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.content.contraptions.StructureTransform;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +23,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -447,11 +447,11 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 		if (CBCEntityTypes.CANNON_CARRIAGE.is(entity.getVehicle())) {
 			controller = entity.getVehicle().getControllingPassenger();
 		}
-		if (!level.isClientSide && controller instanceof Player player) {
+		if (!level.isClientSide() && controller instanceof Player player) {
 			String key = "";
 			ControlPitchContraption controllerBlock = entity.getController();
 			if (controllerBlock != null) {
-				ResourceLocation loc = controllerBlock.getTypeId();
+				Identifier loc = controllerBlock.getTypeId();
 				if (loc != null) key = "." + loc.getNamespace() + "." + loc.getPath();
 			}
 			player.displayClientMessage(Component.translatable("block." + CreateBigCannons.MOD_ID + ".cannon_carriage.hotbar.fireRate" + key,

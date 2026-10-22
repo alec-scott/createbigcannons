@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableList;
-import com.simibubi.create.api.contraption.ContraptionType;
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.content.contraptions.StructureTransform;
+import com.zurrtum.create.api.contraption.ContraptionType;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.content.contraptions.StructureTransform;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -237,10 +237,10 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 		BlockPos endPos = this.startPos.relative(this.initialOrientation.getOpposite());
 		if (this.presentBlockEntities.get(endPos) instanceof QuickfiringBreechBlockEntity qfbreech) {
             qfbreech.tickAnimation();
-            if (level.isClientSide && this.getBlockEntityClientSide(endPos) instanceof QuickfiringBreechBlockEntity qfbreech1)
+            if (level.isClientSide() && this.getBlockEntityClientSide(endPos) instanceof QuickfiringBreechBlockEntity qfbreech1)
                 qfbreech1.tickAnimation();
         }
-		if (!level.isClientSide && this.isDropMortar() && this.mortarDelay > 0) {
+		if (!level.isClientSide() && this.isDropMortar() && this.mortarDelay > 0) {
 			--this.mortarDelay;
 			if (this.mortarDelay == 0) this.actuallyFireDropMortar();
 		}
@@ -600,7 +600,7 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 	@Override
 	public void addPassengersToWorld(Level world, StructureTransform transform, List<Entity> seatedEntities) {
 		super.addPassengersToWorld(world, transform, seatedEntities);
-		if (!world.isClientSide && this.isDropMortar() && this.cachedMortarRound != null && !this.cachedMortarRound.isEmpty() && this.entity != null) {
+		if (!world.isClientSide() && this.isDropMortar() && this.cachedMortarRound != null && !this.cachedMortarRound.isEmpty() && this.entity != null) {
 			Vec3 pos = this.entity.toGlobalVector(Vec3.atCenterOf(this.startPos), 0);
 			world.addFreshEntity(new ItemEntity(world, pos.x, pos.y, pos.z, this.cachedMortarRound.copy()));
 		}

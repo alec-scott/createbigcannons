@@ -6,15 +6,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-import com.simibubi.create.AllBlocks;
+import com.zurrtum.create.AllBlocks;
 import com.simibubi.create.content.decoration.palettes.AllPaletteBlocks;
 import com.simibubi.create.foundation.block.CopperBlockSet;
 import com.simibubi.create.foundation.data.recipe.CommonMetal;
-import com.tterrag.registrate.providers.ProviderType;
+import rbasamoyai.createbigcannons.port.registrate.providers.ProviderType;
 
-import net.createmod.catnip.data.Iterate;
+import com.zurrtum.create.catnip.data.Iterate;
 import net.minecraft.data.tags.TagsProvider.TagAppender;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -94,17 +94,17 @@ public class CBCTags {
 			});
 		}
 
-		public static void addOptionalTagsToBlockTag(TagKey<Block> tag, List<ResourceLocation> ops) {
+		public static void addOptionalTagsToBlockTag(TagKey<Block> tag, List<Identifier> ops) {
 			REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, prov -> {
 				TagAppender<Block> app = prov.addTag(tag);
 				ops.forEach(app::addOptionalTag);
 			});
 		}
 
-		public static void addOptionalTagsToBlockTag(TagKey<Block> tag, ResourceLocation... ops) {
+		public static void addOptionalTagsToBlockTag(TagKey<Block> tag, Identifier... ops) {
 			REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, prov -> {
 				TagAppender<Block> app = prov.addTag(tag);
-				for (ResourceLocation op : ops)
+				for (Identifier op : ops)
 					app.addOptionalTag(op);
 			});
 		}
@@ -231,16 +231,16 @@ public class CBCTags {
 			});
 		}
 
-		public static void addIdsToItemTag(TagKey<Item> tag, ResourceLocation... ids) {
+		public static void addIdsToItemTag(TagKey<Item> tag, Identifier... ids) {
 			REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, prov -> {
 				TagAppender<Item> app = prov.addTag(tag);
-				for (ResourceLocation id : ids) {
+				for (Identifier id : ids) {
 					app.addOptional(id);
 				}
 			});
 		}
 
-		public static void addOptionalTagsToItemTag(TagKey<Item> tag, List<ResourceLocation> ops) {
+		public static void addOptionalTagsToItemTag(TagKey<Item> tag, List<Identifier> ops) {
 			REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, prov -> {
 				TagAppender<Item> app = prov.addTag(tag);
 				ops.forEach(app::addOptionalTag);
@@ -273,11 +273,11 @@ public class CBCTags {
 		CBCItemTags.sectionRegister();
 	}
 
-	private static ResourceLocation alloyed(String path) {
+	private static Identifier alloyed(String path) {
 		return CBCUtils.location("alloyed", path);
 	}
 
-	private static ResourceLocation createdeco(String path) {
+	private static Identifier createdeco(String path) {
 		return CBCUtils.location("createdeco", path);
 	}
 

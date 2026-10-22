@@ -14,10 +14,10 @@ import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.AllDataComponents;
+import com.zurrtum.create.AllDataComponents;
 
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import net.createmod.ponder.foundation.PonderIndex;
+import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
+import com.zurrtum.create.client.ponder.foundation.PonderIndex;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.KeyMapping;
@@ -29,7 +29,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -253,7 +253,7 @@ public class CBCClientCommon {
 			: CBCBlockPartials.STEEL_SCREW_LOCK;
 	}
 
-	public static void onTextureAtlasStitchPre(Consumer<ResourceLocation> cons) {
+	public static void onTextureAtlasStitchPre(Consumer<Identifier> cons) {
 		cons.accept(CreateBigCannons.resource("item/tracer_slot"));
 	}
 
@@ -301,7 +301,7 @@ public class CBCClientCommon {
 			pitch, level.getRandom(), false, 0, SoundInstance.Attenuation.LINEAR, x, y, z, false));
 	}
 
-	public static void registerClientReloadListeners(BiConsumer<PreparableReloadListener, ResourceLocation> cons) {
+	public static void registerClientReloadListeners(BiConsumer<PreparableReloadListener, Identifier> cons) {
 		cons.accept(BlockHitEffectsHandler.ReloadListener.BLOCKS_INSTANCE, CreateBigCannons.resource("block_hit_effects_block_handler"));
 		cons.accept(BlockHitEffectsHandler.ReloadListener.FLUIDS_INSTANCE, CreateBigCannons.resource("block_hit_effects_fluid_handler"));
 		cons.accept(ProjectileHitEffectsHandler.ReloadListener.INSTANCE, CreateBigCannons.resource("projectile_hit_effects_handler"));

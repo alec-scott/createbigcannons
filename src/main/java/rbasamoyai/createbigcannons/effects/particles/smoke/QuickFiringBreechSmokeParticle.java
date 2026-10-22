@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.effects.particles.smoke;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;

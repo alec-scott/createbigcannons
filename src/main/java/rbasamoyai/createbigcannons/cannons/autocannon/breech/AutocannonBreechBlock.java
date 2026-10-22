@@ -3,12 +3,12 @@ package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 import static rbasamoyai.createbigcannons.cannons.big_cannons.BigCannonBlock.writeAndSyncSingleBlockData;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.content.contraptions.Contraption;
-import com.simibubi.create.content.contraptions.actors.seat.SeatBlock;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.content.contraptions.Contraption;
+import com.zurrtum.create.content.contraptions.actors.seat.SeatBlock;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -112,7 +112,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
 	@Override
 	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 		Level level = context.getLevel();
-		if (level.isClientSide) return InteractionResult.SUCCESS;
+		if (level.isClientSide()) return InteractionResult.SUCCESS;
 		BlockPos pos = context.getClickedPos();
 		AutocannonBlockEntity autocannon = this.getBlockEntity(level, pos);
 		Direction facing = this.getFacing(state);
@@ -158,26 +158,26 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
                 && state.getValue(HANDLE)
                 && stack.getItem() instanceof BlockItem blockItem
                 && blockItem.getBlock() instanceof SeatBlock seat) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     breech.setSeatColor(seat.getColor());
                     SoundType soundType = seat.defaultBlockState().getSoundType();
                     level.playSound(null, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                     if (!player.isCreative()) stack.shrink(1);
                 }
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return ItemInteractionResult.sidedSuccess(level.isClientSide());
             }
             ItemStack container = breech.getMagazine();
             boolean changed = false;
             boolean tryAdd = false;
             if (!container.isEmpty()) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     tryAdd = true;
                     breech.setMagazine(ItemStack.EMPTY);
                 }
                 changed = true;
             }
             if (stack.getItem() instanceof AutocannonAmmoContainerItem) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     breech.setMagazine(stack);
                     player.setItemInHand(hand, ItemStack.EMPTY);
                     CBCSoundEvents.PLACE_AUTOCANNON_AMMO_CONTAINER.playOnServer(level, pos);
@@ -192,7 +192,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
             }
             if (changed) {
                 breech.notifyUpdate();
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return ItemInteractionResult.sidedSuccess(level.isClientSide());
             }
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION; // todo: check behavior
@@ -202,7 +202,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof AbstractAutocannonBreechBlockEntity breech) {
             if (breech.getSeatColor() != null) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     DyeColor seat = breech.getSeatColor();
                     if (seat != null) {
                         ItemStack drop = AllBlocks.SEATS.get(seat).asStack();
@@ -215,7 +215,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
                     breech.setSeatColor(null);
                     level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0f, 1.0f);
                 }
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide());
             }
         }
         return super.useWithoutItem(state, level, pos, player, hitResult);
@@ -237,14 +237,14 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
 		boolean changed = false;
 		boolean tryAdd = false;
 		if (!container.isEmpty() && canRemove) {
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				tryAdd = true;
 				breech.setMagazine(ItemStack.EMPTY);
 			}
 			changed = true;
 		}
 		if (breech.getMagazine().isEmpty() && insertingContainer) {
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				breech.setMagazine(stack);
 				player.setItemInHand(interactionHand, ItemStack.EMPTY);
 				CBCSoundEvents.PLACE_AUTOCANNON_AMMO_CONTAINER.playOnServer(level, BlockPos.containing(globalPos));
@@ -256,7 +256,7 @@ public class AutocannonBreechBlock extends AutocannonBaseBlock implements IBE<Ab
 			ItemEntity dropEntity = new ItemEntity(level, globalPos.x, globalPos.y, globalPos.z, container);
 			level.addFreshEntity(dropEntity);
 		}
-		if (changed && !level.isClientSide) writeAndSyncSingleBlockData(be, info, entity, contraption);
+		if (changed && !level.isClientSide()) writeAndSyncSingleBlockData(be, info, entity, contraption);
 		return changed;
 	}
 

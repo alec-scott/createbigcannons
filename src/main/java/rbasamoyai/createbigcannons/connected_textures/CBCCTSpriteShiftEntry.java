@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.connected_textures;
 
-import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
-import com.simibubi.create.foundation.block.connected.CTType;
+import com.zurrtum.create.client.foundation.block.connected.CTSpriteShiftEntry;
+import com.zurrtum.create.client.foundation.block.connected.CTType;
 
 public class CBCCTSpriteShiftEntry extends CTSpriteShiftEntry {
 

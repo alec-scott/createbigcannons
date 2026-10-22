@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
@@ -43,25 +43,25 @@ public class SmokeShellProjectile extends FuzedBigCannonProjectile {
 		return CBCBlocks.SMOKE_SHELL.getDefaultState().setValue(BlockStateProperties.FACING, Direction.NORTH);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BigCannonFuzePropertiesComponent getFuzeProperties() {
 		return this.getAllProperties().fuze();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
 		return this.getAllProperties().bigCannonProperties();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public EntityDamagePropertiesComponent getDamageProperties() {
 		return this.getAllProperties().damage();
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	protected BallisticPropertiesComponent getBallisticProperties() {
 		return this.getAllProperties().ballistics();

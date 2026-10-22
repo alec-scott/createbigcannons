@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import com.google.gson.JsonObject;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.StringRepresentable;
 import rbasamoyai.createbigcannons.CreateBigCannons;
@@ -30,7 +30,7 @@ public record BigCannonMaterialProperties(double minimumVelocityPerBarrel, float
 		return this.minimumVelocityPerBarrel > chargesUsed / barrelTravelled;
 	}
 
-	public static BigCannonMaterialProperties fromJson(ResourceLocation id, JsonObject obj) {
+	public static BigCannonMaterialProperties fromJson(Identifier id, JsonObject obj) {
 		double minimumVelocityPerBarrel = GsonHelper.getAsDouble(obj, "minimum_velocity_per_barrel", 1);
 		// Legacy config handling
 		if (GsonHelper.isNumberValue(obj, "squib_ratio_barrels") && GsonHelper.isNumberValue(obj, "squib_ratio_propellant")) {

@@ -14,7 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
@@ -37,11 +37,11 @@ public class BigCannonPropellantCompatibilityHandler {
 		protected ReloadListener() { super(GSON, "big_cannon_propellant_compatibility"); }
 
 		@Override
-		protected void apply(Multimap<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profiler) {
+		protected void apply(Multimap<Identifier, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profiler) {
 			PROPERTIES_MAP.clear();
 
-			for (Map.Entry<ResourceLocation, JsonElement> e : object.entries()) {
-				ResourceLocation loc = e.getKey();
+			for (Map.Entry<Identifier, JsonElement> e : object.entries()) {
+				Identifier loc = e.getKey();
 				Block block = CBCRegistryUtils.getOptionalBlock(loc).orElseThrow(() -> {
 					return new JsonSyntaxException("Unknown block '" + loc + "'");
 				});

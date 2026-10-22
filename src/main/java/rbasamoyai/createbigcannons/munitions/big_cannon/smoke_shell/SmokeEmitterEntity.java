@@ -102,7 +102,7 @@ public class SmokeEmitterEntity extends Entity {
 	@Override
 	public void tick() {
 		boolean doStuff = this.canDoStuff();
-		if (this.level().isClientSide) {
+		if (this.level().isClientSide()) {
 			if (doStuff) {
 				double sizeX = this.getSizeX();
 				double sizeY = this.getSizeY();

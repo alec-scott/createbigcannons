@@ -1,12 +1,12 @@
 package rbasamoyai.createbigcannons.effects.sounds;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.client.sounds.WeighedSoundEvents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 
 public abstract class SoundInstanceWrapper implements SoundInstance {
@@ -17,7 +17,7 @@ public abstract class SoundInstanceWrapper implements SoundInstance {
 		this.delegate = delegate;
 	}
 
-	@Override public ResourceLocation getLocation() { return this.delegate.getLocation(); }
+	@Override public Identifier getLocation() { return this.delegate.getLocation(); }
 
 	@Nullable
 	@Override

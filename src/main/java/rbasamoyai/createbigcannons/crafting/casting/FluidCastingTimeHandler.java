@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.crafting.casting;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -14,7 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -43,17 +43,17 @@ public class FluidCastingTimeHandler {
 		}
 
 		@Override
-		protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resources, ProfilerFiller profiler) {
+		protected void apply(Map<Identifier, JsonElement> map, ResourceManager resources, ProfilerFiller profiler) {
 			clear();
 
-			for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+			for (Map.Entry<Identifier, JsonElement> entry : map.entrySet()) {
 				JsonElement el = entry.getValue();
 				if (!el.isJsonObject()) continue;
 				JsonObject obj = el.getAsJsonObject();
 				int castingTime = GsonHelper.getAsInt(obj, "casting_time", 1000);
 				castingTime = Math.max(castingTime, 0);
 
-				ResourceLocation loc = entry.getKey();
+				Identifier loc = entry.getKey();
 				if (loc.getPath().startsWith("tags/")) {
 					TagKey<Fluid> tag = TagKey.create(CBCRegistryUtils.getFluidRegistryKey(), CBCUtils.location(loc.getNamespace(), loc.getPath().substring(5)));
 					CASTING_TIME.addTagData(tag, castingTime);

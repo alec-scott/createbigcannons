@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.simibubi.create.foundation.gui.AllIcons;
-import com.simibubi.create.foundation.gui.menu.AbstractSimiContainerScreen;
-import com.simibubi.create.foundation.gui.widget.IconButton;
-import com.simibubi.create.foundation.gui.widget.ScrollInput;
+import com.zurrtum.create.client.foundation.gui.AllIcons;
+import com.zurrtum.create.client.foundation.gui.menu.AbstractSimiContainerScreen;
+import com.zurrtum.create.client.foundation.gui.widget.IconButton;
+import com.zurrtum.create.client.foundation.gui.widget.ScrollInput;
 
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;

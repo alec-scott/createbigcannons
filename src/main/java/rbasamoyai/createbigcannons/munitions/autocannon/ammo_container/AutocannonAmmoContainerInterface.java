@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -13,7 +13,7 @@ public record AutocannonAmmoContainerInterface(AutocannonAmmoContainerBlockEntit
 
 	@Override public int getSlots() { return 2; }
 
-	@Nonnull
+	@NotNull
 	@Override
 	public ItemStack getStackInSlot(int slot) {
 		return switch (slot) {
@@ -23,9 +23,9 @@ public record AutocannonAmmoContainerInterface(AutocannonAmmoContainerBlockEntit
 		};
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
-	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+	public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
 		if (slot != AMMO_SLOT && slot != TRACER_SLOT) return stack;
 		AutocannonAmmoType ammoType = this.be.getAmmoType();
 		if (!ammoType.isValidMunition(stack)) return stack;
@@ -58,7 +58,7 @@ public record AutocannonAmmoContainerInterface(AutocannonAmmoContainerBlockEntit
 		return ret;
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
 		if (slot != AMMO_SLOT && slot != TRACER_SLOT) return ItemStack.EMPTY;
@@ -85,6 +85,6 @@ public record AutocannonAmmoContainerInterface(AutocannonAmmoContainerBlockEntit
 		return slot == AMMO_SLOT ? this.be.getMainAmmoCapacity() : this.be.getTracerAmmoCapacity();
 	}
 
-	@Override public boolean isItemValid(int slot, @Nonnull ItemStack stack) { return this.be.getAmmoType().isValidMunition(stack); }
+	@Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return this.be.getAmmoType().isValidMunition(stack); }
 
 }

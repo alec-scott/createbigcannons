@@ -2,15 +2,15 @@ package rbasamoyai.createbigcannons.index;
 
 import java.util.function.Supplier;
 
-import com.simibubi.create.foundation.particle.ICustomParticleData;
-import com.simibubi.create.foundation.utility.CreateLang;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.effects.particles.explosions.CannonBlastWaveEffectParticleData;
 import rbasamoyai.createbigcannons.effects.particles.explosions.FlakCloudParticleData;
 import rbasamoyai.createbigcannons.effects.particles.explosions.FluidCloudParticleData;
@@ -94,7 +94,7 @@ public enum CBCParticleTypes {
 		IndexPlatform.registerDeferredParticles();
 	}
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	public static void registerFactories() {
 		ParticleEngine particles = Minecraft.getInstance().particleEngine;
 		for (CBCParticleTypes particle : values())
@@ -122,7 +122,7 @@ public enum CBCParticleTypes {
 			IndexPlatform.registerDeferredParticleType(this.name, this.object);
 		}
 
-        @OnlyIn(Dist.CLIENT)
+        @Environment(EnvType.CLIENT)
 		public void registerFactory(ParticleEngine particles) {
 			ParticlesPlatform.register(this.typeFactory.get(), this.object, particles);
 		}

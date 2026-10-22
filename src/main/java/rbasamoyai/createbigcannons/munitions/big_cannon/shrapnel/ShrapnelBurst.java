@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -38,7 +38,7 @@ public class ShrapnelBurst extends CBCProjectileBurst {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.level().isClientSide) {
+		if (this.level().isClientSide()) {
 			ParticleOptions trailParticle = this.getTrailParticle();
 			if (trailParticle != null) {
 				for (SubProjectile subProjectile : this.subProjectiles) {
@@ -67,7 +67,7 @@ public class ShrapnelBurst extends CBCProjectileBurst {
 
 		BlockPos pos = result.getBlockPos();
 		BlockState state = this.level().getChunk(pos).getBlockState(pos);
-		if (!this.level().isClientSide && state.getDestroySpeed(this.level(), pos) != -1 && this.canDestroyBlock(state)) {
+		if (!this.level().isClientSide() && state.getDestroySpeed(this.level(), pos) != -1 && this.canDestroyBlock(state)) {
             BlockArmorPropertiesProvider blockArmor = BlockArmorPropertiesHandler.getProperties(state);
             BallisticPropertiesComponent ballistics = this.getProperties().ballistics();
 

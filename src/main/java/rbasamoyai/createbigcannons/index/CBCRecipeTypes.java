@@ -2,17 +2,17 @@ package rbasamoyai.createbigcannons.index;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 import com.simibubi.create.content.processing.recipe.StandardProcessingRecipe;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
-import com.simibubi.create.foundation.utility.CreateLang;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
+import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullSupplier;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -47,7 +47,7 @@ public enum CBCRecipeTypes implements IRecipeTypeInfo {
 	FUZE_REMOVAL(noSerializer(FuzeRemovalRecipe::new)),
 	TRACER_REMOVAL(noSerializer(TracerRemovalRecipe::new));
 
-	private final ResourceLocation id;
+	private final Identifier id;
 	private final Supplier<RecipeSerializer<?>> serializerObject;
 	@Nullable
 	private final RecipeType<?> typeObject;
@@ -80,7 +80,7 @@ public enum CBCRecipeTypes implements IRecipeTypeInfo {
 		this(() -> new StandardProcessingRecipe.Serializer<>(processingFactory));
 	}
 
-	public static <T extends Recipe<?>> RecipeType<T> simpleType(ResourceLocation id) {
+	public static <T extends Recipe<?>> RecipeType<T> simpleType(Identifier id) {
 		String stringId = id.toString();
 		return new RecipeType<>() {
 			@Override
@@ -91,7 +91,7 @@ public enum CBCRecipeTypes implements IRecipeTypeInfo {
 	}
 
 	@Override
-	public ResourceLocation getId() {
+	public Identifier getId() {
 		return this.id;
 	}
 

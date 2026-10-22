@@ -4,14 +4,14 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 
 public class TypeAndTagDataHolder<TYPE, VALUE> {
@@ -63,7 +63,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 	public void writeToNetwork(FriendlyByteBuf buf, BiConsumer<FriendlyByteBuf, VALUE> consumer) {
 		buf.writeVarInt(this.typeData.size());
 		for (Map.Entry<TYPE, VALUE> entry : this.typeData.entrySet()) {
-			ResourceLocation key = this.registry.getKey(entry.getKey());
+			Identifier key = this.registry.getKey(entry.getKey());
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
@@ -72,7 +72,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 		}
 		buf.writeVarInt(this.tagData.size());
 		for (Map.Entry<TYPE, VALUE> entry : this.tagData.entrySet()) {
-			ResourceLocation key = this.registry.getKey(entry.getKey());
+			Identifier key = this.registry.getKey(entry.getKey());
 			buf.writeBoolean(key != null);
 			if (key == null)
 				continue;
@@ -87,7 +87,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 		for (int i = 0; i < typeSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			ResourceLocation location = buf.readResourceLocation();
+			Identifier location = buf.readResourceLocation();
 			TYPE type = this.registry.get(location);
 			VALUE value = consumer.apply(buf);
 			if (type != null)
@@ -97,7 +97,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 		for (int i = 0; i < tagSize; ++i) {
 			if (!buf.readBoolean())
 				continue;
-			ResourceLocation location = buf.readResourceLocation();
+			Identifier location = buf.readResourceLocation();
 			TYPE type = this.registry.get(location);
 			VALUE value = consumer.apply(buf);
 			if (type != null)

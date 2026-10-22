@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
 
@@ -60,7 +60,7 @@ public class AutocannonAmmoContainerItem extends BlockItem implements MenuProvid
                     ItemStack.STREAM_CODEC.encode(buf, new ItemStack(this));
 				});
 			}
-			return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+			return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
 		}
 		return super.use(level, player, hand);
 	}

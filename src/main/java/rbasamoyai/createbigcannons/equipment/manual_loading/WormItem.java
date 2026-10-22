@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.simibubi.create.content.kinetics.deployer.DeployerFakePlayer;
+import com.zurrtum.create.content.kinetics.deployer.DeployerFakePlayer;
 
-import net.createmod.catnip.nbt.NBTProcessors;
+import com.zurrtum.create.catnip.nbt.NBTProcessors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -61,12 +61,12 @@ public class WormItem extends Item implements HandloadingTool {
 			BlockPos pos2 = pos1.relative(context.getClickedFace());
 			BlockEntity be1 = level.getBlockEntity(pos2);
 			if (be1 instanceof IBigCannonBlockEntity cbe1 && cbe1.canLoadBlock(info)) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					cbe1.cannonBehavior().loadBlock(info);
 					be1.setChanged();
 				}
 			} else if (level.getBlockState(pos2).isAir()) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					level.setBlock(pos2, info.state(), Block.UPDATE_MOVE_BY_PISTON | Block.UPDATE_ALL);
 					BlockEntity be2 = level.getBlockEntity(pos2);
 					CompoundTag tag = info.nbt();
@@ -82,7 +82,7 @@ public class WormItem extends Item implements HandloadingTool {
 			} else {
 				return InteractionResult.FAIL;
 			}
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				cbe.cannonBehavior().removeBlock();
 				be.setChanged();
 			}
@@ -90,7 +90,7 @@ public class WormItem extends Item implements HandloadingTool {
 			level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 1, 1);
 			player.causeFoodExhaustion(CBCConfigs.server().cannons.loadingToolHungerConsumption.getF());
 			player.getCooldowns().addCooldown(this, CBCConfigs.server().cannons.loadingToolCooldown.get());
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.sidedSuccess(level.isClientSide());
 		}
 		return super.useOn(context);
 	}
@@ -115,12 +115,12 @@ public class WormItem extends Item implements HandloadingTool {
 			BlockPos pos2 = pos1.relative(face);
 			BlockEntity be1 = contraption.presentBlockEntities.get(pos2);
 			if (be1 instanceof IBigCannonBlockEntity cbe1 && cbe1.cannonBehavior().canLoadBlock(info1)) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					cbe1.cannonBehavior().loadBlock(info1);
 					changes.add(pos2);
 				}
 			} else if (i == 0) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					ItemStack stack = info1.state().getBlock() instanceof BigCannonMunitionBlock munition
                         ? munition.getExtractedItem(info1, level.registryAccess()) : ItemStack.EMPTY;
 					if (!player.addItem(stack) && !player.isCreative()) {
@@ -134,7 +134,7 @@ public class WormItem extends Item implements HandloadingTool {
 			} else {
 				return;
 			}
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				cbe.cannonBehavior().removeBlock();
 				changes.add(pos1);
 				BigCannonBlock.writeAndSyncMultipleBlockData(changes, contraption.entity, contraption);

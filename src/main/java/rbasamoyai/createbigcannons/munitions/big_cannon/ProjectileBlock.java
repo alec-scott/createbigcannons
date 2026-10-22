@@ -2,10 +2,10 @@ package rbasamoyai.createbigcannons.munitions.big_cannon;
 
 import java.util.List;
 
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.content.equipment.wrench.IWrenchable;
 
-import net.createmod.catnip.math.VoxelShaper;
+import com.zurrtum.create.catnip.math.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -186,7 +186,7 @@ public abstract class ProjectileBlock<ENTITY extends AbstractBigCannonProjectile
 
 	@Override
 	public void createbigcannons$onBlockExplode(Level level, BlockPos pos, BlockState state, Explosion explosion) {
-		if (level.isClientSide || !CBCConfigs.server().munitions.munitionBlocksCanExplode.get())
+		if (level.isClientSide() || !CBCConfigs.server().munitions.munitionBlocksCanExplode.get())
 			return;
 		Vec3 entityPos = Vec3.atCenterOf(pos);
 		AbstractBigCannonProjectile projectile = this.spawnFromExplosion(level, pos, state, explosion);

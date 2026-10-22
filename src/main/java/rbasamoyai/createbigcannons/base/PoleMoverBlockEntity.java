@@ -1,12 +1,12 @@
 package rbasamoyai.createbigcannons.base;
 
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.contraptions.AssemblyException;
-import com.simibubi.create.content.contraptions.ControlledContraptionEntity;
-import com.simibubi.create.content.contraptions.DirectionalExtenderScrollOptionSlot;
-import com.simibubi.create.content.contraptions.piston.LinearActuatorBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.ValueBoxTransform;
-import com.simibubi.create.foundation.utility.ServerSpeedProvider;
+import com.zurrtum.create.AllSoundEvents;
+import com.zurrtum.create.content.contraptions.AssemblyException;
+import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
+import com.zurrtum.create.client.content.contraptions.DirectionalExtenderScrollOptionSlot;
+import com.zurrtum.create.content.contraptions.piston.LinearActuatorBlockEntity;
+import com.zurrtum.create.client.foundation.blockEntity.behaviour.ValueBoxTransform;
+import com.zurrtum.create.foundation.utility.ServerSpeedProvider;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -104,7 +104,7 @@ public abstract class PoleMoverBlockEntity extends LinearActuatorBlockEntity {
 	@Override
 	public float getMovementSpeed() {
 		float movementSpeed = Mth.clamp(convertToLinear(this.getSpeed()), -0.49f, 0.49f);
-		if (this.level.isClientSide)
+		if (this.level.isClientSide())
 			movementSpeed *= ServerSpeedProvider.get();
 		Direction facing = this.getBlockState().getValue(FACING);
 		int movementModifier = facing.getAxisDirection().getStep() * (facing.getAxis() == Direction.Axis.Z ? -1 : 1);

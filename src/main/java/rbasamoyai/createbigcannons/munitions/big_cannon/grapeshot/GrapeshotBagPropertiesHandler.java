@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonProjectilePropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.config.EntityPropertiesTypeHandler;
@@ -16,7 +16,7 @@ public class GrapeshotBagPropertiesHandler extends EntityPropertiesTypeHandler<G
 		ProjectileBurstParentPropertiesComponent.DEFAULT);
 
 	@Override
-	protected GrapeshotBagProperties parseJson(ResourceLocation location, JsonObject obj) throws JsonParseException {
+	protected GrapeshotBagProperties parseJson(Identifier location, JsonObject obj) throws JsonParseException {
 		String id = location.toString();
 		BigCannonProjectilePropertiesComponent bigCannonProperties = BigCannonProjectilePropertiesComponent.fromJson(id, obj);
 		ProjectileBurstParentPropertiesComponent grapeshotBurst = ProjectileBurstParentPropertiesComponent.fromJson(id, "grapeshot_", obj);

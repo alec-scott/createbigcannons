@@ -1,14 +1,14 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.content.contraptions.Contraption;
-import com.simibubi.create.content.contraptions.OrientedContraptionEntity;
+import com.zurrtum.create.content.contraptions.Contraption;
+import com.zurrtum.create.content.contraptions.OrientedContraptionEntity;
 
-import com.simibubi.create.content.contraptions.StructureTransform;
+import com.zurrtum.create.content.contraptions.StructureTransform;
 
-import net.createmod.catnip.math.VecHelper;
-import net.createmod.catnip.nbt.NBTHelper;
+import com.zurrtum.create.catnip.math.VecHelper;
+import com.zurrtum.create.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -105,12 +105,12 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 
 		ControlPitchContraption controller = this.getController();
 		if (controller == null) {
-			if (!level.isClientSide) this.disassemble();
+			if (!level.isClientSide()) this.disassemble();
 			return;
 		}
 		if (!controller.isAttachedTo(this)) {
 			controller.attach(this);
-			if (level.isClientSide) this.setPos(this.getX(), this.getY(), this.getZ());
+			if (level.isClientSide()) this.setPos(this.getX(), this.getY(), this.getZ());
 		}
 	}
 

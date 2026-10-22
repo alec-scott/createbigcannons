@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions.config;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.Block;
 import rbasamoyai.createbigcannons.utils.CBCRegistryUtils;
@@ -33,7 +33,7 @@ public record BigCannonPropellantCompatibilities(Map<Block, Integer> validPropel
 			if (!el.isJsonObject()) continue;
 			JsonObject obj1 = el.getAsJsonObject();
 			if (!obj1.has("type") && !obj1.getAsJsonPrimitive("type").isString()) continue;
-			ResourceLocation loc = CBCUtils.location(obj1.getAsJsonPrimitive("type").getAsString());
+			Identifier loc = CBCUtils.location(obj1.getAsJsonPrimitive("type").getAsString());
 			Block block = CBCRegistryUtils.getOptionalBlock(loc).orElseThrow(() -> {
 				return new JsonSyntaxException("Unknown block '" + loc + "'");
 			});

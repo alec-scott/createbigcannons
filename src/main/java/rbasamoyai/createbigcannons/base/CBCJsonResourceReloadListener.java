@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
@@ -24,7 +24,7 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 /**
  * Copied from SimpleJsonResourceReloadListener, with some tweaks to support Multimap; using similar to tag loading
  */
-public abstract class CBCJsonResourceReloadListener extends SimplePreparableReloadListener<Multimap<ResourceLocation, JsonElement>> {
+public abstract class CBCJsonResourceReloadListener extends SimplePreparableReloadListener<Multimap<Identifier, JsonElement>> {
 
 	private static final Logger LOGGER = LogUtils.getLogger();
 	private static final int PATH_SUFFIX_LENGTH = ".json".length();
@@ -37,14 +37,14 @@ public abstract class CBCJsonResourceReloadListener extends SimplePreparableRelo
 	}
 
 	@Override
-	protected Multimap<ResourceLocation, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
-		Multimap<ResourceLocation, JsonElement> map = HashMultimap.create();
+	protected Multimap<Identifier, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
+		Multimap<Identifier, JsonElement> map = HashMultimap.create();
 		int i = this.directory.length() + 1;
 
-		for(Map.Entry<ResourceLocation, Resource> entry : resourceManager.listResources(this.directory, path -> path.getPath().endsWith(".json")).entrySet()) {
-			ResourceLocation loco = entry.getKey();
+		for(Map.Entry<Identifier, Resource> entry : resourceManager.listResources(this.directory, path -> path.getPath().endsWith(".json")).entrySet()) {
+			Identifier loco = entry.getKey();
 			String string = loco.getPath();
-			ResourceLocation loc2 = CBCUtils.location(loco.getNamespace(), string.substring(i, string.length() - PATH_SUFFIX_LENGTH));
+			Identifier loc2 = CBCUtils.location(loco.getNamespace(), string.substring(i, string.length() - PATH_SUFFIX_LENGTH));
 			try {
 				Reader reader = entry.getValue().openAsReader();
 				try {

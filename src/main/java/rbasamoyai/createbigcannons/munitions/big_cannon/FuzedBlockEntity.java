@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions.big_cannon;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -166,7 +166,7 @@ public class FuzedBlockEntity extends BigCannonProjectileBlockEntity {
     }
 
     protected final boolean canDetonate(Predicate<FuzeItem> cons) {
-        return this.level != null && !this.level.isClientSide && !this.isRemoved()
+        return this.level != null && !this.level.isClientSide() && !this.isRemoved()
             && this.getFuze().getItem() instanceof FuzeItem fuzeItem && cons.test(fuzeItem);
     }
 

@@ -8,15 +8,15 @@ import org.joml.Matrix4f;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.createmod.catnip.render.CachedBuffers;
+import com.zurrtum.create.client.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.CreateBigCannons;
@@ -54,7 +54,7 @@ public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProje
 
 		if (isTracer) {
 			int frame = (int) ((entity.getId() + entity.level().getGameTime()) % 4L);
-			ResourceLocation textureLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d.png", frame));
+			Identifier textureLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d.png", frame));
 			RenderType renderType = RenderType.entityCutoutNoCull(textureLoc);
 
 			poseStack.pushPose();
@@ -77,7 +77,7 @@ public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProje
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(DropMortarShellProjectile entity) {
+	public Identifier getTextureLocation(DropMortarShellProjectile entity) {
 		return null;
 	}
 

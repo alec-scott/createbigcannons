@@ -9,7 +9,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 
-import net.createmod.catnip.codecs.stream.CatnipStreamCodecBuilders;
+import com.zurrtum.create.catnip.codecs.stream.CatnipStreamCodecBuilders;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
@@ -18,7 +18,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
@@ -95,7 +95,7 @@ public abstract sealed class BlockRecipeIngredient implements Predicate<BlockSta
 	public static final class TagIngredient extends BlockRecipeIngredient {
         public static final MapCodec<TagIngredient> CODEC = TagKey.codec(CBCRegistryUtils.getBlockRegistryKey()).fieldOf("tag").xmap(TagIngredient::new, i -> i.tag);
         public static final StreamCodec<RegistryFriendlyByteBuf, TagIngredient> STREAM_CODEC = StreamCodec.composite(
-            ResourceLocation.STREAM_CODEC, i -> i.tag.location(),
+            Identifier.STREAM_CODEC, i -> i.tag.location(),
             rl -> new TagIngredient(TagKey.create(CBCRegistryUtils.getBlockRegistryKey(), rl)));
 
 		private final TagKey<Block> tag;

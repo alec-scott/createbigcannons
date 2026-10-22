@@ -2,9 +2,9 @@ package rbasamoyai.createbigcannons.munitions.autocannon.bullet;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;

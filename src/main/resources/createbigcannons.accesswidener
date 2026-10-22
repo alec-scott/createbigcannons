@@ -1,0 +1,5 @@
+accessWidener   v2  official
+
+# From the NeoForge access transformer (META-INF/accesstransformer.cfg)
+accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration
+accessible field net/minecraft/client/player/LocalPlayer handsBusy Z

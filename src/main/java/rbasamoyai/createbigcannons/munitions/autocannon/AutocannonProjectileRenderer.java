@@ -9,13 +9,13 @@ import com.mojang.math.Axis;
 
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.config.CBCConfigs;
@@ -23,9 +23,9 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 
 public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile> extends EntityRenderer<T> {
 
-	private static final ResourceLocation SHRAPNEL_LOCATION = CreateBigCannons.resource("textures/entity/shrapnel.png");
-	private static final ResourceLocation COLOR_LOCATION = CreateBigCannons.resource("textures/entity/color.png");
-	private static final ResourceLocation COLOR_SPECULAR_LOCATION = CreateBigCannons.resource("textures/entity/color_s.png");
+	private static final Identifier SHRAPNEL_LOCATION = CreateBigCannons.resource("textures/entity/shrapnel.png");
+	private static final Identifier COLOR_LOCATION = CreateBigCannons.resource("textures/entity/color.png");
+	private static final Identifier COLOR_SPECULAR_LOCATION = CreateBigCannons.resource("textures/entity/color_s.png");
 	private static final RenderType SHRAPNEL = RenderType.entityCutoutNoCull(SHRAPNEL_LOCATION);
 	private static final RenderType COLOR = RenderType.entityTranslucentCull(COLOR_LOCATION);
 	private static final RenderType COLOR_SPECULAR = RenderType.eyes(COLOR_SPECULAR_LOCATION);
@@ -207,7 +207,7 @@ public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile
 			.setNormal(0.0f, 1.0f, 0.0f);
 	}
 
-    @Override public ResourceLocation getTextureLocation(T entity) { return null; }
+    @Override public Identifier getTextureLocation(T entity) { return null; }
 
     @Override
     protected int getBlockLightLevel(T entity, BlockPos pos) {

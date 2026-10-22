@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.simibubi.create.content.contraptions.ControlledContraptionEntity;
-import com.simibubi.create.content.contraptions.bearing.MechanicalBearingBlockEntity;
-import com.simibubi.create.content.kinetics.base.GeneratingKineticBlockEntity;
+import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
+import com.zurrtum.create.content.contraptions.bearing.MechanicalBearingBlockEntity;
+import com.zurrtum.create.content.kinetics.base.GeneratingKineticBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,7 +31,7 @@ public abstract class MechanicalBearingBlockEntityMixin extends GeneratingKineti
 
 	@WrapMethod(method = "tick", remap = false)
 	public void createbigcannons$tick(Operation<Void> original) {
-		if (this.getLevel().isClientSide || !this.running || this.movedContraption == null) {
+		if (this.getLevel().isClientSide() || !this.running || this.movedContraption == null) {
             original.call();
             return;
         }

@@ -2,9 +2,9 @@ package rbasamoyai.createbigcannons.crafting.incomplete;
 
 import java.util.List;
 
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import net.createmod.catnip.lang.LangBuilder;
+import com.zurrtum.create.client.catnip.lang.LangBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;

@@ -1,7 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.plumes;
 
-import net.createmod.catnip.levelWrappers.WrappedClientLevel;
-import net.createmod.ponder.api.level.PonderLevel;
+import com.zurrtum.create.client.catnip.levelWrappers.WrappedClientLevel;
+import com.zurrtum.create.client.ponder.api.level.PonderLevel;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;

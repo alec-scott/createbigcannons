@@ -3,10 +3,10 @@ package rbasamoyai.createbigcannons.cannons.big_cannons;
 import java.util.function.Supplier;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllShapes;
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.AllShapes;
+import com.zurrtum.create.foundation.block.IBE;
 
-import net.createmod.catnip.math.VoxelShaper;
+import com.zurrtum.create.catnip.math.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;

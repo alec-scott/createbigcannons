@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.munitions.big_cannon;
 
 import java.util.List;
 
-import com.simibubi.create.foundation.block.IBE;
+import com.zurrtum.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -61,14 +61,14 @@ public abstract class InertProjectileBlock extends ProjectileBlock<AbstractBigCa
         }
         if (slot == -1 || !projectileBlock.getItem(slot).isEmpty())
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             ItemStack copy = player.getAbilities().instabuild ? stack.copy() : stack.split(1);
             copy.setCount(1);
             projectileBlock.setItem(slot, copy);
             projectileBlock.notifyUpdate();
         }
         level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.NEUTRAL, 1.0f, 1.0f);
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return ItemInteractionResult.sidedSuccess(level.isClientSide());
 	}
 
     @Override
@@ -78,7 +78,7 @@ public abstract class InertProjectileBlock extends ProjectileBlock<AbstractBigCa
             return InteractionResult.PASS;
         if (projectileBlock.getItem(0).isEmpty())
             return InteractionResult.PASS;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             ItemStack resultStack = projectileBlock.removeItem(0, 1);
             if (!player.addItem(resultStack) && !player.isCreative()) {
                 ItemEntity item = player.drop(resultStack, false);
@@ -90,7 +90,7 @@ public abstract class InertProjectileBlock extends ProjectileBlock<AbstractBigCa
             projectileBlock.notifyUpdate();
         }
         level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.NEUTRAL, 1.0f, 1.0f);
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
 	@Override public Class<BigCannonProjectileBlockEntity> getBlockEntityClass() { return BigCannonProjectileBlockEntity.class; }

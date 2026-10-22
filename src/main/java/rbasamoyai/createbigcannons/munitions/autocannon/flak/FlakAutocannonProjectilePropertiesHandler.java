@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import rbasamoyai.createbigcannons.munitions.autocannon.config.AutocannonProjectilePropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.config.EntityPropertiesTypeHandler;
@@ -20,7 +20,7 @@ public class FlakAutocannonProjectilePropertiesHandler extends EntityPropertiesT
 		ProjectileBurstParentPropertiesComponent.DEFAULT);
 
 	@Override
-	protected FlakAutocannonProjectileProperties parseJson(ResourceLocation location, JsonObject obj) throws JsonParseException {
+	protected FlakAutocannonProjectileProperties parseJson(Identifier location, JsonObject obj) throws JsonParseException {
 		String id = location.toString();
 		BallisticPropertiesComponent ballistics = BallisticPropertiesComponent.fromJson(id, obj);
 		EntityDamagePropertiesComponent damage = EntityDamagePropertiesComponent.fromJson(id, obj);

@@ -8,13 +8,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -55,7 +55,7 @@ public class BigCannonProjectileRenderer<T extends AbstractBigCannonProjectile> 
 		}
 		if (isTracer) {
 			int frame = (int)((entity.getId() + entity.level().getGameTime()) % 4L);
-			ResourceLocation textureLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d.png", frame));
+			Identifier textureLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d.png", frame));
 			RenderType renderType = RenderType.entityTranslucentCull(textureLoc);
 
 			poseStack.pushPose();
@@ -72,7 +72,7 @@ public class BigCannonProjectileRenderer<T extends AbstractBigCannonProjectile> 
 			vertex(builder, pose, LightTexture.FULL_BRIGHT, -0.5f,  0.5f, 0, 0);
 
             if (CBCConfigs.client().enableEmissiveTracers.get()) {
-                ResourceLocation textureSpecularLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d_s.png", frame));
+                Identifier textureSpecularLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d_s.png", frame));
                 builder = buffers.getBuffer(RenderType.eyes(textureSpecularLoc));
                 vertex(builder, pose, LightTexture.FULL_BRIGHT, -0.5f, -0.5f, 0, 1);
                 vertex(builder, pose, LightTexture.FULL_BRIGHT,  0.5f, -0.5f, 1, 1);
@@ -85,7 +85,7 @@ public class BigCannonProjectileRenderer<T extends AbstractBigCannonProjectile> 
 		super.render(entity, entityYaw, partialTicks, poseStack, buffers, packedLight);
 	}
 
-	@Override public ResourceLocation getTextureLocation(T projectile) { return null; }
+	@Override public Identifier getTextureLocation(T projectile) { return null; }
 
 	@Override
 	public boolean shouldRender(T entity, Frustum camera, double camX, double camY, double camZ) {

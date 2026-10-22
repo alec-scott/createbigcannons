@@ -1,15 +1,15 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.foundation.particle.ICustomParticleData;
+import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleData;
 
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 
 public class DebrisSmokeBurstParticleData implements ParticleOptions, ICustomParticleData<DebrisSmokeBurstParticleData> {
@@ -31,7 +31,7 @@ public class DebrisSmokeBurstParticleData implements ParticleOptions, ICustomPar
         return STREAM_CODEC;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	@Override
 	public ParticleProvider<DebrisSmokeBurstParticleData> getFactory() {
 		return new DebrisSmokeBurstParticle.Provider();

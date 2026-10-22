@@ -3,7 +3,7 @@ package rbasamoyai.createbigcannons.munitions.config;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,7 +11,7 @@ import com.google.gson.JsonParseException;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
 public abstract class PropertiesTypeHandler<TYPE, PROPERTIES> {
@@ -21,11 +21,11 @@ public abstract class PropertiesTypeHandler<TYPE, PROPERTIES> {
 	public final void clearForReload() {
 		this.propertiesByType.clear();
 	}
-	public final void loadFromJson(TYPE type, ResourceLocation loc, JsonObject obj) throws JsonParseException {
+	public final void loadFromJson(TYPE type, Identifier loc, JsonObject obj) throws JsonParseException {
 		this.propertiesByType.put(type, this.parseJson(loc, obj));
 	}
 
-	protected abstract PROPERTIES parseJson(ResourceLocation location, JsonObject obj) throws JsonParseException;
+	protected abstract PROPERTIES parseJson(Identifier location, JsonObject obj) throws JsonParseException;
 
 	public static <V> V getOrWarn(JsonObject obj, String key, String id, V defValue, Function<JsonElement, V> func) {
 		if (!obj.has(key)) {
@@ -46,7 +46,7 @@ public abstract class PropertiesTypeHandler<TYPE, PROPERTIES> {
 	protected abstract PROPERTIES readPropertiesFromNetwork(TYPE type, FriendlyByteBuf buf);
 	protected abstract void writePropertiesToNetwork(PROPERTIES properties, FriendlyByteBuf buf);
 
-	@Nonnull
+	@NotNull
 	public final PROPERTIES getPropertiesOf(TYPE type) {
 		return this.propertiesByType.getOrDefault(type, this.getNoPropertiesValue());
 	}

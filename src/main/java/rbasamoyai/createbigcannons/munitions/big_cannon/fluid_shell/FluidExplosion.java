@@ -1,6 +1,6 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;

@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonFuzePropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonProjectilePropertiesComponent;
@@ -21,7 +21,7 @@ public class DropMortarShellPropertiesHandler extends EntityPropertiesTypeHandle
 		DropMortarProjectilePropertiesComponent.DEFAULT, 0, 0);
 
 	@Override
-	protected DropMortarShellProperties parseJson(ResourceLocation location, JsonObject obj) throws JsonParseException {
+	protected DropMortarShellProperties parseJson(Identifier location, JsonObject obj) throws JsonParseException {
 		String id = location.toString();
 		BallisticPropertiesComponent ballistics = BallisticPropertiesComponent.fromJson(id, obj);
 		EntityDamagePropertiesComponent damage = EntityDamagePropertiesComponent.fromJson(id, obj);

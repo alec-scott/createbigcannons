@@ -2,12 +2,12 @@ package rbasamoyai.createbigcannons.munitions.big_cannon;
 
 import java.util.List;
 
-import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
-import com.simibubi.create.api.schematic.nbt.PartialSafeNBT;
-import com.simibubi.create.api.schematic.requirement.SpecialBlockEntityItemRequirement;
-import com.simibubi.create.content.schematics.requirement.ItemRequirement;
-import com.simibubi.create.foundation.blockEntity.SyncedBlockEntity;
-import com.simibubi.create.foundation.utility.CreateLang;
+import com.zurrtum.create.client.api.goggles.IHaveGoggleInformation;
+import com.zurrtum.create.api.schematic.nbt.PartialSafeNBT;
+import com.zurrtum.create.api.schematic.requirement.SpecialBlockEntityItemRequirement;
+import com.zurrtum.create.content.schematics.requirement.ItemRequirement;
+import com.zurrtum.create.foundation.blockEntity.SyncedBlockEntity;
+import com.zurrtum.create.client.foundation.utility.CreateLang;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
