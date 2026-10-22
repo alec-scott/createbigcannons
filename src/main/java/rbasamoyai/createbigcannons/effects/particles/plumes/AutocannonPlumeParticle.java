@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.plumes;
 
+import net.minecraft.util.RandomSource;
+
 import com.zurrtum.create.client.catnip.levelWrappers.WrappedClientLevel;
 import com.zurrtum.create.client.ponder.api.level.PonderLevel;
 import net.minecraft.server.level.ParticleStatus;
@@ -63,7 +65,7 @@ public class AutocannonPlumeParticle extends NoRenderParticle {
 			if (this.isPonderLevel) {
 				this.level.addParticle(ParticleTypes.CLOUD, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 			} else {
-				this.level.addParticle(ParticleTypes.CLOUD, true, this.x, this.y, this.z, vel.x, vel.y, vel.z);
+				this.level.addParticle(ParticleTypes.CLOUD, true, false, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 			}
 		}
 		if (this.age == 0) {
@@ -76,7 +78,7 @@ public class AutocannonPlumeParticle extends NoRenderParticle {
 				if (this.isPonderLevel) {
 					this.level.addParticle(ParticleTypes.FLAME, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 				} else {
-					this.level.addParticle(ParticleTypes.FLAME, true, this.x, this.y, this.z, vel.x, vel.y, vel.z);
+					this.level.addParticle(ParticleTypes.FLAME, true, false, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 				}
 			}
 		}
@@ -84,7 +86,7 @@ public class AutocannonPlumeParticle extends NoRenderParticle {
 	}
 
 	public static class Provider implements ParticleProvider<AutocannonPlumeParticleData> {
-		public Particle createParticle(AutocannonPlumeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(AutocannonPlumeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			return new AutocannonPlumeParticle(level, x, y, z, new Vec3(dx, dy, dz), data.scale());
 		}
 	}

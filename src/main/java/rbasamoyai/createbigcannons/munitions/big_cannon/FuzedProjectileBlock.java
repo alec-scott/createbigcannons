@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -87,7 +89,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
 		if (blocks.isEmpty()) return ItemStack.EMPTY;
 		StructureBlockInfo info = blocks.get(0);
 		if (info.nbt() == null) return ItemStack.EMPTY;
-        return ItemStack.parseOptional(registries, info.nbt().getCompound("Fuze"));
+        return CBCValueIO.parseItem(registries, info.nbt().getCompoundOrEmpty("Fuze"));
 	}
 
 	public static ItemStack getFuzeFromBlock(Level level, BlockPos pos, BlockState state) {
@@ -99,7 +101,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
         StructureBlockInfo info = super.getHandloadingInfo(stack, localPos, cannonOrientation, registries);
         if (info.nbt() != null) {
             ItemStack fuze = getFuzeFromItemStack(stack);
-            info.nbt().put("Fuze", fuze.saveOptional(registries));
+            info.nbt().put("Fuze", CBCValueIO.saveItem(registries, fuze));
         }
         return info;
     }
@@ -108,7 +110,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
     public ItemStack getExtractedItem(StructureBlockInfo info, HolderLookup.Provider registries) {
         ItemStack stack = super.getExtractedItem(info, registries);
         if (info.nbt() != null) {
-            ItemStack fuze = ItemStack.parseOptional(registries, info.nbt().getCompound("Fuze"));
+            ItemStack fuze = CBCValueIO.parseItem(registries, info.nbt().getCompoundOrEmpty("Fuze"));
             stack.set(CBCDataComponents.FUZE, fuze.isEmpty() ? ItemContainerContents.EMPTY : ItemContainerContents.fromItems(List.of(fuze)));
         }
         return stack;

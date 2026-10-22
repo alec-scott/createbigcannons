@@ -100,10 +100,10 @@ public abstract class AbstractMountedCannonContraption extends Contraption {
 	@Override
 	public void readNBT(Level world, CompoundTag tag, boolean spawnData) {
 		super.readNBT(world, tag, spawnData);
-		this.initialOrientation = tag.contains("InitialOrientation", Tag.TAG_STRING) ? Direction.byName(tag.getString("InitialOrientation")) : Direction.NORTH;
-		this.startPos = BlockPos.of(tag.getLong("LocalStartingPos"));
-		this.backExtensionLength = tag.getInt("BackExtensionLength");
-		this.frontExtensionLength = tag.getInt("FrontExtensionLength");
+		this.initialOrientation = tag.contains("InitialOrientation", Tag.TAG_STRING) ? Direction.byName(tag.getStringOr("InitialOrientation", "")) : Direction.NORTH;
+		this.startPos = BlockPos.of(tag.getLongOr("LocalStartingPos", 0));
+		this.backExtensionLength = tag.getIntOr("BackExtensionLength", 0);
+		this.frontExtensionLength = tag.getIntOr("FrontExtensionLength", 0);
 
         HolderLookup.Provider registries = world.registryAccess();
 

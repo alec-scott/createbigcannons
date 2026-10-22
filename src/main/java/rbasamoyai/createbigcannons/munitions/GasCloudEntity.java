@@ -143,7 +143,7 @@ public class GasCloudEntity extends SmokeEmitterEntity {
         List<MobEffectInstance> effects = new ArrayList<>();
         effects.addAll(this.potionContents.customEffects());
         effects.addAll(otherGas.potionContents.customEffects());
-        this.potionContents = new PotionContents(potionOp, this.potionContents.customColor(), effects);
+        this.potionContents = new PotionContents(potionOp, this.potionContents.customColor(), effects, this.potionContents.customName());
 	}
 
 	@Override

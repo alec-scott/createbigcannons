@@ -175,7 +175,7 @@ public class MunitionPropertiesHandler {
 		map.values().forEach(PropertiesTypeHandler::clearForReload);
 		int size = buf.readVarInt();
 		for (int i = 0; i < size; ++i) {
-			TYPE type = registry.get(buf.readIdentifier());
+			TYPE type = registry.getValue(buf.readIdentifier());
 			map.get(type).loadFromNetwork(type, buf);
 		}
 	}

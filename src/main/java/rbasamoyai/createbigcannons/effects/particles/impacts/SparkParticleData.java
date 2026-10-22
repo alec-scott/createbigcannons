@@ -24,7 +24,7 @@ public record SparkParticleData(Vector3f color) implements ParticleOptions, ICus
     );
 
     private static final StreamCodec<RegistryFriendlyByteBuf, SparkParticleData> STREAM_CODEC = StreamCodec.composite(
-        ByteBufCodecs.VECTOR3F, p -> p.color,
+        ByteBufCodecs.VECTOR3F.map(Vector3f::new, v -> v), p -> p.color,
         SparkParticleData::new
     );
 

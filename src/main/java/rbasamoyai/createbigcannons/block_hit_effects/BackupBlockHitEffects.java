@@ -21,11 +21,11 @@ public class BackupBlockHitEffects {
 	public static void backupSolidEffect(Level level, BlockState blockState, boolean deflect, boolean forceDisplay, double x, double y, double z,
 										 double dx, double dy, double dz, ProjectileHitEffect projectileEffect) {
 		SoundType type = blockState.getSoundType();
-		level.addParticle(new DebrisMatterParticleData(deflect, forceDisplay, blockState), forceDisplay, x, y, z, dx, dy, dz);
+		level.addParticle(new DebrisMatterParticleData(deflect, forceDisplay, blockState), forceDisplay, false, x, y, z, dx, dy, dz);
 		if (deflect) {
 			level.playLocalSound(x, y, z, type.getBreakSound(), SoundSource.BLOCKS, 2, type.getPitch(), false);
 		} else if (projectileEffect.effectMultiplier() >= 1) {
-			level.addParticle(DebrisSmokeBurstParticleData.instance(), forceDisplay, x, y, z, dx, dy, dz);
+			level.addParticle(DebrisSmokeBurstParticleData.instance(), forceDisplay, false, x, y, z, dx, dy, dz);
 			CBCSoundEvents.PROJECTILE_IMPACT.playAt(level, x, y, z, 3f, 1.0f + level.getRandom().nextFloat() * 0.4f, false);
 		}
 	}
@@ -109,7 +109,7 @@ public class BackupBlockHitEffects {
 		else {
 			return;
 		}
-		level.addParticle(new ProjectileSplashParticleData(r, g, b, light), true, x, y, z, dx * velScale * 0.5f, dy * velScale, dz * velScale * 0.5f);
+		level.addParticle(new ProjectileSplashParticleData(r, g, b, light), true, false, x, y, z, dx * velScale * 0.5f, dy * velScale, dz * velScale * 0.5f);
 	}
 
 	private static float modifyPitch(float base, ProjectileHitEffect effect, float modifier) {

@@ -19,6 +19,7 @@ import rbasamoyai.createbigcannons.CBCClientCommon;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.fabric.client.CBCBlockEntityRenderers;
 import rbasamoyai.createbigcannons.fabric.client.CBCEntityRenderers;
+import rbasamoyai.createbigcannons.fabric.client.CBCItemTooltips;
 import rbasamoyai.createbigcannons.fabric.client.CBCConnectedTextures;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
@@ -40,6 +41,7 @@ public class CBCClientFabric implements ClientModInitializer {
 		CBCConnectedTextures.register();
 		CBCBlockEntityRenderers.register();
 		CBCEntityRenderers.register();
+		CBCItemTooltips.register();
 		CBCClientCommon.onClientSetup();
 		CBCClientCommon.registerKeyMappings(KeyMappingHelper::registerKeyMapping);
 		CBCClientCommon.registerOverlays("hotbar", (id, element) ->

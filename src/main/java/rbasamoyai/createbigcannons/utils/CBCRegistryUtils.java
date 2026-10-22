@@ -30,7 +30,7 @@ public class CBCRegistryUtils {
 	public static Stream<Block> streamAllBlocks() { return getBlockRegistry().stream(); }
 	public static Identifier getBlockLocation(Block block) { return getBlockRegistry().getKey(block); }
 	public static int getBlockNumericId(Block block) { return getBlockRegistry().getId(block); }
-	public static Block getBlock(Identifier id) { return getBlockRegistry().get(id); }
+	public static Block getBlock(Identifier id) { return getBlockRegistry().getValue(id); }
 	public static Block getBlock(int id) { return getBlockRegistry().byId(id); }
 	public static Optional<Block> getOptionalBlock(Identifier id) { return getBlockRegistry().getOptional(id); }
 	public static TagKey<Block> createBlockTag(Identifier id) { return TagKey.create(getBlockRegistryKey(), id); }
@@ -42,7 +42,7 @@ public class CBCRegistryUtils {
 	public static Stream<Item> streamAllItems() { return getItemRegistry().stream(); }
 	public static Identifier getItemLocation(Item item) { return getItemRegistry().getKey(item); }
 	public static int getItemNumericId(Item item) { return getItemRegistry().getId(item); }
-	public static Item getItem(Identifier id) { return getItemRegistry().get(id); }
+	public static Item getItem(Identifier id) { return getItemRegistry().getValue(id); }
 	public static Item getItem(int id) { return getItemRegistry().byId(id); }
 	public static Optional<Item> getOptionalItem(Identifier id) { return getItemRegistry().getOptional(id); }
 	public static TagKey<Item> createItemTag(Identifier id) { return TagKey.create(getItemRegistryKey(), id); }
@@ -54,7 +54,7 @@ public class CBCRegistryUtils {
 	public static Stream<Fluid> streamAllFluids() { return getFluidRegistry().stream(); }
 	public static Identifier getFluidLocation(Fluid fluid) { return getFluidRegistry().getKey(fluid); }
 	public static int getFluidNumericId(Fluid fluid) { return getFluidRegistry().getId(fluid); }
-	public static Fluid getFluid(Identifier id) { return getFluidRegistry().get(id); }
+	public static Fluid getFluid(Identifier id) { return getFluidRegistry().getValue(id); }
 	public static Fluid getFluid(int id) { return getFluidRegistry().byId(id); }
 	public static Optional<Fluid> getOptionalFluid(Identifier id) { return getFluidRegistry().getOptional(id); }
 	public static TagKey<Fluid> createFluidTag(Identifier id) { return TagKey.create(getFluidRegistryKey(), id); }
@@ -66,7 +66,7 @@ public class CBCRegistryUtils {
 	public static Stream<BlockEntityType<?>> streamAllBlockEntityTypes() { return getBlockEntityTypeRegistry().stream(); }
 	public static Identifier getBlockEntityTypeLocation(BlockEntityType<?> beType) { return getBlockEntityTypeRegistry().getKey(beType); }
 	public static int getBlockEntityTypeNumericId(BlockEntityType<?> beType) { return getBlockEntityTypeRegistry().getId(beType); }
-	public static BlockEntityType<?> getBlockEntityType(Identifier id) { return getBlockEntityTypeRegistry().get(id); }
+	public static BlockEntityType<?> getBlockEntityType(Identifier id) { return getBlockEntityTypeRegistry().getValue(id); }
 	public static BlockEntityType<?> getBlockEntityType(int id) { return getBlockEntityTypeRegistry().byId(id); }
 	public static Optional<BlockEntityType<?>> getOptionalBlockEntityType(Identifier id) { return getBlockEntityTypeRegistry().getOptional(id); }
 
@@ -76,7 +76,7 @@ public class CBCRegistryUtils {
 	public static Stream<EntityType<?>> streamAllEntityTypes() { return getEntityTypeRegistry().stream(); }
 	public static Identifier getEntityTypeLocation(EntityType<?> entityType) { return getEntityTypeRegistry().getKey(entityType); }
 	public static int getEntityTypeNumericId(EntityType<?> entityType) { return getEntityTypeRegistry().getId(entityType); }
-	public static EntityType<?> getEntityType(Identifier id) { return getEntityTypeRegistry().get(id); }
+	public static EntityType<?> getEntityType(Identifier id) { return getEntityTypeRegistry().getValue(id); }
 	public static EntityType<?> getEntityType(int id) { return getEntityTypeRegistry().byId(id); }
 	public static Optional<EntityType<?>> getOptionalEntityType(Identifier id) { return getEntityTypeRegistry().getOptional(id); }
 	public static TagKey<EntityType<?>> createEntityTypeTag(Identifier id) { return TagKey.create(getEntityTypeRegistryKey(), id); }
@@ -87,7 +87,7 @@ public class CBCRegistryUtils {
 	public static Registry<SoundEvent> getSoundEventRegistry() { return BuiltInRegistries.SOUND_EVENT; }
 	public static Identifier getSoundEventLocation(SoundEvent soundEvent) { return getSoundEventRegistry().getKey(soundEvent); }
 	public static int getSoundEventNumericId(SoundEvent soundEvent) { return getSoundEventRegistry().getId(soundEvent); }
-	public static SoundEvent getSoundEvent(Identifier id) { return getSoundEventRegistry().get(id); }
+	public static SoundEvent getSoundEvent(Identifier id) { return getSoundEventRegistry().getValue(id); }
 	public static SoundEvent getSoundEvent(int id) { return getSoundEventRegistry().byId(id); }
 
 	//////// Less-used registry access aliases ////////

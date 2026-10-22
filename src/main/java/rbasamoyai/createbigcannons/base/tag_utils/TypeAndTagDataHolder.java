@@ -88,7 +88,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 			if (!buf.readBoolean())
 				continue;
 			Identifier location = buf.readIdentifier();
-			TYPE type = this.registry.get(location);
+			TYPE type = this.registry.getValue(location);
 			VALUE value = consumer.apply(buf);
 			if (type != null)
 				this.typeData.put(type, value);
@@ -98,7 +98,7 @@ public class TypeAndTagDataHolder<TYPE, VALUE> {
 			if (!buf.readBoolean())
 				continue;
 			Identifier location = buf.readIdentifier();
-			TYPE type = this.registry.get(location);
+			TYPE type = this.registry.getValue(location);
 			VALUE value = consumer.apply(buf);
 			if (type != null)
 				this.tagData.put(type, value);

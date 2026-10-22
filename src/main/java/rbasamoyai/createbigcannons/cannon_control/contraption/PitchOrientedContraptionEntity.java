@@ -69,7 +69,7 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 			// Legacy, cannon mount
 			this.controllerPos = controller.getControllerBlockPos();
 		}
-		this.updatesOwnRotation = compound.getBoolean("UpdatesOwnRotation");
+		this.updatesOwnRotation = compound.getBooleanOr("UpdatesOwnRotation", false);
 	}
 
 	@Override

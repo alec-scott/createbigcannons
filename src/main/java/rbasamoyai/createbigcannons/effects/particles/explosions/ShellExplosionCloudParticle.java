@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.explosions;
 
+import net.minecraft.util.RandomSource;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,7 +84,7 @@ public class ShellExplosionCloudParticle extends NoRenderParticle {
 				dy *= velScale;
 				double dz = (this.random.nextDouble() - this.random.nextDouble()) * velScale;
 				int lifetime = 160 + this.random.nextInt(80);
-				this.level.addParticle(new ShellExplosionSmokeParticleData(lifetime, primaryScale), true, rx, ry, rz, dx, dy, dz);
+				this.level.addParticle(new ShellExplosionSmokeParticleData(lifetime, primaryScale), true, false, rx, ry, rz, dx, dy, dz);
 			}
 		}
 		int trailSteps = CBCClientCommon.getParticleStatus() == ParticleStatus.ALL ? 2 : 1;
@@ -106,7 +108,7 @@ public class ShellExplosionCloudParticle extends NoRenderParticle {
 				double dy = (this.random.nextDouble() - this.random.nextDouble()) * velScale;
 				double dz = (this.random.nextDouble() - this.random.nextDouble()) * velScale;
 				int lifetime = 30 + this.random.nextInt(15);
-				this.level.addParticle(new ShellExplosionSmokeParticleData(lifetime, secondaryScale), true, rx, ry, rz, dx, dy, dz);
+				this.level.addParticle(new ShellExplosionSmokeParticleData(lifetime, secondaryScale), true, false, rx, ry, rz, dx, dy, dz);
 			}
 		}
 		super.tick();
@@ -116,7 +118,7 @@ public class ShellExplosionCloudParticle extends NoRenderParticle {
 		@Nullable
 		@Override
 		public Particle createParticle(ShellExplosionCloudParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			if (!CBCConfigs.client().showShellExplosionClouds.get())
 				return null;
 			ShellExplosionCloudParticle particle = new ShellExplosionCloudParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, type.scale(), type.isPlume());

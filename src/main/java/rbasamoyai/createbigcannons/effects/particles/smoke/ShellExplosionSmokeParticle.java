@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.smoke;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.BaseAshSmokeParticle;
 import net.minecraft.client.particle.Particle;
@@ -51,11 +53,11 @@ public class ShellExplosionSmokeParticle extends BaseAshSmokeParticle {
 	}
 
 	@Override
-	public int getLightColor(float partialTick) {
+	public int getLightCoords(float partialTick) {
 		float progress = 1 - Mth.clamp((this.age + partialTick) / (float) this.lifetime * 4f, 0, 1);
 		float brightness = progress * progress * progress * progress;
 
-		int i = super.getLightColor(partialTick);
+		int i = super.getLightCoords(partialTick);
 		int j = i & 0xFF;
 		int k = i >> 16 & 0xFF;
 		j += (int)(brightness * 240f);
@@ -64,7 +66,7 @@ public class ShellExplosionSmokeParticle extends BaseAshSmokeParticle {
 		return j | k << 16;
 	}
 
-	@Override public ParticleRenderType getRenderType() { return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT; }
+	@Override public Layer getLayer() { return Layer.TRANSLUCENT; }
 
 	public static class Provider implements ParticleProvider<ShellExplosionSmokeParticleData> {
 		private final SpriteSet sprites;
@@ -75,7 +77,7 @@ public class ShellExplosionSmokeParticle extends BaseAshSmokeParticle {
 
 		@Override
 		public Particle createParticle(ShellExplosionSmokeParticleData data, ClientLevel level, double x, double y, double z,
-									   double dx, double dy, double dz) {
+									   double dx, double dy, double dz, RandomSource random) {
 			ShellExplosionSmokeParticle particle = new ShellExplosionSmokeParticle(level, x, y, z, dx, dy, dz, this.sprites);
 			particle.scale(data.scale());
 			particle.setSize(0.25f, 0.25f);

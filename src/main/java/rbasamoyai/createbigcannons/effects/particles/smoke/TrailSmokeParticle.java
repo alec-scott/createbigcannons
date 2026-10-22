@@ -1,16 +1,19 @@
 package rbasamoyai.createbigcannons.effects.particles.smoke;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
 
-public class TrailSmokeParticle extends TextureSheetParticle {
+public class TrailSmokeParticle extends SingleQuadParticle {
 
-	TrailSmokeParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
-		super(level, x, y, z);
+	TrailSmokeParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd, TextureAtlasSprite sprite) {
+		super(level, x, y, z, sprite);
 		this.gravity = 3.0E-6F;
 		this.friction = 1f;
 		this.xd = xd;
@@ -39,7 +42,7 @@ public class TrailSmokeParticle extends TextureSheetParticle {
 		}
 	}
 
-	@Override public ParticleRenderType getRenderType() { return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT; }
+	@Override public Layer getLayer() { return Layer.TRANSLUCENT; }
 
 	public static class Provider implements ParticleProvider<TrailSmokeParticleData> {
 		private final SpriteSet sprites;
@@ -49,13 +52,12 @@ public class TrailSmokeParticle extends TextureSheetParticle {
 		}
 
 		@Override
-		public Particle createParticle(TrailSmokeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-			TrailSmokeParticle particle = new TrailSmokeParticle(level, x, y, z, dx, dy, dz);
+		public Particle createParticle(TrailSmokeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
+			TrailSmokeParticle particle = new TrailSmokeParticle(level, x, y, z, dx, dy, dz, this.sprites.get(random));
 			particle.scale(3.0f);
 			particle.setSize(0.25f, 0.25f);
 			particle.setAlpha(0.35f);
 			particle.setLifetime(data.lifetime());
-			particle.pickSprite(this.sprites);
 			return particle;
 		}
 	}

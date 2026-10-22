@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.smoke;
 
+import net.minecraft.util.RandomSource;
+
 import org.joml.Vector3f;
 
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -29,7 +31,7 @@ public class GasCloudParticle extends SmokeShellSmokeParticle {
 		}
 
 		@Override
-		public Particle createParticle(GasCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(GasCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			return new GasCloudParticle(level, x, y, z, dx, dy, dz, data.scale(), data.color(), this.sprites);
 		}
 	}

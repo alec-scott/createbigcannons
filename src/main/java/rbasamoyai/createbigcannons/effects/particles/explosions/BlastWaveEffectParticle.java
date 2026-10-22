@@ -94,7 +94,7 @@ public class BlastWaveEffectParticle extends NoRenderParticle {
 	public static class CannonBlastProvider implements ParticleProvider<CannonBlastWaveEffectParticleData> {
 		@Override
 		public Particle createParticle(CannonBlastWaveEffectParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			float power = type.power() * CBCConfigs.client().bigCannonShakePowerMultiplier.getF();
 			BlastWaveEffectParticle particle = new BlastWaveEffectParticle(level, x, y, z, type.blastRadius(), type.soundEvent().value(),
 				type.soundSource(), type.volume(), type.pitch(), type.airAbsorption(), power, CBCConfigs.client().bigCannonShakePowerLimit.getF());
@@ -106,7 +106,7 @@ public class BlastWaveEffectParticle extends NoRenderParticle {
 	public static class ShellBlastProvider implements ParticleProvider<ShellBlastWaveEffectParticleData> {
 		@Override
 		public Particle createParticle(ShellBlastWaveEffectParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			float power = type.power() * CBCConfigs.client().shellShakePowerMultiplier.getF();
 			BlastWaveEffectParticle particle = new BlastWaveEffectParticle(level, x, y, z, type.blastRadius(), type.soundEvent().value(),
 				type.soundSource(), type.volume(), type.pitch(), type.airAbsorption(), power, CBCConfigs.client().shellShakePowerLimit.getF());

@@ -6,11 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rbasamoyai.createbigcannons.port.create.foundation.data.CreateRegistrate;
-import com.zurrtum.create.client.foundation.item.ItemDescription;
-import com.zurrtum.create.client.foundation.item.KineticStats;
-import com.zurrtum.create.client.foundation.item.TooltipModifier;
 
-import com.zurrtum.create.client.catnip.lang.FontHelper;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -66,11 +62,6 @@ public class CreateBigCannons {
 		CBCRootNetwork.init();
 	}
 
-	static {
-		REGISTRATE.setTooltipModifierFactory(item -> new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
-			.andThen(TooltipModifier.mapNull(KineticStats.create(item))));
-	}
-
 	public static Identifier resource(String path) {
 		return CBCUtils.location(MOD_ID, path);
 	}
@@ -81,24 +72,13 @@ public class CreateBigCannons {
 		RitchiesProjectileLib.shakePlayerScreen(player, SCREEN_SHAKE_HANDLER_ID, effect);
 	}
 
-	public static <T extends Explosion & CustomExplosion> void handleCustomExplosion(Level level, T explosion) {
-		if (IndexPlatform.onExplosionStart(level, explosion))
+	public static void handleCustomExplosion(Level level, CustomExplosion.Impl explosion) {
+		if (!(level instanceof ServerLevel slevel) || IndexPlatform.onExplosionStart(level, explosion))
 			return;
 
-        boolean canDamageTerrain = ProjectileDamageHooks.canDamageTerrain(level, BlockPos.containing(explosion.center()));
-        explosion.setCanDamageTerrain(canDamageTerrain);
-
+		// PORT-NOTE(mc26.1): explode() now also destroys blocks, so terrain protection is applied inside it (ServerExplosionMixin).
+        explosion.setCanDamageTerrain(ProjectileDamageHooks.canDamageTerrain(level, BlockPos.containing(explosion.center())));
 		explosion.explode();
-
-        if (!canDamageTerrain){
-            explosion.clearToBlow();
-        }
-
-		explosion.finalizeExplosion(level.isClientSide());
-		if (!(level instanceof ServerLevel slevel))
-			return;
-		if (!explosion.interactsWithBlocks())
-			explosion.clearToBlow();
 		for (ServerPlayer player : slevel.players())
 			explosion.sendExplosionToClient(player);
 	}

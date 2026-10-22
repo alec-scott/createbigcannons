@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.explosions;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -19,7 +21,7 @@ public class FluidCloudParticle extends ShrapnelCloudParticle {
 
 	public static class Provider implements ParticleProvider<FluidCloudParticleData> {
 		@Override
-		public Particle createParticle(FluidCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(FluidCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			FluidCloudParticle particle = new FluidCloudParticle(level, x, y, z, dx, dy, dz);
 			particle.setSize(0.25f, 0.25f);
 			particle.setLifetime(1);

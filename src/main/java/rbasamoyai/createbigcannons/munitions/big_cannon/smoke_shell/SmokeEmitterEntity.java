@@ -57,9 +57,9 @@ public class SmokeEmitterEntity extends Entity {
 	protected void readAdditionalSaveData(ValueInput tag) {
 		this.duration = tag.getIntOr("Duration", 0);
 		ListTag sizeDims = CBCValueIO.getList(tag, "Size");
-		this.setSizeX((float) sizeDims.getDouble(0));
-		this.setSizeY((float) sizeDims.getDouble(1));
-		this.setSizeZ((float) sizeDims.getDouble(2));
+		this.setSizeX((float) sizeDims.getDoubleOr(0, 0));
+		this.setSizeY((float) sizeDims.getDoubleOr(1, 0));
+		this.setSizeZ((float) sizeDims.getDoubleOr(2, 0));
 	}
 
 	public void setDuration(int duration) { this.duration = duration; }
@@ -125,7 +125,7 @@ public class SmokeEmitterEntity extends Entity {
 					double dx = this.random.nextGaussian() * 0.05;
 					double dy = this.random.nextGaussian() * 0.02;
 					double dz = this.random.nextGaussian() * 0.05;
-					this.level().addParticle(particle, true, rx, ry, rz, dx, dy, dz);
+					this.level().addParticle(particle, true, false, rx, ry, rz, dx, dy, dz);
 				}
 			}
 		} else {

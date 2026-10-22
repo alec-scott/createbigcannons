@@ -31,7 +31,7 @@ public record BlockHitEffect(List<ParticleOptions> impactParticles, List<Particl
 		List<ParticleOptions> particles = deflect ? this.deflectParticles : this.impactParticles;
 		for (ParticleOptions option : particles) {
 			option = ProjectileParticleEffectModifiers.applyEffects(option, entityType, blockState, projectileEffect);
-			level.addParticle(option, forceDisplay, x, y, z, dx, dy, dz);
+			level.addParticle(option, forceDisplay, false, x, y, z, dx, dy, dz);
 		}
 		BlockHitEffect.HitSound sound = deflect ? this.deflectSound : this.impactSound;
 		sound.playSound(level, x, y, z, dx, dy, dz, projectileEffect);

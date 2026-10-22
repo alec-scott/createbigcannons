@@ -544,20 +544,20 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 	@Override
 	public void readNBT(Level level, CompoundTag tag, boolean clientData) {
 		super.readNBT(level, tag, clientData);
-		this.cannonMaterial = AutocannonMaterial.fromNameOrNull(CBCUtils.location(tag.getString("AutocannonMaterial")));
+		this.cannonMaterial = AutocannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("AutocannonMaterial", "")));
 		if (this.cannonMaterial == null) this.cannonMaterial = CBCAutocannonMaterials.CAST_IRON;
 		this.startPos = tag.contains("StartPos") ? NbtUtils.readBlockPos(tag, "StartPos").get() : null;
 		this.recoilSpringPositions.clear();
 		if (tag.contains("RecoilSpringPositions")) {
-			ListTag positionTags = tag.getList("RecoilSpringPositions", Tag.TAG_INT_ARRAY);
+			ListTag positionTags = tag.getListOrEmpty("RecoilSpringPositions");
 			int sz = positionTags.size();
 			for (int i = 0; i < sz; ++i) {
-                int[] is = positionTags.getIntArray(i);
+                int[] is = positionTags.getIntArray(i).orElseGet(() -> new int[0]);
                 if (is.length == 3)
                     this.recoilSpringPositions.add(new BlockPos(is[0], is[1], is[2]));
             }
 		}
-		this.isHandle = tag.getBoolean("IsHandle");
+		this.isHandle = tag.getBooleanOr("IsHandle", false);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -21,29 +23,32 @@ public class ShrapnelExplosion extends CustomExplosion.Impl {
 		super(level, source, damageSource, new CustomDamageCalculator(), toBlowX, toBlowY, toBlowZ, blockRadius, entityRadius, false, interaction);
 	}
 
-	public ShrapnelExplosion(Level level, ClientboundCBCExplodePacket packet) {
-		super(level, packet);
-	}
-
-	@Override
-	public void playLocalSound(Level level, double x, double y, double z) {
-		float pitch = 0.7f + this.level.getRandom().nextFloat() * 0.4f - 0.2f;
-		CBCSoundEvents.SHRAPNEL_SHELL_EXPLOSION.playAt(this.level, this.x, this.y, this.z, 6.0f, pitch, false);
-	}
-
 	@Override
 	public void sendExplosionToClient(ServerPlayer player) {
 		if (player.distanceToSqr(this.x, this.y, this.z) < 250000.0d) {
 			Vec3 knockback = this.getHitPlayers().getOrDefault(player, Vec3.ZERO);
 			NetworkPlatform.sendToClientPlayer(new ClientboundCBCExplodePacket(this.x, this.y, this.z, this.blockSize,
-                this.entitySize, this.getToBlow(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
+                this.entitySize, List.of(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
                 ClientboundCBCExplodePacket.ExplosionType.SHRAPNEL), player);
 		}
 	}
 
-	@Override
-	protected void spawnParticles() {
-		this.level.addParticle(ShrapnelCloudParticleData.instance(), true, this.x, this.y, this.z, 0, 0, 0);
+
+	public static class Effects extends CustomExplosion.Effects {
+		public Effects(Level level, ClientboundCBCExplodePacket packet) {
+			super(level, packet);
+		}
+
+		@Override
+		protected void playLocalSound(Level level, double x, double y, double z) {
+			float pitch = 0.7f + this.level.getRandom().nextFloat() * 0.4f - 0.2f;
+			CBCSoundEvents.SHRAPNEL_SHELL_EXPLOSION.playAt(this.level, this.x, this.y, this.z, 6.0f, pitch, false);
+		}
+
+		@Override
+		protected void spawnParticles() {
+			this.level.addParticle(ShrapnelCloudParticleData.instance(), true, false, this.x, this.y, this.z, 0, 0, 0);
+		}
 	}
 
 }

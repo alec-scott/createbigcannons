@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import java.util.List;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,10 +32,6 @@ public class ImpactExplosion extends CustomExplosion.Impl {
 		super(level, source, damageSource, new CustomDamageCalculator(), toBlowX, toBlowY, toBlowZ, blockRadius, entityRadius, false, interaction);
 	}
 
-	public ImpactExplosion(Level level, ClientboundCBCExplodePacket packet) {
-		super(level, packet);
-	}
-
 	@Override
 	public void editBlock(Level level, BlockPos pos, BlockState blockState, FluidState fluidState, float power) {
 		if (!CBCConfigs.server().munitions.projectilesChangeSurroundings.get() || this.changedBlocks.contains(pos))
@@ -53,8 +51,15 @@ public class ImpactExplosion extends CustomExplosion.Impl {
 			CreateBigCannons.shakePlayerScreen(player, new ScreenShakeEffect(0, shake, shake * 0.5f, shake * 0.5f, 1, 1, 1, this.x, this.y, this.z));
 			Vec3 knockback = this.getHitPlayers().getOrDefault(player, Vec3.ZERO);
 			NetworkPlatform.sendToClientPlayer(new ClientboundCBCExplodePacket(this.x, this.y, this.z, this.blockSize,
-                this.entitySize, this.getToBlow(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
+                this.entitySize, List.of(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
                 ClientboundCBCExplodePacket.ExplosionType.IMPACT), player);
+		}
+	}
+
+
+	public static class Effects extends CustomExplosion.Effects {
+		public Effects(Level level, ClientboundCBCExplodePacket packet) {
+			super(level, packet);
 		}
 	}
 

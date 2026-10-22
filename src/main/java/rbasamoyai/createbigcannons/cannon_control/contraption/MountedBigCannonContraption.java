@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannon_control.contraption;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -623,7 +625,7 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 		if (this.hasWeldedPenalty) tag.putBoolean("WeldedCannon", true);
 		if (this.mortarDelay > 0) tag.putInt("MortarDelay", this.mortarDelay);
 		if (this.cachedMortarRound != null)
-			tag.put("CachedMortarRound", this.cachedMortarRound.saveOptional(registries));
+			tag.put("CachedMortarRound", CBCValueIO.saveItem(registries, this.cachedMortarRound));
 		if (this.hasFired) tag.putBoolean("HasFired", true);
 		return tag;
 	}
@@ -631,11 +633,11 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 	@Override
 	public void readNBT(Level level, CompoundTag tag, boolean clientData) {
 		super.readNBT(level, tag, clientData);
-		this.cannonMaterial = BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getString("CannonMaterial")));
+		this.cannonMaterial = BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("CannonMaterial", "")));
 		this.hasWeldedPenalty = tag.contains("WeldedCannon");
 		if (this.cannonMaterial == null) this.cannonMaterial = CBCBigCannonMaterials.CAST_IRON;
-		this.mortarDelay = Math.max(0, tag.getInt("MortarDelay"));
-		this.cachedMortarRound = ItemStack.parseOptional(level.registryAccess(), tag.getCompound("CachedMortarRound"));
+		this.mortarDelay = Math.max(0, tag.getIntOr("MortarDelay", 0));
+		this.cachedMortarRound = CBCValueIO.parseItem(level.registryAccess(), tag.getCompoundOrEmpty("CachedMortarRound"));
 		this.hasFired = tag.contains("HasFired");
 	}
 

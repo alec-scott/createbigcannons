@@ -510,7 +510,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
 		this.setCannonRider(tag.getBooleanOr("CannonRider", false));
 
 		ListTag wheelStateTag = CBCValueIO.getList(tag, "WheelState");
-		this.setWheelState(new Vector4f(wheelStateTag.getFloat(0), wheelStateTag.getFloat(1), wheelStateTag.getFloat(2), wheelStateTag.getFloat(3)));
+		this.setWheelState(new Vector4f(wheelStateTag.getFloatOr(0, 0), wheelStateTag.getFloatOr(1, 0), wheelStateTag.getFloatOr(2, 0), wheelStateTag.getFloatOr(3, 0)));
 	}
 
 	@Override

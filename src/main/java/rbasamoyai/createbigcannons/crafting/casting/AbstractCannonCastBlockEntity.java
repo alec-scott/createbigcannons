@@ -197,7 +197,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 		if (CBCValueIO.contains(tag, "Structure")) {
 			ListTag list = CBCValueIO.getList(tag, "Structure");
 			for (int i = 0; i < list.size(); ++i) {
-				CannonCastShape shape = shapeRegistry.get(CBCUtils.location(list.getString(i)));
+				CannonCastShape shape = shapeRegistry.get(CBCUtils.location(list.getStringOr(i, "")));
 				this.structure.add(shape == null ? CannonCastShape.VERY_SMALL : shape);
 			}
 			this.height = tag.getIntOr("Height", 0);
@@ -209,7 +209,7 @@ public abstract class AbstractCannonCastBlockEntity extends SmartBlockEntity imp
 			this.resultPreview.clear();
 			ListTag preview = CBCValueIO.getList(tag, "Preview");
 			for (int i = 0; i < preview.size(); ++i) {
-				this.resultPreview.add(NbtUtils.readBlockState(this.blockHolderGetter(), preview.getCompound(i)));
+				this.resultPreview.add(NbtUtils.readBlockState(this.blockHolderGetter(), preview.getCompoundOrEmpty(i)));
 			}
             if (CBCValueIO.contains(tag, "CastingError")) {
                 InvalidCastingError.CODEC.codec()

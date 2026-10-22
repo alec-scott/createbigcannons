@@ -337,7 +337,7 @@ public class CannonLoadingContraption extends PoleContraption implements CanLoad
 	@Override
 	public void readNBT(Level level, CompoundTag tag, boolean spawnData) {
 		super.readNBT(level, tag, spawnData);
-		this.loadingHead = LoadingHead.fromOrdinal(tag.getInt("LoadingHead"));
+		this.loadingHead = LoadingHead.fromOrdinal(tag.getIntOr("LoadingHead", 0));
 	}
 
 	@Override

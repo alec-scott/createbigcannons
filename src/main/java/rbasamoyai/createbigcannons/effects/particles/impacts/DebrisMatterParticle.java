@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.particle.Particle;
@@ -37,7 +39,7 @@ public class DebrisMatterParticle extends NoRenderParticle {
 			double dx1 = this.xd * velScale + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * offsetScale;
 			double dy1 = this.yd * velScale + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * offsetScale;
 			double dz1 = this.zd * velScale + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * offsetScale;
-			this.level.addParticle(particle, this.forceDisplay, rx, ry, rz, dx1, dy1, dz1);
+			this.level.addParticle(particle, this.forceDisplay, false, rx, ry, rz, dx1, dy1, dz1);
 		}
 		this.remove();
 	}
@@ -45,7 +47,7 @@ public class DebrisMatterParticle extends NoRenderParticle {
 	public static class Provider implements ParticleProvider<DebrisMatterParticleData> {
 		@Override
 		public Particle createParticle(DebrisMatterParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			return new DebrisMatterParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, type.deflect(), type.forceDisplay(), type.blockState());
 		}
 	}

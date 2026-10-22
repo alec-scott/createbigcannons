@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.smoke;
 
+import net.minecraft.util.RandomSource;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -45,7 +47,7 @@ public class QuickFiringBreechSmokeParticle extends NoRenderParticle {
 		@Nullable
 		@Override
 		public Particle createParticle(QuickFiringBreechSmokeParticleData type, ClientLevel level, double x, double y,
-									   double z, double xSpeed, double ySpeed, double zSpeed) {
+									   double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			QuickFiringBreechSmokeParticle particle = new QuickFiringBreechSmokeParticle(level, x, y, z, xSpeed, ySpeed, zSpeed);
 			particle.setLifetime(2);
 			return particle;

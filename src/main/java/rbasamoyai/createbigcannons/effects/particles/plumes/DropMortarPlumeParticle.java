@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.plumes;
 
+import net.minecraft.util.RandomSource;
+
 import com.zurrtum.create.client.catnip.levelWrappers.WrappedClientLevel;
 import com.zurrtum.create.client.ponder.api.level.PonderLevel;
 import net.minecraft.server.level.ParticleStatus;
@@ -62,14 +64,14 @@ public class DropMortarPlumeParticle extends NoRenderParticle {
 			if (this.isPonderLevel) {
 				this.level.addParticle(ParticleTypes.CLOUD, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 			} else {
-				this.level.addParticle(ParticleTypes.CLOUD, true, this.x, this.y, this.z, vel.x, vel.y, vel.z);
+				this.level.addParticle(ParticleTypes.CLOUD, true, false, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 			}
 		}
 		super.tick();
 	}
 
 	public static class Provider implements ParticleProvider<DropMortarPlumeParticleData> {
-		public Particle createParticle(DropMortarPlumeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(DropMortarPlumeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			return new DropMortarPlumeParticle(level, x, y, z, new Vec3(dx, dy, dz), data.scale());
 		}
 	}

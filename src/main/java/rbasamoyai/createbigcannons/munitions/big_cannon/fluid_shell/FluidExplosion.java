@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.particles.ParticleTypes;
@@ -27,31 +29,37 @@ public class FluidExplosion extends CustomExplosion.Impl {
 		this.radius = blockRadius;
 	}
 
-	public FluidExplosion(Level level, ClientboundFluidExplodePacket packet) {
-		super(level, packet.asCBCExplodePacket());
-		this.fluid = packet.fluid();
-		this.radius = packet.blockRadius();
-	}
-
-	@Override
-	public void playLocalSound(Level level, double x, double y, double z) {
-		if (FluidBlobEffectRegistry.effectOnFluidShellExplode(this.fluid, level, x, y, z, this.radius))
-			return;
-		level.playLocalSound(x, y, z, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 4.0F,
-			(1.0F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.2F) * 0.7F, false);
-		if (this.radius >= 2.0F && this.interactsWithBlocks()) {
-			level.addParticle(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 1.0, 0.0, 0.0);
-		} else {
-			level.addParticle(ParticleTypes.EXPLOSION, x, y, z, 1.0, 0.0, 0.0);
-		}
-	}
-
 	@Override
 	public void sendExplosionToClient(ServerPlayer player) {
 		if (player.distanceToSqr(this.x, this.y, this.z) < 16400.0d) {
 			Vec3 knockback = this.getHitPlayers().getOrDefault(player, Vec3.ZERO);
 			NetworkPlatform.sendToClientPlayer(new ClientboundFluidExplodePacket(this.x, this.y, this.z, this.blockSize,
-                this.entitySize, this.getToBlow(), (float) knockback.x, (float) knockback.y, (float) knockback.z, this.fluid), player);
+                this.entitySize, List.of(), (float) knockback.x, (float) knockback.y, (float) knockback.z, this.fluid), player);
+		}
+	}
+
+
+	public static class Effects extends CustomExplosion.Effects {
+		private final Fluid fluid;
+		private final float radius;
+
+		public Effects(Level level, ClientboundFluidExplodePacket packet) {
+			super(level, packet.asCBCExplodePacket());
+			this.fluid = packet.fluid();
+			this.radius = packet.blockRadius();
+		}
+
+		@Override
+		protected void playLocalSound(Level level, double x, double y, double z) {
+			if (FluidBlobEffectRegistry.effectOnFluidShellExplode(this.fluid, level, x, y, z, this.radius))
+				return;
+			level.playLocalSound(x, y, z, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 4.0F,
+				(1.0F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.2F) * 0.7F, false);
+			if (this.radius >= 2.0F) {
+				level.addParticle(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 1.0, 0.0, 0.0);
+			} else {
+				level.addParticle(ParticleTypes.EXPLOSION, x, y, z, 1.0, 0.0, 0.0);
+			}
 		}
 	}
 

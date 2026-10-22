@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.smoke;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.BaseAshSmokeParticle;
 import net.minecraft.client.particle.Particle;
@@ -55,8 +57,8 @@ public class SmokeShellSmokeParticle extends BaseAshSmokeParticle {
 	}
 
 	@Override
-	public ParticleRenderType getRenderType() {
-		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+	public Layer getLayer() {
+		return Layer.TRANSLUCENT;
 	}
 
 	public static class Provider implements ParticleProvider<SmokeShellSmokeParticleData> {
@@ -67,7 +69,7 @@ public class SmokeShellSmokeParticle extends BaseAshSmokeParticle {
 		}
 
 		@Override
-		public Particle createParticle(SmokeShellSmokeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(SmokeShellSmokeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			return new SmokeShellSmokeParticle(level, x, y, z, dx, dy, dz, data.scale(), this.sprites);
 		}
 	}

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -18,25 +20,26 @@ public class SmokeExplosion extends CustomExplosion.Impl {
 		super(level, source, null, new CustomDamageCalculator(), toBlowX, toBlowY, toBlowZ, blockRadius, entityRadius, false, interaction);
 	}
 
-	public SmokeExplosion(Level level, ClientboundCBCExplodePacket packet) {
-		super(level, packet);
-	}
-
-	@Override
-	public void playLocalSound(Level level, double x, double y, double z) {
-		CBCSoundEvents.SMOKE_SHELL_DETONATE.playAt(level, x, y, z, 2, 1.5f + level.getRandom().nextFloat() * 0.1f, false);
-	}
-
 	@Override
 	public void sendExplosionToClient(ServerPlayer player) {
 		if (player.distanceToSqr(this.x, this.y, this.z) < 4096.0d) {
 			Vec3 knockback = this.getHitPlayers().getOrDefault(player, Vec3.ZERO);
 			NetworkPlatform.sendToClientPlayer(new ClientboundCBCExplodePacket(this.x, this.y, this.z, this.blockSize,
-                this.entitySize, this.getToBlow(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
+                this.entitySize, List.of(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
                 ClientboundCBCExplodePacket.ExplosionType.SMOKE), player);
 		}
 	}
 
-	@Override protected void spawnParticles() {}
+
+	public static class Effects extends CustomExplosion.Effects {
+		public Effects(Level level, ClientboundCBCExplodePacket packet) {
+			super(level, packet);
+		}
+
+		@Override
+		protected void playLocalSound(Level level, double x, double y, double z) {
+			CBCSoundEvents.SMOKE_SHELL_DETONATE.playAt(level, x, y, z, 2, 1.5f + level.getRandom().nextFloat() * 0.1f, false);
+		}
+	}
 
 }

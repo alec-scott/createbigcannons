@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
-import net.minecraft.client.particle.ParticleProviderRegistry.PendingParticleProvider;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry.PendingParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -56,7 +56,7 @@ public class SmokeShellSmokeParticleData implements ParticleOptions, ICustomPart
 
     @Environment(EnvType.CLIENT)
 	@Override
-	public SpriteParticleRegistration<SmokeShellSmokeParticleData> getMetaFactory() {
+	public PendingParticleProvider<SmokeShellSmokeParticleData> getMetaFactory() {
 		return SmokeShellSmokeParticle.Provider::new;
 	}
 

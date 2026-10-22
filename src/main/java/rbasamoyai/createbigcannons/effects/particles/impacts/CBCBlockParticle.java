@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -21,7 +23,7 @@ public class CBCBlockParticle extends TerrainParticle {
 	public static class Provider implements ParticleProvider<CBCBlockParticleData> {
 		@Override
 		public Particle createParticle(CBCBlockParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			BlockState blockstate = type.state();
 			if (blockstate.isAir() || blockstate.is(Blocks.MOVING_PISTON))
 				return null;

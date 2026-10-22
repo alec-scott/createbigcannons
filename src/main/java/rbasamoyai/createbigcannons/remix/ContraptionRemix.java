@@ -610,7 +610,7 @@ public class ContraptionRemix {
 	public static <T extends Contraption & HasFragileContraption> void readFragileBlocks(T contraption, CompoundTag tag) {
 		Set<BlockPos> fragileBlocks = contraption.createbigcannons$getFragileBlockPositions();
 		fragileBlocks.clear();
-		for (Tag t : tag.getList("createbigcannons:fragile_blocks", Tag.TAG_LONG)) {
+		for (Tag t : tag.getListOrEmpty("createbigcannons:fragile_blocks")) {
 			if (t.getType() == LongTag.TYPE)
 				fragileBlocks.add(BlockPos.of(((LongTag) t).getAsLong()));
 		}
@@ -619,7 +619,7 @@ public class ContraptionRemix {
 	public static <T extends Contraption & CanLoadBigCannon> void readCannonLoaderData(T contraption, CompoundTag tag) {
 		Set<BlockPos> cannonColliders = contraption.createbigcannons$getCannonLoadingColliders();
 		cannonColliders.clear();
-		for (Tag t : tag.getList("createbigcannons:cannon_loading_colliders", Tag.TAG_LONG)) {
+		for (Tag t : tag.getListOrEmpty("createbigcannons:cannon_loading_colliders")) {
 			if (t.getType() == LongTag.TYPE)
 				cannonColliders.add(BlockPos.of(((LongTag) t).getAsLong()));
 		}

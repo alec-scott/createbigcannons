@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.mortar_stone;
 
+import java.util.List;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,10 +35,6 @@ public class MortarStoneExplosion extends CustomExplosion.Impl {
 		super(level, source, damageSource, new CustomDamageCalculator(), toBlowX, toBlowY, toBlowZ, blockRadius, entityRadius, false, interaction);
 	}
 
-	public MortarStoneExplosion(Level level, ClientboundCBCExplodePacket packet) {
-		super(level, packet);
-	}
-
 	@Override
 	public void editBlock(Level level, BlockPos pos, BlockState blockState, FluidState fluidState, float power) {
 		if (!CBCConfigs.server().munitions.projectilesChangeSurroundings.get() || this.changedBlocks.contains(pos))
@@ -44,28 +42,6 @@ public class MortarStoneExplosion extends CustomExplosion.Impl {
 		BlockState transformed = BlockImpactTransformationHandler.transformBlock(blockState);
 		level.setBlock(pos, transformed, 11);
 		this.changedBlocks.add(pos);
-	}
-
-	@Override
-	public void playLocalSound(Level level, double x, double y, double z) {
-		CBCSoundEvents.MORTAR_STONE_EXPLODE.playAt(level, x, y, z, 3f, 0.8f + level.getRandom().nextFloat() * 0.4f, false);
-	}
-
-	@Override
-	protected void spawnParticles() {
-		if (!CBCConfigs.client().showMortarStoneClouds.get())
-			return;
-		ParticleOptions options = new DebrisSmokeParticleData(this.blockSize);
-		float f1 = 0.15f * this.blockSize;
-		for (int i = 0; i < 50; ++i) {
-			double rx = this.x + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
-			double ry = this.y + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
-			double rz = this.z + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
-			double dx = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * f1;
-			double dy = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble() + 0.5) * f1;
-			double dz = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * f1;
-			this.level.addParticle(options, true, rx, ry, rz, dx, dy, dz);
-		}
 	}
 
 	@Override
@@ -79,8 +55,37 @@ public class MortarStoneExplosion extends CustomExplosion.Impl {
 
 			Vec3 knockback = this.getHitPlayers().getOrDefault(player, Vec3.ZERO);
 			NetworkPlatform.sendToClientPlayer(new ClientboundCBCExplodePacket(this.x, this.y, this.z, this.blockSize,
-                this.entitySize, this.getToBlow(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
+                this.entitySize, List.of(), (float) knockback.x, (float) knockback.y, (float) knockback.z,
                 ClientboundCBCExplodePacket.ExplosionType.MORTAR_STONE), player);
+		}
+	}
+
+
+	public static class Effects extends CustomExplosion.Effects {
+		public Effects(Level level, ClientboundCBCExplodePacket packet) {
+			super(level, packet);
+		}
+
+		@Override
+		protected void playLocalSound(Level level, double x, double y, double z) {
+			CBCSoundEvents.MORTAR_STONE_EXPLODE.playAt(level, x, y, z, 3f, 0.8f + level.getRandom().nextFloat() * 0.4f, false);
+		}
+
+		@Override
+		protected void spawnParticles() {
+			if (!CBCConfigs.client().showMortarStoneClouds.get())
+				return;
+			ParticleOptions options = new DebrisSmokeParticleData(this.blockSize);
+			float f1 = 0.15f * this.blockSize;
+			for (int i = 0; i < 50; ++i) {
+				double rx = this.x + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
+				double ry = this.y + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
+				double rz = this.z + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.1f;
+				double dx = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * f1;
+				double dy = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble() + 0.5) * f1;
+				double dz = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * f1;
+				this.level.addParticle(options, true, false, rx, ry, rz, dx, dy, dz);
+			}
 		}
 	}
 

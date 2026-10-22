@@ -68,7 +68,7 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
 		if (!projectileBlocks.isEmpty()) {
 			StructureBlockInfo info = projectileBlocks.get(0);
 			if (info.nbt() != null) { // jank alert
-				CompoundTag component = info.nbt().getCompound("FluidContent");
+				CompoundTag component = info.nbt().getCompoundOrEmpty("FluidContent");
                 FluidTank tank = new FluidTank(getFluidShellCapacity()).readFromNBT(level.registryAccess(), component); // It's cheaper than recreating the entire BE.
                 FluidStack fstack = tank.getFluid();
                 projectile.setFluidStack(fstack.isEmpty() ? EndFluidStack.EMPTY : new EndFluidStack(fstack.getFluid(), fstack.getAmount(), fstack.getComponentsPatch()));
@@ -112,7 +112,7 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
     public ItemStack getExtractedItem(StructureBlockInfo info, HolderLookup.Provider registries) {
         ItemStack stack = super.getExtractedItem(info, registries);
         if (info.nbt() != null) { // More jank
-            CompoundTag component = info.nbt().getCompound("FluidContent");
+            CompoundTag component = info.nbt().getCompoundOrEmpty("FluidContent");
             FluidTank tank = new FluidTank(getFluidShellCapacity()).readFromNBT(registries, component);
             stack.set(CBCDataComponents.FLUID_CONTENT, CustomData.of(tank.writeToNBT(registries, new CompoundTag())));
         }

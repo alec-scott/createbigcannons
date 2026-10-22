@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.particle.Particle;
@@ -41,7 +43,7 @@ public class FluidBlobParticle extends NoRenderParticle {
 	}
 
 	public static class Provider implements ParticleProvider<FluidBlobParticleData> {
-		public Particle createParticle(FluidBlobParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(FluidBlobParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			return new FluidBlobParticle(level, x, y, z, dx, dy, dz, data.scale(), data.fluid());
 		}
 	}

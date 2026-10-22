@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.particle.Particle;
@@ -26,7 +28,7 @@ public class DebrisSmokeBurstParticle extends NoRenderParticle {
 			double dx1 = this.xd * 0.2 + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
 			double dy1 = this.yd * 0.2 + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
 			double dz1 = this.zd * 0.2 + (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * 0.5;
-			this.level.addParticle(options, true, rx, ry, rz, dx1, dy1, dz1);
+			this.level.addParticle(options, true, false, rx, ry, rz, dx1, dy1, dz1);
 		}
 		this.remove();
 	}
@@ -34,7 +36,7 @@ public class DebrisSmokeBurstParticle extends NoRenderParticle {
 	public static class Provider implements ParticleProvider<DebrisSmokeBurstParticleData> {
 		@Override
 		public Particle createParticle(DebrisSmokeBurstParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			return new DebrisSmokeBurstParticle(level, x, y, z, xSpeed, ySpeed, zSpeed);
 		}
 	}

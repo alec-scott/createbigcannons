@@ -48,16 +48,16 @@ public class PartialBlockDamageSaveData extends SavedData {
 
 	private static PartialBlockDamageSaveData load(CompoundTag tag, HolderLookup.Provider registries) {
 		PartialBlockDamageSaveData savedata = new PartialBlockDamageSaveData();
-		CompoundTag values = tag.getCompound("BlockDamage");
+		CompoundTag values = tag.getCompoundOrEmpty("BlockDamage");
 
 		for (String key : values.getAllKeys()) {
 			ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, CBCUtils.location(key));
-			ListTag damagesTag = values.getList(key, Tag.TAG_COMPOUND);
+			ListTag damagesTag = values.getListOrEmpty(key);
 			Object2FloatLinkedOpenHashMap<BlockPos> damages = new Object2FloatLinkedOpenHashMap<>(damagesTag.size());
 
 			int len = Math.min(damagesTag.size(), MAX_DAMAGES_PER_DIMENSION);
 			for (int i = 0; i < len; ++i) {
-				CompoundTag entry = damagesTag.getCompound(i);
+				CompoundTag entry = damagesTag.getCompoundOrEmpty(i);
 				damages.put(NbtUtils.readBlockPos(entry, "Pos").get(), entry.getFloat("Damage"));
 			}
 			savedata.blockDamage.put(dimensionKey, damages);

@@ -531,22 +531,22 @@ public abstract class AbstractCannonProjectile extends Projectile implements IEn
 		this.setInGround(tag.getBooleanOr("InGround", false));
 		this.damage = tag.getFloatOr("Damage", 0f);
 		ListTag motionTag = CBCValueIO.getList(tag, "Motion");
-		this.setDeltaMovement(motionTag.getDouble(0), motionTag.getDouble(1), motionTag.getDouble(2));
+		this.setDeltaMovement(motionTag.getDoubleOr(0, 0), motionTag.getDoubleOr(1, 0), motionTag.getDoubleOr(2, 0));
 		if (CBCValueIO.contains(tag, "NextMotion")) {
 			ListTag nextMotion = CBCValueIO.getList(tag, "NextMotion");
-			this.nextVelocity = nextMotion.size() == 3 ? new Vec3(nextMotion.getDouble(0), nextMotion.getDouble(1), nextMotion.getDouble(2)) : null;
+			this.nextVelocity = nextMotion.size() == 3 ? new Vec3(nextMotion.getDoubleOr(0, 0), nextMotion.getDoubleOr(1, 0), nextMotion.getDoubleOr(2, 0)) : null;
 		} else {
 			this.nextVelocity = null;
 		}
 		if (CBCValueIO.contains(tag, "Orientation")) {
 			ListTag orientationTag = CBCValueIO.getList(tag, "Orientation");
-			this.setOrientation(orientationTag.size() == 3 ? new Vec3(orientationTag.getDouble(0), orientationTag.getDouble(1), orientationTag.getDouble(2)) : this.getDeltaMovement());
+			this.setOrientation(orientationTag.size() == 3 ? new Vec3(orientationTag.getDoubleOr(0, 0), orientationTag.getDoubleOr(1, 0), orientationTag.getDoubleOr(2, 0)) : this.getDeltaMovement());
 		} else {
 			this.setOrientation(this.getDeltaMovement());
 		}
 		if (CBCValueIO.contains(tag, "InGroundPos")) {
 			ListTag posTag = CBCValueIO.getList(tag, "InGroundPos");
-			this.inGroundPos = posTag.size() == 3 ? new Vec3(posTag.getDouble(0), posTag.getDouble(1), posTag.getDouble(2)) : null;
+			this.inGroundPos = posTag.size() == 3 ? new Vec3(posTag.getDoubleOr(0, 0), posTag.getDoubleOr(1, 0), posTag.getDoubleOr(2, 0)) : null;
 		} else {
 			this.inGroundPos = null;
 		}

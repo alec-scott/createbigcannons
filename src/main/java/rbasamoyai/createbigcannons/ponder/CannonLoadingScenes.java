@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.ponder;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import com.google.common.collect.Lists;
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.content.kinetics.deployer.DeployerBlockEntity;
@@ -522,7 +524,7 @@ public class CannonLoadingScenes {
             if (!itemStack.isEmpty()) {
                 CompoundTag slotTag = new CompoundTag();
                 slotTag.putInt("slot", 0);
-                slotTag.put("item", itemStack.saveOptional(scene.world().getHolderLookupProvider()));
+                slotTag.put("item", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), itemStack));
                 ListTag contentsTag = new ListTag();
                 contentsTag.add(slotTag);
                 componentsTag.put("createbigcannons:fuze", contentsTag);
@@ -863,7 +865,7 @@ public class CannonLoadingScenes {
 			.rightClick().withItem(filledContainer);
 		scene.idle(20);
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", filledContainer.saveOptional(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), filledContainer));
 		});
 		scene.idle(55);
 
@@ -880,7 +882,7 @@ public class CannonLoadingScenes {
 
 		scene.addKeyframe();
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", emptyContainer.saveOptional(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), emptyContainer));
 		});
 		scene.idle(15);
 		scene.overlay().showText(80)
@@ -891,7 +893,7 @@ public class CannonLoadingScenes {
 			.rightClick().withItem(filledContainer);
 		scene.idle(20);
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", filledContainer.saveOptional(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), filledContainer));
 		});
 		scene.idle(55);
 
@@ -908,7 +910,7 @@ public class CannonLoadingScenes {
 		scene.idle(15);
 
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", emptyContainer.saveOptional(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), emptyContainer));
 		});
 		scene.idle(15);
 		scene.overlay().showControls(util.vector().blockSurface(breechPos, Direction.UP), Pointing.DOWN, 30)
@@ -916,7 +918,7 @@ public class CannonLoadingScenes {
 		scene.idle(45);
 
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", filledContainer.saveOptional(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), filledContainer));
 		});
 		scene.idle(15);
 		scene.overlay().showControls(util.vector().blockSurface(breechPos, Direction.UP), Pointing.DOWN, 30)
@@ -924,7 +926,7 @@ public class CannonLoadingScenes {
 		scene.idle(45);
 
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", filledContainer.saveOptional(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), filledContainer));
 		});
 		scene.idle(15);
 		scene.overlay().showControls(util.vector().blockSurface(breechPos, Direction.UP), Pointing.DOWN, 30)
@@ -972,7 +974,7 @@ public class CannonLoadingScenes {
 		ItemStack ammo = CBCItems.AP_AUTOCANNON_ROUND.get().getCreativeTabCartridgeItem();
 
 		scene.world().modifyBlockEntityNBT(deployerSel, DeployerBlockEntity.class, tag -> {
-			tag.put("HeldItem", ammo.saveOptional(scene.world().getHolderLookupProvider()));
+			tag.put("HeldItem", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), ammo));
 		});
 
 		scene.world().showSection(largePowerCog, Direction.WEST);
@@ -1228,7 +1230,7 @@ public class CannonLoadingScenes {
             if (!itemStack.isEmpty()) {
                 CompoundTag slotTag = new CompoundTag();
                 slotTag.putInt("slot", 0);
-                slotTag.put("item", itemStack.saveOptional(scene.world().getHolderLookupProvider()));
+                slotTag.put("item", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), itemStack));
                 ListTag contentsTag = new ListTag();
                 contentsTag.add(slotTag);
                 componentsTag.put("createbigcannons:tracer", contentsTag);

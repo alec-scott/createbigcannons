@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import java.util.List;
 
 import com.zurrtum.create.AllShapes;
@@ -138,7 +140,7 @@ public abstract class ProjectileBlock<ENTITY extends AbstractBigCannonProjectile
 		BlockState state = this.defaultBlockState().setValue(FACING, cannonOrientation);
         CompoundTag tag = new CompoundTag();
         ItemStack tracer = getTracerFromItemStack(stack);
-        tag.put("Tracer", tracer.saveOptional(registries));
+        tag.put("Tracer", CBCValueIO.saveItem(registries, tracer));
 		return new StructureBlockInfo(localPos, state, tag);
 	}
 
@@ -146,7 +148,7 @@ public abstract class ProjectileBlock<ENTITY extends AbstractBigCannonProjectile
 	public ItemStack getExtractedItem(StructureBlockInfo info, HolderLookup.Provider registries) {
 		ItemStack stack = new ItemStack(this);
 		if (info.nbt() != null) {
-            ItemStack tracer = ItemStack.parseOptional(registries, info.nbt().getCompound("Tracer"));
+            ItemStack tracer = CBCValueIO.parseItem(registries, info.nbt().getCompoundOrEmpty("Tracer"));
             stack.set(CBCDataComponents.TRACER, tracer.isEmpty() ? ItemContainerContents.EMPTY : ItemContainerContents.fromItems(List.of(tracer)));
 		}
 		return stack;
@@ -177,7 +179,7 @@ public abstract class ProjectileBlock<ENTITY extends AbstractBigCannonProjectile
 		StructureBlockInfo info = blocks.get(0);
 		if (info.nbt() == null)
 			return ItemStack.EMPTY;
-        return ItemStack.parseOptional(registries, info.nbt().getCompound("Tracer"));
+        return CBCValueIO.parseItem(registries, info.nbt().getCompoundOrEmpty("Tracer"));
 	}
 
 	public static ItemStack getTracerFromBlock(Level level, BlockPos pos, BlockState state) {

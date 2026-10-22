@@ -120,13 +120,13 @@ public abstract class AbstractBigCannonProjectile extends AbstractCannonProjecti
 	@Override
     public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
-        CBCValueIO.put(tag, "Tracer", this.getTracer().saveOptional(this.level().registryAccess()));
+        tag.store("Tracer", ItemStack.OPTIONAL_CODEC, this.getTracer());
 	}
 
 	@Override
     public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		this.setTracer(ItemStack.parseOptional(this.level().registryAccess(), CBCValueIO.getCompound(tag, "Tracer")));
+		this.setTracer(tag.read("Tracer", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY));
 	}
 
 	@Override

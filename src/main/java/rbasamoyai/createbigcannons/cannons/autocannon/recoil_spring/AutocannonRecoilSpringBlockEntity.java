@@ -90,9 +90,9 @@ public class AutocannonRecoilSpringBlockEntity extends AutocannonBlockEntity imp
         this.toAnimate.clear();
         ListTag renderedList = CBCValueIO.getList(tag, "RenderedBlocks");
         for (int i = 0; i < renderedList.size(); ++i) {
-            CompoundTag block = renderedList.getCompound(i);
+            CompoundTag block = renderedList.getCompoundOrEmpty(i);
             this.toAnimate.put(NbtUtils.readBlockPos(block, "Pos").get(),
-				NbtUtils.readBlockState(this.blockHolderGetter(), block.getCompound("Block")));
+				NbtUtils.readBlockState(this.blockHolderGetter(), block.getCompoundOrEmpty("Block")));
         }
     }
 

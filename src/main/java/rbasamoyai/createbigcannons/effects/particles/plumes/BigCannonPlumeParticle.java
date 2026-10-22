@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.plumes;
 
+import net.minecraft.util.RandomSource;
+
 import com.zurrtum.create.client.catnip.levelWrappers.WrappedClientLevel;
 import com.zurrtum.create.client.ponder.api.level.PonderLevel;
 import net.minecraft.server.level.ParticleStatus;
@@ -73,7 +75,7 @@ public class BigCannonPlumeParticle extends NoRenderParticle {
 				this.level.addParticle(new CannonSmokeParticleData(this.power, smallScale, lifetime, 0.95f), this.x, this.y, this.z, vel.x, vel.y, vel.z);
 			} else {
 				this.level.addParticle(new CannonSmokeParticleData(this.power, smallScale, lifetime, 0.95f),
-					true, this.x, this.y, this.z, vel.x, vel.y, vel.z);
+					true, false, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 			}
 			// TODO revert when Create #7232 is fixed
 		}
@@ -91,7 +93,7 @@ public class BigCannonPlumeParticle extends NoRenderParticle {
 				if (this.isPonderLevel) {
 					this.level.addParticle(ParticleTypes.CLOUD, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 				} else {
-					this.level.addParticle(ParticleTypes.CLOUD, true, this.x, this.y, this.z, vel.x, vel.y, vel.z);
+					this.level.addParticle(ParticleTypes.CLOUD, true, false, this.x, this.y, this.z, vel.x, vel.y, vel.z);
 				}
 				// TODO revert when Create #7232 is fixed
 			}
@@ -108,7 +110,7 @@ public class BigCannonPlumeParticle extends NoRenderParticle {
 				if (this.isPonderLevel) {
 					this.level.addParticle(ParticleTypes.FLAME, this.x, this.y, this.z, vel1.x, vel1.y, vel1.z);
 				} else {
-					this.level.addParticle(ParticleTypes.FLAME, false, this.x, this.y, this.z, vel1.x, vel1.y, vel1.z);
+					this.level.addParticle(ParticleTypes.FLAME, false, false, this.x, this.y, this.z, vel1.x, vel1.y, vel1.z);
 				}
 				// TODO revert when Create #7232 is fixed
 			}
@@ -117,7 +119,7 @@ public class BigCannonPlumeParticle extends NoRenderParticle {
 	}
 
 	public static class Provider implements ParticleProvider<BigCannonPlumeParticleData> {
-		public Particle createParticle(BigCannonPlumeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(BigCannonPlumeParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			return new BigCannonPlumeParticle(level, x, y, z, dx, dy, dz, data.size(), data.power());
 		}
 	}

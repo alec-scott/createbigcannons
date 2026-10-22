@@ -31,7 +31,7 @@ public record SparkBurstParticleData(Vector3f color, boolean deflect, int count)
 		.apply(i, SparkBurstParticleData::new));
 
     private static final StreamCodec<RegistryFriendlyByteBuf, SparkBurstParticleData> STREAM_CODEC = StreamCodec.composite(
-        ByteBufCodecs.VECTOR3F, p -> p.color,
+        ByteBufCodecs.VECTOR3F.map(Vector3f::new, v -> v), p -> p.color,
         ByteBufCodecs.BOOL, p -> p.deflect,
         ByteBufCodecs.VAR_INT, p -> p.count,
         SparkBurstParticleData::new

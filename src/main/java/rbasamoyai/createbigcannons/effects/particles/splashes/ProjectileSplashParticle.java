@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.splashes;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.particle.Particle;
@@ -10,6 +12,11 @@ import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.CBCClientCommon;
 
 public class ProjectileSplashParticle extends NoRenderParticle {
+
+	// PORT-NOTE(mc26.1): colour fields moved from Particle to SingleQuadParticle.
+	private float rCol;
+	private float gCol;
+	private float bCol;
 
 	private final float scale;
 	private final float light;
@@ -49,7 +56,7 @@ public class ProjectileSplashParticle extends NoRenderParticle {
 				double dx1 = (focalPoint.x - rx) * 0.01 + (this.random.nextDouble() - this.random.nextDouble()) * 0.025;
 				double dy1 = (focalPoint.y - ry) * 0.03 + (this.random.nextDouble() - this.random.nextDouble()) * 0.3;
 				double dz1 = (focalPoint.z - rz) * 0.01 + (this.random.nextDouble() - this.random.nextDouble()) * 0.025;
-				this.level.addParticle(options, true, rx, ry, rz, dx1, dy1, dz1);
+				this.level.addParticle(options, true, false, rx, ry, rz, dx1, dy1, dz1);
 			}
 		} else {
 			float f = Math.min(this.scale, 1.5f);
@@ -60,7 +67,7 @@ public class ProjectileSplashParticle extends NoRenderParticle {
 				double dx1 = vel.x + (this.random.nextDouble() - this.random.nextDouble()) * 0.25 * f;
 				double dy1 = vel.y + (this.random.nextDouble() - this.random.nextDouble()) * 0.35;
 				double dz1 = vel.z + (this.random.nextDouble() - this.random.nextDouble()) * 0.25 * f;
-				this.level.addParticle(options, true, rx, ry, rz, dx1, dy1, dz1);
+				this.level.addParticle(options, true, false, rx, ry, rz, dx1, dy1, dz1);
 			}
 		}
 		if (++this.age >= this.lifetime) {
@@ -71,7 +78,7 @@ public class ProjectileSplashParticle extends NoRenderParticle {
 	public static class Provider implements ParticleProvider<ProjectileSplashParticleData> {
 		@Override
 		public Particle createParticle(ProjectileSplashParticleData data, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			ProjectileSplashParticle particle = new ProjectileSplashParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, data.r(), data.g(), data.b(), data.light());
 			particle.setLifetime(11);
 			return particle;

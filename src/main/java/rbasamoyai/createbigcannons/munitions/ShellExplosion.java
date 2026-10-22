@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import java.util.List;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,25 +46,6 @@ public class ShellExplosion extends CustomExplosion.Impl {
 		this(level, source, damageSource, toBlowX, toBlowY, toBlowZ, blockRadius, entityRadius, fire, interaction, false);
 	}
 
-	public ShellExplosion(Level level, ClientboundCBCExplodePacket packet) {
-		super(level, packet);
-		BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
-		this.isPlume = this.level.getBlockState(pos.above()).isAir() && !this.level.getBlockState(pos.below()).isAir();
-		this.noEffects = packet.explosionType() == ClientboundCBCExplodePacket.ExplosionType.SHELL_NO_EFFECTS;
-	}
-
-	@Override
-	protected void spawnParticles() {
-		if (this.noEffects)
-			return;
-		ShellBlastWaveEffectParticleData blastWave = new ShellBlastWaveEffectParticleData(this.blockSize * 12,
-			CBCRegistryUtils.getSoundEventRegistry().wrapAsHolder(CBCSoundEvents.SHELL_EXPLOSION.getMainEvent()), SoundSource.BLOCKS,
-			Math.max(this.blockSize * 2, 16), 0.8f + level.getRandom().nextFloat() * 0.4f, 2f, this.blockSize);
-		ShellExplosionCloudParticleData explosionCloud = new ShellExplosionCloudParticleData(this.blockSize, this.isPlume);
-		this.level.addParticle(blastWave, true, this.x, this.y, this.z, 0, 0, 0);
-		this.level.addParticle(explosionCloud, true, this.x, this.y, this.z, 0, 0, 0);
-	}
-
 	@Override
 	public void editBlock(Level level, BlockPos pos, BlockState blockState, FluidState fluidState, float power) {
 		if (this.noEffects || !CBCConfigs.server().munitions.projectilesChangeSurroundings.get() || this.changedBlocks.contains(pos))
@@ -81,7 +64,32 @@ public class ShellExplosion extends CustomExplosion.Impl {
 				? ClientboundCBCExplodePacket.ExplosionType.SHELL_NO_EFFECTS
 				: ClientboundCBCExplodePacket.ExplosionType.SHELL;
 			NetworkPlatform.sendToClientPlayer(new ClientboundCBCExplodePacket(this.x, this.y, this.z, this.blockSize,
-                this.entitySize, this.getToBlow(), (float) knockback.x, (float) knockback.y, (float) knockback.z, type), player);
+                this.entitySize, List.of(), (float) knockback.x, (float) knockback.y, (float) knockback.z, type), player);
+		}
+	}
+
+
+	public static class Effects extends CustomExplosion.Effects {
+		private final boolean isPlume;
+		private final boolean noEffects;
+
+		public Effects(Level level, ClientboundCBCExplodePacket packet) {
+			super(level, packet);
+			BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
+			this.isPlume = this.level.getBlockState(pos.above()).isAir() && !this.level.getBlockState(pos.below()).isAir();
+			this.noEffects = packet.explosionType() == ClientboundCBCExplodePacket.ExplosionType.SHELL_NO_EFFECTS;
+		}
+
+		@Override
+		protected void spawnParticles() {
+			if (this.noEffects)
+				return;
+			ShellBlastWaveEffectParticleData blastWave = new ShellBlastWaveEffectParticleData(this.blockSize * 12,
+				CBCRegistryUtils.getSoundEventRegistry().wrapAsHolder(CBCSoundEvents.SHELL_EXPLOSION.getMainEvent()), SoundSource.BLOCKS,
+				Math.max(this.blockSize * 2, 16), 0.8f + level.getRandom().nextFloat() * 0.4f, 2f, this.blockSize);
+			ShellExplosionCloudParticleData explosionCloud = new ShellExplosionCloudParticleData(this.blockSize, this.isPlume);
+			this.level.addParticle(blastWave, true, false, this.x, this.y, this.z, 0, 0, 0);
+			this.level.addParticle(explosionCloud, true, false, this.x, this.y, this.z, 0, 0, 0);
 		}
 	}
 

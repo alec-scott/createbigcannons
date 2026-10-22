@@ -402,9 +402,9 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 		Registry<CannonCastShape> cannonCastShapeRegistry = CBCRegistries.cannonCastShapes();
 		for (Direction dir : Iterate.directions) {
 			if (!layerConnectionTag.contains(dir.getSerializedName())) continue;
-			ListTag connections = layerConnectionTag.getList(dir.getSerializedName(), Tag.TAG_STRING);
+			ListTag connections = layerConnectionTag.getListOrEmpty(dir.getSerializedName());
 			for (int i = 0; i < connections.size(); ++i) {
-				CannonCastShape shape = cannonCastShapeRegistry.get(CBCUtils.location(connections.getString(i)));
+				CannonCastShape shape = cannonCastShapeRegistry.get(CBCUtils.location(connections.getStringOr(i, "")));
 				if (shape != null) this.layersConnectedTowards.put(dir, shape);
 			}
 		}
@@ -419,9 +419,9 @@ public class LayeredBigCannonBlockEntity extends SmartBlockEntity implements IBi
 		this.layeredBlocks.clear();
 		ListTag layers = CBCValueIO.getList(tag, "Layers");
 		for (int i = 0; i < layers.size(); ++i) {
-			CompoundTag entry = layers.getCompound(i);
-			this.layeredBlocks.put(cannonCastShapeRegistry.get(CBCUtils.location(entry.getString("Shape"))),
-				CBCRegistryUtils.getBlock(CBCUtils.location(entry.getString("Block"))));
+			CompoundTag entry = layers.getCompoundOrEmpty(i);
+			this.layeredBlocks.put(cannonCastShapeRegistry.get(CBCUtils.location(entry.getStringOr("Shape", ""))),
+				CBCRegistryUtils.getBlock(CBCUtils.location(entry.getStringOr("Block", ""))));
 		}
 		this.currentFacing = CBCValueIO.contains(tag, "Facing") ? Direction.byName(tag.getStringOr("Facing", "")) : null;
 		this.completionProgress = tag.getIntOr("Progress", 0);

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.ponder;
 
+import rbasamoyai.createbigcannons.utils.CBCValueIO;
+
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
@@ -702,7 +704,7 @@ public class CannonCraftingScenes {
 		Selection deployer = util.select().position(deployerPos);
 		scene.overlay().showControls(util.vector().topOf(deployerPos), Pointing.DOWN, 40).withItem(breechblock);
 		scene.idle(30);
-		scene.world().modifyBlockEntityNBT(deployer, DeployerBlockEntity.class, tag -> tag.put("HeldItem", breechblock.saveOptional(scene.world().getHolderLookupProvider())));
+		scene.world().modifyBlockEntityNBT(deployer, DeployerBlockEntity.class, tag -> tag.put("HeldItem", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), breechblock)));
 		scene.idle(15);
 
 		scene.world().setKineticSpeed(deployerGearDown, -16);
@@ -826,7 +828,7 @@ public class CannonCraftingScenes {
 		Selection deployer = util.select().position(deployerPos);
 		scene.overlay().showControls(util.vector().topOf(deployerPos), Pointing.DOWN, 40).withItem(mechanism);
 		scene.idle(30);
-		scene.world().modifyBlockEntityNBT(deployer, DeployerBlockEntity.class, tag -> tag.put("HeldItem", mechanism.saveOptional(scene.world().getHolderLookupProvider())));
+		scene.world().modifyBlockEntityNBT(deployer, DeployerBlockEntity.class, tag -> tag.put("HeldItem", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), mechanism)));
 		scene.idle(15);
 
 		scene.world().setKineticSpeed(deployerGearDown, -16);
@@ -1003,7 +1005,7 @@ public class CannonCraftingScenes {
 	}
 
 	private static Consumer<CompoundTag> putItemInDeployer(ItemStack stack, SceneBuilder scene) {
-		return tag -> tag.put("HeldItem", stack.saveOptional(scene.world().getHolderLookupProvider()));
+		return tag -> tag.put("HeldItem", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), stack));
 	}
 
 	private static Consumer<CompoundTag> setUnfinishedCannonShape(CannonCastShape shape) {
@@ -1025,7 +1027,7 @@ public class CannonCraftingScenes {
 	public static Consumer<CompoundTag> setConnectionInTag(Direction dir, boolean connected) {
 		String name = dir.getSerializedName();
 		return nbt -> {
-			ListTag weldedTowards = nbt.getList("Connections", Tag.TAG_STRING);
+			ListTag weldedTowards = nbt.getListOrEmpty("Connections");
 			weldedTowards.removeIf(t -> t.getType() == StringTag.TYPE && t.getAsString().equals(name));
 			if (connected) weldedTowards.add(StringTag.valueOf(name));
 		};
@@ -1034,7 +1036,7 @@ public class CannonCraftingScenes {
 	public static Consumer<CompoundTag> setWeldInTag(Direction dir, boolean welded) {
 		String name = dir.getSerializedName();
 		return nbt -> {
-			ListTag weldedTowards = nbt.getList("Welds", Tag.TAG_STRING);
+			ListTag weldedTowards = nbt.getListOrEmpty("Welds");
 			weldedTowards.removeIf(t -> t.getType() == StringTag.TYPE && t.getAsString().equals(name));
 			if (welded) weldedTowards.add(StringTag.valueOf(name));
 		};

@@ -7,7 +7,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import rbasamoyai.createbigcannons.port.create.foundation.particle.ICustomParticleDataWithSprite;
 
-import net.minecraft.client.particle.ParticleProviderRegistry.PendingParticleProvider;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry.PendingParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -27,7 +27,7 @@ public record GasCloudParticleData(float scale, Vector3f color) implements Parti
 
     private static final StreamCodec<RegistryFriendlyByteBuf, GasCloudParticleData> STREAM_CODEC = StreamCodec.composite(
         ByteBufCodecs.FLOAT, p -> p.scale,
-        ByteBufCodecs.VECTOR3F, p -> p.color,
+        ByteBufCodecs.VECTOR3F.map(Vector3f::new, v -> v), p -> p.color,
         GasCloudParticleData::new
     );
 
@@ -42,7 +42,7 @@ public record GasCloudParticleData(float scale, Vector3f color) implements Parti
 
     @Environment(EnvType.CLIENT)
 	@Override
-	public SpriteParticleRegistration<GasCloudParticleData> getMetaFactory() {
+	public PendingParticleProvider<GasCloudParticleData> getMetaFactory() {
 		return GasCloudParticle.Provider::new;
 	}
 

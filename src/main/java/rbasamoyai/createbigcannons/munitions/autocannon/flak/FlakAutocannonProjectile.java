@@ -90,13 +90,13 @@ public class FlakAutocannonProjectile extends AbstractAutocannonProjectile {
 	public void addAdditionalSaveData(ValueOutput tag) {
 		super.addAdditionalSaveData(tag);
 		if (this.fuze != null)
-            CBCValueIO.put(tag, "Fuze", this.fuze.saveOptional(this.level().registryAccess()));
+            tag.store("Fuze", ItemStack.OPTIONAL_CODEC, this.fuze);
 	}
 
 	@Override
 	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		this.fuze = ItemStack.parseOptional(this.level().registryAccess(), CBCValueIO.getCompound(tag, "Fuze"));
+		this.fuze = tag.read("Fuze", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
 	}
 
 	protected final boolean canDetonate(Predicate<FuzeItem> cons) {

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
+import net.minecraft.util.RandomSource;
+
 import org.joml.Vector3f;
 
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -11,6 +13,11 @@ import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.CBCClientCommon;
 
 public class SparkBurstParticle extends NoRenderParticle {
+
+	// PORT-NOTE(mc26.1): colour fields moved from Particle to SingleQuadParticle.
+	private float rCol;
+	private float gCol;
+	private float bCol;
 
 	private final boolean deflect;
 	private final int count;
@@ -57,7 +64,7 @@ public class SparkBurstParticle extends NoRenderParticle {
 			double d5 = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale2;
 			double d6 = (this.level.getRandom().nextDouble() - this.level.getRandom().nextDouble()) * velScale2;
 			Vec3 vel1 = vel.scale(d1).add(up.scale(d2)).add(right.scale(d3)).add(d4, d5, d6);
-			this.level.addParticle(particle, true, rx, ry, rz, vel1.x, vel1.y, vel1.z);
+			this.level.addParticle(particle, true, false, rx, ry, rz, vel1.x, vel1.y, vel1.z);
 		}
 		this.remove();
 	}
@@ -65,7 +72,7 @@ public class SparkBurstParticle extends NoRenderParticle {
 	public static class Provider implements ParticleProvider<SparkBurstParticleData> {
 		@Override
 		public Particle createParticle(SparkBurstParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			Vector3f color = type.color();
 			SparkBurstParticle particle = new SparkBurstParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, color.x(),
 				color.y(), color.z(), type.deflect(), type.count());

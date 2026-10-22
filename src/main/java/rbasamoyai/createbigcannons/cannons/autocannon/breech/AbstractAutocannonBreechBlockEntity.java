@@ -158,7 +158,7 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 		this.inputBuffer.clear();
 		ListTag inputTag = CBCValueIO.getList(tag, "Input");
 		for (int i = 0; i < inputTag.size(); ++i) {
-			this.inputBuffer.add(ItemStack.parseOptional(registry, inputTag.getCompound(i)));
+			this.inputBuffer.add(CBCValueIO.parseItem(registry, inputTag.getCompoundOrEmpty(i)));
 		}
 		this.magazine = CBCValueIO.contains(tag, "Magazine") ? tag.read("Magazine", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
 
@@ -177,10 +177,10 @@ public abstract class AbstractAutocannonBreechBlockEntity extends AutocannonBloc
 
 		if (!this.inputBuffer.isEmpty()) {
 			CBCValueIO.put(tag, "Input", this.inputBuffer.stream()
-					.map(s -> s.saveOptional(registry))
+					.map(s -> CBCValueIO.saveItem(registry, s))
 					.collect(Collectors.toCollection(ListTag::new)));
 		}
-		if (this.magazine != null && !this.magazine.isEmpty()) CBCValueIO.put(tag, "Magazine", this.magazine.save(registry));
+		if (this.magazine != null && !this.magazine.isEmpty()) CBCValueIO.put(tag, "Magazine", CBCValueIO.saveItem(registry, this.magazine));
 
 		if (!clientPacket) return;
 		if (this.updateInstance) tag.putBoolean("UpdateInstance", true);

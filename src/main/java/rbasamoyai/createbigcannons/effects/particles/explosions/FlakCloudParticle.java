@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.explosions;
 
+import net.minecraft.util.RandomSource;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,7 +66,7 @@ public class FlakCloudParticle extends NoRenderParticle {
 				double ry = this.random.nextDouble() - this.random.nextDouble();
 				double rz = this.random.nextDouble() - this.random.nextDouble();
 				int lifetime = 45 + this.random.nextInt(80);
-				this.level.addParticle(new FlakSmokeParticleData(lifetime, 3), true, this.x + rx * 0.25,
+				this.level.addParticle(new FlakSmokeParticleData(lifetime, 3), true, false, this.x + rx * 0.25,
 					this.y + ry * 0.25, this.z + rz * 0.25, dx * 0.5, dy * 0.5, dz * 0.5);
 			}
 			if (status == ParticleStatus.ALL && CBCConfigs.client().showExtraFlakCloudFlames.get()) {
@@ -75,7 +77,7 @@ public class FlakCloudParticle extends NoRenderParticle {
 					double rx = this.random.nextDouble() - this.random.nextDouble();
 					double ry = this.random.nextDouble() - this.random.nextDouble();
 					double rz = this.random.nextDouble() - this.random.nextDouble();
-					this.level.addParticle(ParticleTypes.FLAME, true, this.x + rx * 0.25,
+					this.level.addParticle(ParticleTypes.FLAME, true, false, this.x + rx * 0.25,
 						this.y + ry * 0.25, this.z + rz * 0.25, dx * 0.3, dy * 0.3, dz * 0.3);
 				}
 			}
@@ -102,7 +104,7 @@ public class FlakCloudParticle extends NoRenderParticle {
 					double ry = this.random.nextDouble() - this.random.nextDouble();
 					double rz = this.random.nextDouble() - this.random.nextDouble();
 					int lifetime = 20 + this.random.nextInt(5);
-					this.level.addParticle(new FlakSmokeParticleData(lifetime, 1), true, pos.x + rx * 0.25,
+					this.level.addParticle(new FlakSmokeParticleData(lifetime, 1), true, false, pos.x + rx * 0.25,
 						pos.y + ry * 0.25, pos.z + rz * 0.25, dx * 0.01, dy * 0.01, dz * 0.01);
 				}
 			}
@@ -112,7 +114,7 @@ public class FlakCloudParticle extends NoRenderParticle {
 
 	public static class Provider implements ParticleProvider<FlakCloudParticleData> {
 		@Override
-		public Particle createParticle(FlakCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(FlakCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			FlakCloudParticle particle = new FlakCloudParticle(level, x, y, z, dx, dy, dz);
 			particle.setSize(0.25f, 0.25f);
 			particle.setLifetime(30);

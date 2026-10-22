@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.smoke;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -12,7 +14,7 @@ public class FallbackCannonSmokeParticle extends CannonSmokeParticle {
 		super(level, x, y, z, dx, dy, dz, sprites, 0);
 	}
 
-	@Override public ParticleRenderType getRenderType() { return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT; }
+	@Override public Layer getLayer() { return Layer.TRANSLUCENT; }
 
 	public static class Provider implements ParticleProvider<FallbackCannonSmokeParticleData> {
 		private final SpriteSet sprites;
@@ -23,7 +25,7 @@ public class FallbackCannonSmokeParticle extends CannonSmokeParticle {
 
 		@Override
 		public Particle createParticle(FallbackCannonSmokeParticleData data, ClientLevel level, double x, double y, double z,
-									   double dx, double dy, double dz) {
+									   double dx, double dy, double dz, RandomSource random) {
 			FallbackCannonSmokeParticle particle = new FallbackCannonSmokeParticle(level, x, y, z, dx, dy, dz, this.sprites);
 			particle.quadSize = data.size();
 			particle.friction = data.friction();

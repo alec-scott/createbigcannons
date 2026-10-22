@@ -427,9 +427,9 @@ public class CannonBuildingContraption extends PoleContraption {
 	@Override
 	public void readNBT(Level level, CompoundTag tag, boolean spawnData) {
 		super.readNBT(level, tag, spawnData);
-		this.isActivated = tag.getBoolean("Activated");
+		this.isActivated = tag.getBooleanOr("Activated", false);
 
-		this.material = BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getString("Material")));
+		this.material = BigCannonMaterial.fromNameOrNull(CBCUtils.location(tag.getStringOr("Material", "")));
 		if (this.material == null) this.material = CBCBigCannonMaterials.STEEL;
 
         if (spawnData) {

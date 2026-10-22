@@ -21,7 +21,7 @@ public class CannonMountDisplaySource extends NumericSingleLineDisplaySource {
 		if (!(source instanceof ExtendsCannonMount ext)) return noCannonPresent;
 		CannonMountBlockEntity mount = ext.getCannonMount();
 		if (mount == null || mount.mountedContraption == null) return noCannonPresent;
-		int mode = context.sourceConfig().getInt("Mode");
+		int mode = context.sourceConfig().getIntOr("Mode", 0);
 		float value = mode == 1 ? mount.getDisplayPitch() : mount.getYawOffset(0);
 		return Component.literal(String.format("%.1f\u00ba", value));
 	}

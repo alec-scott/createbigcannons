@@ -49,9 +49,9 @@ public abstract class PoleContraption extends TranslatingContraption {
 	@Override
 	public void readNBT(Level level, CompoundTag tag, boolean spawnData) {
 		super.readNBT(level, tag, spawnData);
-		this.initialExtensionProgress = tag.getInt("InitialLength");
-		this.extensionLength = tag.getInt("ExtensionLength");
-		this.orientation = Direction.from3DDataValue(tag.getInt("Orientation"));
+		this.initialExtensionProgress = tag.getIntOr("InitialLength", 0);
+		this.extensionLength = tag.getIntOr("ExtensionLength", 0);
+		this.orientation = Direction.from3DDataValue(tag.getIntOr("Orientation", 0));
 	}
 
 	@Override

@@ -104,7 +104,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 			if (!buf.readBoolean())
 				continue;
 			Identifier location = buf.readIdentifier();
-			TYPE type = this.registry.get(location);
+			TYPE type = this.registry.getValue(location);
 			int size = buf.readVarInt();
 			for (int j = 0; j < size; ++j) {
 				VALUE value = consumer.apply(buf);
@@ -121,7 +121,7 @@ public class MultiEntryTypeAndTagDataHolder<TYPE, VALUE> extends TypeAndTagDataH
 			if (!buf.readBoolean())
 				continue;
 			Identifier location = buf.readIdentifier();
-			TYPE type = this.registry.get(location);
+			TYPE type = this.registry.getValue(location);
 			int size = buf.readVarInt();
 			for (int j = 0; j < size; ++j) {
 				VALUE value = consumer.apply(buf);

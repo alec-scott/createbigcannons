@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.effects.particles.explosions;
 
+import net.minecraft.util.RandomSource;
+
 import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
@@ -36,7 +38,7 @@ public class ShrapnelCloudParticle extends NoRenderParticle {
 			double ry = this.random.nextDouble() - this.random.nextDouble();
 			double rz = this.random.nextDouble() - this.random.nextDouble();
 			int lifetime = 85 + this.random.nextInt(80);
-			this.level.addParticle(new ShrapnelSmokeParticleData(lifetime), true, this.x + rx * 0.25,
+			this.level.addParticle(new ShrapnelSmokeParticleData(lifetime), true, false, this.x + rx * 0.25,
 				this.y + ry * 0.25, this.z + rz * 0.25, dx * 0.7, dy * 0.7, dz * 0.7);
 		}
 		if (status == ParticleStatus.ALL && this.flamesVisible()) {
@@ -47,7 +49,7 @@ public class ShrapnelCloudParticle extends NoRenderParticle {
 				double rx = this.random.nextDouble() - this.random.nextDouble();
 				double ry = this.random.nextDouble() - this.random.nextDouble();
 				double rz = this.random.nextDouble() - this.random.nextDouble();
-				this.level.addParticle(ParticleTypes.FLAME, true, this.x + rx * 0.25,
+				this.level.addParticle(ParticleTypes.FLAME, true, false, this.x + rx * 0.25,
 					this.y + ry * 0.25, this.z + rz * 0.25, dx * 0.45, dy * 0.45, dz * 0.45);
 			}
 		}
@@ -63,7 +65,7 @@ public class ShrapnelCloudParticle extends NoRenderParticle {
 
 	public static class Provider implements ParticleProvider<ShrapnelCloudParticleData> {
 		@Override
-		public Particle createParticle(ShrapnelCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+		public Particle createParticle(ShrapnelCloudParticleData data, ClientLevel level, double x, double y, double z, double dx, double dy, double dz, RandomSource random) {
 			ShrapnelCloudParticle particle = new ShrapnelCloudParticle(level, x, y, z, dx, dy, dz);
 			particle.setSize(0.25f, 0.25f);
 			particle.setLifetime(1);

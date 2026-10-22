@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.network;
 
+import rbasamoyai.createbigcannons.remix.CustomExplosion;
+
 import java.util.Map;
 
 import com.zurrtum.create.content.contraptions.AbstractContraptionEntity;
@@ -108,15 +110,15 @@ public class CBCClientHandlers {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.level == null || mc.player == null)
 			return;
-		Explosion explosion = switch (pkt.explosionType()) {
-			case SHRAPNEL -> new ShrapnelExplosion(mc.level, pkt);
-			case FLAK -> new FlakExplosion(mc.level, pkt);
-			case SMOKE -> new SmokeExplosion(mc.level, pkt);
-			case MORTAR_STONE -> new MortarStoneExplosion(mc.level, pkt);
-			case IMPACT -> new ImpactExplosion(mc.level, pkt);
-			case SHELL, SHELL_NO_EFFECTS -> new ShellExplosion(mc.level, pkt);
+		CustomExplosion.Effects effects = switch (pkt.explosionType()) {
+			case SHRAPNEL -> new ShrapnelExplosion.Effects(mc.level, pkt);
+			case FLAK -> new FlakExplosion.Effects(mc.level, pkt);
+			case SMOKE -> new SmokeExplosion.Effects(mc.level, pkt);
+			case MORTAR_STONE -> new MortarStoneExplosion.Effects(mc.level, pkt);
+			case IMPACT -> new ImpactExplosion.Effects(mc.level, pkt);
+			case SHELL, SHELL_NO_EFFECTS -> new ShellExplosion.Effects(mc.level, pkt);
 		};
-		explosion.finalizeExplosion(true);
+		effects.play();
 		mc.player.setDeltaMovement(mc.player.getDeltaMovement().add(pkt.knockbackX(), pkt.knockbackY(), pkt.knockbackZ()));
 	}
 
@@ -124,8 +126,7 @@ public class CBCClientHandlers {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.level == null || mc.player == null)
 			return;
-		Explosion explosion = new FluidExplosion(mc.level, pkt);
-		explosion.finalizeExplosion(true);
+		new FluidExplosion.Effects(mc.level, pkt).play();
 		mc.player.setDeltaMovement(mc.player.getDeltaMovement().add(pkt.knockbackX(), pkt.knockbackY(), pkt.knockbackZ()));
 	}
 

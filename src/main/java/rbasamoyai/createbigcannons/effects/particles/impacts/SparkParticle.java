@@ -1,37 +1,32 @@
 package rbasamoyai.createbigcannons.effects.particles.impacts;
 
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-
-import org.joml.Matrix3f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import rbasamoyai.createbigcannons.CreateBigCannons;
-import rbasamoyai.createbigcannons.utils.CBCUtils;
 
-public class SparkParticle extends Particle {
+/**
+ * PORT-NOTE(mc26.1): this drew two crossed, velocity-aligned strips with a custom entity render type. 26.1 particles can
+ * only extract camera-facing quads, so the streak is now a short row of small quads along the velocity, textured with a
+ * plain white block sprite and tinted by the spark colour.
+ */
+public class SparkParticle extends SingleQuadParticle {
 
-	private static final Identifier COLOR_LOCATION = CreateBigCannons.resource("textures/entity/color.png");
-	private static final RenderType COLOR = RenderTypes.entityTranslucentCull(COLOR_LOCATION);
+	private static final int SEGMENTS = 4;
 
 	SparkParticle(ClientLevel level, double x, double y, double z, double dx, double dy, double dz, float r, float g, float b) {
-		super(level, x, y, z);
+		super(level, x, y, z, Minecraft.getInstance().getModelManager().getBlockStateModelSet()
+			.getParticleMaterial(Blocks.WHITE_CONCRETE.defaultBlockState()).sprite());
 		this.xd = dx;
 		this.yd = dy;
 		this.zd = dz;
@@ -40,57 +35,32 @@ public class SparkParticle extends Particle {
 		this.bCol = b;
 		this.gravity = 0.5f;
 		this.friction = 0.8f;
+		this.quadSize = 1 / 16f;
 	}
 
-	private static final ParticleRenderType RENDER_TYPE = new ParticleRenderType() {
-		@Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
-			RenderSystem.depthMask(true);
-			RenderSystem.disableBlend();
-			RenderSystem.setShader(GameRenderer::getRendertypeEntityTranslucentCullShader);
-			COLOR.setupRenderState();
-			return tesselator.begin(COLOR.mode(), COLOR.format());
-		}
-
-		@Override public String toString() { return "SPARK"; }
-	};
-
 	@Override
-	public void render(VertexConsumer buffer, Camera renderInfo, float partialTicks) {
-		Vec3 vec3 = renderInfo.getPosition();
+	public void extract(QuadParticleRenderState state, Camera camera, float partialTicks) {
+		Quaternionf rotation = new Quaternionf();
+		this.getFacingCameraMode().setRotation(rotation, camera, partialTicks);
+		Vec3 cam = camera.position();
 		double dx = this.x - this.xo;
 		double dy = this.y - this.yo;
 		double dz = this.z - this.zo;
-		float x1 = (float)(this.xo + partialTicks * dx - vec3.x());
-		float y1 = (float)(this.yo + partialTicks * dy - vec3.y());
-		float z1 = (float)(this.zo + partialTicks * dz - vec3.z());
-
+		float x1 = (float) (this.xo + partialTicks * dx - cam.x());
+		float y1 = (float) (this.yo + partialTicks * dy - cam.y());
+		float z1 = (float) (this.zo + partialTicks * dz - cam.z());
 		Vec3 vel = new Vec3(dx, dy, dz);
-		Matrix3f orient = CBCUtils.mat3x3fFacing(vel.normalize());
-
-		float width = 1 / 16f;
-		float length = -Math.min((float) vel.length(), 1);
-		int p = this.getLightColor(partialTicks);
-		Vector3f[] vector3fs = new Vector3f[]{
-			new Vector3f(-width, 0, 0), new Vector3f(-width, 0, length), new Vector3f(width, 0, length), new Vector3f(width, 0, 0),
-			new Vector3f(-width, 0, 0), new Vector3f(width, 0, 0), new Vector3f(width, 0, length), new Vector3f(-width, 0, length),
-			new Vector3f(0, -width, 0), new Vector3f(0, -width, length), new Vector3f(0, width, length), new Vector3f(0, width, 0),
-			new Vector3f(0, -width, 0), new Vector3f(0, width, 0), new Vector3f(0, width, length), new Vector3f(0, -width, length),
-		};
-
-		for(int vert = 0; vert < 16; ++vert) {
-			Vector3f vector3f2 = vector3fs[vert];
-			orient.transform(vector3f2);
-			buffer.addVertex(vector3f2.x() + x1, vector3f2.y() + y1, vector3f2.z() + z1)
-				.setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-				.setUv(0, 0)
-				.setOverlay(OverlayTexture.NO_OVERLAY)
-				.setLight(p)
-				.setNormal(0, 1, 0);
+		double length = Math.min(vel.length(), 1);
+		Vector3f step = vel.lengthSqr() < 1e-8 ? new Vector3f() : vel.normalize().scale(-length / SEGMENTS).toVector3f();
+		for (int i = 0; i < SEGMENTS; ++i) {
+			this.extractRotatedQuad(state, rotation, x1 + step.x * i, y1 + step.y * i, z1 + step.z * i, partialTicks);
 		}
 	}
 
-	@Override public ParticleRenderType getRenderType() { return RENDER_TYPE; }
+	@Override
+	protected Layer getLayer() {
+		return Layer.OPAQUE_TERRAIN;
+	}
 
 	@Override
 	public void tick() {
@@ -105,11 +75,11 @@ public class SparkParticle extends Particle {
 	}
 
 	@Override
-	public int getLightColor(float partialTick) {
+	protected int getLightCoords(float partialTick) {
 		float progress = 1 - Mth.clamp((this.age + partialTick) / (float) this.lifetime, 0, 1);
 		float brightness = Math.max(0.75f, progress * progress * progress * progress);
 
-		int i = super.getLightColor(partialTick);
+		int i = super.getLightCoords(partialTick);
 		int j = i & 0xFF;
 		int k = i >> 16 & 0xFF;
 		j += (int)(brightness * 240f);
@@ -121,7 +91,7 @@ public class SparkParticle extends Particle {
 	public static class Provider implements ParticleProvider<SparkParticleData> {
 		@Override
 		public Particle createParticle(SparkParticleData type, ClientLevel level, double x, double y, double z,
-									   double xSpeed, double ySpeed, double zSpeed) {
+									   double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
 			Vector3f color = type.color();
 			SparkParticle particle = new SparkParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, color.x(), color.y(), color.z());
 			int lifetime = 12 + level.getRandom().nextInt(12);
