@@ -6,6 +6,8 @@ import rbasamoyai.createbigcannons.port.registrate.AbstractRegistrate;
 
 import rbasamoyai.createbigcannons.port.porting_lib.util.DeferredHolder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,7 +37,7 @@ public class MenuEntry<T extends AbstractContainerMenu> extends RegistryEntry<Me
         open(player, displayName, asProvider());
     }
 
-    public void open(ServerPlayer player, Component displayName, Consumer<Object> extraData) {
+    public void open(ServerPlayer player, Component displayName, Consumer<RegistryFriendlyByteBuf> extraData) {
         open(player, displayName, asProvider(), extraData);
     }
 
@@ -43,13 +45,20 @@ public class MenuEntry<T extends AbstractContainerMenu> extends RegistryEntry<Me
         player.openMenu(new SimpleMenuProvider(provider, displayName));
     }
 
-    public void open(ServerPlayer player, Component displayName, MenuConstructor provider, Consumer<Object> extraData) {
-        player.openMenu(new ExtendedMenuProvider<>() {
-            // FIXME
+    public void open(ServerPlayer player, Component displayName, MenuConstructor provider, Consumer<RegistryFriendlyByteBuf> extraData) {
+        player.openMenu(new ExtendedMenuProvider<byte[]>() {
+            // PORT-NOTE(fabric): the opening data is written to a buffer as on NeoForge and sent as bytes (see MenuBuilder).
             @Override
-            public Object getScreenOpeningData(ServerPlayer player) {
-                extraData.accept(null);
-                return null;
+            public byte[] getScreenOpeningData(ServerPlayer player) {
+                RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), player.registryAccess());
+                try {
+                    extraData.accept(buf);
+                    byte[] bytes = new byte[buf.readableBytes()];
+                    buf.readBytes(bytes);
+                    return bytes;
+                } finally {
+                    buf.release();
+                }
             }
 
             @Override

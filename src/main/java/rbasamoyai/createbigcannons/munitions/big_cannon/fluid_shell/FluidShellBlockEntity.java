@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import net.minecraft.core.component.DataComponentGetter;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -74,7 +76,7 @@ public class FluidShellBlockEntity extends AbstractFluidShellBlockEntity {
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
         if (this.level != null)
             this.tank.readFromNBT(this.level.registryAccess(), componentInput.getOrDefault(CBCDataComponents.FLUID_CONTENT, CustomData.EMPTY).copyTag());

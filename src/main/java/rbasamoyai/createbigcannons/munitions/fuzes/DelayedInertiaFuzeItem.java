@@ -63,7 +63,7 @@ public class DelayedInertiaFuzeItem extends FuzeItem implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
-		return this.getDescription();
+		return this.getName(this.getDefaultInstance());
 	}
 
 	@Override

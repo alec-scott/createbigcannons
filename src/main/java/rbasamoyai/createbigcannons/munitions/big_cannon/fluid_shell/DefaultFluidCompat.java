@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.fluid_shell;
 
+import net.minecraft.server.level.ServerLevel;
+
 import com.zurrtum.create.AllFluids;
 import com.zurrtum.create.content.fluids.potion.PotionFluidHandler;
 
@@ -65,7 +67,7 @@ public class DefaultFluidCompat {
 		if (entity.fireImmune())
 			return;
 		entity.igniteForSeconds(10);
-		if (entity.hurt(context.level().damageSources().onFire(), 4.0F))
+		if (context.level() instanceof ServerLevel slevel && entity.hurtServer(slevel, slevel.damageSources().onFire(), 4.0F))
 			entity.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + entity.level().getRandom().nextFloat() * 0.4F);
 	}
 

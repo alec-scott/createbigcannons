@@ -15,6 +15,8 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
+import io.netty.buffer.Unpooled;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.flag.FeatureFlags;
@@ -32,7 +34,7 @@ public class MenuBuilder<T extends AbstractContainerMenu, S extends Screen & Men
 
     public interface ForgeMenuFactory<T extends AbstractContainerMenu> {
 
-        T create(MenuType<T> type, int windowId, Inventory inv, Object data);
+        T create(MenuType<T> type, int windowId, Inventory inv, RegistryFriendlyByteBuf data);
     }
     
     public interface ScreenFactory<M extends AbstractContainerMenu, T extends Screen & MenuAccess<M>> {
@@ -71,13 +73,16 @@ public class MenuBuilder<T extends AbstractContainerMenu, S extends Screen & Men
         MenuType<T> ret;
         if (this.factory == null) {
             ForgeMenuFactory<T> factory = this.forgeFactory;
-            if (this.extraDataCodec == null) {
-                throw new IllegalStateException("Extended menu '" + this.getName() + "' is missing an opening-data codec");
-            }
-            ret = new ExtendedMenuType<T, Object>(
-                    (windowId, inv, data) -> factory.create(supplier.get(), windowId, inv, data),
-                    this.extraDataCodec
-            );
+            // PORT-NOTE(fabric): NeoForge passed the opening data as a buffer. Fabric menus carry a codec-typed value, so
+            // the bytes MenuEntry#open wrote are sent as a byte array and handed back to the factory as a buffer.
+            ret = new ExtendedMenuType<T, byte[]>((windowId, inv, bytes) -> {
+                RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.wrappedBuffer(bytes), inv.player.registryAccess());
+                try {
+                    return factory.create(supplier.get(), windowId, inv, buf);
+                } finally {
+                    buf.release();
+                }
+            }, ByteBufCodecs.BYTE_ARRAY);
         } else {
             MenuFactory<T> factory = this.factory;
             ret = new MenuType<>((syncId, inventory) -> factory.create(supplier.get(), syncId, inventory), FeatureFlags.VANILLA_SET);

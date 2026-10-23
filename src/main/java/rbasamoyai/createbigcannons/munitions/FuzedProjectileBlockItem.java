@@ -35,7 +35,7 @@ public class FuzedProjectileBlockItem extends ProjectileBlockItem {
 				.addTo(tooltip);
 			if (fuze.getItem() instanceof FuzeItem) {
 				List<Component> subTooltip = new ArrayList<>();
-				fuze.getItem().appendHoverText(fuze, ctx, subTooltip, flag);
+				((FuzeItem) fuze.getItem()).appendHoverText(fuze, ctx, subTooltip, flag);
 				subTooltip.replaceAll(sibling -> Component.literal("  ").append(sibling).withStyle(ChatFormatting.GRAY));
 				tooltip.addAll(subTooltip);
 			}

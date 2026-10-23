@@ -107,10 +107,11 @@ public class CBCFluidTank extends FluidTank {
 		return tag;
 	}
 
-	public void readFromNBT(HolderLookup.Provider registries, CompoundTag tag) {
+	public CBCFluidTank readFromNBT(HolderLookup.Provider registries, CompoundTag tag) {
 		Tag fluidTag = tag.get("Fluid");
 		this.setFluid(fluidTag == null ? FluidStack.EMPTY
 			: FluidStack.CODEC.parse(registries.createSerializationContext(NbtOps.INSTANCE), fluidTag).result().orElse(FluidStack.EMPTY));
+		return this;
 	}
 
 	public FluidStack drain(FluidStack resource, FluidAction action) {

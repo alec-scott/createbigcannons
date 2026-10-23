@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import net.minecraft.server.level.ServerLevel;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -106,7 +108,7 @@ public class GasCloudEntity extends SmokeEmitterEntity {
 					this.victims.put(target, this.tickCount + this.reapplicationDelay);
 					for (MobEffectInstance appliedEffect : toApply) {
 						if (appliedEffect.getEffect().value().isInstantenous()) {
-							appliedEffect.getEffect().value().applyInstantenousEffect(this, null, target, appliedEffect.getAmplifier(), 0.5);
+							appliedEffect.getEffect().value().applyInstantenousEffect((ServerLevel) this.level(), this, null, target, appliedEffect.getAmplifier(), 0.5);
 						} else {
 							target.addEffect(new MobEffectInstance(appliedEffect), this);
 						}
@@ -171,12 +173,7 @@ public class GasCloudEntity extends SmokeEmitterEntity {
 		if (CBCValueIO.contains(tag, "Color"))
 			this.setFixedColor(tag.getIntOr("Color", 0));
 
-        RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-		if (CBCValueIO.contains(tag, "potion_contents"))
-            PotionContents.CODEC
-                .parse(registryOps, tag.get("potion_contents"))
-                .resultOrPartial(string -> CreateBigCannons.LOGGER.warn("Failed to parse area effect cloud potions: '{}'", string))
-                .ifPresent(this::setPotionContents);
+        tag.read("potion_contents", PotionContents.CODEC).ifPresent(this::setPotionContents);
 	}
 
 	@Override

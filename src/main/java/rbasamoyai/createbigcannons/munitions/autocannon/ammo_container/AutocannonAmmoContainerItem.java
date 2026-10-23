@@ -38,7 +38,7 @@ public class AutocannonAmmoContainerItem extends BlockItem implements MenuProvid
 
 	@Override
 	public Component getDisplayName() {
-		return this.getDescription();
+		return this.getName(this.getDefaultInstance());
 	}
 
 	@Nullable
@@ -71,7 +71,7 @@ public class AutocannonAmmoContainerItem extends BlockItem implements MenuProvid
 	public InteractionResult useOn(UseOnContext context) {
 		InteractionResult superResult = super.useOn(context);
 		if (superResult.consumesAction()) return superResult;
-		return this.use(context.getLevel(), context.getPlayer(), context.getHand()).getResult();
+		return this.use(context.getLevel(), context.getPlayer(), context.getHand());
 	}
 
 	public static ItemStack getMainAmmoStack(ItemStack container) {

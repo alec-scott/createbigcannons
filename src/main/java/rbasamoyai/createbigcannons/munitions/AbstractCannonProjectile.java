@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions;
 
+import org.joml.Vector3fc;
+
 import net.minecraft.server.level.ServerEntity;
 
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -79,7 +81,7 @@ public abstract class AbstractCannonProjectile extends Projectile {
 
 	protected static final EntityDataAccessor<Byte> ID_FLAGS = SynchedEntityData.defineId(AbstractCannonProjectile.class, EntityDataSerializers.BYTE);
 	private static final EntityDataAccessor<Float> PROJECTILE_MASS = SynchedEntityData.defineId(AbstractCannonProjectile.class, EntityDataSerializers.FLOAT);
-    protected static final EntityDataAccessor<Vector3f> ORIENTATION = SynchedEntityData.defineId(AbstractCannonProjectile.class, EntityDataSerializers.VECTOR3);
+    protected static final EntityDataAccessor<Vector3fc> ORIENTATION = SynchedEntityData.defineId(AbstractCannonProjectile.class, EntityDataSerializers.VECTOR3);
 	protected int inGroundTime = 0;
 	@Nullable protected Vec3 inGroundPos = null;
 	protected float damage;

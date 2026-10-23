@@ -39,9 +39,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.conditions.ICondition;
-import net.neoforged.neoforge.common.conditions.NotCondition;
-import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import rbasamoyai.createbigcannons.CBCCompatTransformers;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.multiloader.NetworkPlatform;
@@ -312,14 +309,10 @@ public class CBCUtils {
 	 * @throws CommandSyntaxException thrown by BlockStateParser
 	 */
 	public static BlockState parseBlockState(StringReader reader) throws CommandSyntaxException {
-		return BlockStateParser.parseForBlock(CBCRegistryUtils.getBlockRegistry().asLookup(), reader, false).blockState();
+		return BlockStateParser.parseForBlock(CBCRegistryUtils.getBlockRegistry(), reader, false).blockState();
 	}
 
     private CBCUtils() {}
-
-    public static ICondition itemTagsPopulated(TagKey<Item> tag) {
-        return new NotCondition(new TagEmptyCondition(tag));
-    }
 
 	/** PORT-NOTE(mc26.1): game rules are only readable on the server; client-side checks get the rule's default. */
 	public static boolean booleanRule(net.minecraft.world.level.Level level, net.minecraft.world.level.gamerules.GameRule<Boolean> rule) {

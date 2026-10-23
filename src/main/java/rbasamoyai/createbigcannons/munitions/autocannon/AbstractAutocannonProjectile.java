@@ -130,7 +130,7 @@ public abstract class AbstractAutocannonProjectile extends AbstractCannonProject
 					Vec3 curPos = this.position();
 					Vec3 displacementVec = curPos.subtract(prevPos);
 					AABB path = this.getBoundingBox().expandTowards(displacementVec.reverse()).inflate(3);
-					for (Player player : this.level().getNearbyPlayers(TargetingConditions.forNonCombat(), null, path)) {
+					for (Player player : this.level().getEntitiesOfClass(Player.class, path)) {
 						Vec3 diff = player.position().subtract(prevPos);
 						boolean flag = this.whooshedPlayers.containsKey(player);
 						this.whooshedPlayers.put(player, 3);

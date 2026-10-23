@@ -1,5 +1,13 @@
 package rbasamoyai.createbigcannons.index;
 
+import net.minecraft.sounds.SoundEvents;
+
+import net.minecraft.world.entity.EquipmentSlot;
+
+import net.minecraft.world.item.equipment.Equippable;
+
+import net.minecraft.core.component.DataComponents;
+
 import static rbasamoyai.createbigcannons.port.create.DisplaySourceTransforms.displaySource;
 import static rbasamoyai.createbigcannons.CreateBigCannons.REGISTRATE;
 
@@ -1054,7 +1062,8 @@ public class CBCBlocks {
 		.blockstate(CBCBuilderTransformers.trafficCone())
 		.loot(CBCBuilderTransformers.tracerProjectileLoot())
 		.item(TrafficConeBlockItem::new)
-		.initialProperties(() -> new Item.Properties().rarity(Rarity.EPIC))
+		.initialProperties(() -> new Item.Properties().rarity(Rarity.EPIC)
+			.component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.HEAD).setEquipSound(SoundEvents.ARMOR_EQUIP_GENERIC).build()))
 		.tag(CBCTags.CBCItemTags.BIG_CANNON_PROJECTILES)
 		.build()
 		.register();

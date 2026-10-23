@@ -1,5 +1,13 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import net.minecraft.world.entity.ContainerUser;
+
+import net.minecraft.world.Container;
+
+import net.minecraft.core.component.DataComponentGetter;
+
+import net.minecraft.network.chat.ComponentSerialization;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -74,7 +82,7 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
 		}
 
 		@Override
-		protected boolean isOwnContainer(Player player) {
+		public boolean isOwnContainer(Player player) {
 			return player.containerMenu instanceof AutocannonAmmoContainerMenu menu && menu.getContainer() == AutocannonAmmoContainerBlockEntity.this;
 		}
 	};
@@ -89,8 +97,7 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
         tag.store("Ammo", ItemStack.OPTIONAL_CODEC, this.ammoStack);
         tag.store("Tracers", ItemStack.OPTIONAL_CODEC, this.tracerStack);
         tag.putInt("TracerSpacing", this.tracerSpacing);
-        if (this.name != null)
-            tag.putString("CustomName", Component.Serializer.toJson(this.name, registries));
+        tag.storeNullable("CustomName", ComponentSerialization.CODEC, this.name);
     }
 
     @Override
@@ -99,8 +106,7 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
         this.ammoStack = tag.read("Ammo", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
         this.tracerStack = tag.read("Tracers", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
         this.tracerSpacing = Mth.clamp(tag.getIntOr("TracerSpacing", 0), 1, 6);
-        if (CBCValueIO.contains(tag, "CustomName"))
-            this.name = parseCustomNameSafe(tag.getStringOr("CustomName", ""), registries);
+        this.name = tag.read("CustomName", ComponentSerialization.CODEC).orElse(null);
     }
 
     @Override public ItemStack getMainAmmoStack() { return this.ammoStack; }
@@ -126,11 +132,11 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
 	}
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         this.ammoStack = componentInput.getOrDefault(CBCDataComponents.AMMO, ItemContainerContents.EMPTY).copyOne();
         this.tracerStack = componentInput.getOrDefault(CBCDataComponents.TRACERS, ItemContainerContents.EMPTY).copyOne();
         this.tracerSpacing = componentInput.getOrDefault(CBCDataComponents.TRACER_SPACING, 1);
-        this.name = componentInput.getOrDefault(DataComponents.CUSTOM_NAME, null);
+        this.name = componentInput.get(DataComponents.CUSTOM_NAME);
     }
 
     @Override
@@ -217,7 +223,7 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
 
 	@Override
 	public boolean stillValid(Player player) {
-		return player.canInteractWithBlock(this.getBlockPos(), 4);
+		return Container.stillValidBlockEntity(this, player);
 	}
 
 	@Override
@@ -227,16 +233,16 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
 	}
 
 	@Override
-	public void startOpen(Player player) {
-		if (!this.remove && !player.isSpectator()) {
-			this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+	public void startOpen(ContainerUser user) {
+		if (!this.remove && !user.getLivingEntity().isSpectator()) {
+			this.openersCounter.incrementOpeners(user.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState(), user.getContainerInteractionRange());
 		}
 	}
 
 	@Override
-	public void stopOpen(Player player) {
-		if (!this.remove && !player.isSpectator()) {
-			this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+	public void stopOpen(ContainerUser user) {
+		if (!this.remove && !user.getLivingEntity().isSpectator()) {
+			this.openersCounter.decrementOpeners(user.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState());
 		}
 	}
 
@@ -272,8 +278,8 @@ public class AutocannonAmmoContainerBlockEntity extends BlockEntity implements I
         copy.set(CBCDataComponents.TRACER_SPACING, this.getSpacing());
         if (this.components().has(DataComponents.CUSTOM_NAME))
             copy.set(DataComponents.CUSTOM_NAME, this.components().get(DataComponents.CUSTOM_NAME));
-        this.saveAdditional(tag, registries);
-        CBCUtils.saveComponentsToStructureTag(tag, copy, registries);
+        this.saveAdditional(tag);
+        tag.store("components", DataComponentMap.CODEC, copy);
     }
 
     @Override

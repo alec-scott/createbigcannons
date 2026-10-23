@@ -92,7 +92,7 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 	public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
 		if (!level.isClientSide() && level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity be && player.isCreative() && be.canDropInCreative()) {
 			ItemStack stack = new ItemStack(this.asItem());
-			be.saveToItem(stack, level.registryAccess());
+			stack.applyComponents(be.collectComponents());
 			if (be.hasCustomName()) stack.set(DataComponents.CUSTOM_NAME, be.getCustomName());
 
 			ItemEntity itemEntity = new ItemEntity(level, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5, stack);
@@ -115,7 +115,7 @@ public class AutocannonAmmoContainerBlock extends Block implements IWrenchable, 
 	@Override
 	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		ItemStack itemStack = super.getCloneItemStack(level, pos, state, includeData);
-		if (level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity be) be.saveToItem(itemStack, level.registryAccess());
+		if (level.getBlockEntity(pos) instanceof AutocannonAmmoContainerBlockEntity be) itemStack.applyComponents(be.collectComponents());
 		return itemStack;
 	}
 

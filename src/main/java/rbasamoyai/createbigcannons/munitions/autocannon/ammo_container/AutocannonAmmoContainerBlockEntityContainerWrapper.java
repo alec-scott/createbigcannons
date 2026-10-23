@@ -31,7 +31,7 @@ public class AutocannonAmmoContainerBlockEntityContainerWrapper implements IAuto
 
 	@Override
 	public boolean stillValid(Player player) {
-		return player.canInteractWithBlock(this.pos, 4);
+		return player.isWithinBlockInteractionRange(this.pos, 4);
 	}
 
 }

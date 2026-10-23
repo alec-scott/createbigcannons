@@ -84,7 +84,7 @@ public abstract class FuzedProjectileBlock<BLOCK_ENTITY extends FuzedBlockEntity
 	protected AbstractBigCannonProjectile spawnFromExplosion(Level level, BlockPos pos, BlockState state, Explosion explosion) {
 		AbstractBigCannonProjectile projectile = super.spawnFromExplosion(level, pos, state, explosion);
 		if (projectile instanceof FuzedBigCannonProjectile fuzedProjectile) {
-			fuzedProjectile.setExplosionCountdown(level.random.nextInt(10) + 5);
+			fuzedProjectile.setExplosionCountdown(level.getRandom().nextInt(10) + 5);
 		}
 		return projectile;
 	}

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.world.attribute.EnvironmentAttributes;
+
 import java.util.function.BiConsumer;
 
 import rbasamoyai.createbigcannons.base.CBCDynamicFlammableBlock;
@@ -114,7 +116,7 @@ public class PowderChargeBlock extends RotatedPillarBlock implements IWrenchable
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		ItemStack itemStack = context.getItemInHand();
 		boolean waterlogged = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
-		boolean damp = (itemStack.getOrDefault(CBCDataComponents.DAMP, false) || waterlogged) && !context.getLevel().dimensionType().ultraWarm();
+		boolean damp = (itemStack.getOrDefault(CBCDataComponents.DAMP, false) || waterlogged) && !context.getLevel().environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, context.getClickedPos());
 		return super.getStateForPlacement(context).setValue(DAMP, damp).setValue(WATERLOGGED, waterlogged);
 	}
 
@@ -249,7 +251,7 @@ public class PowderChargeBlock extends RotatedPillarBlock implements IWrenchable
 		Item item = itemStack.getItem();
 		if (!player.isCreative()) {
 			if (itemStack.is(Items.FLINT_AND_STEEL)) {
-                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+                stack.hurtAndBreak(1, player, hand);
 			} else {
 				itemStack.shrink(1);
 			}
@@ -264,7 +266,7 @@ public class PowderChargeBlock extends RotatedPillarBlock implements IWrenchable
 		if (level.isClientSide())
 			return;
 		BlockPos blockPos = hit.getBlockPos();
-		if (!projectile.isOnFire() || !projectile.mayInteract(level, blockPos) || BigCannonMunitionBlock.doesntIgnite(state))
+		if (!projectile.isOnFire() || !(level instanceof ServerLevel slevel && projectile.mayInteract(slevel, blockPos)) || BigCannonMunitionBlock.doesntIgnite(state))
 			return;
 		this.spawnPrimedPropellant(level, blockPos, state);
 		level.removeBlock(blockPos, false);

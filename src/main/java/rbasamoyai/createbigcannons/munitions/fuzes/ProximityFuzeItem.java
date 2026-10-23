@@ -148,7 +148,7 @@ public class ProximityFuzeItem extends FuzeItem implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
-		return this.getDescription();
+		return this.getName(this.getDefaultInstance());
 	}
 
 	public static ItemStack getCreativeTabItem(int defaultFuze) {

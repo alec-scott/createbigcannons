@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.core.component.DataComponentGetter;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -41,7 +43,7 @@ public class BigCartridgeBlockEntity extends SyncedBlockEntity implements Specia
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         this.power = componentInput.getOrDefault(CBCDataComponents.POWER, 0);
     }
 

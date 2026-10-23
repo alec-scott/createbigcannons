@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.smoke_shell;
 
+import net.minecraft.world.damagesource.DamageSource;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -50,7 +52,7 @@ public class SmokeEmitterEntity extends Entity {
 	protected void addAdditionalSaveData(ValueOutput tag) {
 		tag.putInt("Duration", this.duration);
 		tag.putInt("Age", this.age);
-		CBCValueIO.put(tag, "Size", this.newDoubleList(this.getSizeX(), this.getSizeY(), this.getSizeZ()));
+		tag.store("Size", Vec3.CODEC, new Vec3(this.getSizeX(), this.getSizeY(), this.getSizeZ()));
 	}
 
 	@Override
@@ -190,7 +192,7 @@ public class SmokeEmitterEntity extends Entity {
 	}
 
 	@Override
-	protected AABB makeBoundingBox() {
+	protected AABB makeBoundingBox(Vec3 position) {
 		double sizeX = this.getSizeX() * 0.5;
 		double sizeY = this.getSizeY() * 0.5;
 		double sizeZ = this.getSizeZ() * 0.5;
@@ -202,5 +204,11 @@ public class SmokeEmitterEntity extends Entity {
 	}
 
 	@Override public boolean isPickable() { return false; }
+
+
+	@Override
+	public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+		return false;
+	}
 
 }

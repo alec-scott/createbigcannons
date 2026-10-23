@@ -34,7 +34,7 @@ public class AutocannonCartridgeItem extends Item implements AutocannonAmmoItem 
 			tooltip.add(Component.translatable("item.minecraft.crossbow.projectile").append(" ").append(round.getDisplayName()));
 			if (round.getItem() instanceof AutocannonRoundItem) {
 				List<Component> subTooltip = new ArrayList<>();
-				round.getItem().appendHoverText(round, ctx, subTooltip, flag);
+				((AutocannonRoundItem) round.getItem()).appendHoverText(round, ctx, subTooltip, flag);
 				for (int i = 0; i < subTooltip.size(); ++i) {
 					subTooltip.set(i, Component.literal("  ").append(subTooltip.get(i)).withStyle(ChatFormatting.GRAY));
 				}

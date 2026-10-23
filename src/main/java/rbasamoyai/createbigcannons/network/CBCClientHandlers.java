@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.network;
 
+import com.zurrtum.create.AllClientHandle;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import rbasamoyai.createbigcannons.remix.CustomExplosion;
@@ -59,7 +61,7 @@ public class CBCClientHandlers {
             RegistryAccess registryAccess = mc.level.registryAccess();
 			for (Map.Entry<BlockPos, StructureBlockInfo> entry : pkt.changes().entrySet()) {
 				BlockEntity be = cannon.presentBlockEntities.get(entry.getKey());
-                BlockEntity rbe = contraption.getOrCreateClientContraptionLazy().getBlockEntity(entry.getKey());
+                BlockEntity rbe = AllClientHandle.INSTANCE.getBlockEntityClientSide(contraption, entry.getKey());
                 StructureBlockInfo info = entry.getValue();
 				if (be == null || info.nbt() == null) continue;
 				CompoundTag copy = info.nbt().copy();
@@ -71,8 +73,8 @@ public class CBCClientHandlers {
                     CBCValueIO.loadWithComponents(rbe, copy, registryAccess);
 			}
 		}
-        contraption.invalidateClientContraptionStructure();
-        contraption.invalidateClientContraptionChildren();
+        AllClientHandle.INSTANCE.resetClientContraption(contraption);
+        AllClientHandle.INSTANCE.invalidateClientContraptionChildren(contraption);
 	}
 
 	public static void animateCannon(ClientboundAnimateCannonContraptionPacket pkt) {
@@ -94,7 +96,7 @@ public class CBCClientHandlers {
 		Entity entity = mc.level.getEntity(pkt.entityId());
 		if (entity == null) return;
 
-		entity.lerpTo(entity.getX(), entity.getY(), entity.getZ(), pkt.yRot(), pkt.xRot(), 3);
+		entity.moveOrInterpolateTo(pkt.yRot(), pkt.xRot()); // PORT-NOTE(mc26.1): lerpTo is gone
 	}
 
 	public static void updateFluidBlob(ClientboundFluidBlobStackSyncPacket pkt) {

@@ -54,7 +54,7 @@ public class PitchOrientedContraptionEntity extends OrientedContraptionEntity im
 	}
 
 	public static PitchOrientedContraptionEntity create(Level level, Contraption contraption, Direction initialOrientation, boolean updatesOwnRotation) {
-		PitchOrientedContraptionEntity entity = CBCEntityTypes.PITCH_ORIENTED_CONTRAPTION.create(level, EntitySpawnReason.TRIGGERED);
+		PitchOrientedContraptionEntity entity = CBCEntityTypes.PITCH_ORIENTED_CONTRAPTION.get().create(level, EntitySpawnReason.TRIGGERED);
 
 		entity.setContraption(contraption);
 		entity.setInitialOrientation(initialOrientation);

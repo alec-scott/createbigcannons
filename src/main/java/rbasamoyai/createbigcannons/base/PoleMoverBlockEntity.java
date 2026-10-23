@@ -9,9 +9,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import com.zurrtum.create.AllSoundEvents;
 import com.zurrtum.create.content.contraptions.AssemblyException;
 import com.zurrtum.create.content.contraptions.ControlledContraptionEntity;
-import com.zurrtum.create.client.content.contraptions.DirectionalExtenderScrollOptionSlot;
 import com.zurrtum.create.content.contraptions.piston.LinearActuatorBlockEntity;
-import com.zurrtum.create.client.foundation.blockEntity.behaviour.ValueBoxTransform;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -121,10 +119,7 @@ public abstract class PoleMoverBlockEntity extends LinearActuatorBlockEntity {
 		return movementSpeed;
 	}
 
-	@Override
-	protected ValueBoxTransform getMovementModeSlot() {
-		return new DirectionalExtenderScrollOptionSlot((state, d) -> false);
-	}
+	// PORT-NOTE(fabric): getMovementModeSlot (client value box) moved to Create Fly's client behaviours; not ported.
 
 	@Override
 	protected Vec3 toMotionVector(float speed) {

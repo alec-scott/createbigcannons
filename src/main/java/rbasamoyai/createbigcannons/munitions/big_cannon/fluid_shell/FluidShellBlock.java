@@ -30,7 +30,8 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import com.zurrtum.create.infrastructure.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import rbasamoyai.createbigcannons.utils.CBCFluidTank;
+import rbasamoyai.createbigcannons.utils.FluidUnits;
 import rbasamoyai.createbigcannons.index.CBCBlockEntities;
 import rbasamoyai.createbigcannons.index.CBCDataComponents;
 import rbasamoyai.createbigcannons.index.CBCEntityTypes;
@@ -64,16 +65,16 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
 
 	@Override
 	public AbstractBigCannonProjectile getProjectile(Level level, List<StructureBlockInfo> projectileBlocks) {
-		FluidShellProjectile projectile = CBCEntityTypes.FLUID_SHELL.create(level);
+		FluidShellProjectile projectile = CBCEntityTypes.FLUID_SHELL.get().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setFuze(getFuzeFromBlocks(projectileBlocks, level.registryAccess()));
 		projectile.setTracer(getTracerFromBlocks(projectileBlocks, level.registryAccess()));
 		if (!projectileBlocks.isEmpty()) {
 			StructureBlockInfo info = projectileBlocks.get(0);
 			if (info.nbt() != null) { // jank alert
 				CompoundTag component = info.nbt().getCompoundOrEmpty("FluidContent");
-                FluidTank tank = new FluidTank(getFluidShellCapacity()).readFromNBT(level.registryAccess(), component); // It's cheaper than recreating the entire BE.
+                CBCFluidTank tank = new CBCFluidTank(FluidUnits.fromMb(getFluidShellCapacity())).readFromNBT(level.registryAccess(), component); // It's cheaper than recreating the entire BE.
                 FluidStack fstack = tank.getFluid();
-                projectile.setFluidStack(fstack.isEmpty() ? EndFluidStack.EMPTY : new EndFluidStack(fstack.getFluid(), fstack.getAmount(), fstack.getComponentsPatch()));
+                projectile.setFluidStack(fstack.isEmpty() ? EndFluidStack.EMPTY : new EndFluidStack(fstack.getFluid(), FluidUnits.toMb(fstack.getAmount()), fstack.getComponentChanges()));
 			}
 		}
 		return projectile;
@@ -81,7 +82,7 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
 
     @Override
     public AbstractBigCannonProjectile getProjectile(Level level, ItemStack itemStack) {
-		FluidShellProjectile projectile = CBCEntityTypes.FLUID_SHELL.create(level);
+		FluidShellProjectile projectile = CBCEntityTypes.FLUID_SHELL.get().create(level, EntitySpawnReason.TRIGGERED);
 		projectile.setFuze(getFuzeFromItemStack(itemStack));
 		projectile.setTracer(getTracerFromItemStack(itemStack));
 		CompoundTag fluidTag = itemStack.getOrDefault(CBCDataComponents.FLUID_CONTENT, CustomData.EMPTY).copyTag();
@@ -104,7 +105,7 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
         StructureBlockInfo info = super.getHandloadingInfo(stack, localPos, cannonOrientation, registries);
         if (info.nbt() != null) { // More jank
             CompoundTag fluidTag = stack.getOrDefault(CBCDataComponents.FLUID_CONTENT, CustomData.EMPTY).copyTag();
-            FluidTank tank = new FluidTank(getFluidShellCapacity()).readFromNBT(registries, fluidTag);
+            CBCFluidTank tank = new CBCFluidTank(FluidUnits.fromMb(getFluidShellCapacity())).readFromNBT(registries, fluidTag);
             info.nbt().put("FluidContent", tank.writeToNBT(registries, new CompoundTag()));
         }
         return info;
@@ -115,7 +116,7 @@ public class FluidShellBlock extends FuzedProjectileBlock<AbstractFluidShellBloc
         ItemStack stack = super.getExtractedItem(info, registries);
         if (info.nbt() != null) { // More jank
             CompoundTag component = info.nbt().getCompoundOrEmpty("FluidContent");
-            FluidTank tank = new FluidTank(getFluidShellCapacity()).readFromNBT(registries, component);
+            CBCFluidTank tank = new CBCFluidTank(FluidUnits.fromMb(getFluidShellCapacity())).readFromNBT(registries, component);
             stack.set(CBCDataComponents.FLUID_CONTENT, CustomData.of(tank.writeToNBT(registries, new CompoundTag())));
         }
         return stack;

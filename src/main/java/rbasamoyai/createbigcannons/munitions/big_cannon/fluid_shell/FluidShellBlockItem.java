@@ -23,7 +23,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import com.zurrtum.create.infrastructure.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import rbasamoyai.createbigcannons.utils.CBCFluidTank;
+import rbasamoyai.createbigcannons.utils.FluidUnits;
 import rbasamoyai.createbigcannons.index.CBCDataComponents;
 import rbasamoyai.createbigcannons.multiloader.IndexPlatform;
 import rbasamoyai.createbigcannons.munitions.FuzedProjectileBlockItem;
@@ -40,9 +41,9 @@ public class FluidShellBlockItem extends FuzedProjectileBlockItem {
         CustomData data = stack.getOrDefault(CBCDataComponents.FLUID_CONTENT, CustomData.EMPTY);
         HolderLookup.Provider registries = ctx.registries();
         if (!data.isEmpty() && registries != null) { // jank alert
-            FluidTank tank = new FluidTank(getFluidShellCapacity()).readFromNBT(registries, data.copyTag()); // It's cheaper than recreating the entire BE.
+            CBCFluidTank tank = new CBCFluidTank(FluidUnits.fromMb(getFluidShellCapacity())).readFromNBT(registries, data.copyTag()); // It's cheaper than recreating the entire BE.
             FluidStack fstack = tank.getFluid();
-            CBCFluidShellTooltip.addFluidShellComponents(fstack.getFluid(), fstack.getComponentsPatch(), fstack.getAmount(), tooltip);
+            CBCFluidShellTooltip.addFluidShellComponents(fstack.getFluid(), fstack.getComponentChanges(), FluidUnits.toMb(fstack.getAmount()), tooltip);
         } else {
             CBCFluidShellTooltip.addFluidShellComponents(Fluids.EMPTY, DataComponentPatch.EMPTY, 0, tooltip);
         }

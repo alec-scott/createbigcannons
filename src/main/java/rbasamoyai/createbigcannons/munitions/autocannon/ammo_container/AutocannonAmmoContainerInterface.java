@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonAmmoType;
+
 import java.util.List;
 
 import java.util.Iterator;
@@ -114,7 +116,8 @@ public class AutocannonAmmoContainerInterface extends SnapshotParticipant<Autoca
 
 	@Override
 	protected void onFinalCommit() {
-		this.be.notifyUpdate();
+		this.be.setChanged();
+		if (this.be.getLevel() != null) this.be.getLevel().sendBlockUpdated(this.be.getBlockPos(), this.be.getBlockState(), this.be.getBlockState(), 3);
 	}
 
 	public static class ContainerSnapshot {

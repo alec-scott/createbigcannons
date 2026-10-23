@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -28,7 +28,8 @@ import rbasamoyai.createbigcannons.munitions.autocannon.AutocannonAmmoType;
 
 public class AutocannonAmmoContainerMenu extends AbstractContainerMenu implements SimpleValueContainer {
 
-	private static final Identifier TRACER_SLOT = CreateBigCannons.resource("item/tracer_slot");
+	// PORT-NOTE(mc26.1): empty-slot icons are GUI-atlas sprites now (copied to textures/gui/sprites/container/slot/tracer.png).
+	private static final Identifier TRACER_SLOT = CreateBigCannons.resource("container/slot/tracer");
 
 	public static AutocannonAmmoContainerMenu getServerMenuForItemStack(int id, Inventory playerInv, ItemStack stack, boolean isCreative) {
 		IAutocannonAmmoContainerContainer ct = new AutocannonAmmoContainerItemContainer(stack);
@@ -69,8 +70,8 @@ public class AutocannonAmmoContainerMenu extends AbstractContainerMenu implement
 		this.addSlot(new AutocannonAmmoContainerMenuSlot(ct, IAutocannonAmmoContainerContainer.TRACER_SLOT, 59, 26, isCreative) {
 			@Nullable
 			@Override
-			public Pair<Identifier, Identifier> getNoItemIcon() {
-				return Pair.of(InventoryMenu.BLOCK_ATLAS, TRACER_SLOT);
+			public Identifier getNoItemIcon() {
+				return TRACER_SLOT;
 			}
 		});
 
@@ -141,8 +142,8 @@ public class AutocannonAmmoContainerMenu extends AbstractContainerMenu implement
 	public boolean isFilled() { return this.container.getAmmoType() != AutocannonAmmoType.NONE; }
 
 	@Override
-	public void clicked(int slotId, int button, ClickType clickType, Player player) {
-		if (slotId == this.playerInv.selected + 29 && clickType != ClickType.THROW && this.isItem) return;
+	public void clicked(int slotId, int button, ContainerInput clickType, Player player) {
+		if (slotId == this.playerInv.getSelectedSlot() + 29 && clickType != ContainerInput.THROW && this.isItem) return;
 		super.clicked(slotId, button, clickType, player);
 	}
 

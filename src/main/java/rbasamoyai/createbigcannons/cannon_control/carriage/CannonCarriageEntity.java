@@ -363,7 +363,7 @@ public class CannonCarriageEntity extends Entity implements ControlPitchContrapt
     }
 
 	@Override
-	public boolean canBeCollidedWith() {
+	public boolean canBeCollidedWith(Entity other) {
 		return true;
 	}
 

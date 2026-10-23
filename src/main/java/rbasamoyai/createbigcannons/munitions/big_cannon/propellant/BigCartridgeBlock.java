@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.world.attribute.EnvironmentAttributes;
+
 import java.util.function.BiConsumer;
 
 import rbasamoyai.createbigcannons.base.CBCDynamicFlammableBlock;
@@ -159,7 +161,7 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 		}
 		ItemStack itemStack = context.getItemInHand();
 		boolean waterlogged = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
-		boolean damp = (itemStack.getOrDefault(CBCDataComponents.DAMP, false) || waterlogged) && !context.getLevel().dimensionType().ultraWarm();
+		boolean damp = (itemStack.getOrDefault(CBCDataComponents.DAMP, false) || waterlogged) && !context.getLevel().environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, context.getClickedPos());
 		return this.defaultBlockState()
 			.setValue(FILLED, BigCartridgeBlockItem.getPower(itemStack) > 0)
 			.setValue(DAMP, damp)
@@ -177,7 +179,7 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 	}
 
 	public static float getPowerFromData(StructureBlockInfo data) {
-		return data.nbt() == null ? 0 : data.nbt().getInt("Power");
+		return data.nbt() == null ? 0 : data.nbt().getIntOr("Power", 0);
 	}
 
 	public float getPowerMultiplier(StructureBlockInfo data) {
@@ -317,7 +319,7 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 		Item item = stack.getItem();
 		if (!player.isCreative()) {
 			if (stack.is(Items.FLINT_AND_STEEL)) {
-                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+                stack.hurtAndBreak(1, player, hand);
 			} else {
 				stack.shrink(1);
 			}
@@ -332,7 +334,7 @@ public class BigCartridgeBlock extends DirectionalBlock implements IWrenchable, 
 		if (level.isClientSide())
 			return;
 		BlockPos blockPos = hit.getBlockPos();
-		if (!projectile.isOnFire() || !projectile.mayInteract(level, blockPos) || BigCannonMunitionBlock.doesntIgnite(state))
+		if (!projectile.isOnFire() || !(level instanceof ServerLevel slevel && projectile.mayInteract(slevel, blockPos)) || BigCannonMunitionBlock.doesntIgnite(state))
 			return;
 		this.spawnPrimedPropellant(level, blockPos, state);
 		level.removeBlock(blockPos, false);

@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.remix;
 
+import net.minecraft.server.level.ServerLevel;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -555,7 +557,7 @@ public class ContraptionRemix {
 
 		visited.remove(pos);
 		CompoundTag tag = currentInfo.nbt() == null ? null : currentInfo.nbt().copy();
-		BlockEntity newBe = tag != null && tag.contains("id", Tag.TAG_STRING) ? BlockEntity.loadStatic(currentInfo.pos(), currentInfo.state(), tag, level.registryAccess()) : null;
+		BlockEntity newBe = tag != null && tag.getString("id").isPresent() ? BlockEntity.loadStatic(currentInfo.pos(), currentInfo.state(), tag, level.registryAccess()) : null;
 		return Pair.of(new StructureBlockInfo(currentInfo.pos(), currentInfo.state(), tag), newBe);
 	}
 
@@ -618,7 +620,7 @@ public class ContraptionRemix {
 		fragileBlocks.clear();
 		for (Tag t : CBCValueIO.getList(tag, "createbigcannons:fragile_blocks")) {
 			if (t.getType() == LongTag.TYPE)
-				fragileBlocks.add(BlockPos.of(((LongTag) t).getAsLong()));
+				fragileBlocks.add(BlockPos.of(((LongTag) t).longValue()));
 		}
 	}
 
@@ -627,7 +629,7 @@ public class ContraptionRemix {
 		cannonColliders.clear();
 		for (Tag t : CBCValueIO.getList(tag, "createbigcannons:cannon_loading_colliders")) {
 			if (t.getType() == LongTag.TYPE)
-				cannonColliders.add(BlockPos.of(((LongTag) t).getAsLong()));
+				cannonColliders.add(BlockPos.of(((LongTag) t).longValue()));
 		}
 	}
 
@@ -648,7 +650,7 @@ public class ContraptionRemix {
 
 			cbe.cannonBehavior().removeBlock();
 			cbe.cannonBehavior().blockEntity.notifyUpdate();
-			innerState.onRemove(level, pos, Blocks.AIR.defaultBlockState(), isMoving);
+			if (level instanceof ServerLevel slevel) innerState.affectNeighborsAfterRemoval(slevel, pos, isMoving);
 			SoundType soundtype = innerState.getSoundType();
 			level.playSound(null, pos, soundtype.getBreakSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 		}
@@ -701,7 +703,7 @@ public class ContraptionRemix {
 		StructureBlockInfo info = cbe.cannonBehavior().block();
 		cbe.cannonBehavior().removeBlock();
 		cbe.cannonBehavior().blockEntity.notifyUpdate();
-		info.state().onRemove(level, pos, Blocks.AIR.defaultBlockState(), false);
+		if (level instanceof ServerLevel slevel) info.state().affectNeighborsAfterRemoval(slevel, pos, false);
 		if (drops) Block.dropResources(info.state(), level, pos, null, null, ItemStack.EMPTY);
 		SoundType soundtype = info.state().getSoundType();
 		level.playSound(null, pos, soundtype.getBreakSound(), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
@@ -762,7 +764,14 @@ public class ContraptionRemix {
 	}
 
     public static boolean canStickTo(BlockState state, BlockState state1) {
-        return state.canStickTo(state1);
+        // PORT-NOTE(fabric): NeoForge's IBlockStateExtension#canStickTo default (slime and honey do not stick to each other).
+        if (state.is(Blocks.HONEY_BLOCK) && state1.is(Blocks.SLIME_BLOCK) || state.is(Blocks.SLIME_BLOCK) && state1.is(Blocks.HONEY_BLOCK))
+            return false;
+        return isStickyBlock(state) || isStickyBlock(state1);
+    }
+
+    private static boolean isStickyBlock(BlockState state) {
+        return state.is(Blocks.SLIME_BLOCK) || state.is(Blocks.HONEY_BLOCK);
     }
 
 }

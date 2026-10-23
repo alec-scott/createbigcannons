@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.core.component.DataComponentGetter;
+
 import rbasamoyai.createbigcannons.base.goggles.CBCGoggleInfo;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -88,7 +90,7 @@ public class BigCannonProjectileBlockEntity extends SyncedBlockEntity implements
     public void setTracer(ItemStack itemStack) { this.tracer = itemStack == null ? ItemStack.EMPTY : itemStack.copy(); }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         this.tracer = componentInput.getOrDefault(CBCDataComponents.TRACER, ItemContainerContents.EMPTY).copyOne();
     }
 

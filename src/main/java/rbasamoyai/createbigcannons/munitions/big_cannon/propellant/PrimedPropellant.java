@@ -1,5 +1,11 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.propellant;
 
+import net.minecraft.world.phys.Vec3;
+
+import net.minecraft.world.damagesource.DamageSource;
+
+import net.minecraft.server.level.ServerLevel;
+
 import rbasamoyai.createbigcannons.utils.CBCValueIO;
 
 import net.minecraft.world.level.storage.ValueOutput;
@@ -80,7 +86,7 @@ public class PrimedPropellant extends Entity {
 				this.explode();
 			}
 		} else {
-			this.updateInWaterStateAndDoFluidPushing();
+			this.updateFluidInteraction();
 			if (this.level().isClientSide()) {
 				this.level().addParticle(ParticleTypes.SMOKE, this.getX(), this.getY() + 0.5, this.getZ(), 0.0, 0.0, 0.0);
 			}
@@ -112,5 +118,11 @@ public class PrimedPropellant extends Entity {
 	public BlockState getAppearance() { return this.entityData.get(DATA_APPEARANCE); }
 
 	public void setExplosionPower(float explosionPower) { this.explosionPower = explosionPower; }
+
+
+	@Override
+	public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+		return false;
+	}
 
 }

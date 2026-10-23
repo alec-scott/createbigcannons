@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import net.minecraft.core.component.DataComponentGetter;
+
 import net.minecraft.world.level.storage.ValueOutput;
 
 import net.minecraft.world.level.storage.ValueInput;
@@ -72,7 +74,7 @@ public class FuzedBlockEntity extends BigCannonProjectileBlockEntity {
         ItemStack fuze = this.getFuze();
 		if (!fuze.isEmpty() && fuze.getItem() instanceof FuzeItem fuzeItem) {
 			CreateLang.builder()
-				.add(fuzeItem.getDescription().copy())
+				.add(fuzeItem.getName(fuze).copy())
 				.style(ChatFormatting.GREEN)
 				.forGoggles(tooltip, 1);
 			fuzeItem.addExtraInfo(tooltip, isPlayerSneaking, fuze);
@@ -98,7 +100,7 @@ public class FuzedBlockEntity extends BigCannonProjectileBlockEntity {
 	public boolean hasFuze() { return !this.getFuze().isEmpty(); }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
         this.fuze = componentInput.getOrDefault(CBCDataComponents.FUZE, ItemContainerContents.EMPTY).copyOne();
     }

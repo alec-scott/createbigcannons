@@ -12,12 +12,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-public class TrafficConeBlockItem extends BlockItem implements Equipable {
+public class TrafficConeBlockItem extends BlockItem {
 
 	public TrafficConeBlockItem(Block block, Properties properties) {
 		super(block, properties);
@@ -41,15 +40,6 @@ public class TrafficConeBlockItem extends BlockItem implements Equipable {
 		}
 	}
 
-	@Override
-	public EquipmentSlot getEquipmentSlot() {
-		return EquipmentSlot.HEAD;
-	}
-
-	@Nullable
-	@Override
-	public Holder<SoundEvent> getEquipSound() {
-		return SoundEvents.ARMOR_EQUIP_GENERIC;
-	}
+	// PORT-NOTE(mc26.1): Equipable is gone; the head slot comes from the EQUIPPABLE component set in CBCBlocks.
 
 }

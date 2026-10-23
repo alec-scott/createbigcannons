@@ -38,7 +38,7 @@ public class CreateBigCannons {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final String MOD_ID = "createbigcannons";
-	public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID);
+	public static final CreateRegistrate REGISTRATE = new CreateRegistrate(MOD_ID);
 	public static final PartialBlockDamageManager BLOCK_DAMAGE = new PartialBlockDamageManager();
 
 	public static void init() {

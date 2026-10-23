@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.munitions.autocannon.ammo_container;
 
+import net.minecraft.world.entity.ContainerUser;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.sounds.SoundEvents;
@@ -60,12 +62,14 @@ public class AutocannonAmmoContainerItemContainer implements IAutocannonAmmoCont
 	}
 
 	@Override
-	public void startOpen(Player player) {
+	public void startOpen(ContainerUser user) {
+		if (!(user.getLivingEntity() instanceof Player player)) return;
 		player.level().playSound(player, player.blockPosition(), SoundEvents.IRON_TRAPDOOR_OPEN, SoundSource.PLAYERS, 0.5F, player.level().getRandom().nextFloat() * 0.1F + 0.9F);
 	}
 
 	@Override
-	public void stopOpen(Player player) {
+	public void stopOpen(ContainerUser user) {
+		if (!(user.getLivingEntity() instanceof Player player)) return;
 		player.level().playSound(player, player.blockPosition(), SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.PLAYERS, 0.5F, player.level().getRandom().nextFloat() * 0.1F + 0.9F);
 	}
 
