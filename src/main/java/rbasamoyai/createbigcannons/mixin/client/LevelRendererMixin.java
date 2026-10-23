@@ -14,6 +14,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.BlockDestructionProgress;
@@ -59,8 +60,8 @@ public abstract class LevelRendererMixin implements CustomBlockDamageDisplay {
 	}
 
 	@WrapMethod(method = "tick")
-	private void createbigcannons$tick(Operation<Void> original) {
-        original.call();
+	private void createbigcannons$tick(Camera camera, Operation<Void> original) {
+        original.call(camera);
 		if (this.ticks % 20 == 0) {
 			for (Iterator<BlockDestructionProgress> iter = this.createbigcannons$trackedProgresses.values().iterator(); iter.hasNext(); ) {
 				BlockDestructionProgress blockDestructionProgress = iter.next();

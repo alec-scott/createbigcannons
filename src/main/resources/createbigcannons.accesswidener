@@ -3,3 +3,6 @@ accessWidener   v2  official
 # From the NeoForge access transformer (META-INF/accesstransformer.cfg)
 accessible field net/minecraft/client/player/LocalPlayer handsBusy Z
 accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
+
+# PORT-NOTE(mc26.1): custom range_dispatch item model properties (CBCItemModelProperties)
+accessible field net/minecraft/client/renderer/item/properties/numeric/RangeSelectItemModelProperties ID_MAPPER Lnet/minecraft/util/ExtraCodecs$LateBoundIdMapper;

@@ -1,0 +1,19 @@
+{
+  "model": {
+    "entries": [
+      {
+        "model": {
+          "model": "createbigcannons:block/big_cartridge_filled",
+          "type": "minecraft:model"
+        },
+        "threshold": 1
+      }
+    ],
+    "fallback": {
+      "model": "createbigcannons:item/big_cartridge",
+      "type": "minecraft:model"
+    },
+    "property": "createbigcannons:big_cartridge_filled",
+    "type": "minecraft:range_dispatch"
+  }
+}

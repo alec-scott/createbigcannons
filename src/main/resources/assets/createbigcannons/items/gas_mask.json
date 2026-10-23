@@ -1,0 +1,19 @@
+{
+  "model": {
+    "cases": [
+      {
+        "model": {
+          "model": "createbigcannons:block/gas_mask",
+          "type": "minecraft:model"
+        },
+        "when": "head"
+      }
+    ],
+    "fallback": {
+      "model": "createbigcannons:item/gas_mask",
+      "type": "minecraft:model"
+    },
+    "property": "minecraft:display_context",
+    "type": "minecraft:select"
+  }
+}

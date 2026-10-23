@@ -1,0 +1,6 @@
+{
+  "model": {
+    "model": "createbigcannons:item/yaw_controller",
+    "type": "minecraft:model"
+  }
+}

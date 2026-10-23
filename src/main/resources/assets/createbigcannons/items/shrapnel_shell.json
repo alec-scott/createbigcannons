@@ -1,0 +1,26 @@
+{
+  "model": {
+    "entries": [
+      {
+        "model": {
+          "model": "createbigcannons:item/shrapnel_shell_head_fuze",
+          "type": "minecraft:model"
+        },
+        "threshold": 1
+      },
+      {
+        "model": {
+          "model": "createbigcannons:item/shrapnel_shell_base_fuze",
+          "type": "minecraft:model"
+        },
+        "threshold": 2
+      }
+    ],
+    "fallback": {
+      "model": "createbigcannons:item/shrapnel_shell",
+      "type": "minecraft:model"
+    },
+    "property": "createbigcannons:fuze_state",
+    "type": "minecraft:range_dispatch"
+  }
+}

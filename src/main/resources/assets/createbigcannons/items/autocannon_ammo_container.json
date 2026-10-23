@@ -1,0 +1,6 @@
+{
+  "model": {
+    "model": "createbigcannons:item/autocannon_ammo_container",
+    "type": "minecraft:model"
+  }
+}

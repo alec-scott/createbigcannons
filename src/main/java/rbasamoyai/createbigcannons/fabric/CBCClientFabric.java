@@ -19,6 +19,7 @@ import rbasamoyai.createbigcannons.CBCClientCommon;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.fabric.client.CBCBlockEntityRenderers;
 import rbasamoyai.createbigcannons.fabric.client.CBCEntityRenderers;
+import rbasamoyai.createbigcannons.fabric.client.CBCItemModelProperties;
 import rbasamoyai.createbigcannons.fabric.client.CBCItemTooltips;
 import rbasamoyai.createbigcannons.fabric.client.CannonMountDisplaySourceRender;
 import rbasamoyai.createbigcannons.index.CBCDisplaySources;
@@ -43,6 +44,7 @@ public class CBCClientFabric implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		CBCBlockPartials.init();
+		CBCItemModelProperties.register();
 		CBCConnectedTextures.register();
 		CBCBlockEntityRenderers.register();
 		CBCEntityRenderers.register();

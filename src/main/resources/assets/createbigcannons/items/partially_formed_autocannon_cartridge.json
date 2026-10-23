@@ -1,0 +1,40 @@
+{
+  "model": {
+    "entries": [
+      {
+        "model": {
+          "model": "createbigcannons:item/partially_formed_autocannon_cartridge1",
+          "type": "minecraft:model"
+        },
+        "threshold": 1
+      },
+      {
+        "model": {
+          "model": "createbigcannons:item/partially_formed_autocannon_cartridge2",
+          "type": "minecraft:model"
+        },
+        "threshold": 2
+      },
+      {
+        "model": {
+          "model": "createbigcannons:item/partially_formed_autocannon_cartridge3",
+          "type": "minecraft:model"
+        },
+        "threshold": 3
+      },
+      {
+        "model": {
+          "model": "createbigcannons:item/partially_formed_autocannon_cartridge4",
+          "type": "minecraft:model"
+        },
+        "threshold": 4
+      }
+    ],
+    "fallback": {
+      "model": "createbigcannons:item/partially_formed_autocannon_cartridge",
+      "type": "minecraft:model"
+    },
+    "property": "createbigcannons:formed",
+    "type": "minecraft:range_dispatch"
+  }
+}
