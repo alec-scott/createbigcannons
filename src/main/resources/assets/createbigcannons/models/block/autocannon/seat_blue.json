@@ -1,6 +1,7 @@
 {
   "parent": "createbigcannons:block/autocannon/seat",
   "textures": {
+		"particle": "create:block/seat/side_blue",
     "side": "create:block/seat/side_blue",
     "top": "create:block/seat/top_blue"
   }

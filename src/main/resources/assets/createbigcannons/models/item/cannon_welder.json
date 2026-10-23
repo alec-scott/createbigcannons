@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
+		"particle": "createbigcannons:item/cannon_welder",
 		"0": "createbigcannons:item/cannon_welder"
 	},
 	"elements": [

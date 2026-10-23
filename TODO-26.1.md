@@ -38,7 +38,7 @@ Fixes found by the runtime tests (all committed):
 
 **Note:** the generated resources were edited directly, because datagen isn't ported. Re-running upstream datagen would revert these edits.
 
-**Next:** put the CBC and RPL jars in the Prism `v26.1-testing` instance and play through section 5.4. Then fix the `particle` texture references (cannon casts, autocannon seats, fuze, sliding breechblock / screw lock items, rotating mount) and write the CBC in-game test doc.
+**Next:** put the CBC and RPL jars in the Prism `v26.1-testing` instance and play through section 5.4. `particle` textures were added to 47 models (upstream had none; 26.1 warns) and `IN-GAME-TESTING-26.1.md` is written.
 
 Error count history: 3133 → 2819 → 2653 → 2357 → 2239 → 1957 → 1621 → 1472 → 1420 → 1259 → 1028 → 968 → 863 → 770 →
 665 → 599 → 582 → 551 → 459 → 439.

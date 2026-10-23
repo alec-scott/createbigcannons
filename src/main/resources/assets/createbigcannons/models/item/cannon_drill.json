@@ -3,6 +3,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
+		"particle": "block/piston_side",
 		"0": "block/piston_side",
 		"1": "createbigcannons:block/pole_contraption_bottom",
 		"2": "createbigcannons:block/pole_contraption_nook",

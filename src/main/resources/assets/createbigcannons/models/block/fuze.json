@@ -2,6 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
+		"particle": "createbigcannons:block/fuze",
 		"0": "createbigcannons:block/fuze"
 	},
 	"elements": [

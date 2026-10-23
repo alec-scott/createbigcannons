@@ -63,8 +63,8 @@ Place one of each and look at it from all sides.
   shell shows its fuze. *Code:* `FuzedBlockEntityRenderer`.
 - [ ] **2.6** Cannon cast: fill it with molten metal by pipe. The fluid level rises visibly and the translucent preview
   of the result shows. *Code:* `CannonCastBlockEntityRenderer`, `FluidRenderHelper`.
-- [ ] **2.7** Particles: breaking any CBC block shows break particles (cannon casts, autocannon seats and the fuze
-  currently have no `particle` texture and may show missing-texture particles).
+- [ ] **2.7** Particles: breaking any CBC block shows break particles (CBC models had no `particle` texture before;
+  they now use a texture the model already uses).
 
 ## 3. Big cannon
 
@@ -162,4 +162,4 @@ powder charges and a solid shot. Assemble it with a redstone pulse on the mount.
 - JEI compat for CBC recipe categories is not ported.
 - Custom shaders (cannon smoke, splinter) are not ported. Smoke uses the fallback render.
 - Submerged molten-metal fog is not ported.
-- Some models lack a `particle` texture (being fixed).
+

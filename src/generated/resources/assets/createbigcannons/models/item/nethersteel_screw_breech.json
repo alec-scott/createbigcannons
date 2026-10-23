@@ -1,6 +1,7 @@
 {
   "parent": "createbigcannons:block/screw_breech_item",
   "textures": {
+		"particle": "createbigcannons:block/screw_breech/nethersteel_screw_breech_side",
     "bottom": "createbigcannons:block/screw_breech/nethersteel_screw_breech_bottom",
     "lock": "createbigcannons:block/screw_breech/nethersteel_screw_lock",
     "side": "createbigcannons:block/screw_breech/nethersteel_screw_breech_side",

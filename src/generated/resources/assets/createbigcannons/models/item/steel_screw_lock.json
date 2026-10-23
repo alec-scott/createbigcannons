@@ -1,6 +1,7 @@
 {
   "parent": "createbigcannons:item/screw_lock",
   "textures": {
+		"particle": "createbigcannons:block/screw_breech/steel_screw_lock",
     "lock": "createbigcannons:block/screw_breech/steel_screw_lock"
   }
 }

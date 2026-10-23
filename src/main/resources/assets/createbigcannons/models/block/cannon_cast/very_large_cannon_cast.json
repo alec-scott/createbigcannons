@@ -3,6 +3,7 @@
 	"parent": "minecraft:block/block",
 	"texture_size": [64, 64],
 	"textures": {
+		"particle": "createbigcannons:block/cannon_cast_side2",
 		"0": "createbigcannons:block/cannon_cast_side2",
 		"1": "createbigcannons:block/cannon_cast_top"
 	},

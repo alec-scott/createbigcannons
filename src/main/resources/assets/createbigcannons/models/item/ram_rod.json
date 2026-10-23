@@ -2,6 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
+		"particle": "createbigcannons:block/ram_head",
 		"0": "createbigcannons:block/ram_head",
 		"1": "block/oak_log",
 		"2": "create:block/pole_end"
