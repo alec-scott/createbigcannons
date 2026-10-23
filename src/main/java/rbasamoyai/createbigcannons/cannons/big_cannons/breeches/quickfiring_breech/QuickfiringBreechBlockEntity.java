@@ -68,7 +68,10 @@ public class QuickfiringBreechBlockEntity extends SmartBlockEntity implements IB
 	@Override
 	public void tick() {
 		super.tick();
-		if (!this.inPonder) { // Don't reset when ponder, can't use level due to Ponder's having levels.
+		// Don't reset when ponder, can't use level due to Ponder's having levels.
+		// PORT-NOTE(fabric): server only. Create Fly ticks each block entity of a contraption's client render level once
+		// when it rebuilds it (on every ClientboundUpdateContraptionPacket), which would cancel the opening animation.
+		if (!this.inPonder && this.level != null && !this.level.isClientSide()) {
 			if (this.openProgress != 0) this.openProgress = 0;
 			if (this.openDirection != 0) this.openDirection = 0;
 		}
