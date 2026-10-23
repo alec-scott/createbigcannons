@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.quickfiring_breech;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 import org.joml.Quaternionf;
@@ -9,7 +13,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.zurrtum.create.AllBlocks;
-import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 
 import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
@@ -22,18 +25,18 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import rbasamoyai.createbigcannons.CBCClientCommon;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 
-public class QuickfiringBreechBlockEntityRenderer extends SafeBlockEntityRenderer<QuickfiringBreechBlockEntity> {
+public class QuickfiringBreechBlockEntityRenderer extends CBCSafeBlockEntityRenderer<QuickfiringBreechBlockEntity> {
 
 	public QuickfiringBreechBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 	}
 
 	@Override
-	public boolean shouldRenderOffScreen(QuickfiringBreechBlockEntity blockEntity) {
+	public boolean shouldRenderOffScreen() {
 		return true;
 	}
 
 	@Override
-	protected void renderSafe(QuickfiringBreechBlockEntity te, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
+	protected void renderSafe(QuickfiringBreechBlockEntity te, float partialTicks, PoseStack ms, Parts buffer, int light, int overlay) {
 		BlockState blockState = te.getBlockState();
 
 		if (VisualizationManager.supportsVisualization(te.getLevel())) return;
@@ -55,7 +58,6 @@ public class QuickfiringBreechBlockEntityRenderer extends SafeBlockEntityRendere
 			qrot = Axis.of(blockRotation.step()).rotationDegrees(0);
 		}
 
-		VertexConsumer vcons = buffer.getBuffer(RenderTypes.solid());
 
 		ms.pushPose();
 
@@ -63,12 +65,10 @@ public class QuickfiringBreechBlockEntityRenderer extends SafeBlockEntityRendere
 		float renderedBreechblockOffset = progress / 16.0f * 13.0f;
 		Vector3f normal = blockRotation.step();
 		normal.mul(renderedBreechblockOffset);
-
-		CachedBuffers.partialFacing(CBCClientCommon.getBreechblockForState(blockState), blockState, blockRotation)
+		buffer.add(ms, CachedBuffers.partialFacing(CBCClientCommon.getBreechblockForState(blockState), blockState, blockRotation)
 			.translate(normal.x(), normal.y(), normal.z())
 			.rotateCentered(qrot)
-			.light(light)
-			.renderInto(ms, vcons);
+			.light(light));
 
 		ms.popPose();
 		ms.pushPose();
@@ -77,20 +77,16 @@ public class QuickfiringBreechBlockEntityRenderer extends SafeBlockEntityRendere
 		Direction dir = facing.getCounterClockWise(blockRotation.getAxis());
 		Vector3f normal1 = dir.step();
 		Axis axis1 = Axis.of(normal1);
-
-		CachedBuffers.block(AllBlocks.SHAFT.defaultBlockState().setValue(BlockStateProperties.AXIS, axis))
+		buffer.add(ms, CachedBuffers.block(AllBlocks.SHAFT.defaultBlockState().setValue(BlockStateProperties.AXIS, axis))
 			.rotateCentered(axis1.rotationDegrees(angle))
-			.light(light)
-			.renderInto(ms, vcons);
+			.light(light));
 
 		ms.popPose();
 		ms.pushPose();
-
-		CachedBuffers.partialFacing(CBCBlockPartials.QUICKFIRING_BREECH_LEVER, blockState, dir)
+		buffer.add(ms, CachedBuffers.partialFacing(CBCBlockPartials.QUICKFIRING_BREECH_LEVER, blockState, dir)
 			.rotateCentered(axis1.rotationDegrees(angle))
 			.translate(normal1)
-			.light(light)
-			.renderInto(ms, vcons);
+			.light(light));
 
 		ms.popPose();
 	}

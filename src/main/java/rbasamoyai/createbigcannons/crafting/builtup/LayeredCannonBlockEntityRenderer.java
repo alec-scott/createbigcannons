@@ -1,10 +1,12 @@
 package rbasamoyai.createbigcannons.crafting.builtup;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.zurrtum.create.client.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -12,17 +14,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 
-public class LayeredCannonBlockEntityRenderer extends SmartBlockEntityRenderer<LayeredBigCannonBlockEntity> {
-
-	private final BlockRenderDispatcher dispatcher;
+public class LayeredCannonBlockEntityRenderer extends CBCSafeBlockEntityRenderer<LayeredBigCannonBlockEntity> {
 
 	public LayeredCannonBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-		super(context);
-		this.dispatcher = context.getBlockRenderDispatcher();
 	}
 
 	@Override
-	protected void renderSafe(LayeredBigCannonBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
+	protected void renderSafe(LayeredBigCannonBlockEntity be, float partialTicks, PoseStack ms, Parts buffer, int light, int overlay) {
 		if (be.getLayers().size() < 2) return;
 		for (Block block : be.getLayers().values()) {
 			BlockState state = block.defaultBlockState();
@@ -33,7 +31,7 @@ public class LayeredCannonBlockEntityRenderer extends SmartBlockEntityRenderer<L
 					state = state.setValue(BlockStateProperties.FACING, be.getBlockState().getValue(BlockStateProperties.FACING));
 				}
 
-				this.dispatcher.renderSingleBlock(state, ms, buffer, light, overlay);
+				buffer.block(ms, state, light);
 
 				ms.popPose();
 			}

@@ -1,10 +1,11 @@
 package rbasamoyai.createbigcannons.cannon_control.cannon_mount;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
-import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer.getAngleForBe;
-import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer.kineticRotationTransform;
-import static com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer.shaft;
 
 import org.joml.Quaternionf;
 
@@ -14,7 +15,6 @@ import com.mojang.math.Axis;
 import com.zurrtum.create.client.AllPartialModels;
 import com.zurrtum.create.content.kinetics.base.IRotate;
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
-import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 
 import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
 import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
@@ -28,52 +28,46 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 
-public class CannonMountBlockEntityRenderer extends SafeBlockEntityRenderer<CannonMountBlockEntity> {
+public class CannonMountBlockEntityRenderer extends CBCSafeBlockEntityRenderer<CannonMountBlockEntity> {
 
 	public CannonMountBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 	}
 
 	@Override
-	protected void renderSafe(CannonMountBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
+	protected void renderSafe(CannonMountBlockEntity be, float partialTicks, PoseStack ms, Parts buffer, int light, int overlay) {
 		if (VisualizationManager.supportsVisualization(be.getLevel())) return;
 
 		BlockState state = be.getBlockState();
 		Direction vertical = state.getValue(BlockStateProperties.VERTICAL_DIRECTION);
 		boolean upsideDown = vertical == Direction.UP;
 
-		VertexConsumer solidBuf = buffer.getBuffer(RenderTypes.solid());
 
 		ms.pushPose();
 
 		SuperByteBuffer yawShaft = CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, state, vertical);
 		KineticBlockEntity yawInterface = be.getYawInterface();
-		kineticRotationTransform(yawShaft, yawInterface, Direction.Axis.Y, getAngleForBe(yawInterface, be.getBlockPos(), Direction.Axis.Y), light)
-			.renderInto(ms, solidBuf);
+		buffer.add(ms, kineticRotationTransform(yawShaft, yawInterface, Direction.Axis.Y, getAngleForBe(yawInterface, be.getBlockPos(), Direction.Axis.Y), light));
 
 		Direction.Axis pitchAxis = ((IRotate) state.getBlock()).getRotationAxis(state);
 		SuperByteBuffer pitchShaft = CachedBuffers.block(shaft(pitchAxis));
 		KineticBlockEntity pitchInterface = be.getPitchInterface();
-		kineticRotationTransform(pitchShaft, pitchInterface, pitchAxis, getAngleForBe(pitchInterface, be.getBlockPos(), pitchAxis), light)
-			.renderInto(ms, solidBuf);
+		buffer.add(ms, kineticRotationTransform(pitchShaft, pitchInterface, pitchAxis, getAngleForBe(pitchInterface, be.getBlockPos(), pitchAxis), light));
 
 		float yaw = getMountYaw(be);
 		Quaternionf qyaw = upsideDown ? Axis.ZP.rotationDegrees(180).mul(Axis.YP.rotationDegrees(yaw)) : Axis.YP.rotationDegrees(-yaw);
-		CachedBuffers.partial(CBCBlockPartials.ROTATING_MOUNT, state)
+		buffer.add(ms, CachedBuffers.partial(CBCBlockPartials.ROTATING_MOUNT, state)
 			.translate(0.0d, upsideDown ? -1.0d : 1.0d, 0.0d)
 			.light(light)
-			.rotateCentered(qyaw)
-			.renderInto(ms, solidBuf);
+			.rotateCentered(qyaw));
 
 		float pitch = be.getPitchOffset(partialTicks - 1);
 		Quaternionf qpitch = upsideDown ? Axis.XP.rotationDegrees(pitch) : Axis.XP.rotationDegrees(-pitch);
 		Quaternionf qyaw1 = new Quaternionf(qyaw);
 		qyaw1.mul(qpitch);
-
-		CachedBuffers.partialFacing(CBCBlockPartials.CANNON_CARRIAGE_AXLE, state, Direction.NORTH)
+		buffer.add(ms, CachedBuffers.partialFacing(CBCBlockPartials.CANNON_CARRIAGE_AXLE, state, Direction.NORTH)
 			.translate(0, upsideDown ? -2.0d : 2.0d, 0)
 			.rotateCentered(qyaw1)
-			.light(light)
-			.renderInto(ms, solidBuf);
+			.light(light));
 
 		ms.popPose();
 	}

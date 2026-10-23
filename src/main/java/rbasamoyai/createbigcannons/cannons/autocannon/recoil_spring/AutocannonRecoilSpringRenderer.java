@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.recoil_spring;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 import java.util.Map;
@@ -7,7 +11,6 @@ import java.util.Map;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.zurrtum.create.client.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 
 import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
 import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
@@ -16,7 +19,6 @@ import com.zurrtum.create.client.catnip.render.SuperByteBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
@@ -27,15 +29,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import rbasamoyai.createbigcannons.cannons.autocannon.AutocannonBlock;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 
-public class AutocannonRecoilSpringRenderer extends SmartBlockEntityRenderer<AutocannonRecoilSpringBlockEntity> {
+public class AutocannonRecoilSpringRenderer extends CBCSafeBlockEntityRenderer<AutocannonRecoilSpringBlockEntity> {
 
 	public AutocannonRecoilSpringRenderer(BlockEntityRendererProvider.Context context) {
-		super(context);
 	}
 
 	@Override
-	protected void renderSafe(AutocannonRecoilSpringBlockEntity spring, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-		super.renderSafe(spring, partialTicks, ms, buffer, light, overlay);
+	protected void renderSafe(AutocannonRecoilSpringBlockEntity spring, float partialTicks, PoseStack ms, Parts buffer, int light, int overlay) {
 		if (VisualizationManager.supportsVisualization(spring.getLevel())) return;
 
 		BlockState state = spring.getBlockState();
@@ -56,11 +56,9 @@ public class AutocannonRecoilSpringRenderer extends SmartBlockEntityRenderer<Aut
 		if (facing.getAxisDirection() == Direction.AxisDirection.NEGATIVE) {
 			ejectorBuf.rotateCentered(Mth.PI, axis.isVertical() ? Direction.EAST : Direction.UP);
 		}
-		ejectorBuf.scale(fx, fy, fz)
-			.light(light)
-			.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
+		buffer.add(ms, ejectorBuf.scale(fx, fy, fz)
+			.light(light));
 
-		BlockRenderDispatcher brd = Minecraft.getInstance().getBlockRenderer();
 		Vector3f normal = facing.step();
 		normal.mul((1 - scale) * -0.5f);
 		for (Map.Entry<BlockPos, BlockState> entry : spring.toAnimate.entrySet()) {
@@ -68,7 +66,7 @@ public class AutocannonRecoilSpringRenderer extends SmartBlockEntityRenderer<Aut
 			ms.pushPose();
 			BlockPos pos = entry.getKey();
 			ms.translate(pos.getX() + normal.x(), pos.getY() + normal.y(), pos.getZ() + normal.z());
-			brd.renderSingleBlock(entry.getValue(), ms, buffer, light, OverlayTexture.NO_OVERLAY);
+			buffer.block(ms, entry.getValue(), light);
 			ms.popPose();
 		}
 

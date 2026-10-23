@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.autocannon.breech;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 import org.joml.Quaternionf;
@@ -7,7 +11,6 @@ import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.zurrtum.create.client.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 
 import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
 import com.zurrtum.create.client.flywheel.lib.model.baked.PartialModel;
@@ -24,15 +27,13 @@ import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 import rbasamoyai.createbigcannons.munitions.autocannon.ammo_container.AutocannonAmmoContainerBlock;
 import rbasamoyai.createbigcannons.munitions.autocannon.ammo_container.AutocannonAmmoContainerItem;
 
-public class AutocannonBreechRenderer extends SmartBlockEntityRenderer<AbstractAutocannonBreechBlockEntity> {
+public class AutocannonBreechRenderer extends CBCSafeBlockEntityRenderer<AbstractAutocannonBreechBlockEntity> {
 
 	public AutocannonBreechRenderer(BlockEntityRendererProvider.Context context) {
-		super(context);
 	}
 
 	@Override
-	protected void renderSafe(AbstractAutocannonBreechBlockEntity breech, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-		super.renderSafe(breech, partialTicks, ms, buffer, light, overlay);
+	protected void renderSafe(AbstractAutocannonBreechBlockEntity breech, float partialTicks, PoseStack ms, Parts buffer, int light, int overlay) {
 		if (VisualizationManager.supportsVisualization(breech.getLevel())) return;
 
 		BlockState state = breech.getBlockState();
@@ -42,19 +43,17 @@ public class AutocannonBreechRenderer extends SmartBlockEntityRenderer<AbstractA
 
 		if (state.getValue(AutocannonBreechBlock.HANDLE)) {
 			if (breech.getSeatColor() != null) {
-				CachedBuffers.partialFacing(CBCBlockPartials.autocannonSeatFor(breech.getSeatColor()), state, facing)
+				buffer.add(ms, CachedBuffers.partialFacing(CBCBlockPartials.autocannonSeatFor(breech.getSeatColor()), state, facing)
 					.rotateCentered(Axis.YP.rotationDegrees(facing.getAxis().isVertical() ? 180 : 0))
-					.light(light)
-					.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
+					.light(light));
 			}
 		} else {
 			Vector3f normal = facing.step();
 			normal.mul(breech.getAnimateOffset(partialTicks) * -0.5f);
-			CachedBuffers.partialFacing(getPartialModelForState(breech), state, facing)
+			buffer.add(ms, CachedBuffers.partialFacing(getPartialModelForState(breech), state, facing)
 				.translate(normal)
 				.rotateCentered(Axis.YP.rotationDegrees(facing.getAxis().isVertical() ? 180 : 0))
-				.light(light)
-				.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
+				.light(light));
 		}
 
 		ItemStack container = breech.getMagazine();
@@ -73,12 +72,10 @@ public class AutocannonBreechRenderer extends SmartBlockEntityRenderer<AbstractA
 				: facing.getClockWise(Direction.Axis.Y);
 			Vector3f normal = facing == Direction.UP ? offset.getOpposite().step() : offset.step();
 			normal.mul(10 / 16f);
-
-			CachedBuffers.block(getAmmoContainerModel(container))
+		buffer.add(ms, CachedBuffers.block(getAmmoContainerModel(container))
 				.translate(normal)
 				.rotateCentered(q1)
-				.light(light)
-				.renderInto(ms, buffer.getBuffer(RenderTypes.cutoutMipped()));
+				.light(light));
 		}
 
 		ms.popPose();

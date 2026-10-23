@@ -1,9 +1,12 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 
 import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
@@ -16,14 +19,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 
-public class FuzedBlockEntityRenderer extends SafeBlockEntityRenderer<FuzedBlockEntity> {
+public class FuzedBlockEntityRenderer extends CBCSafeBlockEntityRenderer<FuzedBlockEntity> {
 
 	public FuzedBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 		super();
 	}
 
 	@Override
-	protected void renderSafe(FuzedBlockEntity blockEntity, float partialTicks, PoseStack posestack, MultiBufferSource buffers, int packedLight, int packedOverlay) {
+	protected void renderSafe(FuzedBlockEntity blockEntity, float partialTicks, PoseStack posestack, Parts buffers, int packedLight, int packedOverlay) {
 		if (VisualizationManager.supportsVisualization(blockEntity.getLevel())) return;
 
 		BlockState state = blockEntity.getBlockState();
@@ -32,9 +35,8 @@ public class FuzedBlockEntityRenderer extends SafeBlockEntityRenderer<FuzedBlock
 			facing = facing.getOpposite();
 		if (blockEntity.hasFuze()) {
             SuperByteBuffer fuzeRender = CachedBuffers.partialFacing(CBCBlockPartials.FUZE, blockEntity.getBlockState(), facing);
-			fuzeRender
-                .light(packedLight)
-                .renderInto(posestack, buffers.getBuffer(RenderTypes.cutout()));
+			buffers.add(posestack, fuzeRender
+                .light(packedLight));
 		}
 	}
 

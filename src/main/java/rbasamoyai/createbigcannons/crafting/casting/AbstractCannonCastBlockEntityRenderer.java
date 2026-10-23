@@ -1,10 +1,13 @@
 package rbasamoyai.createbigcannons.crafting.casting;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 
 import com.zurrtum.create.catnip.animation.LerpedFloat;
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
@@ -12,22 +15,18 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 
-public abstract class AbstractCannonCastBlockEntityRenderer extends SafeBlockEntityRenderer<AbstractCannonCastBlockEntity> {
-
-	protected final BlockRenderDispatcher dispatcher;
+public abstract class AbstractCannonCastBlockEntityRenderer extends CBCSafeBlockEntityRenderer<AbstractCannonCastBlockEntity> {
 
 	protected AbstractCannonCastBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-		this.dispatcher = context.getBlockRenderDispatcher();
 	}
 
 	@Override
-	protected void renderSafe(AbstractCannonCastBlockEntity te, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
+	protected void renderSafe(AbstractCannonCastBlockEntity te, float partialTicks, PoseStack ms, Parts buffer, int light, int overlay) {
 		if (!te.canRenderCastModel()) return;
 		BlockState state = te.getBlockState();
 
@@ -35,9 +34,8 @@ public abstract class AbstractCannonCastBlockEntityRenderer extends SafeBlockEnt
 
 		CannonCastShape shape = te.getRenderedSize();
 		if (shape != null) {
-			CachedBuffers.partial(CBCBlockPartials.cannonCastFor(shape), state)
-				.light(light)
-				.renderInto(ms, buffer.getBuffer(RenderTypes.solid()));
+			buffer.add(ms, CachedBuffers.partial(CBCBlockPartials.cannonCastFor(shape), state)
+				.light(light));
 		}
 
 		if (te.isController()) {
@@ -63,10 +61,10 @@ public abstract class AbstractCannonCastBlockEntityRenderer extends SafeBlockEnt
 			if (castProgressLerped != null) {
 				float alpha = castProgressLerped.getValue(partialTicks);
 				for (int l = 0; l < te.resultPreview.size(); ++l) {
-					int light1 = te.hasLevel() ? LevelRenderer.getLightColor(te.getLevel(), base.above(l)) : light;
+					int light1 = te.hasLevel() ? LevelRenderer.getLightCoords(te.getLevel(), base.above(l)) : light;
 					ms.pushPose();
 					ms.translate(0, l, 0);
-					this.renderPreview(ms, alpha, buffer.getBuffer(Sheets.translucentItemSheet()), te.resultPreview.get(l), light1, base.above(l));
+					this.renderPreview(ms, alpha, buffer, te.resultPreview.get(l), light1, base.above(l));
 					ms.popPose();
 				}
 			}
@@ -75,8 +73,8 @@ public abstract class AbstractCannonCastBlockEntityRenderer extends SafeBlockEnt
 		ms.popPose();
 	}
 
-	protected abstract void renderFluidBox(AbstractCannonCastBlockEntity cast, float width, float height, MultiBufferSource buffers, PoseStack stack, int light);
+	protected abstract void renderFluidBox(AbstractCannonCastBlockEntity cast, float width, float height, Parts buffers, PoseStack stack, int light);
 
-	protected abstract void renderPreview(PoseStack ms, float alpha, VertexConsumer vCons, BlockState state, int light, BlockPos pos);
+	protected abstract void renderPreview(PoseStack ms, float alpha, Parts buffers, BlockState state, int light, BlockPos pos);
 
 }

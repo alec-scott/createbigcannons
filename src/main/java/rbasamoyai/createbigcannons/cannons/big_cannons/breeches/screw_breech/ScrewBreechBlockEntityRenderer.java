@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons.breeches.screw_breech;
 
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer.Parts;
+
+import rbasamoyai.createbigcannons.fabric.client.render.CBCSafeBlockEntityRenderer;
+
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 import org.joml.Quaternionf;
@@ -8,7 +12,6 @@ import org.joml.Vector3f;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.zurrtum.create.client.AllPartialModels;
-import com.zurrtum.create.client.content.kinetics.base.KineticBlockEntityRenderer;
 
 import com.zurrtum.create.client.flywheel.api.visualization.VisualizationManager;
 import com.zurrtum.create.client.catnip.animation.AnimationTickHolder;
@@ -22,19 +25,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import rbasamoyai.createbigcannons.CBCClientCommon;
 
-public class ScrewBreechBlockEntityRenderer extends KineticBlockEntityRenderer<ScrewBreechBlockEntity> {
+public class ScrewBreechBlockEntityRenderer extends CBCSafeBlockEntityRenderer<ScrewBreechBlockEntity> {
 
 	public ScrewBreechBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-		super(context);
 	}
 
 	@Override
-	protected void renderSafe(ScrewBreechBlockEntity te, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-		super.renderSafe(te, partialTicks, ms, buffer, light, overlay);
+	protected void renderSafe(ScrewBreechBlockEntity te, float partialTicks, PoseStack ms, Parts buffer, int light, int overlay) {
 		if (VisualizationManager.supportsVisualization(te.getLevel())) return;
 
 		BlockState blockState = te.getBlockState();
 		Direction facing = blockState.getValue(BlockStateProperties.FACING);
+		// PORT-NOTE(fabric): was super.renderSafe (Create's kinetic shaft rendering).
+		buffer.add(ms, standardKineticRotationTransform(CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, blockState, facing), te, light));
 
 		float renderedScrewLockOffset = te.getRenderedBlockOffset(AnimationTickHolder.getPartialTicks());
 		float heightOffset = renderedScrewLockOffset * 0.25f;
@@ -48,18 +51,12 @@ public class ScrewBreechBlockEntityRenderer extends KineticBlockEntityRenderer<S
 		ms.pushPose();
 
 		SuperByteBuffer screwLockRender = CachedBuffers.partialFacing(CBCClientCommon.getScrewBreechForState(blockState), blockState, facing);
-		screwLockRender
+		buffer.add(ms, screwLockRender
 			.translate(height.x(), height.y(), height.z())
 			.rotateCentered(q)
-			.light(light)
-			.renderInto(ms, buffer.getBuffer(RenderTypes.solid()));
+			.light(light));
 
 		ms.popPose();
-	}
-
-	@Override
-	protected SuperByteBuffer getRotatedModel(ScrewBreechBlockEntity te, BlockState state) {
-		return CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, state, state.getValue(BlockStateProperties.FACING));
 	}
 
 }
