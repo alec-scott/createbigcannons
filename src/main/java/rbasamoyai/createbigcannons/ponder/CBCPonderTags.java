@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.ponder;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
+import net.minecraft.world.level.ItemLike;
+
 import com.zurrtum.create.AllBlocks;
 import rbasamoyai.createbigcannons.port.registrate.util.entry.RegistryEntry;
 
@@ -18,7 +22,8 @@ public class CBCPonderTags {
     CANNON_CRAFTING = CreateBigCannons.resource("cannon_crafting");
 
     public static void register(PonderTagRegistrationHelper<Identifier> helper) {
-        PonderTagRegistrationHelper<RegistryEntry<?, ?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
+        // PORT-NOTE(fabric): keyed by ItemLike so Create Fly blocks (plain instances, not registrate entries) can be listed too.
+        PonderTagRegistrationHelper<ItemLike> HELPER = helper.withKeyFunction(i -> BuiltInRegistries.ITEM.getKey(i.asItem()));
 
         helper.registerTag(OPERATING_CANNONS)
             .addToIndex()

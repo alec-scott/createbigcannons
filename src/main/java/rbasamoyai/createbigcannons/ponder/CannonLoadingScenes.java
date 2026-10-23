@@ -498,7 +498,7 @@ public class CannonLoadingScenes {
 		scene.world().showSection(largeCog, Direction.WEST);
 
 		BlockPos deployerPos = util.grid().at(2, 1, 1);
-		scene.world().modifyBlockEntityNBT(util.select().position(deployerPos), DeployerBlockEntity.class, tag -> tag.put("HeldItem", CBCItems.TIMED_FUZE.asStack().save(scene.world().getHolderLookupProvider())));
+		scene.world().modifyBlockEntityNBT(util.select().position(deployerPos), DeployerBlockEntity.class, tag -> tag.put("HeldItem", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), CBCItems.TIMED_FUZE.asStack())));
 
 		scene.world().setKineticSpeed(kineticSel, 32.0f);
 		scene.world().setKineticSpeed(largeCog, -16.0f);
@@ -1084,7 +1084,7 @@ public class CannonLoadingScenes {
 			.colored(PonderPalette.GREEN);
 		scene.idle(35);
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", filledContainer.save(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), filledContainer));
 		});
 		scene.world().instructArm(arm, Phase.SEARCH_OUTPUTS, emptyContainer, -1);
 		scene.idle(35);
@@ -1094,7 +1094,7 @@ public class CannonLoadingScenes {
 		scene.idle(35);
 
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", emptyContainer.save(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), emptyContainer));
 		});
 		scene.world().instructArm(arm, Phase.MOVE_TO_INPUT, ItemStack.EMPTY, 0);
 		scene.idle(35);
@@ -1110,7 +1110,7 @@ public class CannonLoadingScenes {
 			.colored(PonderPalette.OUTPUT);
 		scene.idle(35);
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", filledContainer.save(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), filledContainer));
 		});
 		scene.world().instructArm(arm, Phase.SEARCH_OUTPUTS, emptyContainer, -1);
 		scene.idle(35);
@@ -1119,7 +1119,7 @@ public class CannonLoadingScenes {
 		scene.world().instructArm(arm, Phase.SEARCH_INPUTS, ItemStack.EMPTY, -1);
 		scene.idle(35);
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", emptyContainer.save(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), emptyContainer));
 		});
 
 		scene.world().instructArm(arm, Phase.MOVE_TO_INPUT, ItemStack.EMPTY, 0);
@@ -1143,7 +1143,7 @@ public class CannonLoadingScenes {
 		scene.idle(30);
 
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", filledContainer.save(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), filledContainer));
 		});
 		scene.world().instructArm(arm, Phase.SEARCH_OUTPUTS, emptyContainer, -1);
 		scene.idle(35);
@@ -1152,7 +1152,7 @@ public class CannonLoadingScenes {
 		scene.world().instructArm(arm, Phase.SEARCH_INPUTS, ItemStack.EMPTY, -1);
 		scene.idle(30);
 		scene.world().modifyBlockEntityNBT(breechSel, AbstractAutocannonBreechBlockEntity.class, tag -> {
-			tag.put("Magazine", emptyContainer.save(scene.world().getHolderLookupProvider()));
+			tag.put("Magazine", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), emptyContainer));
 		});
 
 		scene.markAsFinished();
@@ -1204,7 +1204,7 @@ public class CannonLoadingScenes {
 		scene.world().showSection(largeCog, Direction.WEST);
 
 		BlockPos deployerPos = util.grid().at(2, 1, 1);
-		scene.world().modifyBlockEntityNBT(util.select().position(deployerPos), DeployerBlockEntity.class, tag -> tag.put("HeldItem", CBCItems.TRACER_TIP.asStack().save(scene.world().getHolderLookupProvider())));
+		scene.world().modifyBlockEntityNBT(util.select().position(deployerPos), DeployerBlockEntity.class, tag -> tag.put("HeldItem", CBCValueIO.saveItem(scene.world().getHolderLookupProvider(), CBCItems.TRACER_TIP.asStack())));
 
 		scene.world().setKineticSpeed(kineticSel, 32.0f);
 		scene.world().setKineticSpeed(largeCog, -16.0f);

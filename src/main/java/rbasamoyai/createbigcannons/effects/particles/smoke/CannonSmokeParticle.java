@@ -22,7 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.config.CBCConfigs;
 import rbasamoyai.createbigcannons.effects.particles.ParticleWindHandler;
-import rbasamoyai.createbigcannons.index.CBCRenderTypes;
 
 public class CannonSmokeParticle extends BaseAshSmokeParticle {
 

@@ -1,6 +1,5 @@
 package rbasamoyai.createbigcannons.munitions.fuzes;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.zurrtum.create.client.foundation.gui.widget.ScrollInput;
 import com.zurrtum.create.client.foundation.utility.CreateLang;
 
@@ -38,8 +37,8 @@ public class TimedFuzeScreen extends AbstractFuzeScreen<TimedFuzeContainer> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY) {
-		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+		super.extractBackground(graphics, mouseX, mouseY, partialTicks);
 
 		CBCGuiTextures.TIMED_FUZE_BG.render(graphics, this.leftPos, this.topPos);
 		graphics.centeredText(this.font, this.title, this.leftPos + this.imageWidth / 2 - 4, this.topPos + 3, 0xffffff);

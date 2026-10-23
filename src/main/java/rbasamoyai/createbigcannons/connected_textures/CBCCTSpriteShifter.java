@@ -6,7 +6,7 @@ import java.util.Map;
 import com.zurrtum.create.client.foundation.block.connected.CTType;
 
 import net.minecraft.resources.Identifier;
-import rbasamoyai.createbigcannons.multiloader.EnvExecute;
+import rbasamoyai.createbigcannons.index.CBCCTTypes;
 
 public class CBCCTSpriteShifter {
 
@@ -14,11 +14,7 @@ public class CBCCTSpriteShifter {
 
 	public static CBCCTSpriteShiftEntry getCT(CTType type, int scale, Identifier blockTexture, Identifier connectedTexture) {
 		String key = blockTexture + "->" + connectedTexture + "+" + type.getId();
-		if (ENTRY_CACHE.containsKey(key)) return ENTRY_CACHE.get(key);
-		CBCCTSpriteShiftEntry entry = new CBCCTSpriteShiftEntry(type, scale);
-		EnvExecute.executeOnClient(() -> () -> entry.set(blockTexture, connectedTexture));
-		ENTRY_CACHE.put(key, entry);
-		return entry;
+		return ENTRY_CACHE.computeIfAbsent(key, k -> new CBCCTSpriteShiftEntry(type, CBCCTTypes.sheetSize(type), scale, blockTexture, connectedTexture));
 	}
 
 }

@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "client.Blaze3DAudioChannelAccessor",
-    "client.BufferBuilderAccessor",
     "client.CameraMixin",
     "client.ClientLevelAccessor",
     "client.EntityClientMixin",

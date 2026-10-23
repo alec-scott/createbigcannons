@@ -23,7 +23,7 @@ public abstract class AbstractFuzeScreen<T extends AbstractFuzeContainer> extend
 	protected List<Rect2i> extraAreas = Collections.emptyList();
 
 	protected AbstractFuzeScreen(T container, Inventory inv, Component title) {
-		super(container, inv, title);
+		super(container, inv, title, 179, 83); // PORT-NOTE(fabric): Create Fly takes the window size in the constructor
 	}
 
 	protected abstract ScrollInput getScrollInput();
@@ -31,7 +31,6 @@ public abstract class AbstractFuzeScreen<T extends AbstractFuzeContainer> extend
 
 	@Override
 	protected void init() {
-		this.setWindowSize(179, 83);
 		this.setWindowOffset(1, 0);
 		super.init();
 

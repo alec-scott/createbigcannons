@@ -1028,7 +1028,7 @@ public class CannonCraftingScenes {
 		String name = dir.getSerializedName();
 		return nbt -> {
 			ListTag weldedTowards = nbt.getListOrEmpty("Connections");
-			weldedTowards.removeIf(t -> t.getType() == StringTag.TYPE && t.getAsString().equals(name));
+			weldedTowards.removeIf(t -> t.getType() == StringTag.TYPE && t.asString().orElse("").equals(name));
 			if (connected) weldedTowards.add(StringTag.valueOf(name));
 		};
 	}
@@ -1037,7 +1037,7 @@ public class CannonCraftingScenes {
 		String name = dir.getSerializedName();
 		return nbt -> {
 			ListTag weldedTowards = nbt.getListOrEmpty("Welds");
-			weldedTowards.removeIf(t -> t.getType() == StringTag.TYPE && t.getAsString().equals(name));
+			weldedTowards.removeIf(t -> t.getType() == StringTag.TYPE && t.asString().orElse("").equals(name));
 			if (welded) weldedTowards.add(StringTag.valueOf(name));
 		};
 	}

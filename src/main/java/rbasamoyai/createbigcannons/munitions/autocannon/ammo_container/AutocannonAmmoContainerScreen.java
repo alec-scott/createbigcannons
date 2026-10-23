@@ -37,14 +37,18 @@ public class AutocannonAmmoContainerScreen extends AbstractSimiContainerScreen<A
 	private List<Rect2i> extraAreas = Collections.emptyList();
 
 	public AutocannonAmmoContainerScreen(AutocannonAmmoContainerMenu container, Inventory inv, Component title) {
-		super(container, inv, title);
+		// PORT-NOTE(fabric): Create Fly takes the window size in the constructor.
+		super(container, inv, title, background(container).width, background(container).height + 4 + PLAYER_INVENTORY.getHeight());
+	}
+
+	private static CBCGuiTextures background(AutocannonAmmoContainerMenu menu) {
+		return menu.isCreativeContainer() ? CREATIVE_AUTOCANNON_AMMO_CONTAINER_BG : AUTOCANNON_AMMO_CONTAINER_BG;
 	}
 
 	@Override
 	protected void init() {
 		boolean isCreative = this.menu.isCreativeContainer();
 		CBCGuiTextures bg = isCreative ? CREATIVE_AUTOCANNON_AMMO_CONTAINER_BG : AUTOCANNON_AMMO_CONTAINER_BG;
-		this.setWindowSize(bg.width, bg.height + 4 + PLAYER_INVENTORY.getHeight());
 		this.setWindowOffset(1, 0);
 		super.init();
 
@@ -61,7 +65,8 @@ public class AutocannonAmmoContainerScreen extends AbstractSimiContainerScreen<A
 	}
 
 	@Override
-	protected void renderBg(GuiGraphicsExtractor graphics, float partialTick, int mouseX, int mouseY) {
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+		super.extractBackground(graphics, mouseX, mouseY, partialTick);
 		int invX = this.getLeftOfCentered(PLAYER_INVENTORY.getWidth());
 		int invY = this.topPos + AUTOCANNON_AMMO_CONTAINER_BG.height + 4;
 		this.renderPlayerInventory(graphics, invX, invY);
@@ -89,10 +94,10 @@ public class AutocannonAmmoContainerScreen extends AbstractSimiContainerScreen<A
 	}
 
 	@Override
-	protected void renderTooltip(GuiGraphicsExtractor graphics, int x, int y) {
-		super.renderTooltip(graphics, x, y);
+	protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y) {
+		super.extractTooltip(graphics, x, y);
 		if (this.hoveredSlot != null && this.hoveredSlot.index == 1 && !this.hoveredSlot.hasItem()) {
-			graphics.renderTooltip(this.font, CreateLang.builder(CreateBigCannons.MOD_ID).translate("gui.autocannon_ammo_container.tracer_slot").component(), x, y);
+			graphics.setTooltipForNextFrame(this.font, CreateLang.builder(CreateBigCannons.MOD_ID).translate("gui.autocannon_ammo_container.tracer_slot").component(), x, y);
 		}
 	}
 

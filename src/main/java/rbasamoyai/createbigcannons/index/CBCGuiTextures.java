@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.index;
 
+import net.minecraft.client.renderer.RenderPipelines;
+
 import com.zurrtum.create.client.catnip.gui.element.ScreenElement;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
@@ -45,7 +47,7 @@ public enum CBCGuiTextures implements ScreenElement {
 
 	@Override
 	public void render(GuiGraphicsExtractor graphics, int x, int y) {
-		graphics.blit(this.texture, x, y, 0, this.texX, this.texY, this.width, this.height, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.texture, x, y, this.texX, this.texY, this.width, this.height, 256, 256);
 	}
 
 }

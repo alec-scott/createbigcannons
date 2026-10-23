@@ -1,47 +1,27 @@
 package rbasamoyai.createbigcannons.index;
 
 import com.zurrtum.create.client.foundation.block.connected.CTType;
-import com.simibubi.create.foundation.block.connected.CTTypeRegistry;
-import com.zurrtum.create.client.foundation.block.connected.ConnectedTextureBehaviour.CTContext;
-import com.zurrtum.create.client.foundation.block.connected.ConnectedTextureBehaviour.ContextRequirement;
-import com.zurrtum.create.client.foundation.utility.CreateLang;
 
-import net.minecraft.resources.Identifier;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 
-public enum CBCCTTypes implements CTType {
-	CANNON(4, ContextRequirement.builder().vertical().build()) {
+/**
+ * PORT-NOTE(fabric): Create Fly's {@link CTType} is a class with int context flags (no enum/registry). CBC's cannon CT
+ * reads a 4x4 sheet; the tile index is resolved by {@code CBCCTSpriteShiftEntry}.
+ */
+public class CBCCTTypes {
+
+	public static final CTType CANNON = new CTType(CreateBigCannons.resource("cannon"), 1, CTType.VERTICAL) {
 		@Override
-		public int getTextureIndex(CTContext context) {
-			int i = (context.up == context.down ? 1 : 0) + (context.up ? 0 : 2);
+		public int getTextureIndex(int context) {
+			boolean up = (context & UP_FLAG) != 0;
+			boolean down = (context & DOWN_FLAG) != 0;
+			int i = (up == down ? 1 : 0) + (up ? 0 : 2);
 			return i * 4;
 		}
 	};
 
-	private final Identifier id;
-	private final int sheetSize;
-	private final ContextRequirement contextRequirement;
-
-	CBCCTTypes(int sheetSize, ContextRequirement requirement) {
-		this.id = CreateBigCannons.resource(CreateLang.asId(name()));
-		this.sheetSize = sheetSize;
-		this.contextRequirement = requirement;
-		CTTypeRegistry.register(this);
-	}
-
-	@Override
-	public Identifier getId() {
-		return this.id;
-	}
-
-	@Override
-	public int getSheetSize() {
-		return this.sheetSize;
-	}
-
-	@Override
-	public ContextRequirement getContextRequirement() {
-		return this.contextRequirement;
+	public static int sheetSize(CTType type) {
+		return type == CANNON ? 4 : 2;
 	}
 
 }

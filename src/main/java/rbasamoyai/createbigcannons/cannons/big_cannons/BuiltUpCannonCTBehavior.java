@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.cannons.big_cannons;
 
+import com.zurrtum.create.client.foundation.block.connected.CTType;
+
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
 
 import org.jetbrains.annotations.Nullable;
@@ -64,12 +66,15 @@ public class BuiltUpCannonCTBehavior extends ConnectedTextureBehaviour.Base {
 	}
 
 	@Override
-	public CTContext buildContext(BlockAndTintGetter reader, BlockPos pos, BlockState state, Direction face, ContextRequirement requirement) {
-		CTContext ctx = super.buildContext(reader, pos, state, face, requirement);
+	// PORT-NOTE(fabric): Create Fly packs the CT context into int flags.
+	public int buildContext(BlockAndTintGetter reader, BlockPos pos, BlockState state, Direction face, CTType type) {
+		int ctx = super.buildContext(reader, pos, state, face, type);
 		if (state.getBlock() instanceof BigCannonBlock cBlock && cBlock.getFacing(state).getAxisDirection() == Direction.AxisDirection.POSITIVE) {
-			boolean tmp = ctx.up;
-			ctx.up = ctx.down;
-			ctx.down = tmp;
+			boolean up = (ctx & CTType.UP_FLAG) != 0;
+			boolean down = (ctx & CTType.DOWN_FLAG) != 0;
+			ctx &= ~(CTType.UP_FLAG | CTType.DOWN_FLAG);
+			if (up) ctx |= CTType.DOWN_FLAG;
+			if (down) ctx |= CTType.UP_FLAG;
 		}
 		return ctx;
 	}

@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.ponder;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+
+import net.minecraft.world.level.ItemLike;
+
 import com.zurrtum.create.AllBlocks;
 import rbasamoyai.createbigcannons.port.registrate.util.entry.ItemProviderEntry;
 import rbasamoyai.createbigcannons.port.registrate.util.entry.RegistryEntry;
@@ -11,7 +15,8 @@ import rbasamoyai.createbigcannons.index.CBCItems;
 
 public class CBCPonderScenes {
     public static void register(PonderSceneRegistrationHelper<Identifier> helper) {
-        PonderSceneRegistrationHelper<ItemProviderEntry<?, ?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
+        // PORT-NOTE(fabric): keyed by ItemLike so Create Fly blocks (plain instances, not registrate entries) can be listed too.
+        PonderSceneRegistrationHelper<ItemLike> HELPER = helper.withKeyFunction(i -> BuiltInRegistries.ITEM.getKey(i.asItem()));
 
         HELPER.forComponents(CBCBlocks.CANNON_MOUNT, CBCBlocks.YAW_CONTROLLER, CBCBlocks.CANNON_MOUNT_EXTENSION)
             .addStoryBoard("cannon_mount/assembly_and_use", CannonMountScenes::assemblyAndUse)
