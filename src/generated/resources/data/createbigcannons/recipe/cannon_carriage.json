@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "tag": "minecraft:planks"
-    },
-    "S": {
-      "item": "create:shaft"
-    },
-    "W": {
-      "item": "createbigcannons:pair_of_cannon_wheels"
-    }
+    "P": "#minecraft:planks",
+    "S": "create:shaft",
+    "W": "createbigcannons:pair_of_cannon_wheels"
   },
   "pattern": [
     " SP",
@@ -20,5 +13,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:cannon_carriage"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

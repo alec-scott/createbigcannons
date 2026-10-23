@@ -1,19 +1,13 @@
 {
-  "type": "create:compacting",
   "ingredients": [
-    {
-      "tag": "createbigcannons:gunpowder"
-    },
-    {
-      "tag": "createbigcannons:gunpowder"
-    },
-    {
-      "tag": "createbigcannons:gunpowder"
-    }
+    "#createbigcannons:gunpowder",
+    "#createbigcannons:gunpowder",
+    "#createbigcannons:gunpowder"
   ],
   "results": [
     {
       "id": "createbigcannons:packed_gunpowder"
     }
-  ]
+  ],
+  "type": "create:compacting"
 }

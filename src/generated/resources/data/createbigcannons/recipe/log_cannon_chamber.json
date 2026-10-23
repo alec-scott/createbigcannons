@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "G": {
-      "tag": "createbigcannons:gunpowder"
-    },
-    "L": {
-      "tag": "minecraft:logs"
-    }
+    "G": "#createbigcannons:gunpowder",
+    "L": "#minecraft:logs"
   },
   "pattern": [
     " L ",
@@ -17,5 +12,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:log_cannon_chamber"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

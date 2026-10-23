@@ -61,7 +61,7 @@ dependencies {
 
     // Ritchie's Projectile Library: our 26.1 Fabric build, nested in the CBC jar.
     implementation files(rpl_jar)
-    include files(rpl_jar)
+    // RPL is shipped as its own jar next to CBC (Loom cannot nest a plain file dependency).
 
     // Optional compat
     compileOnly "maven.modrinth:jei:${jei_version}"

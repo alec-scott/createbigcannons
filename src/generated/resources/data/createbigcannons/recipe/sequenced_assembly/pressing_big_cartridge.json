@@ -1,33 +1,23 @@
 {
-  "type": "create:sequenced_assembly",
-  "ingredient": {
-    "item": "createbigcannons:big_cartridge_sheet"
-  },
+  "ingredient": "createbigcannons:big_cartridge_sheet",
   "loops": 5,
-  "results": [
-    {
-      "components": {
-        "createbigcannons:power": 0
-      },
-      "id": "createbigcannons:big_cartridge"
-    }
-  ],
+  "result": {
+    "components": {
+      "createbigcannons:power": 0
+    },
+    "id": "createbigcannons:big_cartridge"
+  },
   "sequence": [
     {
-      "type": "create:pressing",
-      "ingredients": [
-        {
-          "item": "createbigcannons:partially_formed_big_cartridge"
-        }
-      ],
+      "ingredient": "$ingredient",
       "results": [
-        {
-          "id": "createbigcannons:partially_formed_big_cartridge"
-        }
-      ]
+        "$result"
+      ],
+      "type": "create:pressing"
     }
   ],
   "transitional_item": {
     "id": "createbigcannons:partially_formed_big_cartridge"
-  }
+  },
+  "type": "create:sequenced_assembly"
 }

@@ -58,11 +58,10 @@ public abstract sealed class BlockRecipeIngredient implements Predicate<BlockSta
 
         public static final BlockIngredient NONE = new BlockIngredient(Blocks.AIR);
 		private final Block block;
-		private final List<ItemStack> blocks = new ArrayList<>(1);
+		private List<ItemStack> blocks = null;
 
 		public BlockIngredient(Block block) {
 			this.block = block;
-			this.blocks.add(new ItemStack(this.block));
 		}
 
 		@Override
@@ -72,6 +71,9 @@ public abstract sealed class BlockRecipeIngredient implements Predicate<BlockSta
 
 		@Override
 		public List<ItemStack> getBlockItems() {
+			// PORT-NOTE(fabric): built lazily; 26.1 ItemStacks need item components bound, which happens after mod init.
+			if (this.blocks == null)
+				this.blocks = List.of(new ItemStack(this.block));
 			return this.blocks;
 		}
 

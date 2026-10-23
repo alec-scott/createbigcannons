@@ -1,16 +1,12 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "createbigcannons:packed_gunpowder"
-    },
-    {
-      "item": "createbigcannons:empty_powder_charge"
-    }
+    "createbigcannons:packed_gunpowder",
+    "createbigcannons:empty_powder_charge"
   ],
   "result": {
     "count": 1,
     "id": "createbigcannons:powder_charge"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

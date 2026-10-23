@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.mixin.client;
 
+import com.llamalad7.mixinextras.sugar.Local;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,11 +25,9 @@ public class CameraMixin {
 
     @Shadow private Entity entity;
 
-    @Shadow
-    private float partialTickTime;
-
-    @WrapOperation(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setPosition(DDD)V"))
-    private void createbigcannons$setup(Camera instance, double x, double y, double z, Operation<Void> original) {
+    // PORT-NOTE(mc26.1): Camera#setup became update(DeltaTracker) -> alignWithEntity(float partialTicks).
+    @WrapOperation(method = "alignWithEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setPosition(DDD)V"))
+    private void createbigcannons$setup(Camera instance, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) float partialTickTime) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
 
@@ -51,10 +51,10 @@ public class CameraMixin {
         Vec3 localPos = Vec3.atCenterOf(poce.getSeatPos(player));
         localPos = localPos.add(upNormal.scale(0.35));
         Vec3 rotationOffset = VecHelper.getCenterOf(BlockPos.ZERO);
-        Vec3 anchor = poce.getPrevAnchorVec().lerp(poce.getAnchorVec(), this.partialTickTime);
+        Vec3 anchor = poce.getPrevAnchorVec().lerp(poce.getAnchorVec(), partialTickTime);
 
         Vec3 camPos = localPos.subtract(rotationOffset);
-        camPos = poce.applyRotation(camPos, this.partialTickTime);
+        camPos = poce.applyRotation(camPos, partialTickTime);
         camPos = camPos.add(anchor).add(rotationOffset);
         original.call(instance, camPos.x, camPos.y, camPos.z);
     }

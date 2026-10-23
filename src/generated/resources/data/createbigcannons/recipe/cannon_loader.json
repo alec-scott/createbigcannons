@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "create:andesite_casing"
-    },
-    "G": {
-      "tag": "createbigcannons:gunpowder"
-    },
-    "P": {
-      "item": "create:piston_extension_pole"
-    }
+    "C": "create:andesite_casing",
+    "G": "#createbigcannons:gunpowder",
+    "P": "create:piston_extension_pole"
   },
   "pattern": [
     "G",
@@ -20,5 +13,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:cannon_loader"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

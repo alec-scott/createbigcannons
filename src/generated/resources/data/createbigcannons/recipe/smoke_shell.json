@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "H": {
-      "item": "minecraft:hay_block"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "P": {
-      "tag": "c:plates/iron"
-    }
+    "H": "minecraft:hay_block",
+    "I": "#c:ingots/iron",
+    "P": "#c:plates/iron"
   },
   "pattern": [
     "PHP",
@@ -20,5 +13,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:smoke_shell"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

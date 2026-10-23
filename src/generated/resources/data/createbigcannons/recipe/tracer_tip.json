@@ -1,16 +1,12 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "createbigcannons:dust_glowstone"
-    },
-    {
-      "item": "minecraft:blaze_powder"
-    }
+    "#createbigcannons:dust_glowstone",
+    "minecraft:blaze_powder"
   ],
   "result": {
     "count": 4,
     "id": "createbigcannons:tracer_tip"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

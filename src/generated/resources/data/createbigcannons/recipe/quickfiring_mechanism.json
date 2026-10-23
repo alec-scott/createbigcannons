@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "create:large_cogwheel"
-    },
-    "L": {
-      "item": "minecraft:lever"
-    },
-    "c": {
-      "item": "create:cogwheel"
-    }
+    "C": "create:large_cogwheel",
+    "L": "minecraft:lever",
+    "c": "create:cogwheel"
   },
   "pattern": [
     " L",
@@ -19,5 +12,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:quickfiring_mechanism"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

@@ -1,30 +1,21 @@
 {
-  "type": "create:sequenced_assembly",
-  "ingredient": {
-    "tag": "c:ingots/cast_iron"
-  },
+  "ingredient": "#c:ingots/cast_iron",
   "loops": 3,
-  "results": [
-    {
-      "id": "createbigcannons:cast_iron_autocannon_breech_extractor"
-    }
-  ],
+  "result": {
+    "id": "createbigcannons:cast_iron_autocannon_breech_extractor"
+  },
   "sequence": [
     {
-      "type": "create:cutting",
-      "ingredients": [
-        {
-          "item": "createbigcannons:partial_cast_iron_autocannon_breech_extractor"
-        }
-      ],
+      "ingredient": "$ingredient",
+      "processing_time": 50,
       "results": [
-        {
-          "id": "createbigcannons:partial_cast_iron_autocannon_breech_extractor"
-        }
-      ]
+        "$result"
+      ],
+      "type": "create:cutting"
     }
   ],
   "transitional_item": {
     "id": "createbigcannons:partial_cast_iron_autocannon_breech_extractor"
-  }
+  },
+  "type": "create:sequenced_assembly"
 }

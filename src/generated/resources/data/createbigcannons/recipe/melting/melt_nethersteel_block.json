@@ -1,25 +1,23 @@
 {
-  "neoforge:conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "neoforge:not",
-      "value": {
-        "type": "neoforge:tag_empty",
-        "tag": "c:storage_blocks/nethersteel"
-      }
+      "condition": "fabric:tags_populated",
+      "registry": "minecraft:item",
+      "values": [
+        "c:storage_blocks/nethersteel"
+      ]
     }
   ],
-  "type": "createbigcannons:melting",
-  "heat_requirement": "heated",
-  "ingredients": [
+  "fluid_results": [
     {
-      "tag": "c:storage_blocks/nethersteel"
-    }
-  ],
-  "processing_time": 1620,
-  "results": [
-    {
-      "amount": 810,
+      "amount": 65610,
       "id": "createbigcannons:molten_nethersteel"
     }
-  ]
+  ],
+  "heat_requirement": "heated",
+  "ingredients": [
+    "#c:storage_blocks/nethersteel"
+  ],
+  "processing_time": 1620,
+  "type": "createbigcannons:melting"
 }

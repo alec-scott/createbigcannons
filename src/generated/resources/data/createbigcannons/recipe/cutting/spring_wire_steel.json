@@ -1,14 +1,20 @@
 {
-  "type": "create:cutting",
-  "ingredients": [
+  "fabric:load_conditions": [
     {
-      "tag": "c:plates/steel"
+      "condition": "fabric:tags_populated",
+      "registry": "minecraft:item",
+      "values": [
+        "c:plates/steel"
+      ]
     }
   ],
+  "ingredient": "#c:plates/steel",
+  "processing_time": 50,
   "results": [
     {
       "count": 3,
       "id": "createbigcannons:spring_wire"
     }
-  ]
+  ],
+  "type": "create:cutting"
 }

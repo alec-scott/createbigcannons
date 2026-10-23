@@ -28,7 +28,7 @@ import rbasamoyai.createbigcannons.remix.RotationPropagatorRemix;
 @Mixin(RotationPropagator.class)
 public class RotationPropagatorMixin {
 
-	@WrapOperation(method = "handleAdded", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/kinetics/RotationPropagator;propagateNewSource(Lcom/simibubi/create/content/kinetics/base/KineticBlockEntity;)V"))
+	@WrapOperation(method = "handleAdded", at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/kinetics/RotationPropagator;propagateNewSource(Lcom/zurrtum/create/content/kinetics/base/KineticBlockEntity;)V"))
 	private static void createbigcannons$handleAdded(KineticBlockEntity addedBE, Operation<Void> original) {
 		if (addedBE instanceof HasMultipleKineticInterfaces hasMultiple) {
 			List<KineticBlockEntity> subBEs = hasMultiple.getAllKineticBlockEntities();

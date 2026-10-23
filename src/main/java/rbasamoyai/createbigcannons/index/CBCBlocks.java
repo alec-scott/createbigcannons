@@ -487,7 +487,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock(false))
 		.loot(CBCBuilderTransformers.steelScrapLoot(15))
 		.transform(CBCBuilderTransformers.screwBreechUnbored("screw_breech/steel", "screw_breech/unbored_steel"))
-		.item(BigCannonBlockItem::new).build()
 		.register();
 
 	//////// Nethersteel cannon blocks ////////
@@ -635,7 +634,6 @@ public class CBCBlocks {
 		.transform(strongCannonBlock(false))
 		.loot(CBCBuilderTransformers.nethersteelScrapLoot(15))
 		.transform(CBCBuilderTransformers.screwBreechUnbored("screw_breech/nethersteel", "screw_breech/unbored_nethersteel"))
-		.item(BigCannonBlockItem::new).build()
 		.register();
 
 	//////// Cast iron autocannon blocks ////////

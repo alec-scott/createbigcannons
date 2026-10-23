@@ -63,7 +63,7 @@ public abstract class ContraptionMixin {
 	@Shadow
 	public boolean disassembled;
 
-	@WrapOperation(method = "searchMovedStructure", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/api/contraption/BlockMovementChecks;isBrittle(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
+	@WrapOperation(method = "searchMovedStructure", at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/api/contraption/BlockMovementChecks;isBrittle(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
 	private boolean createbigcannons$searchMovedStructure$setForcedDirection(BlockState state, Operation<Boolean> original,
                                                                              @Local(argsOnly = true) Level level,
                                                                              @Local(argsOnly = true) LocalRef<Direction> forcedDirectionRef) {
@@ -91,20 +91,20 @@ public abstract class ContraptionMixin {
         original.call(world, transform);
 	}
 
-	@ModifyExpressionValue(method = "addBlocksToWorld", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/Contraption;customBlockPlacement(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z"))
+	@ModifyExpressionValue(method = "addBlocksToWorld", at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/contraptions/Contraption;customBlockPlacement(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z"))
 	private boolean createbigcannons$addBlocksToWorld$customBlockPlacement(boolean original, Level level, StructureTransform transform,
 																		   @Local(ordinal = 0) BlockPos targetPos, @Local(ordinal = 0) BlockState state) {
 		return original || ContraptionRemix.customBlockPlacement(this.createbigcannons$self, level, targetPos, state);
 	}
 
-	@ModifyExpressionValue(method = "removeBlocksFromWorld", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/Contraption;customBlockRemoval(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z"))
+	@ModifyExpressionValue(method = "removeBlocksFromWorld", at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/contraptions/Contraption;customBlockRemoval(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z"))
 	private boolean createbigcannons$removeBlocksFromWorld$customBlockRemoval(boolean original, Level level, BlockPos offset,
 																			  @Local(ordinal = 1) BlockPos add, @Local(ordinal = 0) StructureBlockInfo block) {
 		return original || ContraptionRemix.customBlockRemoval(this.createbigcannons$self, level, add, block.state());
 	}
 
 	@Inject(method = "moveBlock",
-		at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/BlockEntry;has(Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 0, shift = At.Shift.BEFORE))
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z", ordinal = 0, shift = At.Shift.BEFORE)) // PORT-NOTE(fabric): Create Fly uses state.is(AllBlocks.BELT) instead of AllBlocks.BELT.has(state)
 	private void createbigcannons$moveBlock$customChecks(Level level, Direction forcedDirection, Queue<BlockPos> frontier,
 														 Set<BlockPos> visited, CallbackInfoReturnable<Boolean> cir,
 														 @Local BlockPos pos, @Local BlockState state) {
@@ -122,7 +122,7 @@ public abstract class ContraptionMixin {
 	}
 
 	@ModifyExpressionValue(method = "moveBlock",
-		at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/Contraption;movementAllowed(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Z", ordinal = 1))
+		at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/contraptions/Contraption;movementAllowed(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Z", ordinal = 1))
 	private boolean createbigcannons$moveBlock$bypassMovementError(boolean original,
 																   @Local(argsOnly = true) Level level,
 																   @Local(argsOnly = true) Direction forcedDirection,
@@ -178,7 +178,7 @@ public abstract class ContraptionMixin {
 	}
 
 	@Inject(method = "moveBlock",
-		at = @At(value = "INVOKE", target = "Lcom/simibubi/create/api/contraption/BlockMovementChecks;isBrittle(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
+		at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/api/contraption/BlockMovementChecks;isBrittle(Lnet/minecraft/world/level/block/state/BlockState;)Z"))
 	private void createbigcannons$moveBlock$addFrontier$0(Level level, Direction forcedDirection, Queue<BlockPos> frontier,
 														  Set<BlockPos> visited, CallbackInfoReturnable<Boolean> cir,
 														  @Local(ordinal = 0) BlockPos pos,
@@ -210,7 +210,7 @@ public abstract class ContraptionMixin {
 	}
 
 	@ModifyExpressionValue(method = "moveBlock",
-		at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/Contraption;capture(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lorg/apache/commons/lang3/tuple/Pair;"))
+		at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/contraptions/Contraption;capture(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lorg/apache/commons/lang3/tuple/Pair;"))
 	private Pair<StructureBlockInfo, BlockEntity> createbigcannons$moveBlock$preCannonBlockCapture(Pair<StructureBlockInfo, BlockEntity> original,
 																								   Level level, @Nullable Direction forcedDirection, Queue<BlockPos> frontier, Set<BlockPos> visited,
 																								   @Local(ordinal = 0) BlockPos pos) {
@@ -249,7 +249,7 @@ public abstract class ContraptionMixin {
 	}
 
 	@ModifyExpressionValue(method = "movePulley",
-		at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/Contraption;capture(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lorg/apache/commons/lang3/tuple/Pair;"))
+		at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/contraptions/Contraption;capture(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lorg/apache/commons/lang3/tuple/Pair;"))
 	private Pair<StructureBlockInfo, BlockEntity> createbigcannons$movePulley$2(Pair<StructureBlockInfo, BlockEntity> original,
 																				Level level, BlockPos pos,
 																				@Local(ordinal = 1) BlockPos ropePos) {

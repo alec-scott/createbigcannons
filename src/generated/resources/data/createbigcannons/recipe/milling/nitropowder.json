@@ -1,14 +1,11 @@
 {
-  "type": "create:milling",
-  "ingredients": [
-    {
-      "item": "createbigcannons:hardened_nitro"
-    }
-  ],
+  "ingredient": "createbigcannons:hardened_nitro",
+  "processing_time": 0,
   "results": [
     {
       "count": 2,
       "id": "createbigcannons:nitropowder"
     }
-  ]
+  ],
+  "type": "create:milling"
 }

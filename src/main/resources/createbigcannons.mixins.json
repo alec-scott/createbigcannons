@@ -9,7 +9,6 @@
     "client.CameraMixin",
     "client.ClientLevelAccessor",
     "client.EntityClientMixin",
-    "client.EntityRenderDispatcherMixin",
     "client.GoggleOverlayRendererMixin",
     "client.GoggleOverlayTooltipMixin",
     "client.HumanoidPoseMixin",

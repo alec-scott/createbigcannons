@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.mixin.compat.create;
 
+import net.minecraft.server.level.ServerLevel;
+
 import org.spongepowered.asm.mixin.Mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -14,9 +16,10 @@ import rbasamoyai.createbigcannons.remix.ContraptionRemix;
 @Mixin(PulleyBlock.class)
 public abstract class PulleyBlockMixin {
 
-	@WrapMethod(method = "onRemove")
-	private void createbigcannons$onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving, Operation<Void> original) {
-        original.call(state, level, pos, newState, isMoving);
+	// PORT-NOTE(mc26.1): onRemove -> affectNeighborsAfterRemoval (server only).
+	@WrapMethod(method = "affectNeighborsAfterRemoval")
+	private void createbigcannons$onRemove(BlockState state, ServerLevel level, BlockPos pos, boolean isMoving, Operation<Void> original) {
+        original.call(state, level, pos, isMoving);
 		ContraptionRemix.removeInnerStateRopes(level, pos.below(), isMoving);
 	}
 

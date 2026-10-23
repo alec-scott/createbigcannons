@@ -1,14 +1,11 @@
 {
-  "type": "create:cutting",
-  "ingredients": [
-    {
-      "item": "createbigcannons:autocannon_cartridge_sheet"
-    }
-  ],
+  "ingredient": "createbigcannons:autocannon_cartridge_sheet",
+  "processing_time": 50,
   "results": [
     {
       "count": 4,
       "id": "createbigcannons:empty_machine_gun_round"
     }
-  ]
+  ],
+  "type": "create:cutting"
 }

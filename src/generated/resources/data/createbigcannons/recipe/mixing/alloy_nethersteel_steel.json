@@ -1,22 +1,11 @@
 {
-  "type": "create:mixing",
   "heat_requirement": "superheated",
   "ingredients": [
-    {
-      "item": "minecraft:netherite_scrap"
-    },
-    {
-      "tag": "c:ingots/steel"
-    },
-    {
-      "tag": "c:ingots/steel"
-    },
-    {
-      "tag": "c:ingots/steel"
-    },
-    {
-      "tag": "c:ingots/steel"
-    }
+    "minecraft:netherite_scrap",
+    "#c:ingots/steel",
+    "#c:ingots/steel",
+    "#c:ingots/steel",
+    "#c:ingots/steel"
   ],
   "processing_time": 100,
   "results": [
@@ -24,5 +13,6 @@
       "count": 8,
       "id": "createbigcannons:nethersteel_ingot"
     }
-  ]
+  ],
+  "type": "create:mixing"
 }

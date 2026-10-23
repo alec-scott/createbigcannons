@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "H": {
-      "tag": "minecraft:planks"
-    },
-    "P": {
-      "item": "create:piston_extension_pole"
-    }
+    "H": "#minecraft:planks",
+    "P": "create:piston_extension_pole"
   },
   "pattern": [
     "H",
@@ -16,5 +11,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:ram_head"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

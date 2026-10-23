@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "tag": "c:ingots/brass"
-    },
-    "I": {
-      "tag": "c:plates/iron"
-    }
+    "B": "#c:ingots/brass",
+    "I": "#c:plates/iron"
   },
   "pattern": [
     " B ",
@@ -17,5 +12,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:autocannon_ammo_container"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

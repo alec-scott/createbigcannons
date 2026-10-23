@@ -1,13 +1,10 @@
 {
-  "type": "create:cutting",
-  "ingredients": [
-    {
-      "tag": "c:plates/iron"
-    }
-  ],
+  "ingredient": "#c:plates/iron",
+  "processing_time": 50,
   "results": [
     {
       "id": "createbigcannons:spring_wire"
     }
-  ]
+  ],
+  "type": "create:cutting"
 }

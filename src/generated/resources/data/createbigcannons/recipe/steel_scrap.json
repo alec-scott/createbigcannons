@@ -1,13 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "createbigcannons:steel_ingot"
-    }
+    "createbigcannons:steel_ingot"
   ],
   "result": {
     "count": 9,
     "id": "createbigcannons:steel_scrap"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

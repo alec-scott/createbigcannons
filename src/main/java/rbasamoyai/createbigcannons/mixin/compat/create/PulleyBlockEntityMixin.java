@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.mixin.compat.create;
 
+import net.minecraft.world.level.block.Block;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +14,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.zurrtum.create.AllBlocks;
 import com.zurrtum.create.content.contraptions.piston.LinearActuatorBlockEntity;
 import com.zurrtum.create.content.contraptions.pulley.PulleyBlockEntity;
-import rbasamoyai.createbigcannons.port.registrate.util.entry.BlockEntry;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -29,14 +30,15 @@ public abstract class PulleyBlockEntityMixin extends LinearActuatorBlockEntity {
 
 	PulleyBlockEntityMixin(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) { super(typeIn, pos, state); }
 
+	// PORT-NOTE(fabric): Create Fly checks ropeState.is(AllBlocks.ROPE) where Create used AllBlocks.ROPE.has(ropeState).
 	@WrapOperation(method = "assemble",
-			at = @At(value = "INVOKE", target = "Lcom/tterrag/registrate/util/entry/BlockEntry;has(Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 0))
-	private boolean createbigcannons$assemble(BlockEntry instance, BlockState state, Operation<Boolean> original,
-                                              @Local(name = "ropePos") BlockPos ropePos) {
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z", ordinal = 0))
+	private boolean createbigcannons$assemble(BlockState state, Object block, Operation<Boolean> original,
+                                              @Local(ordinal = 0) BlockPos ropePos) {
 		if (!(state.getBlock() instanceof BigCannonBlock cBlock)
 			|| !cBlock.getFacing(state).getAxis().isVertical()
 			|| !(this.level.getBlockEntity(ropePos) instanceof IBigCannonBlockEntity cbe))
-            return original.call(instance, state);
+            return original.call(state, block);
 		StructureBlockInfo info = cbe.cannonBehavior().block();
 		return info.state().is(AllBlocks.ROPE) || info.state().is(AllBlocks.PULLEY_MAGNET);
     }
@@ -77,7 +79,7 @@ public abstract class PulleyBlockEntityMixin extends LinearActuatorBlockEntity {
 	}
 
 	@Inject(method = "visitNewPosition",
-			at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/pulley/PulleyBlockEntity;disassemble()V", shift = At.Shift.BEFORE),
+			at = @At(value = "INVOKE", target = "Lcom/zurrtum/create/content/contraptions/pulley/PulleyBlockEntity;disassemble()V", shift = At.Shift.BEFORE),
 			remap = false,
 			cancellable = true)
 	private void createbigcannons$visitNewPosition(CallbackInfo ci, @Local BlockPos posBelow, @Local BlockState state) {

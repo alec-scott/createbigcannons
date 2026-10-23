@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "M": {
-      "item": "create:precision_mechanism"
-    },
-    "P": {
-      "item": "minecraft:iron_bars"
-    },
-    "S": {
-      "item": "createbigcannons:recoil_spring"
-    }
+    "M": "create:precision_mechanism",
+    "P": "minecraft:iron_bars",
+    "S": "createbigcannons:recoil_spring"
   },
   "pattern": [
     "M",
@@ -20,5 +13,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:block_armor_inspection_tool"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

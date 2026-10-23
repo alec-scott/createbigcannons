@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "create:andesite_casing"
-    },
-    "G": {
-      "tag": "createbigcannons:gunpowder"
-    },
-    "I": {
-      "tag": "c:plates/iron"
-    }
+    "C": "create:andesite_casing",
+    "G": "#createbigcannons:gunpowder",
+    "I": "#c:plates/iron"
   },
   "pattern": [
     " I ",
@@ -19,5 +12,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:fixed_cannon_mount"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

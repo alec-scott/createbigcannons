@@ -1,17 +1,13 @@
 {
-  "type": "create:compacting",
   "heat_requirement": "heated",
   "ingredients": [
-    {
-      "tag": "c:storage_blocks/iron"
-    },
-    {
-      "tag": "c:storage_blocks/coal"
-    }
+    "#c:storage_blocks/iron",
+    "#c:storage_blocks/coal"
   ],
   "results": [
     {
       "id": "createbigcannons:cast_iron_block"
     }
-  ]
+  ],
+  "type": "create:compacting"
 }

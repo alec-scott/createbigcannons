@@ -1,20 +1,11 @@
 {
-  "type": "create:mechanical_crafting",
   "accept_mirrored": true,
   "category": "misc",
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "L": {
-      "item": "createbigcannons:shot_balls"
-    },
-    "P": {
-      "tag": "createbigcannons:gunpowder"
-    },
-    "S": {
-      "tag": "minecraft:wooden_slabs"
-    }
+    "I": "#c:ingots/iron",
+    "L": "createbigcannons:shot_balls",
+    "P": "#createbigcannons:gunpowder",
+    "S": "#minecraft:wooden_slabs"
   },
   "pattern": [
     " I ",
@@ -25,5 +16,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:shrapnel_shell"
-  }
+  },
+  "type": "create:mechanical_crafting"
 }

@@ -1,13 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:gunpowder"
-    }
+    "minecraft:gunpowder"
   ],
   "result": {
     "count": 9,
     "id": "createbigcannons:gunpowder_pinch"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

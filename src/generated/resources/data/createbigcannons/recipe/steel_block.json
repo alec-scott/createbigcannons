@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "createbigcannons:steel_ingot"
-    }
+    "#": "createbigcannons:steel_ingot"
   },
   "pattern": [
     "###",
@@ -14,5 +11,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:steel_block"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

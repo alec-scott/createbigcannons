@@ -17,8 +17,9 @@ import rbasamoyai.createbigcannons.cannon_control.contraption.PitchOrientedContr
 @Mixin(ScreenEffectRenderer.class)
 public class ScreenEffectRendererMixin {
 
-    @WrapMethod(method = "getOverlayBlock")
-    private static @Nullable Pair<BlockState, BlockPos> createbigcannons$getViewBlockingState(Player player, Operation<Pair<BlockState, BlockPos>> original) {
+    // PORT-NOTE(mc26.1): getOverlayBlock became getViewBlockingState, returning just the state.
+    @WrapMethod(method = "getViewBlockingState")
+    private static @Nullable BlockState createbigcannons$getViewBlockingState(Player player, Operation<BlockState> original) {
         if (player.getVehicle() instanceof PitchOrientedContraptionEntity poce && poce.getSeatPos(player) != null)
             return null;
         return original.call(player);

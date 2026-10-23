@@ -1,11 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "group": "createbigcannons:gunpowder",
   "key": {
-    "#": {
-      "item": "createbigcannons:gunpowder_pinch"
-    }
+    "#": "createbigcannons:gunpowder_pinch"
   },
   "pattern": [
     "###",
@@ -15,5 +12,6 @@
   "result": {
     "count": 1,
     "id": "minecraft:gunpowder"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

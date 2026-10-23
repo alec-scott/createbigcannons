@@ -1,16 +1,12 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "createbigcannons:timed_fuze"
-    },
-    {
-      "item": "createbigcannons:inertia_fuze"
-    }
+    "createbigcannons:timed_fuze",
+    "createbigcannons:inertia_fuze"
   ],
   "result": {
     "count": 1,
     "id": "createbigcannons:delayed_inertia_fuze"
-  }
+  },
+  "type": "minecraft:crafting_shapeless"
 }

@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "I": {
-      "tag": "c:ingots/copper"
-    },
-    "W": {
-      "tag": "createbigcannons:dusts_redstone"
-    }
+    "I": "#c:ingots/copper",
+    "W": "#createbigcannons:dusts_redstone"
   },
   "pattern": [
     "WIW"
@@ -15,5 +10,6 @@
   "result": {
     "count": 4,
     "id": "createbigcannons:wired_fuze"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

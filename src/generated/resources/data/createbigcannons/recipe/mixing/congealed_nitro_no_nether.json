@@ -1,25 +1,21 @@
 {
-  "type": "create:mixing",
-  "ingredients": [
+  "fluid_ingredients": [
     {
-      "tag": "createbigcannons:guncotton"
-    },
-    {
-      "tag": "createbigcannons:gelatinizers"
-    },
-    {
-      "tag": "createbigcannons:nitro_acidifiers"
-    },
-    {
-      "type": "neoforge:single",
-      "amount": 150,
-      "fluid": "minecraft:water"
+      "amount": 12150,
+      "fluid": "minecraft:water",
+      "type": "fluid_stack"
     }
+  ],
+  "ingredients": [
+    "#createbigcannons:guncotton",
+    "#createbigcannons:gelatinizers",
+    "#createbigcannons:nitro_acidifiers"
   ],
   "processing_time": 200,
   "results": [
     {
       "id": "createbigcannons:congealed_nitro"
     }
-  ]
+  ],
+  "type": "create:mixing"
 }

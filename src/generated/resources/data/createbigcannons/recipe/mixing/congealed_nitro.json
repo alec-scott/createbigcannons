@@ -1,18 +1,9 @@
 {
-  "type": "create:mixing",
   "ingredients": [
-    {
-      "item": "minecraft:blaze_powder"
-    },
-    {
-      "item": "minecraft:magma_cream"
-    },
-    {
-      "tag": "createbigcannons:gunpowder"
-    },
-    {
-      "tag": "createbigcannons:gunpowder"
-    }
+    "minecraft:blaze_powder",
+    "minecraft:magma_cream",
+    "#createbigcannons:gunpowder",
+    "#createbigcannons:gunpowder"
   ],
   "processing_time": 200,
   "results": [
@@ -20,5 +11,6 @@
       "count": 2,
       "id": "createbigcannons:congealed_nitro"
     }
-  ]
+  ],
+  "type": "create:mixing"
 }

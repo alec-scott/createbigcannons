@@ -1,13 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "G": {
-      "tag": "createbigcannons:gunpowder"
-    },
-    "I": {
-      "tag": "c:plates/iron"
-    }
+    "G": "#createbigcannons:gunpowder",
+    "I": "#c:plates/iron"
   },
   "pattern": [
     " I ",
@@ -17,5 +12,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:wrought_iron_cannon_chamber"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

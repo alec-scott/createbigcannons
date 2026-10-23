@@ -1,34 +1,15 @@
 {
-  "type": "create:mixing",
   "heat_requirement": "superheated",
   "ingredients": [
-    {
-      "item": "minecraft:netherite_scrap"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    },
-    {
-      "tag": "c:ingots/cast_iron"
-    }
+    "minecraft:netherite_scrap",
+    "#c:ingots/cast_iron",
+    "#c:ingots/cast_iron",
+    "#c:ingots/cast_iron",
+    "#c:ingots/cast_iron",
+    "#c:ingots/cast_iron",
+    "#c:ingots/cast_iron",
+    "#c:ingots/cast_iron",
+    "#c:ingots/cast_iron"
   ],
   "processing_time": 100,
   "results": [
@@ -36,5 +17,6 @@
       "count": 8,
       "id": "createbigcannons:nethersteel_ingot"
     }
-  ]
+  ],
+  "type": "create:mixing"
 }

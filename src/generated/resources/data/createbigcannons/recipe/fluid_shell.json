@@ -1,17 +1,10 @@
 {
-  "type": "create:mechanical_crafting",
   "accept_mirrored": true,
   "category": "misc",
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "P": {
-      "item": "create:fluid_pipe"
-    },
-    "S": {
-      "tag": "minecraft:wooden_slabs"
-    }
+    "I": "#c:ingots/iron",
+    "P": "create:fluid_pipe",
+    "S": "#minecraft:wooden_slabs"
   },
   "pattern": [
     " I ",
@@ -22,5 +15,6 @@
   "result": {
     "count": 1,
     "id": "createbigcannons:fluid_shell"
-  }
+  },
+  "type": "create:mechanical_crafting"
 }

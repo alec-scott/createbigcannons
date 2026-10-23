@@ -1,25 +1,23 @@
 {
-  "neoforge:conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "neoforge:not",
-      "value": {
-        "type": "neoforge:tag_empty",
-        "tag": "c:ingots/steel"
-      }
+      "condition": "fabric:tags_populated",
+      "registry": "minecraft:item",
+      "values": [
+        "c:ingots/steel"
+      ]
     }
   ],
-  "type": "createbigcannons:melting",
-  "heat_requirement": "heated",
-  "ingredients": [
+  "fluid_results": [
     {
-      "tag": "c:ingots/steel"
-    }
-  ],
-  "processing_time": 180,
-  "results": [
-    {
-      "amount": 90,
+      "amount": 7290,
       "id": "createbigcannons:molten_steel"
     }
-  ]
+  ],
+  "heat_requirement": "heated",
+  "ingredients": [
+    "#c:ingots/steel"
+  ],
+  "processing_time": 180,
+  "type": "createbigcannons:melting"
 }

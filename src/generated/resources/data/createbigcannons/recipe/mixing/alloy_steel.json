@@ -1,21 +1,15 @@
 {
-  "type": "create:mixing",
   "heat_requirement": "heated",
   "ingredients": [
-    {
-      "tag": "c:ingots/iron"
-    },
-    {
-      "tag": "c:ingots/iron"
-    },
-    {
-      "tag": "minecraft:coals"
-    }
+    "#c:ingots/iron",
+    "#c:ingots/iron",
+    "#minecraft:coals"
   ],
   "results": [
     {
       "count": 2,
       "id": "createbigcannons:steel_ingot"
     }
-  ]
+  ],
+  "type": "create:mixing"
 }

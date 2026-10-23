@@ -1,13 +1,10 @@
 {
-  "type": "create:cutting",
-  "ingredients": [
-    {
-      "tag": "minecraft:logs"
-    }
-  ],
+  "ingredient": "#minecraft:logs",
+  "processing_time": 50,
   "results": [
     {
       "id": "createbigcannons:autocannon_breech_cast_mould"
     }
-  ]
+  ],
+  "type": "create:cutting"
 }

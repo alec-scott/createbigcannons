@@ -1,10 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "S": {
-      "tag": "c:plates/brass"
-    }
+    "S": "#c:plates/brass"
   },
   "pattern": [
     "SS",
@@ -13,5 +10,6 @@
   "result": {
     "count": 4,
     "id": "createbigcannons:big_cartridge_sheet"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

@@ -1,48 +1,28 @@
 {
-  "type": "create:sequenced_assembly",
-  "ingredient": {
-    "item": "createbigcannons:empty_machine_gun_round"
+  "ingredient": "createbigcannons:empty_machine_gun_round",
+  "result": {
+    "id": "createbigcannons:machine_gun_round"
   },
-  "results": [
-    {
-      "id": "createbigcannons:machine_gun_round"
-    }
-  ],
   "sequence": [
     {
-      "type": "create:deploying",
-      "ingredients": [
-        {
-          "item": "createbigcannons:partially_assembled_machine_gun_round"
-        },
-        {
-          "tag": "createbigcannons:gunpowder_pinch"
-        }
-      ],
+      "ingredient": "#createbigcannons:gunpowder_pinch",
       "results": [
-        {
-          "id": "createbigcannons:partially_assembled_machine_gun_round"
-        }
-      ]
+        "$result"
+      ],
+      "target": "$ingredient",
+      "type": "create:deploying"
     },
     {
-      "type": "create:deploying",
-      "ingredients": [
-        {
-          "item": "createbigcannons:partially_assembled_machine_gun_round"
-        },
-        {
-          "tag": "c:nuggets/copper"
-        }
-      ],
+      "ingredient": "#c:nuggets/copper",
       "results": [
-        {
-          "id": "createbigcannons:partially_assembled_machine_gun_round"
-        }
-      ]
+        "$result"
+      ],
+      "target": "$ingredient",
+      "type": "create:deploying"
     }
   ],
   "transitional_item": {
     "id": "createbigcannons:partially_assembled_machine_gun_round"
-  }
+  },
+  "type": "create:sequenced_assembly"
 }

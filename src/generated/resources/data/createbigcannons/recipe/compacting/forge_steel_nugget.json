@@ -1,15 +1,15 @@
 {
-  "type": "create:compacting",
-  "ingredients": [
+  "fluid_ingredients": [
     {
-      "type": "neoforge:tag",
-      "amount": 10,
-      "tag": "c:molten_steel"
+      "amount": 810,
+      "fluid_tag": "#c:molten_steel",
+      "type": "fluid_tag"
     }
   ],
   "results": [
     {
       "id": "createbigcannons:steel_scrap"
     }
-  ]
+  ],
+  "type": "create:compacting"
 }

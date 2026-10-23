@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "R": {
-      "tag": "createbigcannons:dusts_redstone"
-    },
-    "S": {
-      "item": "createbigcannons:recoil_spring"
-    },
-    "T": {
-      "tag": "createbigcannons:impact_fuze_head"
-    }
+    "R": "#createbigcannons:dusts_redstone",
+    "S": "createbigcannons:recoil_spring",
+    "T": "#createbigcannons:impact_fuze_head"
   },
   "pattern": [
     "T",
@@ -20,5 +13,6 @@
   "result": {
     "count": 2,
     "id": "createbigcannons:inertia_fuze"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }

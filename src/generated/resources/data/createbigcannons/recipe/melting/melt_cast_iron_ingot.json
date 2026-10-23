@@ -1,25 +1,23 @@
 {
-  "neoforge:conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "neoforge:not",
-      "value": {
-        "type": "neoforge:tag_empty",
-        "tag": "c:ingots/cast_iron"
-      }
+      "condition": "fabric:tags_populated",
+      "registry": "minecraft:item",
+      "values": [
+        "c:ingots/cast_iron"
+      ]
     }
   ],
-  "type": "createbigcannons:melting",
-  "heat_requirement": "heated",
-  "ingredients": [
+  "fluid_results": [
     {
-      "tag": "c:ingots/cast_iron"
-    }
-  ],
-  "processing_time": 180,
-  "results": [
-    {
-      "amount": 90,
+      "amount": 7290,
       "id": "createbigcannons:molten_cast_iron"
     }
-  ]
+  ],
+  "heat_requirement": "heated",
+  "ingredients": [
+    "#c:ingots/cast_iron"
+  ],
+  "processing_time": 180,
+  "type": "createbigcannons:melting"
 }

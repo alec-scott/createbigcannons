@@ -1,16 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "minecraft:clock"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "R": {
-      "tag": "createbigcannons:dusts_redstone"
-    }
+    "C": "minecraft:clock",
+    "I": "#c:ingots/iron",
+    "R": "#createbigcannons:dusts_redstone"
   },
   "pattern": [
     "I",
@@ -20,5 +13,6 @@
   "result": {
     "count": 4,
     "id": "createbigcannons:timed_fuze"
-  }
+  },
+  "type": "minecraft:crafting_shaped"
 }
