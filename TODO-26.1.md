@@ -9,8 +9,8 @@ This file covers **where the work stopped and what is left**, in as much detail 
 | Item | State |
 |---|---|
 | Repo / branch | `C:\Users\akrsc\Documents\git\createbigcannons`, branch `26.1-fabric` (fork: `alec-scott/createbigcannons`) |
-| Last commit | `0dbf3df6` "Port contraption/entity saves, projectile spawn data, saved data, casting fluids, misc common code" |
-| Working tree | Clean. Everything below is committed. Nothing has been pushed. |
+| Last commit | See `git log`. Everything is committed locally; nothing has been pushed. |
+
 | RPL dependency | `C:\Users\akrsc\Documents\git\RitchiesProjectileLib`, branch `26.1-fabric` (local only, there is no fork yet; fork it before pushing). Jar: `build/libs/ritchiesprojectilelib-2.1.2+mc.26.1.2-fabric.jar` |
 | Create Fly | Used as a jar (`create_fly_jar` in `build.gradle`). Gaps in the Create Fly API are bridged in CBC's `port/` package and with CBC mixins. Moving them into the Create Fly fork was deferred until Aeronautics is tested, because it would change the Aeronautics build. |
 | `compileJava` | **Compiles** (0 errors; it started at about 3,100). Jar: `build/libs/createbigcannons-5.11.7+mc.26.1.2-fabric.jar` (RPL ships as its own jar, not nested). |
