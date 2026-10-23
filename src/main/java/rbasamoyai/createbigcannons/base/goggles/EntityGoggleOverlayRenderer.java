@@ -6,11 +6,10 @@ import java.util.List;
 import com.zurrtum.create.AllItems;
 import com.zurrtum.create.content.equipment.goggles.GogglesItem;
 import com.zurrtum.create.client.foundation.gui.RemovedGuiUtils;
-import com.zurrtum.create.infrastructure.config.AllConfigs;
+import com.zurrtum.create.client.infrastructure.config.AllConfigs;
 import com.zurrtum.create.client.infrastructure.config.CClient;
 
 import com.zurrtum.create.client.catnip.gui.element.BoxElement;
-import com.zurrtum.create.client.catnip.gui.element.GuiGameElement;
 import com.zurrtum.create.catnip.theme.Color;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -73,7 +72,7 @@ public class EntityGoggleOverlayRenderer {
 			return;
 		}
 
-		graphics.pose().pushPose();
+		graphics.pose().pushMatrix();
 
 		int tooltipTextWidth = 0;
 		for (FormattedText textLine : tooltip) {
@@ -105,7 +104,7 @@ public class EntityGoggleOverlayRenderer {
             : BoxElement.COLOR_VANILLA_BORDER.getSecond().copy();
 
 		if (fade < 1) {
-			graphics.pose().translate(Math.pow(1 - fade, 3) * Math.signum(cfg.overlayOffsetX.get() + .5f) * 8, 0, 0);
+			graphics.pose().translate((float) (Math.pow(1 - fade, 3) * Math.signum(cfg.overlayOffsetX.get() + .5f) * 8), 0);
 			colorBackground.scaleAlpha(fade);
 			colorBorderTop.scaleAlpha(fade);
 			colorBorderBot.scaleAlpha(fade);
@@ -115,10 +114,8 @@ public class EntityGoggleOverlayRenderer {
 			colorBorderTop.getRGB(), colorBorderBot.getRGB(), mc.font);
 
 		ItemStack item = new ItemStack(AllItems.GOGGLES);
-		GuiGameElement.of(item)
-			.at(posX + 10, posY - 16, 450)
-			.render(graphics);
-		graphics.pose().popPose();
+		graphics.item(item, posX + 10, posY - 16);
+		graphics.pose().popMatrix();
 	}
 
 }

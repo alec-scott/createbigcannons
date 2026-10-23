@@ -20,6 +20,9 @@ import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.fabric.client.CBCBlockEntityRenderers;
 import rbasamoyai.createbigcannons.fabric.client.CBCEntityRenderers;
 import rbasamoyai.createbigcannons.fabric.client.CBCItemTooltips;
+import rbasamoyai.createbigcannons.fabric.client.CannonMountDisplaySourceRender;
+import rbasamoyai.createbigcannons.index.CBCDisplaySources;
+import com.zurrtum.create.client.AllDisplaySourceRenders;
 import rbasamoyai.createbigcannons.fabric.client.FixedCannonMountValueBehaviour;
 import rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount.FixedCannonMountBlockEntity;
 import rbasamoyai.createbigcannons.fabric.client.CBCConnectedTextures;
@@ -44,6 +47,7 @@ public class CBCClientFabric implements ClientModInitializer {
 		CBCBlockEntityRenderers.register();
 		CBCEntityRenderers.register();
 		CBCItemTooltips.register();
+		AllDisplaySourceRenders.register(CBCDisplaySources.CANNON_MOUNT.get(), CannonMountDisplaySourceRender::new);
 		CBCClientCommon.onClientSetup();
 		CBCClientCommon.registerKeyMappings(KeyMappingHelper::registerKeyMapping);
 		CBCClientCommon.registerOverlays("hotbar", (id, element) ->

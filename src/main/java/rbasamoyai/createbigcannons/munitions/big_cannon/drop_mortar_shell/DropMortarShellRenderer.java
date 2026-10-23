@@ -1,42 +1,51 @@
 package rbasamoyai.createbigcannons.munitions.big_cannon.drop_mortar_shell;
 
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-
-import net.minecraft.core.BlockPos;
-
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import com.zurrtum.create.client.catnip.render.CachedBuffers;
-import net.minecraft.util.LightCoordsUtil;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import com.zurrtum.create.client.catnip.render.SuperByteBufferRenderState;
+
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
-import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.index.CBCBlockPartials;
 import rbasamoyai.createbigcannons.index.CBCBlocks;
+import rbasamoyai.createbigcannons.munitions.big_cannon.BigCannonProjectileRenderer;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
-public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProjectile> {
+/** PORT-NOTE(mc26.1): render state + submit; the tracer quad is shared with {@link BigCannonProjectileRenderer}. */
+public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProjectile, DropMortarShellRenderer.State> {
 
 	public DropMortarShellRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}
 
 	@Override
-	public void render(DropMortarShellProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack,
-					   MultiBufferSource buffers, int packedLight) {
-		boolean isTracer = entity.hasTracer();
-		Vec3 vel = entity.getOrientation();
+	public State createRenderState() {
+		return new State();
+	}
+
+	@Override
+	public void extractRenderState(DropMortarShellProjectile entity, State state, float partialTicks) {
+		super.extractRenderState(entity, state, partialTicks);
+		state.tracer = entity.hasTracer();
+		state.orientation = entity.getOrientation();
+		state.tracerFrame = (int) ((entity.getId() + entity.level().getGameTime()) % 4L);
+		state.model = CachedBuffers.partial(CBCBlockPartials.DROP_MORTAR_SHELL_FLYING,
+				CBCBlocks.DROP_MORTAR_SHELL.getDefaultState().setValue(BlockStateProperties.FACING, Direction.NORTH))
+			.light(state.tracer ? LightCoordsUtil.FULL_BRIGHT : state.lightCoords)
+			.extractRenderState();
+	}
+
+	@Override
+	public void submit(State state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
+		Vec3 vel = state.orientation;
 		if (vel.lengthSqr() < 1e-4d)
 			vel = new Vec3(0, -1, 0);
 
@@ -48,39 +57,13 @@ public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProje
 		} else {
 			poseStack.mulPose(CBCUtils.mat4x4fFacing(vel.normalize()));
 		}
-
-		CachedBuffers.partial(CBCBlockPartials.DROP_MORTAR_SHELL_FLYING, CBCBlocks.DROP_MORTAR_SHELL.getDefaultState().setValue(BlockStateProperties.FACING, Direction.NORTH))
-			.light(isTracer ? LightCoordsUtil.FULL_BRIGHT : packedLight)
-			.renderInto(poseStack, buffers.getBuffer(RenderTypes.cutout()));
+		if (state.model != null)
+			state.model.submit(poseStack, collector);
 		poseStack.popPose();
 
-		if (isTracer) {
-			int frame = (int) ((entity.getId() + entity.level().getGameTime()) % 4L);
-			Identifier textureLoc = CreateBigCannons.resource(String.format("textures/entity/tracer_glow%d.png", frame));
-			RenderType renderType = RenderTypes.entityCutoutNoCull(textureLoc);
-
-			poseStack.pushPose();
-			poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-			poseStack.scale(1.5f, 1.5f, 1.5f);
-
-			PoseStack.Pose lastPose = poseStack.last();
-			Matrix4f pose = lastPose.pose();
-			Matrix3f normal = lastPose.normal();
-			VertexConsumer builder = buffers.getBuffer(renderType);
-
-			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, -0.5f, -0.5f, 0, 1);
-			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, -0.5f, 0.5f, 0, 0);
-			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, 0.5f, 0.5f, 1, 0);
-			vertex(builder, pose, LightCoordsUtil.FULL_BRIGHT, 0.5f, -0.5f, 1, 1);
-
-			poseStack.popPose();
-		}
-		super.render(entity, entityYaw, partialTicks, poseStack, buffers, packedLight);
-	}
-
-	@Override
-	public Identifier getTextureLocation(DropMortarShellProjectile entity) {
-		return null;
+		if (state.tracer)
+			BigCannonProjectileRenderer.submitTracer(state.tracerFrame, poseStack, collector, camera);
+		super.submit(state, poseStack, collector, camera);
 	}
 
     @Override
@@ -88,13 +71,11 @@ public class DropMortarShellRenderer extends EntityRenderer<DropMortarShellProje
         return entity.hasTracer() ? 15 : super.getBlockLightLevel(entity, pos);
     }
 
-    private static void vertex(VertexConsumer builder, Matrix4f pose, int packedLight, float x, float y, int u, int v) {
-        builder.addVertex(pose, x, y, 0.0f)
-            .setColor(255, 255, 255, 255)
-            .setUv((float) u, (float) v)
-            .setOverlay(OverlayTexture.NO_OVERLAY)
-            .setLight(packedLight)
-            .setNormal(0.0f, 1.0f, 0.0f);
-    }
+	public static class State extends EntityRenderState {
+		public boolean tracer;
+		public int tracerFrame;
+		public Vec3 orientation = Vec3.ZERO;
+		public SuperByteBufferRenderState model;
+	}
 
 }

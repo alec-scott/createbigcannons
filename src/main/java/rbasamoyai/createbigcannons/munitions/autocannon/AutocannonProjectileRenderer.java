@@ -10,7 +10,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import net.minecraft.util.LightCoordsUtil;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -23,29 +25,45 @@ import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.config.CBCConfigs;
 import rbasamoyai.createbigcannons.utils.CBCUtils;
 
-public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile> extends EntityRenderer<T> {
+public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile> extends EntityRenderer<T, AutocannonProjectileRenderer.State> {
 
 	private static final Identifier SHRAPNEL_LOCATION = CreateBigCannons.resource("textures/entity/shrapnel.png");
 	private static final Identifier COLOR_LOCATION = CreateBigCannons.resource("textures/entity/color.png");
 	private static final Identifier COLOR_SPECULAR_LOCATION = CreateBigCannons.resource("textures/entity/color_s.png");
-	private static final RenderType SHRAPNEL = RenderTypes.entityCutoutNoCull(SHRAPNEL_LOCATION);
-	private static final RenderType COLOR = RenderTypes.entityTranslucentCull(COLOR_LOCATION);
+	private static final RenderType SHRAPNEL = RenderTypes.entityCutout(SHRAPNEL_LOCATION);
+	private static final RenderType COLOR = RenderTypes.entityTranslucent(COLOR_LOCATION);
 	private static final RenderType COLOR_SPECULAR = RenderTypes.eyes(COLOR_SPECULAR_LOCATION);
 
     public AutocannonProjectileRenderer(EntityRendererProvider.Context context) { super(context); }
 
     @Override
-    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffers, int packedLight) {
-		if (entity.isTracer()) {
+    public State createRenderState() {
+        return new State();
+    }
+
+    // PORT-NOTE(mc26.1): render() split into extractRenderState() and submit().
+    @Override
+    public void extractRenderState(T entity, State state, float partialTicks) {
+        super.extractRenderState(entity, state, partialTicks);
+        state.tracer = entity.isTracer();
+        state.machineGun = entity.getAutocannonRoundType() == AutocannonAmmoType.MACHINE_GUN;
+        state.orientation = entity.getOrientation();
+        if (state.tracer) {
 			Vec3 previous = new Vec3(entity.xOld, entity.yOld, entity.zOld);
 			Vec3 diff = entity.position().subtract(previous);
 			double dlSqr = diff.lengthSqr();
 			boolean isFastButNotTeleported = 1e-4d <= dlSqr && dlSqr <= entity.getDeltaMovement().lengthSqr() * 4;
 			double diffLength = isFastButNotTeleported ? diff.length() : 0;
 			double displacement = entity.getTotalDisplacement() - diffLength * (1 - partialTicks);
-			float length = (float) Math.min(diffLength, displacement);
+			state.length = (float) Math.min(diffLength, displacement);
+        }
+    }
 
-			Vec3 vel = entity.getOrientation();
+    @Override
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
+		if (state.tracer) {
+			float length = state.length;
+			Vec3 vel = state.orientation;
 			if (vel.lengthSqr() < 1e-4d)
 				vel = new Vec3(0, -1, 0);
 			poseStack.pushPose();
@@ -57,43 +75,36 @@ public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile
 				poseStack.mulPose(CBCUtils.mat4x4fFacing(vel.normalize(), new Vec3(0, 0, -1)));
 			}
 
-			PoseStack.Pose lastPose = poseStack.last();
-			Matrix4f pose = lastPose.pose();
-			Matrix3f normal = lastPose.normal();
-
 			// TODO: config tracer color per projectile?
-			VertexConsumer vcons = buffers.getBuffer(COLOR);
-			float thickness = entity.getAutocannonRoundType() == AutocannonAmmoType.MACHINE_GUN ? 1 / 32f : 2 / 32f;
-			renderBox(vcons, pose, normal, 255, 216, 0, length, thickness);
-			renderBoxInverted(vcons, pose, normal, 255, 80, 0, length, thickness * 1.5f);
-
-            if (CBCConfigs.client().enableEmissiveTracers.get()) {
-                vcons = buffers.getBuffer(COLOR_SPECULAR);
-                renderBox(vcons, pose, normal, 255, 216, 0, length, thickness);
-                renderBoxInverted(vcons, pose, normal, 255, 80, 0, length, thickness * 1.5f);
-            }
+			float thickness = state.machineGun ? 1 / 32f : 2 / 32f;
+			SubmitNodeCollector.CustomGeometryRenderer tracer = (pose, vcons) -> {
+				renderBox(vcons, pose.pose(), pose.normal(), 255, 216, 0, length, thickness);
+				renderBoxInverted(vcons, pose.pose(), pose.normal(), 255, 80, 0, length, thickness * 1.5f);
+			};
+			collector.submitCustomGeometry(poseStack, COLOR, tracer);
+            if (CBCConfigs.client().enableEmissiveTracers.get())
+                collector.submitCustomGeometry(poseStack, COLOR_SPECULAR, tracer);
 
 			poseStack.popPose();
 		} else {
 			poseStack.pushPose();
-			poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+			poseStack.mulPose(camera.orientation);
 			poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
-			float scale = entity.getAutocannonRoundType() == AutocannonAmmoType.MACHINE_GUN ? 0.5f : 1f;
+			float scale = state.machineGun ? 0.5f : 1f;
 			poseStack.scale(scale, scale, scale);
 
-			PoseStack.Pose lastPose = poseStack.last();
-			Matrix4f pose = lastPose.pose();
-			Matrix3f normal = lastPose.normal();
-			VertexConsumer builder = buffers.getBuffer(SHRAPNEL);
-
+			int packedLight = state.lightCoords;
+			collector.submitCustomGeometry(poseStack, SHRAPNEL, (lastPose, builder) -> {
+				Matrix4f pose = lastPose.pose();
 			vertexShrapnel(builder, pose, packedLight, -0.5f, -0.5f, 0, 1);
 			vertexShrapnel(builder, pose, packedLight,  0.5f, -0.5f, 1, 1);
 			vertexShrapnel(builder, pose, packedLight,  0.5f,  0.5f, 1, 0);
 			vertexShrapnel(builder, pose, packedLight, -0.5f,  0.5f, 0, 0);
+			});
 
 			poseStack.popPose();
 		}
-        super.render(entity, entityYaw, partialTicks, poseStack, buffers, packedLight);
+        super.submit(state, poseStack, collector, camera);
     }
 
     @Override
@@ -209,10 +220,16 @@ public class AutocannonProjectileRenderer<T extends AbstractAutocannonProjectile
 			.setNormal(0.0f, 1.0f, 0.0f);
 	}
 
-    @Override public Identifier getTextureLocation(T entity) { return null; }
-
     @Override
     protected int getBlockLightLevel(T entity, BlockPos pos) {
         return entity.isTracer() ? 15 : super.getBlockLightLevel(entity, pos);
     }
+
+	public static class State extends EntityRenderState {
+		public boolean tracer;
+		public boolean machineGun;
+		public Vec3 orientation = Vec3.ZERO;
+		public float length;
+	}
+
 }

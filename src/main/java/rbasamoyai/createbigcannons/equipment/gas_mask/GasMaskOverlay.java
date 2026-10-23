@@ -1,8 +1,9 @@
 package rbasamoyai.createbigcannons.equipment.gas_mask;
 
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.util.ARGB;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+
 
 import net.minecraft.client.CameraType;
 import net.minecraft.client.DeltaTracker;
@@ -20,21 +21,9 @@ public class GasMaskOverlay {
 		if (minecraft.player == null || minecraft.options.getCameraType() != CameraType.FIRST_PERSON
 			|| !GasMaskItem.canShowGasMaskOverlay(minecraft.player))
 			return;
-		// FIX FOR JUST ENOUGH GUNS OR ANY ODD INVOCATIONS OF RenderSystem#enableBlend/RenderSystem#disableBlend...
-		boolean previousBlendState = GL11.glGetBoolean(GL11.GL_BLEND);
-		RenderSystem.enableBlend();
-
-		// Adapted from Gui#renderTextureOverlay
-		RenderSystem.disableDepthTest();
-		RenderSystem.depthMask(false);
-		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-		graphics.blit(GAS_MASK_OVERLAY, 0, 0, -90, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight());
-		RenderSystem.depthMask(true);
-		RenderSystem.enableDepthTest();
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-		if (!previousBlendState)
-			RenderSystem.disableBlend();
+		// PORT-NOTE(mc26.1): as Gui#extractTextureOverlay; GUI pipelines handle blending, so no GL state juggling.
+		graphics.blit(RenderPipelines.GUI_TEXTURED, GAS_MASK_OVERLAY, 0, 0, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(),
+			graphics.guiWidth(), graphics.guiHeight(), ARGB.white(1.0f));
 	}
 
 }

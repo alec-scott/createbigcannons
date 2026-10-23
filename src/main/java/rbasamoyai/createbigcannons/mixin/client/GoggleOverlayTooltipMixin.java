@@ -2,7 +2,7 @@ package rbasamoyai.createbigcannons.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.zurrtum.create.api.behaviour.BehaviourType;
+import com.zurrtum.create.foundation.blockEntity.behaviour.BehaviourType;
 import com.zurrtum.create.api.behaviour.BlockEntityBehaviour;
 import com.zurrtum.create.client.content.equipment.goggles.GoggleOverlayRenderer;
 import com.zurrtum.create.client.foundation.blockEntity.behaviour.tooltip.TooltipBehaviour;
@@ -19,7 +19,7 @@ import rbasamoyai.createbigcannons.fabric.client.CBCGoggleTooltip;
 public class GoggleOverlayTooltipMixin {
 
 	@WrapOperation(method = "renderOverlay", at = @At(value = "INVOKE",
-		target = "Lcom/zurrtum/create/api/behaviour/BlockEntityBehaviour;get(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lcom/zurrtum/create/api/behaviour/BehaviourType;)Lcom/zurrtum/create/api/behaviour/BlockEntityBehaviour;"))
+		target = "Lcom/zurrtum/create/api/behaviour/BlockEntityBehaviour;get(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lcom/zurrtum/create/foundation/blockEntity/behaviour/BehaviourType;)Lcom/zurrtum/create/api/behaviour/BlockEntityBehaviour;"))
 	private static BlockEntityBehaviour<?> createbigcannons$addCBCGoggleInfo(BlockGetter level, BlockPos pos, BehaviourType<?> type,
 																			 Operation<BlockEntityBehaviour<?>> original) {
 		BlockEntityBehaviour<?> behaviour = original.call(level, pos, type);

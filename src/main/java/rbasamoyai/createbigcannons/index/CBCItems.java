@@ -296,7 +296,7 @@ public class CBCItems {
 
 	public static final ItemEntry<GasMaskItem> GAS_MASK = REGISTRATE
 		.item("gas_mask", GasMaskItem::new)
-		// PORT-NOTE(mc26.1): equippable component replaces getEquipmentSlot; the head model (GasMaskModel) is not ported yet.
+		// PORT-NOTE(mc26.1): equippable component replaces getEquipmentSlot; the head model becomes a display_context select in its item definition (TODO).
 		.properties(p -> p.stacksTo(1).component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.HEAD).build()))
 		.tag(CBCTags.CBCItemTags.GAS_MASKS)
 		.register();
