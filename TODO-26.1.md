@@ -13,8 +13,33 @@ This file covers **where the work stopped and what is left**, in as much detail 
 | Working tree | Clean. Everything below is committed. Nothing has been pushed. |
 | RPL dependency | `C:\Users\akrsc\Documents\git\RitchiesProjectileLib`, branch `26.1-fabric` (local only, there is no fork yet; fork it before pushing). Jar: `build/libs/ritchiesprojectilelib-2.1.2+mc.26.1.2-fabric.jar` |
 | Create Fly | Used as a jar (`create_fly_jar` in `build.gradle`). Gaps in the Create Fly API are bridged in CBC's `port/` package and with CBC mixins. Moving them into the Create Fly fork was deferred until Aeronautics is tested, because it would change the Aeronautics build. |
-| `compileJava` | **Does not compile yet. 439 unique errors in 101 files** (it started at about 3,100). |
-| Runtime testing | **Not started.** No smoke test, no modpack test, no world load yet. |
+| `compileJava` | **Compiles** (0 errors; it started at about 3,100). Jar: `build/libs/createbigcannons-5.11.7+mc.26.1.2-fabric.jar` (RPL ships as its own jar, not nested). |
+| Runtime testing | **Server and client smoke tests pass; the full modpack client smoke test passes; server-side gameplay is verified in a world.** Client in-world rendering is **not** verified yet; see section 0. |
+
+## 0. Runtime status (updated 2026-10-23, after compile)
+
+Verified with the Aeronautics production smoke harness (`:aeronautics:runProductionServerSmoke` / `runProductionClientSmoke` with `-Psmoke_extra_mods=<CBC jar>,<RPL jar>[,<modpack jars>]`). The harness runs a mixin audit, so every CBC mixin target resolves against Create Fly / MC 26.1.2.
+
+| Test | Result |
+|---|---|
+| Dedicated server boot + mixin audit | Pass. No errors; recipes, loot tables and tags all load. |
+| Client boot to title + mixin audit | Pass. Only `particle` texture-reference warnings remain (cosmetic, models below). |
+| Client boot with all 73 `v26.1-testing` pack mods | Pass for CBC. The harness reports errors from other mods only (World Alive invalid texture path, malilib/tweakeroo first-run config). |
+| Server world gameplay (`-Psmoke_commands_file`, fresh world) | Pass. Every CBC block placed (BE creation/ticking), two world saves, every projectile type summoned and ticked. Impact-fuzed HE shell, shrapnel shell and drop-mortar shell detonate and crater stone. Unfuzed shells embed (`InGround`) and count down, as upstream does. |
+| Client joined into a world | **Not done.** A non-smoke client launched through the harness (`--quickPlaySingleplayer`) shows a blank white window and never finishes loading, even without the pack, so this is a launch-environment problem, not CBC. Test in the Prism instance instead. |
+
+Fixes found by the runtime tests (all committed):
+- Mixin targets: Create Fly compiles `state.is(AllBlocks.X)` to `BlockState.is(Ljava/lang/Object;)Z` (a generic helper), not `is(Block)`. `LevelRenderer.tick` now takes a `Camera`.
+- `BlockRecipeIngredient`: ItemStacks are built lazily, because item components aren't bound during mod init.
+- Unbored screw breeches registered their item twice (an explicit `.item()` plus the one in the `screwBreechUnbored` transformer).
+- `EntityTypeConfigurator` now accepts the `FabricEntityTypeBuilder` that the port Registrate hands out.
+- Recipe JSON converted to 26.1 / Create Fly. Scripts: `convert_recipes.pl` and `fixup_recipes.pl` in the session scratchpad; the details are in the commit message. Missing `processing_time` is written as 0, matching Create 6's default. The one-step sequenced assembly `filling_autocannon_cartridge` became a plain `create:deploying` recipe, because Create Fly rejects sequences with fewer than 2 steps. `c:plates/steel` and `c:ingots/tin` recipes are gated with `fabric:tags_populated`.
+- Block loot tables of item-less blocks (built-up cannon, cannon casts) contained a `minecraft:air` entry; those pools were dropped.
+- Item definitions `assets/createbigcannons/items/*.json` (194) were generated from the item models. Predicate `overrides` became `range_dispatch` over `createbigcannons:{formed,big_cartridge_filled,fuze_state}` (`fabric/client/CBCItemModelProperties`). The gas mask uses a `display_context` select (worn = `block/gas_mask`), which replaces the deleted `GasMaskModel`.
+
+**Note:** the generated resources were edited directly, because datagen isn't ported. Re-running upstream datagen would revert these edits.
+
+**Next:** put the CBC and RPL jars in the Prism `v26.1-testing` instance and play through section 5.4. Then fix the `particle` texture references (cannon casts, autocannon seats, fuze, sliding breechblock / screw lock items, rotating mount) and write the CBC in-game test doc.
 
 Error count history: 3133 → 2819 → 2653 → 2357 → 2239 → 1957 → 1621 → 1472 → 1420 → 1259 → 1028 → 968 → 863 → 770 →
 665 → 599 → 582 → 551 → 459 → 439.
