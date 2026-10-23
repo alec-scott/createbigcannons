@@ -20,7 +20,7 @@ import rbasamoyai.createbigcannons.index.CBCParticleTypes;
 public record SparkParticleData(Vector3f color) implements ParticleOptions, ICustomParticleData<SparkParticleData> {
 
 	private static final MapCodec<SparkParticleData> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-        ExtraCodecs.VECTOR3F.fieldOf("scale").forGetter(p -> p.color)).apply(i, SparkParticleData::new)
+        ExtraCodecs.VECTOR3F.xmap(Vector3f::new, v -> v).fieldOf("scale").forGetter(p -> p.color)).apply(i, SparkParticleData::new)
     );
 
     private static final StreamCodec<RegistryFriendlyByteBuf, SparkParticleData> STREAM_CODEC = StreamCodec.composite(

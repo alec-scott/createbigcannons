@@ -22,7 +22,7 @@ public record SparkBurstParticleData(Vector3f color, boolean deflect, int count)
 	ICustomParticleData<SparkBurstParticleData> {
 
 	private static final MapCodec<SparkBurstParticleData> CODEC = RecordCodecBuilder.mapCodec(i -> i
-		.group(ExtraCodecs.VECTOR3F.fieldOf("color")
+		.group(ExtraCodecs.VECTOR3F.xmap(Vector3f::new, v -> v).fieldOf("color")
 			.forGetter(data -> data.color),
 		Codec.BOOL.fieldOf("deflect")
 			.forGetter(data -> data.deflect),

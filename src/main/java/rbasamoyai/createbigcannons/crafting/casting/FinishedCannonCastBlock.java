@@ -47,7 +47,7 @@ public class FinishedCannonCastBlock extends Block implements IBE<FinishedCannon
 
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
-		return RenderShape.ENTITYBLOCK_ANIMATED;
+		return RenderShape.INVISIBLE;
 	}
 
 	@Override

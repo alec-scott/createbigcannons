@@ -12,7 +12,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.bus.api.IEventBus;
 import rbasamoyai.createbigcannons.cannon_control.cannon_mount.CannonMountBlockEntity;
 import rbasamoyai.createbigcannons.cannon_control.cannon_mount.ExtendsCannonMount;
 import rbasamoyai.createbigcannons.cannon_control.fixed_cannon_mount.FixedCannonMountBlock;
@@ -27,7 +26,7 @@ import rbasamoyai.createbigcannons.index.CBCBlocks;
 
 public class SimulatedCompat {
 
-    public static void onModCtor(IEventBus modBus, IEventBus forgeBus) {
+    public static void onModCtor() {
         SimBlockMovementChecks.registerAdditionalBlocks(SimulatedCompat::attachCannonBlocksFromMount);
 
         SimBlockMovementChecks.registerAttachedCheck(SimulatedCompat::attachedCheckMountExtensionBlocks);

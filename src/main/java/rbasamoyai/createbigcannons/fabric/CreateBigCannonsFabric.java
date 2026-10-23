@@ -10,6 +10,7 @@ import rbasamoyai.createbigcannons.base.CBCRegistries;
 import rbasamoyai.createbigcannons.cannon_control.config.DefaultCannonMountPropertiesSerializers;
 import rbasamoyai.createbigcannons.compat.create.DefaultCreateCompat;
 import rbasamoyai.createbigcannons.compat.sable.SableCompat;
+import rbasamoyai.createbigcannons.compat.simulated.SimulatedCompat;
 import rbasamoyai.createbigcannons.config.CBCConfigs;
 import rbasamoyai.createbigcannons.equipment.gas_mask.GasMaskItem;
 import rbasamoyai.createbigcannons.block_armor_properties.BlockArmorInspectionToolItem;
@@ -57,6 +58,9 @@ public class CreateBigCannonsFabric implements ModInitializer {
 		CreateBigCannons.onCommonSetup();
 		DefaultCreateCompat.init();
 		DefaultCannonMountPropertiesSerializers.init();
+		// PORT-NOTE(fabric): was the NeoForge mod constructor (force groups, physics tick listener, movement checks).
+		CBCMods.SABLE.executeIfInstalled(() -> SableCompat::onModCtor);
+		CBCMods.SIMULATED.executeIfInstalled(() -> SimulatedCompat::onModCtor);
 		CBCMods.SABLE.executeIfInstalled(() -> SableCompat::onCommonSetup);
 	}
 

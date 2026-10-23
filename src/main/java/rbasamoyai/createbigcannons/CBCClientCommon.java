@@ -160,10 +160,10 @@ public class CBCClientCommon {
 
         boolean isFiring = CBCClientCommon.FIRE_CONTROLLED_CANNON.isDown();
 		if (mc.player.getRootVehicle() instanceof CannonCarriageEntity carriage) {
-			net.minecraft.client.player.Input input = mc.player.input;
+			net.minecraft.world.entity.player.Input input = mc.player.input.keyPresses;
 			boolean isPitching = CBCClientCommon.PITCH_MODE.isDown();
-			carriage.setInput(input.left, input.right, input.up, input.down, isPitching);
-			mc.player.handsBusy |= input.left | input.right | input.up | input.down | isFiring;
+			carriage.setInput(input.left(), input.right(), input.forward(), input.backward(), isPitching);
+			mc.player.handsBusy |= input.left() | input.right() | input.forward() | input.backward() | isFiring;
 		}
         if (mc.player.getVehicle() instanceof PitchOrientedContraptionEntity) {
             mc.player.handsBusy = true;

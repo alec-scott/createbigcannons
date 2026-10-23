@@ -1,5 +1,9 @@
 package rbasamoyai.createbigcannons.datagen.assets;
 
+import net.minecraft.world.level.storage.loot.LootContext;
+
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +23,6 @@ import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullFunction
 import rbasamoyai.createbigcannons.port.registrate.util.nullness.NonNullUnaryOperator;
 
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
@@ -435,9 +438,7 @@ public class CBCBuilderTransformers {
 				.texture("top", topLoc)
 				.texture("bottom", bottomLoc)
 				.texture("particle", topLoc);
-			p.blockItem(c)
-				.override().model(headFuzeModel).predicate(CreateBigCannons.resource("fuze_state"), 1).end()
-				.override().model(baseFuzeModel).predicate(CreateBigCannons.resource("fuze_state"), 2).end();
+			p.blockItem(c);
 		});
 	}
 
@@ -473,23 +474,21 @@ public class CBCBuilderTransformers {
 					.withPool(t.applyExplosionCondition(c, LootPool.lootPool()
 							.add(LootItem.lootTableItem(c))
 							.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
-							.apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(CBCDataComponents.POWER)))
+							.apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(CBCDataComponents.POWER)))
 						.apply(SetComponentsFunction.setComponent(CBCDataComponents.DAMP, true))
 						.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(c)
 							.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BigCannonMunitionBlock.DAMP, true))))
 					.withPool(t.applyExplosionCondition(c, LootPool.lootPool()
 							.add(LootItem.lootTableItem(c))
 							.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
-                            .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(CBCDataComponents.POWER)))
+                            .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY).include(CBCDataComponents.POWER)))
 						.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(c)
 							.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BigCannonMunitionBlock.DAMP, false)))));
 			})
-            .tag(AllBlockTags.SAFE_NBT.tag)
 			.item(BigCartridgeBlockItem::new)
 			.tag(CBCTags.CBCItemTags.BIG_CANNON_CARTRIDGES)
 			.model((c, p) -> {
-				p.withExistingParent(c.getName(), emptyLoc)
-					.override().model(p.getExistingFile(filledLoc)).predicate(CreateBigCannons.resource("big_cartridge_filled"), 1).end();
+				p.withExistingParent(c.getName(), emptyLoc);
 			})
 			.build();
 	}
@@ -513,7 +512,7 @@ public class CBCBuilderTransformers {
 						.build();
 				}, BlockStateProperties.WATERLOGGED))
 			.loot((t, c) -> {
-				CopyComponentsFunction.Builder func = CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+				CopyComponentsFunction.Builder func = CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY)
 					.include(CBCDataComponents.AMMO)
 					.include(CBCDataComponents.TRACERS)
 					.include(CBCDataComponents.TRACER_SPACING);
@@ -522,7 +521,7 @@ public class CBCBuilderTransformers {
 				t.add(c, LootTable.lootTable()
 					.withPool(t.applyExplosionCondition(c, LootPool.lootPool()
 							.add(LootItem.lootTableItem(c))
-							.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY)))
+							.apply(CopyNameFunction.copyName(LootContext.BlockEntityTarget.BLOCK_ENTITY)))
 						.apply(func)));
 			})
 			.item(AutocannonAmmoContainerItem::new)
@@ -541,7 +540,6 @@ public class CBCBuilderTransformers {
 				Identifier loc = state.getValue(CannonMountBlock.VERTICAL_DIRECTION) == Direction.DOWN ? baseLoc : flipLoc;
 				return p.models().getExistingFile(loc);
 			}, 0))
-			.tag(AllBlockTags.SAFE_NBT.tag)
 			.item()
 			.model((c, p) -> {})
 			.build();
@@ -551,7 +549,6 @@ public class CBCBuilderTransformers {
 		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/yaw_controller");
 		return b -> b.properties(p -> p.noOcclusion())
 			.blockstate((c, p) -> p.simpleBlock(c.get(), p.models().getExistingFile(baseLoc)))
-			.tag(AllBlockTags.SAFE_NBT.tag)
 			.item()
 			.model((c, p) -> {})
 			.build();
@@ -561,7 +558,6 @@ public class CBCBuilderTransformers {
 		Identifier baseLoc = CreateBigCannons.resource("block/cannon_mount/cannon_mount_extension");
 		return b -> b.properties(p -> p.noOcclusion())
 			.blockstate((c, p) -> p.directionalBlock(c.get(), p.models().getExistingFile(baseLoc)))
-			.tag(AllBlockTags.SAFE_NBT.tag)
 			.item()
 			.model((c, p) -> {})
 			.build();
@@ -575,7 +571,6 @@ public class CBCBuilderTransformers {
 				Identifier loc = CreateBigCannons.resource(key + rotation.getName());
 				return p.models().getExistingFile(loc);
 			}))
-			.tag(AllBlockTags.SAFE_NBT.tag)
 			.item()
 			.model((c, p) -> p.withExistingParent(c.getName(), CreateBigCannons.resource(key + "north")))
 			.build();
@@ -586,7 +581,6 @@ public class CBCBuilderTransformers {
 		Identifier saddleLoc = CreateBigCannons.resource("block/cannon_carriage/block_saddle");
 		return b -> b.properties(p -> p.noOcclusion())
 			.blockstate((c, p) -> p.horizontalBlock(c.get(), s -> p.models().getExistingFile(s.getValue(CannonCarriageBlock.SADDLED) ? saddleLoc : blockLoc)))
-			.tag(AllBlockTags.SAFE_NBT.tag)
 			.loot((t, u) -> t.add(u, LootTable.lootTable()
 				.withPool(LootPool.lootPool()
 					.add(t.applyExplosionDecay(u, LootItem.lootTableItem(u))))
@@ -674,8 +668,8 @@ public class CBCBuilderTransformers {
 			.withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1.0f))
 				.add(LootItem.lootTableItem(u)
-					.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-					.apply(additionalCopyData.apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+					.apply(CopyNameFunction.copyName(LootContext.BlockEntityTarget.BLOCK_ENTITY))
+					.apply(additionalCopyData.apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY)
 						.include(CBCDataComponents.TRACER))))));
 	}
 
@@ -711,9 +705,7 @@ public class CBCBuilderTransformers {
 	public static <T extends Item, P> NonNullUnaryOperator<ItemBuilder<T, P>> dropMortarShellItem() {
 		Identifier headFuzeLoc = CreateBigCannons.resource("block/drop_mortar_shell_head_fuze");
 		Identifier baseFuzeLoc = CreateBigCannons.resource("block/drop_mortar_shell_base_fuze");
-		return b -> b.model((c, p) -> p.blockItem(c)
-			.override().model(p.getExistingFile(headFuzeLoc)).predicate(CreateBigCannons.resource("fuze_state"), 1).end()
-			.override().model(p.getExistingFile(baseFuzeLoc)).predicate(CreateBigCannons.resource("fuze_state"), 2).end());
+		return b -> b.model((c, p) -> p.blockItem(c));
 	}
 
 }

@@ -91,7 +91,7 @@ public class ShrapnelBurst extends CBCProjectileBurst {
 			ParticleOptions options = new BlockParticleOption(ParticleTypes.BLOCK, state);
 			for (ServerPlayer player : slevel.players()) {
 				if (player.distanceToSqr(pos.getX(), pos.getY(), pos.getZ()) < 1024d)
-					slevel.sendParticles(player, options, true, pos.getX(), pos.getY(), pos.getZ(), 20, 0.4, 2, 0.4, 1);
+					slevel.sendParticles(player, options, true, false, pos.getX(), pos.getY(), pos.getZ(), 20, 0.4, 2, 0.4, 1);
 			}
 		}
 		SoundType type = state.getSoundType();

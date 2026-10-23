@@ -16,7 +16,8 @@ import dev.ryanhcode.sable.companion.math.JOMLConversion;
 import dev.ryanhcode.sable.companion.math.Pose3d;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.mixinterface.clip_overwrite.LevelPoseProviderExtension;
-import dev.ryanhcode.sable.neoforge.event.ForgeSablePrePhysicsTickEvent;
+import dev.ryanhcode.sable.fabric.event.FabricSablePrePhysicsTickEvent;
+import dev.ryanhcode.sable.sublevel.system.SubLevelPhysicsSystem;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.core.BlockPos;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.IEventBus;
 import rbasamoyai.createbigcannons.CBCCompatTransformers;
 import rbasamoyai.createbigcannons.config.CBCConfigs;
 import rbasamoyai.createbigcannons.munitions.AbstractCannonProjectile;
@@ -35,9 +35,10 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 
 public class SableCompat {
 
-    public static void onModCtor(IEventBus modBus, IEventBus forgeBus) {
-        SableForceGroupsCompat.init(modBus);
-        forgeBus.addListener(SableCompat::onPrePhysicsTick);
+    // PORT-NOTE(fabric): NeoForge mod/game buses → Fabric event from Sable's Fabric API.
+    public static void onModCtor() {
+        SableForceGroupsCompat.init();
+        FabricSablePrePhysicsTickEvent.EVENT.register((system, timeStep) -> onPrePhysicsTick(system));
     }
 
     private static final Map<ResourceKey<Level>, Queue<CBCSableForce>> BY_DIMENSION = new ConcurrentHashMap<>();
@@ -142,8 +143,8 @@ public class SableCompat {
         }
     }
 
-    public static void onPrePhysicsTick(ForgeSablePrePhysicsTickEvent event) {
-        ServerLevel level = event.getPhysicsSystem().getLevel();
+    public static void onPrePhysicsTick(SubLevelPhysicsSystem system) {
+        ServerLevel level = system.getLevel();
         List<CBCSableForce> forces = drain(level.dimension());
         if (forces.isEmpty())
             return;

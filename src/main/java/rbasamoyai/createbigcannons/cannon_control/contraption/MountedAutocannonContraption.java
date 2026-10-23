@@ -399,7 +399,7 @@ public class MountedAutocannonContraption extends AbstractMountedCannonContrapti
 		for (ServerPlayer player : level.players()) {
 			if (entity.getControllingPassenger() == player) continue;
             particleVel = CBCCompatTransformers.transformLocationNormal(level, this.entity.blockPosition(), particleVel);
-			level.sendParticles(player, new AutocannonPlumeParticleData(1f), true, particlePos.x, particlePos.y, particlePos.z, 0, particleVel.x, particleVel.y, particleVel.z, 1.0f);
+			level.sendParticles(player, new AutocannonPlumeParticleData(1f), true, false, particlePos.x, particlePos.y, particlePos.z, 0, particleVel.x, particleVel.y, particleVel.z, 1.0f);
 		}
 
 		if (round.getType() == AutocannonAmmoType.MACHINE_GUN) {

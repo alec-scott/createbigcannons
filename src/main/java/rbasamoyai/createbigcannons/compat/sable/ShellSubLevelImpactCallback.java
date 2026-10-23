@@ -52,7 +52,7 @@ public class ShellSubLevelImpactCallback implements BlockSubLevelCollisionCallba
             AbstractCannonProjectile.ImpactResult.KinematicOutcome.STOP, false);
 
         if (fuzeItem.onBlockImpact(fuze, level, blockPos, state, hitResult, impactResult, JOMLConversion.toMojang(hitPos))) {
-            level.getServer().tell(new TickTask(level.getServer().getTickCount(), ()->{
+            level.getServer().schedule(new TickTask(level.getServer().getTickCount(), ()->{
                 BlockState currentState = level.getBlockState(blockPos);
                 if(currentState.getBlock() instanceof FuzedProjectileBlock<?,?> currentFuzedBlock){
                     currentFuzedBlock.detonateProjectileOnTheSpot(level,blockPos,currentState,null);

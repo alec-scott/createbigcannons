@@ -22,7 +22,7 @@ public record GasCloudParticleData(float scale, Vector3f color) implements Parti
 
 	public static final MapCodec<GasCloudParticleData> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 		Codec.FLOAT.fieldOf("scale").forGetter(GasCloudParticleData::scale),
-		ExtraCodecs.VECTOR3F.fieldOf("color").forGetter(GasCloudParticleData::color)
+		ExtraCodecs.VECTOR3F.xmap(Vector3f::new, v -> v).fieldOf("color").forGetter(GasCloudParticleData::color)
 	).apply(i, GasCloudParticleData::new));
 
     private static final StreamCodec<RegistryFriendlyByteBuf, GasCloudParticleData> STREAM_CODEC = StreamCodec.composite(

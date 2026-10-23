@@ -1,7 +1,5 @@
 package rbasamoyai.createbigcannons.fabric.client;
 
-import com.zurrtum.create.client.content.contraptions.render.ContraptionVisual;
-import com.zurrtum.create.client.content.contraptions.render.OrientedContraptionEntityRenderer;
 import com.zurrtum.create.client.flywheel.lib.visualization.SimpleEntityVisualizer;
 
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -25,9 +23,9 @@ import rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel.ShrapnelBurstRe
 public class CBCEntityRenderers {
 
 	public static void register() {
-		EntityRenderers.register(CBCEntityTypes.PITCH_ORIENTED_CONTRAPTION.get(), OrientedContraptionEntityRenderer::new);
+		EntityRenderers.register(CBCEntityTypes.PITCH_ORIENTED_CONTRAPTION.get(), PitchOrientedContraptionEntityRenderer::new);
 		SimpleEntityVisualizer.builder(CBCEntityTypes.PITCH_ORIENTED_CONTRAPTION.get())
-			.factory(ContraptionVisual::new)
+			.factory(PitchOrientedContraptionVisual::new)
 			.skipVanillaRender(entity -> false)
 			.apply();
 

@@ -59,6 +59,10 @@ public final class DataIngredient {
         this.criteriaFactory = prov -> RegistrateRecipeProvider.inventoryTrigger(predicates);
     }
 
+    public Identifier getId() {
+        return this.id;
+    }
+
     public Criterion<InventoryChangeTrigger.TriggerInstance> getCriterion(RegistrateRecipeProvider prov) {
         return criteriaFactory.apply(prov);
     }

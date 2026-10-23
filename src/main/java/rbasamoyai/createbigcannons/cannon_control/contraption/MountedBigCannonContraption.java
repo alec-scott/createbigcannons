@@ -496,12 +496,12 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 		CannonBlastWaveEffectParticleData blastEffect = new CannonBlastWaveEffectParticleData(shakeDistance,
 			CBCRegistryUtils.getSoundEventRegistry().wrapAsHolder(CBCSoundEvents.FIRE_BIG_CANNON.getMainEvent()), SoundSource.BLOCKS,
 			volume, pitch, 2, propelCtx.chargesUsed);
-		Packet<?> blastWavePacket = new ClientboundLevelParticlesPacket(blastEffect, true, plumePos.x, plumePos.y, plumePos.z, 0, 0, 0, 1, 0);
+		Packet<?> blastWavePacket = new ClientboundLevelParticlesPacket(blastEffect, true, false, plumePos.x, plumePos.y, plumePos.z, 0, 0, 0, 1, 0);
 
 		double blastDistSqr = volume * volume * 256 * 1.21;
         Vec3 plumeDir = CBCCompatTransformers.transformLocationNormal(level, this.entity.blockPosition(), vec);
 		for (ServerPlayer player : level.players()) {
-			level.sendParticles(player, plumeParticle, true, plumePos.x, plumePos.y, plumePos.z, 0, plumeDir.x, plumeDir.y, plumeDir.z, 1.0f);
+			level.sendParticles(player, plumeParticle, true, false, plumePos.x, plumePos.y, plumePos.z, 0, plumeDir.x, plumeDir.y, plumeDir.z, 1.0f);
 			if (player.distanceToSqr(plumePos.x, plumePos.y, plumePos.z) < blastDistSqr)
 				player.connection.send(blastWavePacket);
 		}
@@ -721,7 +721,7 @@ public class MountedBigCannonContraption extends AbstractMountedCannonContraptio
 		Vec3 plumePos = CBCCompatTransformers.transformVec3(slevel, spawnPos.add(vec), this.entity.position());
         Vec3 plumeDir = CBCCompatTransformers.transformLocationNormal(slevel, this.entity.blockPosition(), vec);
 		for (ServerPlayer player : slevel.players()) {
-			slevel.sendParticles(player, new DropMortarPlumeParticleData(1f), true, plumePos.x, plumePos.y, plumePos.z, 0, plumeDir.x, plumeDir.y, plumeDir.z, 1.0f);
+			slevel.sendParticles(player, new DropMortarPlumeParticleData(1f), true, false, plumePos.x, plumePos.y, plumePos.z, 0, plumeDir.x, plumeDir.y, plumeDir.z, 1.0f);
 		}
 		CBCSoundEvents.FIRE_DROP_MORTAR.playOnServer(slevel, BlockPos.containing(spawnPos), 4, slevel.getRandom().nextFloat() * 0.05f + 0.97f);
 		this.hasFired = true;
