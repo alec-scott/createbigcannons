@@ -59,6 +59,7 @@ public class CreateBigCannonsFabric implements ModInitializer {
 		DefaultCreateCompat.init();
 		DefaultCannonMountPropertiesSerializers.init();
 		// PORT-NOTE(fabric): was the NeoForge mod constructor (force groups, physics tick listener, movement checks).
+		CBCMods.TRINKETS.executeIfInstalled(() -> rbasamoyai.createbigcannons.compat.trinkets.CBCTrinketsIntegration::init);
 		CBCMods.SABLE.executeIfInstalled(() -> SableCompat::onModCtor);
 		CBCMods.SIMULATED.executeIfInstalled(() -> SimulatedCompat::onModCtor);
 		CBCMods.SABLE.executeIfInstalled(() -> SableCompat::onCommonSetup);

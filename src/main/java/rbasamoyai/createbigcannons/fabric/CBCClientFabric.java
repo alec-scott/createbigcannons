@@ -1,5 +1,7 @@
 package rbasamoyai.createbigcannons.fabric;
 
+import rbasamoyai.createbigcannons.CBCMods;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLevelEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -49,6 +51,7 @@ public class CBCClientFabric implements ClientModInitializer {
 		CBCBlockEntityRenderers.register();
 		CBCEntityRenderers.register();
 		CBCItemTooltips.register();
+		CBCMods.TRINKETS.executeIfInstalled(() -> rbasamoyai.createbigcannons.compat.trinkets.GasMaskTrinketRenderer::register);
 		AllDisplaySourceRenders.register(CBCDisplaySources.CANNON_MOUNT.get(), CannonMountDisplaySourceRender::new);
 		CBCClientCommon.onClientSetup();
 		CBCClientCommon.registerKeyMappings(KeyMappingHelper::registerKeyMapping);

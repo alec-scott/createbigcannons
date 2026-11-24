@@ -95,3 +95,10 @@ Common code must not touch those classes on paths a server runs (e.g. `CBCCommon
   container, mounts); ValueInput/ValueOutput save data; many 26.1 renames. Compile errors 3133 -> ~1600.
 - Next: fluid tanks (cast, drill, fluid shell), particles (26.1 particle API), renderers (submit model + shaders ->
   RenderPipeline), recipes, explosions (26.1 ServerExplosion), item models (1.21.4 item definitions), Sable compat.
+
+## Trinkets (2026-11-24)
+
+Gas mask Trinkets support restored from upstream's 1.20.1 Fabric code (`compat/trinkets/`), on Trinkets Updated 4.0.1
+(Patbox, `eu.pb4.trinkets`, compileOnly, optional): gas masks go in `head/face`, which is widened to 2 slots as upstream
+did (so goggles and a gas mask fit together); counts for the wearing and overlay predicates (non-cosmetic slots); the
+renderer follows Create Fly's 26.1 goggle trinket renderer. Curios compat stays excluded (NeoForge only).

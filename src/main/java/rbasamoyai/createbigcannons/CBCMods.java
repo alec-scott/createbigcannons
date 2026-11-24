@@ -14,6 +14,7 @@ import rbasamoyai.createbigcannons.utils.CBCUtils;
 public enum CBCMods {
 	COPYCATS,
 	CURIOS,
+	TRINKETS,
 	FRAMEDBLOCKS,
     SABLE,
     SIMULATED;
